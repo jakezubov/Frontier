@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Hash": "zUb0KVV9Qilt3i8f9CxLSIqkIP2XA9BRyNgWEYTo+SI=",
+  "Source": "Frontier.Server",
+  "BasePath": "_content/Frontier.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\jake_\\Desktop\\Projects\\Frontier\\frontier.client\\frontier.client.esproj",
+      "Version": 2,
+      "Source": "frontier.client",
+      "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
