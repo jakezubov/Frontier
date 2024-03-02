@@ -1,49 +1,59 @@
-import { useEffect, useState } from 'react';
 import './App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useState } from 'react';
+import MetalSelector from './MetalSelector';
 
-function App() {
-    const [forecasts, setForecasts] = useState();
+const App = () => {
+    const [originalMetal, setOriginalMetal] = useState(null);
+    const [newMetal, setNewMetal] = useState(null);
+    const [weight, setWeight] = useState('');
+    const [convertedWeight, setConvertedWeight] = useState('');
 
-    useEffect(() => {
-        populateWeatherData();
-    }, []);
+    const handleCalculate = () => {
+        const isValidInput = originalMetal !== undefined && newMetal !== undefined && weight !== "" && !isNaN(parseFloat(weight)) && isFinite(weight);
 
-    const contents = forecasts === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tabelLabel">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
-                </tr>
-            </thead>
-            <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
+        const calculatedWeight = isValidInput ?
+            (parseFloat(weight) * (1.0 / originalMetal.specificGravity) * newMetal.specificGravity).toFixed(2) + "g" :
+            "Invalid Input";
+
+        setConvertedWeight(calculatedWeight);
+    }
+
+    const handleOriginalMetalChange = (metal) => {
+        setOriginalMetal(metal);
+    };
+
+    const handleNewMetalChange = (metal) => {
+        setNewMetal(metal);
+    };
 
     return (
         <div>
-            <h1 id="tabelLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
+            <h1>Metal Converter</h1>
+            <div className="container">
+                <div className="column">
+                    <div className="text">Original Metal</div>
+                    <div className="text">New Metal</div>
+                    <div className="text">Weight</div>
+                </div>
+                <div className="column">
+                    <div><MetalSelector label="Original Metal" onMetalChange={handleOriginalMetalChange} /></div>
+                    <div><MetalSelector label="New Metal" onMetalChange={handleNewMetalChange} /></div>
+                    <input type="number" step="0.01" value={weight} onChange={(e) => setWeight(e.target.value)} />
+                </div>
+            </div>
+            <button type="button" onClick={handleCalculate}>Calculate</button>
+            <div className="container">
+                <div className="column">
+                    <div className="text">Converted Weight</div>
+                </div>
+                <div className="column">
+                    <input type="text" value={convertedWeight} disabled />
+                </div>
+                
+            </div>
         </div>
     );
-    
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
-        const data = await response.json();
-        setForecasts(data);
-    }
 }
 
 export default App;

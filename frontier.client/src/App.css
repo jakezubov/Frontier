@@ -5,15 +5,42 @@
     text-align: center;
 }
 
-tr:nth-child(even) {
-    background: #F2F2F2;
+h1 {
+    text-align: center;
 }
 
-tr:nth-child(odd) {
-    background: #FFF;
+input, select {
+    display: flex;
+    width: calc(100% - 16px);
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: white;
 }
 
-th, td {
-    padding-left: 1rem;
-    padding-right: 1rem;
+button {
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 20px;
+}
+    button:hover {
+        background-color: #45a049;
+    }
+
+.container {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.text {
+    flex: 1;
+    padding: 8px;
 }

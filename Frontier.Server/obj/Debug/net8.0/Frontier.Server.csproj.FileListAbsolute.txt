@@ -33,3 +33,4 @@ C:\Users\jake_\Desktop\Projects\Frontier\Frontier.Server\obj\Debug\net8.0\refint
 C:\Users\jake_\Desktop\Projects\Frontier\Frontier.Server\obj\Debug\net8.0\Frontier.Server.pdb
 C:\Users\jake_\Desktop\Projects\Frontier\Frontier.Server\obj\Debug\net8.0\Frontier.Server.genruntimeconfig.cache
 C:\Users\jake_\Desktop\Projects\Frontier\Frontier.Server\obj\Debug\net8.0\ref\Frontier.Server.dll
+C:\Users\jake_\Desktop\Projects\Frontier\Frontier.Server\obj\Debug\net8.0\Frontier.Server.sourcelink.json
