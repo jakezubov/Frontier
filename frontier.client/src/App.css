@@ -24,6 +24,7 @@ button {
     cursor: pointer;
     margin: 20px;
 }
+
     button:hover {
         background-color: #45a049;
     }
@@ -44,3 +45,17 @@ button {
     flex: 1;
     padding: 8px;
 }
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    text-align: left;
+}
+
+    .navbar ul {
+        list-style: none; /* Removes default list styles */
+        margin: 0;
+        padding: 0;
+    }
