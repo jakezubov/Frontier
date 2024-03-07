@@ -8,7 +8,7 @@ const MetalConverter = () => {
     const [convertedWeight, setConvertedWeight] = useState('');
 
     const handleCalculate = () => {
-        const isValidInput = originalMetal !== undefined && newMetal !== undefined && weight !== "" && !isNaN(parseFloat(weight)) && isFinite(weight);
+        const isValidInput = originalMetal !== undefined && newMetal !== undefined && weight !== "" && !isNaN(parseFloat(weight)) && isFinite(weight) && weight > 0;
 
         const calculatedWeight = isValidInput ?
             (parseFloat(weight) * (1.0 / originalMetal.specificGravity) * newMetal.specificGravity).toFixed(2) + "g" :
