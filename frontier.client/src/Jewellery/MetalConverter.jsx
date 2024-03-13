@@ -1,17 +1,22 @@
 import { useState } from 'react';
 import MetalSelector from './MetalSelector';
+import { validateNumber } from '../HelperFunctions';
 
 const MetalConverter = () => {
+    // Inputs
     const [originalMetal, setOriginalMetal] = useState(null);
     const [newMetal, setNewMetal] = useState(null);
     const [weight, setWeight] = useState('');
+
+    // Calculated
     const [convertedWeight, setConvertedWeight] = useState('');
 
     const handleCalculate = () => {
-        const isValidInput = originalMetal !== undefined && newMetal !== undefined && weight !== "" && !isNaN(parseFloat(weight)) && isFinite(weight) && weight > 0;
+        const isDropdownsValid = originalMetal !== undefined && newMetal !== undefined
+        const isNumbersValid = validateNumber(weight);
 
-        const calculatedWeight = isValidInput ?
-            (parseFloat(weight) * (1.0 / originalMetal.specificGravity) * newMetal.specificGravity).toFixed(2) + "g" :
+        const calculatedWeight = isDropdownsValid && isNumbersValid ?
+            (weight * (1.0 / originalMetal.specificGravity) * newMetal.specificGravity).toFixed(2) + "g" :
             "Invalid Input";
 
         setConvertedWeight(calculatedWeight);

@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\ringresizer.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\ringresizer.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\jewellery\\rollingwire.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\jewellery\\rollingwire.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\jewellery\\ringweight.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\jewellery\\ringweight.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\helperfunctions.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\helperfunctions.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\ringsizeselector.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\ringsizeselector.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\metalconverter.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{C84A2374-5F85-4DAC-B044-D53FB04B4E74}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\metalconverter.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,58 +26,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "RingSizeSelector.jsx",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\RingSizeSelector.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\RingSizeSelector.jsx",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\RingSizeSelector.jsx",
-              "RelativeToolTip": "frontier.client\\src\\RingSizeSelector.jsx",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACoAAAAAAAAA",
+              "Title": "HelperFunctions.jsx",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\HelperFunctions.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\HelperFunctions.jsx",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\HelperFunctions.jsx",
+              "RelativeToolTip": "frontier.client\\src\\HelperFunctions.jsx",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-03-07T19:53:17.802Z",
+              "WhenOpened": "2024-03-13T10:25:16.133Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "App.jsx",
               "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\App.jsx",
               "RelativeDocumentMoniker": "frontier.client\\src\\App.jsx",
               "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\App.jsx",
               "RelativeToolTip": "frontier.client\\src\\App.jsx",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAABDAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB4AAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
               "WhenOpened": "2024-03-07T19:50:02.775Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MetalConverter.jsx",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\MetalConverter.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\MetalConverter.jsx",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\MetalConverter.jsx",
-              "RelativeToolTip": "frontier.client\\src\\MetalConverter.jsx",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAACjAAAA",
+              "DocumentIndex": 0,
+              "Title": "RollingWire.jsx",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\Jewellery\\RollingWire.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\Jewellery\\RollingWire.jsx",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\Jewellery\\RollingWire.jsx",
+              "RelativeToolTip": "frontier.client\\src\\Jewellery\\RollingWire.jsx",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-03-07T19:27:45.871Z",
+              "WhenOpened": "2024-03-13T09:45:27.419Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "RingResizer.jsx",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\RingResizer.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\RingResizer.jsx",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\RingResizer.jsx",
-              "RelativeToolTip": "frontier.client\\src\\RingResizer.jsx",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAACLAAAA",
+              "DocumentIndex": 1,
+              "Title": "RingWeight.jsx",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\Jewellery\\RingWeight.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\Jewellery\\RingWeight.jsx",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\Jewellery\\RingWeight.jsx",
+              "RelativeToolTip": "frontier.client\\src\\Jewellery\\RingWeight.jsx",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABQAAABgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-03-07T19:27:43.01Z",
+              "WhenOpened": "2024-03-13T08:55:56.455Z",
               "EditorCaption": ""
             }
           ]
