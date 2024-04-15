@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "hkti1Z716nfVM2iV8zdrFslWIHLxQJUZw+BF52pUh8iuP0zFpdvLZ1ApQqwhf372UWUreBJfR+787DyCrRkXBg==",
+  "dgSpecHash": "nUuR9pTeLdFjFxzcY4YqGLhrSK7Qbcd0OIp5btHrxhNenXOtInzZVi2161xlyFpALZOvI3XdYpDG91UO6bhqEQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.2\\microsoft.aspnetcore.spaproxy.8.0.2.nupkg.sha512"
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.4\\microsoft.aspnetcore.spaproxy.8.0.4.nupkg.sha512"
   ],
   "logs": []
 }
