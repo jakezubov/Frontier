@@ -30,7 +30,8 @@ const RingResizer = () => {
             setWeightOriginal(calculatedOriginal.toFixed(2) + "g");
             setWeightNew(calculatedNew.toFixed(2) + "g");
             setWeightDifference((calculatedNew - calculatedOriginal).toFixed(2) + "g");
-        } else {
+        }
+        else {
             setWeightOriginal("Invalid Input");
             setWeightNew("Invalid Input");
             setWeightDifference("Invalid Input");
@@ -58,42 +59,58 @@ const RingResizer = () => {
     return (
         <div>
             <h1>Ring Resizer</h1>
-            <div className="container">
-                <div className="column">
-                    <div className="text">Metal</div>
-                    <div className="text">Original Ring Size</div>
-                    <div className="text">New Ring Size</div>
-                    <div className="text">Profile</div>
-                    <div className="text">Width</div>
-                    <div>
-                        {thicknessRequired ? <div className="text">Thickness</div> : <div></div>}
-                    </div>
-                </div>
-                <div className="column">
-                    <div><MetalSelector label="Metal" onMetalChange={handleMetalChange} /></div>
-                    <div><RingSizeSelector label="Original Ring Size" onSizeChange={handleOriginalRingSizeChange} /></div>
-                    <div><RingSizeSelector label="New Ring Size" onSizeChange={handleNewRingSizeChange} /></div>
-                    <div><ProfileSelector label="Profile" onProfileChange={handleProfileChange} /></div>
-                    <input type="number" step="0.01" value={width} onChange={(e) => setWidth(e.target.value)} />
-                    <div>
-                        {thicknessRequired ? <input type="number" step="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /> : <div></div>}
-                    </div>
-                </div>
-            </div>
-            <button type="button" onClick={handleCalculate}>Calculate</button>
-            <div className="container">
-                <div className="column">
-                    <div className="text">Original Ring Weight</div>
-                    <div className="text">New Ring Weight</div>
-                    <div className="text">Weight Difference</div>
-                </div>
-                <div className="column">
-                    <input type="text" value={weightOriginal} disabled />
-                    <input type="text" value={weightNew} disabled />
-                    <input type="text" value={weightDifference} disabled />
-                </div>
 
-            </div>
+            <table>
+                <tr>
+                    <td>Metal</td>
+                    <td><MetalSelector label="Metal" onMetalChange={handleMetalChange} /></td>
+                </tr>
+                <tr>
+                    <td>Original Ring Size</td>
+                    <td><RingSizeSelector label="Original Ring Size" onSizeChange={handleOriginalRingSizeChange} /></td>
+                </tr>
+                <tr>
+                    <td>New Ring Size</td>
+                    <td><RingSizeSelector label="New Ring Size" onSizeChange={handleNewRingSizeChange} /></td>
+                </tr>
+                <tr>
+                    <td>Profile</td>
+                    <td><ProfileSelector label="Profile" onProfileChange={handleProfileChange} /></td>
+                </tr>
+                <tr>
+                    <td>Width</td>
+                    <td><input type="number" step="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
+                </tr>
+                <tr>
+                    <td>
+                        {
+                            thicknessRequired ? <div className="text">Thickness</div> : <div></div>
+                        }
+                    </td>
+                    <td>
+                        {
+                            thicknessRequired ? <input type="number" step="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /> : <div></div>
+                        }
+                    </td>
+                </tr>
+            </table>
+
+            <button type="button" onClick={handleCalculate}>Calculate</button>
+
+            <table>
+                <tr>
+                    <td>Original Ring Weight</td>
+                    <td><input type="text" value={weightOriginal} disabled /></td>
+                </tr>
+                <tr>
+                    <td>New Ring Weight</td>
+                    <td><input type="text" value={weightNew} disabled /></td>
+                </tr>
+                <tr>
+                    <td>Weight Difference</td>
+                    <td><input type="text" value={weightDifference} disabled /></td>
+                </tr>
+            </table>
         </div>
     );
 }

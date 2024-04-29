@@ -36,22 +36,20 @@ const RingSizeSelector = ({ label, onSizeChange }) => {
     const handleSizeChange = (e) => {
         const selectedSizeName = e.target.value;
         const selectedSize = RingSizes.find(ringSize => ringSize.name === selectedSizeName);
+
         if (onSizeChange) {
             onSizeChange(selectedSize);
         }
     };
 
     return (
-        <select
-            aria-label={label}
-            onChange={handleSizeChange}
-        >
+        <select aria-label={label} onChange={handleSizeChange}>
             <option value=""></option>
-            {RingSizes.map((ringSize, index) => (
-                <option key={index} value={ringSize.name}>
-                    {ringSize.name}
-                </option>
-            ))}
+            {
+                RingSizes.map((ringSize, index) => (
+                    <option key={index} value={ringSize.name}>{ringSize.name}</option>
+                ))
+            }
         </select>
     );
 }

@@ -20,11 +20,31 @@ const RollingWire = () => {
     const handleCalculate = () => {
         const isDropdownsValid = profile !== ""
         const isNumbersValid = validateNumber(width) && validateNumber(thickness) && (!stockSizeRequired || validateNumber(stockSize));
-        const isSwitchValuesValid = ringSize !== undefined || validateNumber(length)
+        const isSwitchValuesValid = ringSize !== null || validateNumber(length)
 
         if (isDropdownsValid && isNumbersValid && isSwitchValuesValid) {
-            setOutput("Valid Input");
-        } else {
+            const side = Math.pow(Math.pow(width, 2) * thickness, 1.0 / 3);
+            const lengthCalc = (length * width * thickness) / Math.pow(side, 2);
+
+            if (profile === "Round") {
+                const diameter = (2 * side) / Math.sqrt(Math.PI);
+                if (stockSizeRequired) {
+                    const stock = (4 * Math.pow(side, 2) * lengthCalc) / (Math.PI * Math.pow(stockSize, 2));
+                    setOutput("Diameter: " + diameter.toFixed(2) + "mm" + "\nStock Length: " + stock.toFixed(2) + "mm");
+                }
+                else
+                    setOutput("Diameter: " + side.toFixed(2) + "mm" + "\nLength: " + lengthCalc.toFixed(2) + "mm");
+            }
+            else {
+                if (stockSizeRequired) {
+                    const stock = (Math.pow(side, 2) * lengthCalc) / Math.pow(stockSize, 2);
+                    setOutput("Side: " + side.toFixed(2) + "mm" + "\nStock Length: " + stock.toFixed(2) + "mm");
+                }
+                else
+                    setOutput("Side: " + side.toFixed(2) + "mm" + "\nLength: " + lengthCalc.toFixed(2) + "mm");
+            }
+        }
+        else {
             setOutput("Invalid Input");
         }
     }
@@ -34,11 +54,12 @@ const RollingWire = () => {
     }
 
     const handleLengthRingSizeSwitch = () => {
-        !lengthRingSizeSwitch ? setLengthRingSizeSwitch(true) : setLengthRingSizeSwitch(false)
+        !lengthRingSizeSwitch ? ( setLengthRingSizeSwitch(true), setLength(''), useState(null) ) : setLengthRingSizeSwitch(false), setLength(''), useState(null)
     }
 
     const handleRingSizeChange = (ringSize) => {
         setRingSize(ringSize);
+        setLength(ringSize.diameter)
     };
 
     const handleProfileChange = (profile) => {
@@ -48,58 +69,60 @@ const RollingWire = () => {
     return (
         <div>
             <h1>Rolling Wire</h1>
-            <div className="container">
-                <div className="column">
-                    <div className="text">Profile</div>
-                    <div>
+
+            <table>
+                <tr>
+                    <td>Profile</td>
+                    <td><ProfileSelector label="Profile" onProfileChange={handleProfileChange} isLimited="true" /></td>
+                </tr>
+                <tr>
+                    <td>
                         {
-                            lengthRingSizeSwitch ?
-                                <div className="text">Length <button type="button" onClick={handleLengthRingSizeSwitch}></button></div> :
-                                <div className="text">Ring Size <button type="button" onClick={handleLengthRingSizeSwitch}></button></div>
+                            lengthRingSizeSwitch ? <button className="inline-button" type="button" onClick={handleLengthRingSizeSwitch}>Length</button> :
+                                <button className="inline-button" type="button" onClick={handleLengthRingSizeSwitch}>Ring Size</button>
                         }
-                    </div>
-                    <div className="text">Width</div>
-                    <div className="text">Thickness</div>
-                    <div className="text">Stock Size Required</div>
-                    <div>
+                    </td>
+                    <td>
                         {
-                            stockSizeRequired ?
-                                <div className="text">Stock Size</div> :
-                                <div></div>
-                        }
-                    </div>
-                </div>
-                <div className="column">
-                    <div><ProfileSelector label="Profile" onProfileChange={handleProfileChange} /></div>
-                    <div>
-                        {
-                            lengthRingSizeSwitch ?
-                                <input type="number" step="0.01" value={length} onChange={(e) => setLength(e.target.value)} /> :
+                            lengthRingSizeSwitch ? <input type="number" step="0.01" value={length} onChange={(e) => setLength(e.target.value)} /> :
                                 <div><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></div>
                         }
-                    </div>
-                    <input type="number" step="0.01" value={width} onChange={(e) => setWidth(e.target.value)} />
-                    <input type="number" step="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} />
-                    <input type="checkbox" onClick={handleStockCheckbox} defaultChecked={true} />
-                    <div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Width</td>
+                    <td><input type="number" step="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
+                </tr>
+                <tr>
+                    <td>Thickness</td>
+                    <td><input type="number" step="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
+                </tr>
+                <tr>
+                    <td>Starting with Stock</td>
+                    <td><input type="checkbox" onClick={handleStockCheckbox} defaultChecked={true} /></td>
+                </tr>
+                <tr>
+                    <td>
                         {
-                            stockSizeRequired ?
-                                <input type="number" step="0.01" value={stockSize} onChange={(e) => setStockSize(e.target.value)} /> :
-                                <div></div>
+                            stockSizeRequired ? <div className="text">Stock Size</div> : <div></div>
                         }
-                    </div>
-                </div>
-            </div>
-            <button type="button" onClick={handleCalculate}>Calculate</button>
-            <div className="container">
-                <div className="column">
-                    <div className="text">Output</div>
-                </div>
-                <div className="column">
-                    <input type="text" value={output} disabled />
-                </div>
+                    </td>
+                    <td>
+                        {
+                            stockSizeRequired ? <input type="number" step="0.01" value={stockSize} onChange={(e) => setStockSize(e.target.value)} /> : <div></div>
+                        }
+                    </td>
+                </tr>
+            </table>
 
-            </div>
+            <button type="button" onClick={handleCalculate}>Calculate</button>
+
+            <table>
+                <tr>
+                    <td>Output</td>
+                    <td><textarea rows="3" value={output} disabled /></td>
+                </tr>
+            </table>
         </div>
     );
 }

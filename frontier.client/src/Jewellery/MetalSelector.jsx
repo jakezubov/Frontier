@@ -28,16 +28,13 @@ const MetalSelector = ({ label, onMetalChange }) => {
     };
 
     return (
-        <select
-            aria-label={label}
-            onChange={handleMetalChange}
-        >
+        <select aria-label={label} onChange={handleMetalChange}>
             <option value=""></option>
-            {Metals.map((metal, index) => (
-                <option key={index} value={metal.name}>
-                    {metal.name}
-                </option>
-            ))}
+            {
+                Metals.map((metal, index) => (
+                    <option key={index} value={metal.name}>{metal.name}</option>
+                ))
+            }
         </select>
     );
 }

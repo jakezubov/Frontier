@@ -7,29 +7,49 @@ const Profiles = [
     { name: 'Rectangle' },
 ];
 
-const ProfileSelector = ({ label, onProfileChange }) => {
+const ProfilesLimited = [
+    { name: 'Round' },
+    { name: 'Square' },
+];
+
+const ProfileSelector = ({ label, onProfileChange, isLimited }) => {
     const handleProfileChange = (e) => {
         onProfileChange(e.target.value)
     };
 
     return (
-        <select
-            aria-label={label}
-            onChange={handleProfileChange}
-        >
-            <option value=""></option>
-            {Profiles.map((profile, index) => (
-                <option key={index} value={profile.name}>
-                    {profile.name}
-                </option>
-            ))}
-        </select>
+        <div>
+            {
+                isLimited ?
+                <select aria-label={label} onChange={handleProfileChange}>
+                <option value=""></option>
+                {
+                    ProfilesLimited.map((profile, index) => (
+                        <option key={index} value={profile.name}>{profile.name}</option>
+                    ))
+                }
+                </select> :
+                <select aria-label={label} onChange={handleProfileChange}>
+                    <option value=""></option>
+                    {
+                        Profiles.map((profile, index) => (
+                            <option key={index} value={profile.name}>{profile.name}</option>
+                        ))
+                    }
+                </select>
+            }
+        </div>
     );
 }
 
 ProfileSelector.propTypes = {
     label: PropTypes.string.isRequired,
     onProfileChange: PropTypes.func.isRequired,
+    isLimited: PropTypes.bool,
+}
+
+ProfileSelector.defaultProps = {
+    isLimited: false,
 }
 
 export default ProfileSelector;

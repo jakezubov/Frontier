@@ -16,8 +16,8 @@ const MetalConverter = () => {
         const isNumbersValid = validateNumber(weight);
 
         const calculatedWeight = isDropdownsValid && isNumbersValid ?
-            (weight * (1.0 / originalMetal.specificGravity) * newMetal.specificGravity).toFixed(2) + "g" :
-            "Invalid Input";
+            (weight * (1.0 / originalMetal.specificGravity) * newMetal.specificGravity).toFixed(2) + "g"
+            : "Invalid Input";
 
         setConvertedWeight(calculatedWeight);
     }
@@ -33,28 +33,30 @@ const MetalConverter = () => {
     return (
         <div>
             <h1>Metal Converter</h1>
-            <div className="container">
-                <div className="column">
-                    <div className="text">Original Metal</div>
-                    <div className="text">New Metal</div>
-                    <div className="text">Weight</div>
-                </div>
-                <div className="column">
-                    <div><MetalSelector label="Original Metal" onMetalChange={handleOriginalMetalChange} /></div>
-                    <div><MetalSelector label="New Metal" onMetalChange={handleNewMetalChange} /></div>
-                    <input type="number" step="0.01" value={weight} onChange={(e) => setWeight(e.target.value)} />
-                </div>
-            </div>
-            <button type="button" onClick={handleCalculate}>Calculate</button>
-            <div className="container">
-                <div className="column">
-                    <div className="text">Converted Weight</div>
-                </div>
-                <div className="column">
-                    <input type="text" value={convertedWeight} disabled />
-                </div>
 
-            </div>
+            <table>
+                <tr>
+                    <td>Original Metal</td>
+                    <td><MetalSelector label="Original Metal" onMetalChange={handleOriginalMetalChange} /></td>
+                </tr>
+                <tr>
+                    <td>New Metal</td>
+                    <td><MetalSelector label="New Metal" onMetalChange={handleNewMetalChange} /></td>
+                </tr>
+                <tr>
+                    <td>Weight</td>
+                    <td><input type="number" step="0.01" value={weight} onChange={(e) => setWeight(e.target.value)} /></td>
+                </tr>
+            </table>
+
+            <button type="button" onClick={handleCalculate}>Calculate</button>
+
+            <table>
+                <tr>
+                    <td>Converted Weight</td>
+                    <td><input type="text" value={convertedWeight} disabled /></td>
+                </tr>
+            </table>
         </div>
     );
 }

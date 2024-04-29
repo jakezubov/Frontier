@@ -23,26 +23,33 @@ button {
     border-radius: 4px;
     cursor: pointer;
     margin: 20px;
+    border: 1px solid #ccc;
 }
-
     button:hover {
         background-color: #45a049;
     }
 
-.container {
-    display: flex;
-    margin-bottom: 10px;
+table {
+    border-collapse: collapse;
+    width: 100%;
 }
 
-.column {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    justify-content: space-between;
+    table td, table th {
+        padding: 8px;
+    }
+
+.inline-button {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: white;
+    margin: 0px;
 }
+    .inline-button:hover {
+        background-color: #45a049;
+    }
 
 .text {
-    flex: 1;
     padding: 8px;
 }
 
@@ -53,7 +60,6 @@ button {
     padding: 20px;
     text-align: left;
 }
-
     .navbar ul {
         list-style: none; /* Removes default list styles */
         margin: 0;
