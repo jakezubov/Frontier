@@ -35,27 +35,31 @@ const MetalConverter = () => {
             <h1>Metal Converter</h1>
 
             <table>
-                <tr>
-                    <td>Original Metal</td>
-                    <td><MetalSelector label="Original Metal" onMetalChange={handleOriginalMetalChange} /></td>
-                </tr>
-                <tr>
-                    <td>New Metal</td>
-                    <td><MetalSelector label="New Metal" onMetalChange={handleNewMetalChange} /></td>
-                </tr>
-                <tr>
-                    <td>Weight</td>
-                    <td><input type="number" step="0.01" value={weight} onChange={(e) => setWeight(e.target.value)} /></td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Original Metal</td>
+                        <td><MetalSelector label="Original Metal" onMetalChange={handleOriginalMetalChange} /></td>
+                    </tr>
+                    <tr>
+                        <td>New Metal</td>
+                        <td><MetalSelector label="New Metal" onMetalChange={handleNewMetalChange} /></td>
+                    </tr>
+                    <tr>
+                        <td>Weight</td>
+                        <td><input type="number" step="0.01" value={weight} onChange={(e) => setWeight(e.target.value)} /></td>
+                    </tr>
+                </tbody>
             </table>
 
             <button type="button" onClick={handleCalculate}>Calculate</button>
 
             <table>
-                <tr>
-                    <td>Converted Weight</td>
-                    <td><input type="text" value={convertedWeight} disabled /></td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Converted Weight</td>
+                        <td><input type="text" value={convertedWeight} disabled /></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     );

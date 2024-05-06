@@ -61,55 +61,59 @@ const RingResizer = () => {
             <h1>Ring Resizer</h1>
 
             <table>
-                <tr>
-                    <td>Metal</td>
-                    <td><MetalSelector label="Metal" onMetalChange={handleMetalChange} /></td>
-                </tr>
-                <tr>
-                    <td>Original Ring Size</td>
-                    <td><RingSizeSelector label="Original Ring Size" onSizeChange={handleOriginalRingSizeChange} /></td>
-                </tr>
-                <tr>
-                    <td>New Ring Size</td>
-                    <td><RingSizeSelector label="New Ring Size" onSizeChange={handleNewRingSizeChange} /></td>
-                </tr>
-                <tr>
-                    <td>Profile</td>
-                    <td><ProfileSelector label="Profile" onProfileChange={handleProfileChange} /></td>
-                </tr>
-                <tr>
-                    <td>Width</td>
-                    <td><input type="number" step="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
-                </tr>
-                <tr>
-                    <td>
-                        {
-                            thicknessRequired ? <div className="text">Thickness</div> : <div></div>
-                        }
-                    </td>
-                    <td>
-                        {
-                            thicknessRequired ? <input type="number" step="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /> : <div></div>
-                        }
-                    </td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Metal</td>
+                        <td><MetalSelector label="Metal" onMetalChange={handleMetalChange} /></td>
+                    </tr>
+                    <tr>
+                        <td>Original Ring Size</td>
+                        <td><RingSizeSelector label="Original Ring Size" onSizeChange={handleOriginalRingSizeChange} /></td>
+                    </tr>
+                    <tr>
+                        <td>New Ring Size</td>
+                        <td><RingSizeSelector label="New Ring Size" onSizeChange={handleNewRingSizeChange} /></td>
+                    </tr>
+                    <tr>
+                        <td>Profile</td>
+                        <td><ProfileSelector label="Profile" onProfileChange={handleProfileChange} /></td>
+                    </tr>
+                    <tr>
+                        <td>Width</td>
+                        <td><input type="number" step="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {
+                                thicknessRequired ? <div className="text">Thickness</div> : <div></div>
+                            }
+                        </td>
+                        <td>
+                            {
+                                thicknessRequired ? <input type="number" step="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /> : <div></div>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
             </table>
 
             <button type="button" onClick={handleCalculate}>Calculate</button>
 
             <table>
-                <tr>
-                    <td>Original Ring Weight</td>
-                    <td><input type="text" value={weightOriginal} disabled /></td>
-                </tr>
-                <tr>
-                    <td>New Ring Weight</td>
-                    <td><input type="text" value={weightNew} disabled /></td>
-                </tr>
-                <tr>
-                    <td>Weight Difference</td>
-                    <td><input type="text" value={weightDifference} disabled /></td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Original Ring Weight</td>
+                        <td><input type="text" value={weightOriginal} disabled /></td>
+                    </tr>
+                    <tr>
+                        <td>New Ring Weight</td>
+                        <td><input type="text" value={weightNew} disabled /></td>
+                    </tr>
+                    <tr>
+                        <td>Weight Difference</td>
+                        <td><input type="text" value={weightDifference} disabled /></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     );

@@ -71,57 +71,61 @@ const RollingWire = () => {
             <h1>Rolling Wire</h1>
 
             <table>
-                <tr>
-                    <td>Profile</td>
-                    <td><ProfileSelector label="Profile" onProfileChange={handleProfileChange} isLimited="true" /></td>
-                </tr>
-                <tr>
-                    <td>
-                        {
-                            lengthRingSizeSwitch ? <button className="inline-button" type="button" onClick={handleLengthRingSizeSwitch}>Length</button> :
-                                <button className="inline-button" type="button" onClick={handleLengthRingSizeSwitch}>Ring Size</button>
-                        }
-                    </td>
-                    <td>
-                        {
-                            lengthRingSizeSwitch ? <input type="number" step="0.01" value={length} onChange={(e) => setLength(e.target.value)} /> :
-                                <div><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></div>
-                        }
-                    </td>
-                </tr>
-                <tr>
-                    <td>Width</td>
-                    <td><input type="number" step="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
-                </tr>
-                <tr>
-                    <td>Thickness</td>
-                    <td><input type="number" step="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
-                </tr>
-                <tr>
-                    <td>Starting with Stock</td>
-                    <td><input type="checkbox" onClick={handleStockCheckbox} defaultChecked={true} /></td>
-                </tr>
-                <tr>
-                    <td>
-                        {
-                            stockSizeRequired ? <div className="text">Stock Size</div> : <div></div>
-                        }
-                    </td>
-                    <td>
-                        {
-                            stockSizeRequired ? <input type="number" step="0.01" value={stockSize} onChange={(e) => setStockSize(e.target.value)} /> : <div></div>
-                        }
-                    </td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Profile</td>
+                        <td><ProfileSelector label="Profile" onProfileChange={handleProfileChange} isLimited={true} /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {
+                                lengthRingSizeSwitch ? <button className="inline-button" type="button" onClick={handleLengthRingSizeSwitch}>Length</button> :
+                                    <button className="inline-button" type="button" onClick={handleLengthRingSizeSwitch}>Ring Size</button>
+                            }
+                        </td>
+                        <td>
+                            {
+                                lengthRingSizeSwitch ? <input type="number" step="0.01" value={length} onChange={(e) => setLength(e.target.value)} /> :
+                                    <div><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></div>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Width</td>
+                        <td><input type="number" step="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
+                    </tr>
+                    <tr>
+                        <td>Thickness</td>
+                        <td><input type="number" step="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
+                    </tr>
+                    <tr>
+                        <td>Starting with Stock</td>
+                        <td><input type="checkbox" onClick={handleStockCheckbox} defaultChecked={true} /></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {
+                                stockSizeRequired ? <div className="text">Stock Size</div> : <div></div>
+                            }
+                        </td>
+                        <td>
+                            {
+                                stockSizeRequired ? <input type="number" step="0.01" value={stockSize} onChange={(e) => setStockSize(e.target.value)} /> : <div></div>
+                            }
+                        </td>
+                    </tr>
+                </tbody>
             </table>
 
             <button type="button" onClick={handleCalculate}>Calculate</button>
 
             <table>
-                <tr>
-                    <td>Output</td>
-                    <td><textarea rows="3" value={output} disabled /></td>
-                </tr>
+                <tbody>
+                    <tr>
+                        <td>Output</td>
+                        <td><textarea rows="3" value={output} disabled /></td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     );
