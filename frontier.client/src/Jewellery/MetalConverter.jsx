@@ -46,7 +46,7 @@ const MetalConverter = () => {
                     </tr>
                     <tr>
                         <td>Weight</td>
-                        <td><input type="number" step="0.01" value={weight} onChange={(e) => setWeight(e.target.value)} /></td>
+                        <td><input type="number" step="0.01" min="0" value={weight} onChange={(e) => setWeight(e.target.value)} /></td>
                     </tr>
                 </tbody>
             </table>

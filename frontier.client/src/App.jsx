@@ -10,16 +10,23 @@ import Register from './account/Register';
 import Login from './account/Login';
 import ForgotPassword from './account/ForgotPassword';
 import MyAccount from './account/MyAccount';
+import MetalSettings from './account/MetalSettings';
+import RingSizeSettings from './account/RingSizeSettings';
 import {
     metalConverterPath, ringWeightPath, ringResizerPath, rollingWirePath,
-    registerPath, loginPath, forgotPasswordPath, myAccountPath
+    registerPath, loginPath, forgotPasswordPath, myAccountPath,
+    metalSettingsPath, ringSizeSettingsPath
 } from './Paths.jsx';
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
 
-    const handleCheckbox = () => { 
-        !loggedIn ? setLoggedIn(true) : setLoggedIn(false)
+    const handleLogin = () => { 
+        setLoggedIn(true)
+    } // DEBUG
+
+    const handleLogout = () => {
+        setLoggedIn(false)
     } // DEBUG
 
     return (
@@ -35,16 +42,18 @@ const App = () => {
                         {
                             loggedIn ?
                                 <>
-                                    <li><Link>Logout</Link></li>
                                     <li><Link to={myAccountPath}>My Account</Link></li>
+                                    <li><Link to={metalSettingsPath}>Metal Settings</Link></li>
+                                    <li><Link to={ringSizeSettingsPath}>Ring Size Settings</Link></li>
+                                    <li><Link onClick={handleLogout} >Logout</Link></li>
                                 </>
                                 :
                                 <>
                                     <li><Link to={registerPath}>Register</Link></li>
                                     <li><Link to={loginPath}>Login</Link></li>
+                                    <li><Link onClick={handleLogin}>Login DEBUG</Link></li>
                                 </> 
                         }
-                        <li><input type="checkbox" onClick={handleCheckbox} defaultChecked={false} /></li> {/* DEBUG */}
                     </ul>
                 </nav>
 
@@ -58,6 +67,8 @@ const App = () => {
                     <Route path={loginPath} element={<Login />} />
                     <Route path={forgotPasswordPath} element={<ForgotPassword />} />
                     <Route path={myAccountPath} element={<MyAccount />} />
+                    <Route path={metalSettingsPath} element={<MetalSettings />} />
+                    <Route path={ringSizeSettingsPath} element={<RingSizeSettings />} />
                 </Routes>
             </div>
         </Router>

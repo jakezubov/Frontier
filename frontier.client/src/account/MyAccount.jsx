@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const MyAccount = () => {
     const [name, setName] = useState('');
@@ -6,6 +6,17 @@ const MyAccount = () => {
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setNewConfirmPassword] = useState('');
+    const [history, setHistory] = useState('');
+
+    useEffect(() => {
+        getInfo();
+    }, []);
+
+    const getInfo = () => {
+        setName("Test");
+        setEmail("test@email.com");
+        setHistory("15");
+    }
 
     const handleSubmit = () => {
 
@@ -38,6 +49,11 @@ const MyAccount = () => {
                     <tr>
                         <td>Confirm New Password</td>
                         <td><input value={confirmNewPassword} type="password" onChange={(e) => setNewConfirmPassword(e.target.value)} /></td>
+                    </tr>
+                    <tr><td></td></tr>
+                    <tr>
+                        <td>History</td>
+                        <td><input type="number" step="5" min="0" max="50" value={history} onChange={(e) => setHistory(e.target.value)} /></td>
                     </tr>
                 </tbody>
             </table>

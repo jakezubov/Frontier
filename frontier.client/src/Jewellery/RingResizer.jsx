@@ -80,17 +80,17 @@ const RingResizer = () => {
                     </tr>
                     <tr>
                         <td>Width</td>
-                        <td><input type="number" step="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
+                        <td><input type="number" step="0.01" min="0" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
                     </tr>
                     <tr>
                         <td>
                             {
-                                thicknessRequired ? <div className="text">Thickness</div> : <div></div>
+                                thicknessRequired ? <div className="text">Thickness</div> : null
                             }
                         </td>
                         <td>
                             {
-                                thicknessRequired ? <input type="number" step="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /> : <div></div>
+                                thicknessRequired ? <input type="number" step="0.01" min="0" value={thickness} onChange={(e) => setThickness(e.target.value)} /> : null
                             }
                         </td>
                     </tr>

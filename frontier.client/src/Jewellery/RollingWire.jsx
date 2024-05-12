@@ -92,11 +92,11 @@ const RollingWire = () => {
                     </tr>
                     <tr>
                         <td>Width</td>
-                        <td><input type="number" step="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
+                        <td><input type="number" step="0.01" min="0" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
                     </tr>
                     <tr>
                         <td>Thickness</td>
-                        <td><input type="number" step="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
+                        <td><input type="number" step="0.01" min="0" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
                     </tr>
                     <tr>
                         <td>Starting with Stock</td>
@@ -110,7 +110,7 @@ const RollingWire = () => {
                         </td>
                         <td>
                             {
-                                stockSizeRequired ? <input type="number" step="0.01" value={stockSize} onChange={(e) => setStockSize(e.target.value)} /> : <div></div>
+                                stockSizeRequired ? <input type="number" step="0.01" min="0" value={stockSize} onChange={(e) => setStockSize(e.target.value)} /> : <div></div>
                             }
                         </td>
                     </tr>
