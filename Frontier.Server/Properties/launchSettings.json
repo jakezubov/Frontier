@@ -12,8 +12,6 @@
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "weatherforecast",
       "applicationUrl": "http://localhost:5221",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -23,8 +21,6 @@
     "https": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "weatherforecast",
       "applicationUrl": "https://localhost:7232;http://localhost:5221",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
@@ -33,8 +29,6 @@
     },
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "weatherforecast",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"

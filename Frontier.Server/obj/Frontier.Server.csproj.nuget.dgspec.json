@@ -48,6 +48,10 @@
             "Microsoft.AspNetCore.SpaProxy": {
               "target": "Package",
               "version": "[8.*-*, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.25.0, )"
             }
           },
           "imports": [

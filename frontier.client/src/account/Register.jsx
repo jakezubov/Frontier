@@ -10,7 +10,7 @@ const Register = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleSubmit = () => {
-        const fullName = firstName + " " + lastName;
+        
     }
 
     return (

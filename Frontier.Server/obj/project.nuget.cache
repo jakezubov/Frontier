@@ -1,10 +1,28 @@
 {
   "version": 2,
-  "dgSpecHash": "nUuR9pTeLdFjFxzcY4YqGLhrSK7Qbcd0OIp5btHrxhNenXOtInzZVi2161xlyFpALZOvI3XdYpDG91UO6bhqEQ==",
+  "dgSpecHash": "lreQXOekEiCxKufVwXIOMzLNrTIACT7e/kPWm6+44R49dGBiqRto/bqN1dIakBXgzhDBEN9Q5lFxZUEdRqhSYA==",
   "success": true,
   "projectFilePath": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.4\\microsoft.aspnetcore.spaproxy.8.0.4.nupkg.sha512"
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.4\\microsoft.aspnetcore.spaproxy.8.0.4.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\2.0.0\\microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\mongodb.bson\\2.25.0\\mongodb.bson.2.25.0.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\mongodb.driver\\2.25.0\\mongodb.driver.2.25.0.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\mongodb.driver.core\\2.25.0\\mongodb.driver.core.2.25.0.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\mongodb.libmongocrypt\\1.8.2\\mongodb.libmongocrypt.1.8.2.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\sharpcompress\\0.30.1\\sharpcompress.0.30.1.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\snappier\\1.0.0\\snappier.1.0.0.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\5.0.0\\system.runtime.compilerservices.unsafe.5.0.0.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\system.security.accesscontrol\\5.0.0\\system.security.accesscontrol.5.0.0.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\system.security.principal.windows\\5.0.0\\system.security.principal.windows.5.0.0.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\zstdsharp.port\\0.7.3\\zstdsharp.port.0.7.3.nupkg.sha512"
   ],
   "logs": []
 }

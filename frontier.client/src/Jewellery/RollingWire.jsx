@@ -105,12 +105,12 @@ const RollingWire = () => {
                     <tr>
                         <td>
                             {
-                                stockSizeRequired ? <div className="text">Stock Size</div> : <div></div>
+                                stockSizeRequired ? <div className="text">Stock Size</div> : null
                             }
                         </td>
                         <td>
                             {
-                                stockSizeRequired ? <input type="number" step="0.01" min="0" value={stockSize} onChange={(e) => setStockSize(e.target.value)} /> : <div></div>
+                                stockSizeRequired ? <input type="number" step="0.01" min="0" value={stockSize} onChange={(e) => setStockSize(e.target.value)} /> : null
                             }
                         </td>
                     </tr>
