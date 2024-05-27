@@ -23,10 +23,14 @@ public class RingSizeDataAccess
         return results.ToList();
     }
 
-    public async Task<RingSizeModel> GetRingSize(string name)
+    public async Task<RingSizeModel> GetRingSize(string letterSize, double numberSize)
     {
         var ringSizesCollection = ConnectToMongo<RingSizeModel>(RingSizeCollection);
-        var results = await ringSizesCollection.FindAsync(r => r.Name == name);
+        var filter = Builders<RingSizeModel>.Filter.And(
+        Builders<RingSizeModel>.Filter.Eq(r => r.LetterSize, letterSize),
+        Builders<RingSizeModel>.Filter.Eq(r => r.NumberSize, numberSize)
+        );
+        var results = await ringSizesCollection.FindAsync(filter);
         return results.FirstOrDefault();
     }
 

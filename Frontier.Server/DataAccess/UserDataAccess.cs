@@ -23,7 +23,14 @@ public class UserDataAccess
         return results.ToList();
     }
 
-    public async Task<UserModel> GetUser(string email)
+    public async Task<UserModel> GetUser(string id)
+    {
+        var usersCollection = ConnectToMongo<UserModel>(UserCollection);
+        var results = await usersCollection.FindAsync(u => u.Id == id);
+        return results.FirstOrDefault();
+    }
+
+    public async Task<UserModel> ValidateUser(string email)
     {
         var usersCollection = ConnectToMongo<UserModel>(UserCollection);
         var results = await usersCollection.FindAsync(u => u.Email == email);

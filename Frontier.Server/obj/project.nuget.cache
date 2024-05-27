@@ -1,13 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "lreQXOekEiCxKufVwXIOMzLNrTIACT7e/kPWm6+44R49dGBiqRto/bqN1dIakBXgzhDBEN9Q5lFxZUEdRqhSYA==",
+  "dgSpecHash": "B/ZyxbdeOEJrB7ROVI8jRNwJUrdkoHikqqcNzrIkPbij3ikGX8PemEOn4pOaTlXweqAiB5B1qq9d0np4ubnTpQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\zubovadmin\\.nuget\\packages\\awssdk.core\\3.7.100.14\\awssdk.core.3.7.100.14.nupkg.sha512",
     "C:\\Users\\zubovadmin\\.nuget\\packages\\awssdk.securitytoken\\3.7.100.14\\awssdk.securitytoken.3.7.100.14.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\zubovadmin\\.nuget\\packages\\dnsclient\\1.6.1\\dnsclient.1.6.1.nupkg.sha512",
-    "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.4\\microsoft.aspnetcore.spaproxy.8.0.4.nupkg.sha512",
+    "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.aspnetcore.spaproxy\\8.0.5\\microsoft.aspnetcore.spaproxy.8.0.5.nupkg.sha512",
     "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\2.0.0\\microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512",
     "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\zubovadmin\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",

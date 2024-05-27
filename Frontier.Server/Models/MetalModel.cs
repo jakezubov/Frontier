@@ -9,5 +9,5 @@ public class MetalModel
     [BsonRepresentation(BsonType.ObjectId)]
     public string? Id { get; set; }
     public required string Name { get; set; }
-    public required string SpecificGravity { get; set; }
+    public required double SpecificGravity { get; set; }
 }

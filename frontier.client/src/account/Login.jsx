@@ -1,13 +1,33 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { registerPath, forgotPasswordPath } from '../Paths.jsx';
+import Axios from 'axios';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = () => {
+    var url = `http://localhost:5221/api/Users/Validate/${email}`;
 
+    const handleSubmit = async () => {
+        try {
+            const response = await Axios.get(url, {
+                params: {
+                    email: email,
+                    password: password
+                }
+            });
+
+            if (response.data) {
+                onLogin(); // Call the callback function
+            }
+            else {
+                alert('Email or Password Incorrect');
+            }
+        }
+        catch (error) {
+            alert('There was an error submitting the form!');
+        }
     }
 
     return (

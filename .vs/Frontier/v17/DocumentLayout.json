@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\dataaccess\\metaldataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\dataaccess\\metaldataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\dataaccess\\ringsizedataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\dataaccess\\ringsizedataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\account\\login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\account\\login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\account\\register.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\account\\register.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\dataaccess\\userdataaccess.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -19,16 +23,8 @@
       "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\models\\usermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\models\\ringsizemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\models\\ringsizemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\models\\metalmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\models\\metalmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,92 +39,80 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MetalDataAccess.cs",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\DataAccess\\MetalDataAccess.cs",
-              "RelativeDocumentMoniker": "Frontier.Server\\DataAccess\\MetalDataAccess.cs",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\DataAccess\\MetalDataAccess.cs",
-              "RelativeToolTip": "Frontier.Server\\DataAccess\\MetalDataAccess.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAkwBEAAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-16T20:49:24.711Z",
+              "Title": "App.jsx",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\App.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\App.jsx",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\App.jsx",
+              "RelativeToolTip": "frontier.client\\src\\App.jsx",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAAB8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-05-27T00:19:41.388Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "RingSizeDataAccess.cs",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\DataAccess\\RingSizeDataAccess.cs",
-              "RelativeDocumentMoniker": "Frontier.Server\\DataAccess\\RingSizeDataAccess.cs",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\DataAccess\\RingSizeDataAccess.cs",
-              "RelativeToolTip": "Frontier.Server\\DataAccess\\RingSizeDataAccess.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAYwB4AAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-16T20:48:53.226Z",
+              "Title": "Login.jsx",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\account\\Login.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\account\\Login.jsx",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\account\\Login.jsx",
+              "RelativeToolTip": "frontier.client\\src\\account\\Login.jsx",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-05-26T23:17:02.182Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "UserDataAccess.cs",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\DataAccess\\UserDataAccess.cs",
-              "RelativeDocumentMoniker": "Frontier.Server\\DataAccess\\UserDataAccess.cs",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\DataAccess\\UserDataAccess.cs",
-              "RelativeToolTip": "Frontier.Server\\DataAccess\\UserDataAccess.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAArAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-14T20:52:06.92Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "MetalModel.cs",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Models\\MetalModel.cs",
-              "RelativeDocumentMoniker": "Frontier.Server\\Models\\MetalModel.cs",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Models\\MetalModel.cs",
-              "RelativeToolTip": "Frontier.Server\\Models\\MetalModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-14T20:45:47.67Z",
+              "Title": "Register.jsx",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\account\\Register.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\account\\Register.jsx",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\account\\Register.jsx",
+              "RelativeToolTip": "frontier.client\\src\\account\\Register.jsx",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABsAAAA3AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-05-21T20:50:05.547Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "RingSizeModel.cs",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Models\\RingSizeModel.cs",
-              "RelativeDocumentMoniker": "Frontier.Server\\Models\\RingSizeModel.cs",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Models\\RingSizeModel.cs",
-              "RelativeToolTip": "Frontier.Server\\Models\\RingSizeModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-14T20:45:41.26Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "UserModel.cs",
               "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Models\\UserModel.cs",
               "RelativeDocumentMoniker": "Frontier.Server\\Models\\UserModel.cs",
               "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Models\\UserModel.cs",
               "RelativeToolTip": "Frontier.Server\\Models\\UserModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAA1AAAA",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAAAwAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-14T20:16:09.358Z",
+              "WhenOpened": "2024-05-26T23:47:02.249Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Program.cs",
-              "RelativeDocumentMoniker": "Frontier.Server\\Program.cs",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Program.cs",
-              "RelativeToolTip": "Frontier.Server\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
+              "DocumentIndex": 3,
+              "Title": "UserDataAccess.cs",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\DataAccess\\UserDataAccess.cs",
+              "RelativeDocumentMoniker": "Frontier.Server\\DataAccess\\UserDataAccess.cs",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\DataAccess\\UserDataAccess.cs",
+              "RelativeToolTip": "Frontier.Server\\DataAccess\\UserDataAccess.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAowCQAAAAoAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-13T21:18:57.967Z",
+              "WhenOpened": "2024-05-21T20:56:27.218Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Frontier.Server\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Frontier.Server\\Controllers\\UsersController.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAQwBwAAABWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-21T21:01:40.418Z",
               "EditorCaption": ""
             }
           ]

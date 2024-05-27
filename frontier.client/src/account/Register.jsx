@@ -1,16 +1,35 @@
 import { useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import { loginPath, forgotPasswordPath } from '../Paths.jsx';
+import Axios from 'axios';
 
-const Register = () => {
+const Register = ({ onRegister }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const handleSubmit = () => {
-        
+    const url = "http://localhost:5221/api/Users"
+
+    const handleSubmit = async () => {
+        if (password !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+
+        try {
+            await Axios.post(url, {
+                'FirstName': firstName,
+                'LastName': lastName,
+                'Email': email,
+                'PasswordHash': password
+            });
+            onRegister(); // Call the callback function
+        }
+        catch (error) {
+            alert('There was an error submitting the form!');
+        }
     }
 
     return (

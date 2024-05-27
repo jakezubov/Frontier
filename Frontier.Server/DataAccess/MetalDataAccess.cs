@@ -2,7 +2,6 @@
 
 using Frontier.Server.Models;
 using MongoDB.Driver;
-using System.Diagnostics.Metrics;
 
 public class MetalDataAccess
 {
@@ -50,4 +49,13 @@ public class MetalDataAccess
         return metalsCollection.DeleteOneAsync(m => m.Id == metal.Id);
     }
 
+    public async Task<bool> ValidateMetal(MetalModel metal)
+    {
+        var metalsCollection = ConnectToMongo<MetalModel>(MetalCollection);
+        var filter = Builders<MetalModel>.Filter.And(
+            Builders<MetalModel>.Filter.Eq(m => m.Name, metal.Name),
+            Builders<MetalModel>.Filter.Eq(m => m.SpecificGravity, metal.SpecificGravity));
+        var results = await metalsCollection.FindAsync(filter);
+        return results.Any();
+    }
 }

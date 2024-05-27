@@ -1,6 +1,6 @@
 import './App.css';
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
 import Home from './Home';
 import MetalConverter from './jewellery/MetalConverter';
 import RingWeight from './jewellery/RingWeight';
@@ -12,10 +12,14 @@ import ForgotPassword from './account/ForgotPassword';
 import MyAccount from './account/MyAccount';
 import MetalSettings from './account/MetalSettings';
 import RingSizeSettings from './account/RingSizeSettings';
+import LoginConfirmation from './account/LoginConfirmation';
+import RegisterConfirmation from './account/RegisterConfirmation';
+import LogoutConfirmation from './account/LogoutConfirmation';
 import {
     metalConverterPath, ringWeightPath, ringResizerPath, rollingWirePath,
     registerPath, loginPath, forgotPasswordPath, myAccountPath,
-    metalSettingsPath, ringSizeSettingsPath
+    metalSettingsPath, ringSizeSettingsPath, loginConfirmationPath, logoutConfirmationPath,
+    registerConfirmationPath
 } from './Paths.jsx';
 
 const App = () => {
@@ -23,11 +27,17 @@ const App = () => {
 
     const handleLogin = () => { 
         setLoggedIn(true)
-    } // DEBUG
+        return <Navigate to={loginConfirmationPath} />
+    }
 
     const handleLogout = () => {
         setLoggedIn(false)
-    } // DEBUG
+        return <Navigate to={logoutConfirmationPath} />
+    }
+
+    const handleRegister = () => {
+        return <Navigate to={registerConfirmationPath} />
+    }
 
     return (
         <Router>
@@ -51,7 +61,6 @@ const App = () => {
                                 <>
                                     <li><Link to={registerPath}>Register</Link></li>
                                     <li><Link to={loginPath}>Login</Link></li>
-                                    <li><Link onClick={handleLogin}>Login DEBUG</Link></li>
                                 </> 
                         }
                     </ul>
@@ -63,12 +72,15 @@ const App = () => {
                     <Route path={ringWeightPath} element={<RingWeight />} />
                     <Route path={ringResizerPath} element={<RingResizer />} />
                     <Route path={rollingWirePath} element={<RollingWire />} />
-                    <Route path={registerPath} element={<Register />} />
-                    <Route path={loginPath} element={<Login />} />
+                    <Route path={registerPath} element={<Register onRegister={handleRegister} />} />
+                    <Route path={loginPath} element={<Login onLogin={handleLogin} />} />
                     <Route path={forgotPasswordPath} element={<ForgotPassword />} />
                     <Route path={myAccountPath} element={<MyAccount />} />
                     <Route path={metalSettingsPath} element={<MetalSettings />} />
                     <Route path={ringSizeSettingsPath} element={<RingSizeSettings />} />
+                    <Route path={loginConfirmationPath} element={<LoginConfirmation />} />
+                    <Route path={logoutConfirmationPath} element={<LogoutConfirmation />} />
+                    <Route path={registerConfirmationPath} element={<RegisterConfirmation />} />
                 </Routes>
             </div>
         </Router>
