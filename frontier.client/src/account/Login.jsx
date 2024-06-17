@@ -4,12 +4,17 @@ import { registerPath, forgotPasswordPath } from '../Paths.jsx';
 import Axios from 'axios';
 
 const Login = ({ onLogin }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
 
-    var url = `http://localhost:5221/api/Users/Validate/${email}`;
+    var url = `http://localhost:5221/api/Users/Validate`
 
     const handleSubmit = async () => {
+        if (email === '' || password === '') {
+            alert('Please enter an email and/or password!')
+            return
+        }
+
         try {
             const response = await Axios.get(url, {
                 params: {
@@ -18,15 +23,17 @@ const Login = ({ onLogin }) => {
                 }
             });
 
-            if (response.data) {
-                onLogin(); // Call the callback function
-            }
-            else {
-                alert('Email or Password Incorrect');
-            }
+            alert('Successfully logged in!')
+            onLogin(response.data) // Pass the user ID to the callback function
         }
         catch (error) {
-            alert('There was an error submitting the form!');
+            if (error.response && error.response.status === 401) {
+                alert('Email or Password Incorrect')
+            }
+            else {
+                console.log(error)
+                alert('There was an error submitting the form!')
+            }
         }
     }
 

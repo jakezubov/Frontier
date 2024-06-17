@@ -7,7 +7,7 @@ public class RingSizeDataAccess
 {
     private string ConnectionString = "mongodb://localhost:27017";
     private string DatabaseName = "frontier";
-    private string RingSizeCollection = "ring_sizes";
+    private string RingSizeCollection = "ring_size_defaults";
 
     private IMongoCollection<T> ConnectToMongo<T>(in string collection)
     {

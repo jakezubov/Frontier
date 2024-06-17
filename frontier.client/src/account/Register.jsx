@@ -10,9 +10,14 @@ const Register = ({ onRegister }) => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-    const url = "http://localhost:5221/api/Users"
+    const url = `http://localhost:5221/api/Users`
 
     const handleSubmit = async () => {
+        if (firstName === '' || lastName === '' || email === '' || password === '' || confirmPassword === '') {
+            alert('Please enter all information!')
+            return
+        }
+
         if (password !== confirmPassword) {
             alert('Passwords do not match');
             return;
@@ -25,9 +30,12 @@ const Register = ({ onRegister }) => {
                 'Email': email,
                 'PasswordHash': password
             });
+
+            alert('Successfully registered account!')
             onRegister(); // Call the callback function
         }
         catch (error) {
+            console.log(error)
             alert('There was an error submitting the form!');
         }
     }

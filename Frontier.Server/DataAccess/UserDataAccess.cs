@@ -9,6 +9,9 @@ public class UserDataAccess
     private string DatabaseName = "frontier";
     private string UserCollection = "users";
 
+    MetalDataAccess metalDataAccess = new MetalDataAccess();
+    RingSizeDataAccess ringSizeDataAccess = new RingSizeDataAccess();
+
     private IMongoCollection<T> ConnectToMongo<T>(in string collection)
     {
         var client = new MongoClient(ConnectionString);
@@ -37,9 +40,11 @@ public class UserDataAccess
         return results.FirstOrDefault();
     }
 
-    public Task CreateUser(UserModel user)
+    public async Task<Task> CreateUser(UserModel user)
     {
         var usersCollection = ConnectToMongo<UserModel>(UserCollection);
+        user.MetalModels = await metalDataAccess.GetAllMetals();
+        user.RingSizes = await ringSizeDataAccess.GetAllRingSizes();
         return usersCollection.InsertOneAsync(user);
     }
 

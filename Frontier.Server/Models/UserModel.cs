@@ -16,8 +16,8 @@ public class UserModel
     public required string PasswordHash { get; set; }
     public string? Salt { get; set; }
     public int HistoryAmount { get; set; } = 10;
-    public List<MetalModel> MetalModels { get; set; } = Defaults.Metals;
-    public List<RingSizeModel> RingSizes { get; set; } = Defaults.RingSizes;
+    public List<MetalModel>? MetalModels { get; set; }
+    public List<RingSizeModel>? RingSizes { get; set; }
 
     // history
 

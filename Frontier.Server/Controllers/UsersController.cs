@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Frontier.Server.DataAccess;
 using Frontier.Server.Models;
-using Microsoft.AspNetCore.Identity;
-
 namespace Frontier.Server.Controllers
 {
     [Route("api/[controller]")]
@@ -20,14 +18,19 @@ namespace Frontier.Server.Controllers
         public async Task<UserModel> Get(string id) => await db.GetUser(id);
 
         // Validate User
-        [HttpGet("Validate/{email}")]
-        public async Task<bool> Get(string email, string password)
+        [HttpGet("Validate")]
+        public async Task<IActionResult> Get(string email, string password)
         {
-            Console.WriteLine(password);
             UserModel user = await db.ValidateUser(email);
-            if (user == null) return false;
+            if (user == null) {
+                return Unauthorized(null);
+            }
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(password, user.Salt);
-            return passwordHash == user.PasswordHash;
+            bool isValid = passwordHash == user.PasswordHash;
+            if (!isValid) {
+                return Unauthorized(null);
+            }
+            return Ok(user.Id);
         }
 
         // Create User
@@ -42,7 +45,15 @@ namespace Frontier.Server.Controllers
 
         // Update User
         [HttpPut("{id}")]
-        public void Put(UserModel user) => db.UpdateUser(user);
+        public void Put(UserModel user, bool isNewPassword)
+        {
+            if (isNewPassword) {
+                string salt = BCrypt.Net.BCrypt.GenerateSalt(10);
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, salt);
+                user.Salt = salt;
+            }
+            db.UpdateUser(user);
+        }
 
         // Delete User
         [HttpDelete("{id}")]

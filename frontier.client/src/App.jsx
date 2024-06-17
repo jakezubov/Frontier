@@ -10,33 +10,32 @@ import Register from './account/Register';
 import Login from './account/Login';
 import ForgotPassword from './account/ForgotPassword';
 import MyAccount from './account/MyAccount';
-import MetalSettings from './account/MetalSettings';
-import RingSizeSettings from './account/RingSizeSettings';
 import LoginConfirmation from './account/LoginConfirmation';
 import RegisterConfirmation from './account/RegisterConfirmation';
 import LogoutConfirmation from './account/LogoutConfirmation';
 import {
     metalConverterPath, ringWeightPath, ringResizerPath, rollingWirePath,
     registerPath, loginPath, forgotPasswordPath, myAccountPath,
-    metalSettingsPath, ringSizeSettingsPath, loginConfirmationPath, logoutConfirmationPath,
-    registerConfirmationPath
+    loginConfirmationPath, logoutConfirmationPath, registerConfirmationPath
 } from './Paths.jsx';
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
+    const [userId, setUserId] = useState(null);
 
-    const handleLogin = () => { 
+    const handleRegister = () => {
+        return <Navigate to={registerConfirmationPath} />
+    }
+
+    const handleLogin = (id) => {
+        setUserId(id)
         setLoggedIn(true)
         return <Navigate to={loginConfirmationPath} />
     }
 
     const handleLogout = () => {
+        setUserId(null)
         setLoggedIn(false)
-        return <Navigate to={logoutConfirmationPath} />
-    }
-
-    const handleRegister = () => {
-        return <Navigate to={registerConfirmationPath} />
     }
 
     return (
@@ -53,9 +52,7 @@ const App = () => {
                             loggedIn ?
                                 <>
                                     <li><Link to={myAccountPath}>My Account</Link></li>
-                                    <li><Link to={metalSettingsPath}>Metal Settings</Link></li>
-                                    <li><Link to={ringSizeSettingsPath}>Ring Size Settings</Link></li>
-                                    <li><Link onClick={handleLogout} >Logout</Link></li>
+                                    <li><Link onClick={handleLogout} to={logoutConfirmationPath} >Logout</Link></li>
                                 </>
                                 :
                                 <>
@@ -75,9 +72,7 @@ const App = () => {
                     <Route path={registerPath} element={<Register onRegister={handleRegister} />} />
                     <Route path={loginPath} element={<Login onLogin={handleLogin} />} />
                     <Route path={forgotPasswordPath} element={<ForgotPassword />} />
-                    <Route path={myAccountPath} element={<MyAccount />} />
-                    <Route path={metalSettingsPath} element={<MetalSettings />} />
-                    <Route path={ringSizeSettingsPath} element={<RingSizeSettings />} />
+                    <Route path={myAccountPath} element={<MyAccount userId={userId} />} />
                     <Route path={loginConfirmationPath} element={<LoginConfirmation />} />
                     <Route path={logoutConfirmationPath} element={<LogoutConfirmation />} />
                     <Route path={registerConfirmationPath} element={<RegisterConfirmation />} />

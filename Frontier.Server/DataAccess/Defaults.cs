@@ -7,7 +7,7 @@ public class Defaults
     MetalDataAccess metalDB = new MetalDataAccess();
     RingSizeDataAccess ringSizeDB = new RingSizeDataAccess();
 
-    public static List<MetalModel> Metals = new List<MetalModel>
+    public List<MetalModel> Metals = new List<MetalModel>
         {
             new MetalModel { Name = "Fine Silver", SpecificGravity = 10.64 },
             new MetalModel { Name = "Sterling Silver", SpecificGravity = 10.55 },
@@ -25,7 +25,7 @@ public class Defaults
             new MetalModel { Name = "Wax", SpecificGravity = 1 },
         };
 
-    public static List<RingSizeModel> RingSizes = new List<RingSizeModel>
+    public List<RingSizeModel> RingSizes = new List<RingSizeModel>
         {
             new RingSizeModel { LetterSize = "A", NumberSize = 0.5, Diameter = 12.04 },
             new RingSizeModel { LetterSize = "B", NumberSize = 1, Diameter = 12.45 },

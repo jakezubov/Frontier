@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import MetalSelector from './MetalSelector';
+import History from './History';
 import { validateNumber } from '../HelperFunctions';
 
 const MetalConverter = () => {
@@ -61,6 +62,11 @@ const MetalConverter = () => {
                     </tr>
                 </tbody>
             </table>
+
+            <br />
+            <br />
+
+            <History></History>
         </div>
     );
 }
