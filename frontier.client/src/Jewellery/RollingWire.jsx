@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import { validateNumber } from '../HelperFunctions';
 import RingSizeSelector from './RingSizeSelector';
 import ProfileSelector from './ProfileSelector';
-import { validateNumber } from '../HelperFunctions';
 
-const RollingWire = () => {
+const RollingWire = ({ userId }) => {
     // Inputs
     const [ringSize, setRingSize] = useState(null);
     const [profile, setProfile] = useState('');
@@ -17,7 +17,7 @@ const RollingWire = () => {
     const [stockSizeRequired, setStockSizeRequired] = useState(true);
     const [output, setOutput] = useState('');
 
-    const handleCalculate = () => {
+    const handleCalculate = async () => {
         const isDropdownsValid = profile !== ""
         const isNumbersValid = validateNumber(width) && validateNumber(thickness) && (!stockSizeRequired || validateNumber(stockSize));
         const isSwitchValuesValid = ringSize !== null || validateNumber(length)
@@ -30,23 +30,22 @@ const RollingWire = () => {
                 const diameter = (2 * side) / Math.sqrt(Math.PI);
                 if (stockSizeRequired) {
                     const stock = (4 * Math.pow(side, 2) * lengthCalc) / (Math.PI * Math.pow(stockSize, 2));
-                    setOutput("Diameter: " + diameter.toFixed(2) + "mm" + "\nStock Length: " + stock.toFixed(2) + "mm");
+                    setOutput(`Diameter: ${diameter.toFixed(2)}mm\nStock Length: ${stock.toFixed(2)}mm`)
                 }
-                else
-                    setOutput("Diameter: " + side.toFixed(2) + "mm" + "\nLength: " + lengthCalc.toFixed(2) + "mm");
+                else {
+                    setOutput(`Diameter: ${diameter.toFixed(2)}mm\nLength: ${lengthCalc.toFixed(2)}mm`);
+                }
             }
             else {
                 if (stockSizeRequired) {
                     const stock = (Math.pow(side, 2) * lengthCalc) / Math.pow(stockSize, 2);
-                    setOutput("Side: " + side.toFixed(2) + "mm" + "\nStock Length: " + stock.toFixed(2) + "mm");
+                    setOutput(`Side: ${side.toFixed(2)}mm\nStock Length: ${stock.toFixed(2)}mm`);
                 }
                 else
-                    setOutput("Side: " + side.toFixed(2) + "mm" + "\nLength: " + lengthCalc.toFixed(2) + "mm");
+                    setOutput(`Side: ${side.toFixed(2)}mm\nLength: ${lengthCalc.toFixed(2)}mm`);
             }
         }
-        else {
-            setOutput("Invalid Input");
-        }
+        else setOutput("Invalid Input");
     }
 
     const handleStockCheckbox = () => {

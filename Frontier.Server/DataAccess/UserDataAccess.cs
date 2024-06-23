@@ -43,7 +43,7 @@ public class UserDataAccess
     public async Task<Task> CreateUser(UserModel user)
     {
         var usersCollection = ConnectToMongo<UserModel>(UserCollection);
-        user.MetalModels = await metalDataAccess.GetAllMetals();
+        user.Metals = await metalDataAccess.GetAllMetals();
         user.RingSizes = await ringSizeDataAccess.GetAllRingSizes();
         return usersCollection.InsertOneAsync(user);
     }

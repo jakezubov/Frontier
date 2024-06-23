@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
 import MetalSelector from '../jewellery/MetalSelector';
 import RingSizeSelector from '../jewellery/RingSizeSelector';
+import URL from '../constants/URLs';
 import Axios from 'axios';
 
 const MyAccount = ({ userId }) => {
-    // URLs 
-    var url = `http://localhost:5221/api/Users/${userId}`
-    var urlValidate = `http://localhost:5221/api/Users/Validate`
-
     // Personal Details
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -36,7 +33,7 @@ const MyAccount = ({ userId }) => {
 
     const getInfo = async () => {
         try {
-            const response = await Axios.get(url);
+            const response = await Axios.get(URL.GET_USER(userId));
 
             setFirstName(response.data.firstName)
             setLastName(response.data.lastName)
@@ -52,7 +49,7 @@ const MyAccount = ({ userId }) => {
     const handlePersonalDetailsSubmit = async () => {
         if (oldPassword !== '' || newPassword !== '' || confirmNewPassword !== '') {
             try {
-                await Axios.get(urlValidate, {
+                await Axios.get(URL.VALIDATE_USER, {
                     params: {
                         email: email,
                         password: oldPassword
@@ -64,14 +61,14 @@ const MyAccount = ({ userId }) => {
                     return
                 }
 
-                await Axios.put(url, {
-                    'Id': userId,
-                    'FirstName': firstName,
-                    'LastName': lastName,
-                    'Email': email,
-                    'PasswordHash': newPassword,
-                    'HistoryAmount': historyAmount,
-                },{
+                await Axios.put(URL.UPDATE_USER(userId), {
+                    Id: userId,
+                    FirstName: firstName,
+                    LastName: lastName,
+                    Email: email,
+                    PasswordHash: newPassword,
+                    HistoryAmount: historyAmount,
+                }, {
                     params: {
                         isNewPassword: true
                     }
@@ -91,17 +88,16 @@ const MyAccount = ({ userId }) => {
         }
         else {
             try {
-                const response = await Axios.get(url);
+                const response = await Axios.get(URL.GET_USER(userId))
 
-                await Axios.put(url, {
-                    'Id': userId,
-                    'FirstName': firstName,
-                    'LastName': lastName,
-                    'Email': email,
-                    'PasswordHash': response.data.passwordHash,
-                    'Salt': response.data.salt,
-                    'HistoryAmount': historyAmount
-                },{
+                await Axios.put(URL.UPDATE_USER(userId), {
+                    Id: userId,
+                    FirstName: firstName,
+                    LastName: lastName,
+                    Email: email,
+                    PasswordHash: response.data.passwordHash,
+                    HistoryAmount: historyAmount,
+                }, {
                     params: {
                         isNewPassword: false
                     }
@@ -113,6 +109,17 @@ const MyAccount = ({ userId }) => {
                 console.log(error)
                 alert('There was an error submitting the form!')
             }
+        }
+    }
+
+    const handleClearHistory = async () => {
+        try {
+            await Axios.delete(URL.DELETE_HISTORY(userId))
+            alert('History has been deleted!')
+        }
+        catch (error) {
+            console.log(error)
+            alert('There was an error submitting the form!')
         }
     }
 
@@ -219,9 +226,12 @@ const MyAccount = ({ userId }) => {
                         <td>History</td>
                         <td><input type="number" step="5" min="0" max="50" value={historyAmount} onChange={(e) => setHistoryAmount(e.target.value)} /></td>
                     </tr>
+                    <tr>
+                        <td><button type="button" onClick={handlePersonalDetailsSubmit}>Save Changes</button></td>
+                        <td><button type="button" onClick={handleClearHistory}>Clear History</button></td>
+                    </tr>
                 </tbody>
             </table>
-            <button type="button" onClick={handlePersonalDetailsSubmit}>Save Changes</button>
 
             <br />
             <br />

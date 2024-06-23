@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { calculateRingWeight, validateNumber } from '../HelperFunctions';
 import MetalSelector from './MetalSelector';
 import RingSizeSelector from './RingSizeSelector';
 import ProfileSelector from './ProfileSelector';
-import { calculateRingWeight, validateNumber } from '../HelperFunctions';
+import History from '../account/History'
+import HistoryType from '../constants/HistoryTypes';
+import URL from '../constants/URLs';
+import Axios from 'axios';
 
-const RingWeight = () => {
+const RingWeight = ({ userId }) => {
     // Inputs
     const [metal, setMetal] = useState(null);
     const [ringSize, setRingSize] = useState(null);
@@ -16,15 +20,36 @@ const RingWeight = () => {
     const [thicknessRequired, setThicknessRequired] = useState(true);
     const [weight, setWeight] = useState('');
 
-    const handleCalculate = () => {
+    // Other
+    const [updateHistory, setUpdateHistory] = useState(false);
+
+    const handleCalculate = async () => {
         const isDropdownsValid = metal !== undefined && ringSize !== undefined && profile !== ""
         const isNumbersValid = validateNumber(width) && (!thicknessRequired || validateNumber(thickness));
+        setUpdateHistory(false)
 
         const calculatedWeight = isDropdownsValid && isNumbersValid ?
             calculateRingWeight(profile, parseFloat(width), parseFloat(thickness), ringSize.diameter, metal.specificGravity).toFixed(2) + "g"
             : "Invalid Input";
 
         setWeight(calculatedWeight);
+
+        const content = thicknessRequired
+            ? `${metal.name} | ${ringSize.name} | ${calculatedWeight} | ${profile} | ${width}mm x ${thickness}mm`
+            : `${metal.name} | ${ringSize.name} | ${calculatedWeight} | ${profile} | ${width}mm x ${width}mm`
+
+        try {
+            calculatedWeight !== "Invalid Input" && userId !== null ?
+                await Axios.put(URL.ADD_HISTORY(userId), {
+                    'historyType': HistoryType.RING_WEIGHT,
+                    'content': content
+                }) : null;
+            setUpdateHistory(true)
+        }
+        catch (error) {
+            console.log(error)
+            alert('There was an error submitting the form!')
+        }
     }
 
     const handleMetalChange = (metal) => {
@@ -64,16 +89,13 @@ const RingWeight = () => {
                         <td><input type="number" step="0.01" min="0" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
                     </tr>
                     <tr>
-                        <td>
-                            {
-                                thicknessRequired ? <div className="text">Thickness</div> : null
-                            }
-                        </td>
-                        <td>
-                            {
-                                thicknessRequired ? <input type="number" step="0.01" min="0" value={thickness} onChange={(e) => setThickness(e.target.value)} /> : null
-                            }
-                        </td>
+                        {
+                            thicknessRequired ?
+                                <>
+                                    <td><div className="text">Thickness</div></td>
+                                    <td><input type="number" step="0.01" min="0" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
+                                </> : null
+                        }
                     </tr>
                 </tbody>
             </table>
@@ -88,6 +110,11 @@ const RingWeight = () => {
                     </tr>
                 </tbody>
             </table>
+
+            <br />
+            <br />
+
+            <History userId={userId} historyType={HistoryType.RING_WEIGHT} updateHistory={updateHistory} />
         </div>
     );
 }

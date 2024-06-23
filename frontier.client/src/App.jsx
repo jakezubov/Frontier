@@ -13,24 +13,20 @@ import MyAccount from './account/MyAccount';
 import LoginConfirmation from './account/LoginConfirmation';
 import RegisterConfirmation from './account/RegisterConfirmation';
 import LogoutConfirmation from './account/LogoutConfirmation';
-import {
-    metalConverterPath, ringWeightPath, ringResizerPath, rollingWirePath,
-    registerPath, loginPath, forgotPasswordPath, myAccountPath,
-    loginConfirmationPath, logoutConfirmationPath, registerConfirmationPath
-} from './Paths.jsx';
+import Path from './constants/Paths';
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false);
     const [userId, setUserId] = useState(null);
 
     const handleRegister = () => {
-        return <Navigate to={registerConfirmationPath} />
+        return <Navigate to={Path.REGISTER_CONFIRMATION} />
     }
 
     const handleLogin = (id) => {
         setUserId(id)
         setLoggedIn(true)
-        return <Navigate to={loginConfirmationPath} />
+        return <Navigate to={Path.LOGIN_CONFIRMATION} />
     }
 
     const handleLogout = () => {
@@ -43,21 +39,21 @@ const App = () => {
             <div>
                 <nav className="navbar">
                     <ul>
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to={metalConverterPath}>Metal Converter</Link></li>
-                        <li><Link to={ringWeightPath}>Ring Weight</Link></li>
-                        <li><Link to={ringResizerPath}>Ring Resizer</Link></li>
-                        <li><Link to={rollingWirePath}>Rolling Wire</Link></li>
+                        <li><Link className="link" to="/">Home</Link></li>
+                        <li><Link className="link" to={Path.METAL_CONVERTER}>Metal Converter</Link></li>
+                        <li><Link className="link" to={Path.RING_WEIGHT}>Ring Weight</Link></li>
+                        <li><Link className="link" to={Path.RING_RESIZER}>Ring Resizer</Link></li>
+                        <li><Link className="link" to={Path.ROLLING_WIRE}>Rolling Wire</Link></li>
                         {
                             loggedIn ?
                                 <>
-                                    <li><Link to={myAccountPath}>My Account</Link></li>
-                                    <li><Link onClick={handleLogout} to={logoutConfirmationPath} >Logout</Link></li>
+                                    <li><Link className="link" to={Path.MY_ACCOUNT}>My Account</Link></li>
+                                    <li><Link className="link" to={Path.LOGOUT_CONFIRMATION} onClick={handleLogout} >Logout</Link></li>
                                 </>
                                 :
                                 <>
-                                    <li><Link to={registerPath}>Register</Link></li>
-                                    <li><Link to={loginPath}>Login</Link></li>
+                                    <li><Link className="link" to={Path.REGISTER}>Register</Link></li>
+                                    <li><Link className="link" to={Path.LOGIN}>Login</Link></li>
                                 </> 
                         }
                     </ul>
@@ -65,17 +61,17 @@ const App = () => {
 
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path={metalConverterPath} element={<MetalConverter />} />
-                    <Route path={ringWeightPath} element={<RingWeight />} />
-                    <Route path={ringResizerPath} element={<RingResizer />} />
-                    <Route path={rollingWirePath} element={<RollingWire />} />
-                    <Route path={registerPath} element={<Register onRegister={handleRegister} />} />
-                    <Route path={loginPath} element={<Login onLogin={handleLogin} />} />
-                    <Route path={forgotPasswordPath} element={<ForgotPassword />} />
-                    <Route path={myAccountPath} element={<MyAccount userId={userId} />} />
-                    <Route path={loginConfirmationPath} element={<LoginConfirmation />} />
-                    <Route path={logoutConfirmationPath} element={<LogoutConfirmation />} />
-                    <Route path={registerConfirmationPath} element={<RegisterConfirmation />} />
+                    <Route path={Path.METAL_CONVERTER} element={<MetalConverter userId={userId} />} />
+                    <Route path={Path.RING_WEIGHT} element={<RingWeight userId={userId} />} />
+                    <Route path={Path.RING_RESIZER} element={<RingResizer userId={userId} />} />
+                    <Route path={Path.ROLLING_WIRE} element={<RollingWire userId={userId} />} />
+                    <Route path={Path.REGISTER} element={<Register onRegister={handleRegister} />} />
+                    <Route path={Path.LOGIN} element={<Login onLogin={handleLogin} />} />
+                    <Route path={Path.FORGOT_PASSWORD} element={<ForgotPassword />} />
+                    <Route path={Path.MY_ACCOUNT} element={<MyAccount userId={userId} />} />
+                    <Route path={Path.LOGIN_CONFIRMATION} element={<LoginConfirmation />} />
+                    <Route path={Path.LOGOUT_CONFIRMATION} element={<LogoutConfirmation />} />
+                    <Route path={Path.REGISTER_CONFIRMATION} element={<RegisterConfirmation />} />
                 </Routes>
             </div>
         </Router>

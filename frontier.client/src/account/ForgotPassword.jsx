@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { registerPath, loginPath } from '../Paths.jsx';
+import Path from '../constants/Paths';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -27,8 +27,8 @@ const ForgotPassword = () => {
             <table>
                 <tbody>
                     <tr>
-                        <td><Link to={loginPath}>Login</Link></td>
-                        <td><Link to={registerPath}>Register</Link></td>
+                        <td><Link to={Path.LOGIN}>Login</Link></td>
+                        <td><Link to={Path.REGISTER}>Register</Link></td>
                     </tr>
                 </tbody>
             </table>

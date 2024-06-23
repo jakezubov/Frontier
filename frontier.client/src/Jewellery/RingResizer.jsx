@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { calculateRingWeight, validateNumber } from '../HelperFunctions';
 import MetalSelector from './MetalSelector';
 import RingSizeSelector from './RingSizeSelector';
 import ProfileSelector from './ProfileSelector';
-import { calculateRingWeight, validateNumber } from '../HelperFunctions';
+import History from '../account/History'
+import HistoryType from '../constants/HistoryTypes';
+import URL from '../constants/URLs';
+import Axios from 'axios';
 
-const RingResizer = () => {
+const RingResizer = ({ userId }) => {
     // Inputs
     const [metal, setMetal] = useState(null);
     const [originalRingSize, setOriginalRingSize] = useState(null);
@@ -19,9 +23,13 @@ const RingResizer = () => {
     const [weightNew, setWeightNew] = useState('');
     const [weightDifference, setWeightDifference] = useState('');
 
-    const handleCalculate = () => {
+    // Other
+    const [updateHistory, setUpdateHistory] = useState(false);
+
+    const handleCalculate = async () => {
         const isDropdownsValid = metal !== undefined && originalRingSize !== undefined && newRingSize !== undefined && profile !== ""
         const isNumbersValid = validateNumber(width) && (!thicknessRequired || validateNumber(thickness));
+        setUpdateHistory(false)
 
         if (isDropdownsValid && isNumbersValid) {
             const calculatedOriginal = calculateRingWeight(profile, parseFloat(width), parseFloat(thickness), originalRingSize.diameter, metal.specificGravity);
@@ -30,12 +38,32 @@ const RingResizer = () => {
             setWeightOriginal(calculatedOriginal.toFixed(2) + "g");
             setWeightNew(calculatedNew.toFixed(2) + "g");
             setWeightDifference((calculatedNew - calculatedOriginal).toFixed(2) + "g");
+
+            const weightOriginalValue = calculatedOriginal.toFixed(2) + "g";
+            const weightNewValue = calculatedNew.toFixed(2) + "g";
+
+            const content = thicknessRequired
+                ? `${originalRingSize.name} (${weightOriginalValue}) -> ${newRingSize.name} (${weightNewValue}) | ${metal.name} | ${profile} | ${width}mm x ${thickness}mm`
+                : `${originalRingSize.name} (${weightOriginalValue}) -> ${newRingSize.name} (${weightNewValue}) | ${metal.name} | ${profile} | ${width}mm x ${width}mm`
+
+            try {
+                userId !== null ?
+                    await Axios.put(URL.ADD_HISTORY(userId), {
+                        'historyType': HistoryType.RING_RESIZER,
+                        'content': content
+                    }) : null
+                setUpdateHistory(true)
+            }
+            catch (error) {
+                console.log(error)
+                alert('There was an error submitting the form!')
+            }
         }
         else {
             setWeightOriginal("Invalid Input");
             setWeightNew("Invalid Input");
             setWeightDifference("Invalid Input");
-        }
+        }      
     }
 
     const handleMetalChange = (metal) => {
@@ -83,16 +111,13 @@ const RingResizer = () => {
                         <td><input type="number" step="0.01" min="0" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
                     </tr>
                     <tr>
-                        <td>
-                            {
-                                thicknessRequired ? <div className="text">Thickness</div> : null
-                            }
-                        </td>
-                        <td>
-                            {
-                                thicknessRequired ? <input type="number" step="0.01" min="0" value={thickness} onChange={(e) => setThickness(e.target.value)} /> : null
-                            }
-                        </td>
+                        {
+                            thicknessRequired ?
+                                <>
+                                    <td><div className="text">Thickness</div></td>
+                                    <td><input type="number" step="0.01" min="0" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
+                                </> : null
+                        }
                     </tr>
                 </tbody>
             </table>
@@ -115,6 +140,11 @@ const RingResizer = () => {
                     </tr>
                 </tbody>
             </table>
+
+            <br />
+            <br />
+
+            <History userId={userId} historyType={HistoryType.RING_RESIZER} updateHistory={updateHistory} />
         </div>
     );
 }

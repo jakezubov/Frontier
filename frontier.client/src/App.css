@@ -38,6 +38,11 @@ table {
         padding: 8px;
     }
 
+.link {
+    color: black;
+    font-size: 24px;
+}
+
 .inline-button {
     padding: 8px;
     border: 1px solid #ccc;
@@ -59,9 +64,16 @@ table {
     left: 0;
     padding: 20px;
     text-align: left;
+    background-color: lightgray;
+    height: 100%;
 }
     .navbar ul {
         list-style: none; /* Removes default list styles */
-        margin: 0;
-        padding: 0;
+        margin: 20px;
+        padding: 0px;
     }
+
+.history {
+    padding: 5px;
+    list-style: none;
+}

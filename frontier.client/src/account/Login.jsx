@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { registerPath, forgotPasswordPath } from '../Paths.jsx';
+import Path from '../constants/Paths';
+import URL from '../constants/URLs';
 import Axios from 'axios';
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
-    var url = `http://localhost:5221/api/Users/Validate`
 
     const handleSubmit = async () => {
         if (email === '' || password === '') {
@@ -16,7 +15,7 @@ const Login = ({ onLogin }) => {
         }
 
         try {
-            const response = await Axios.get(url, {
+            const response = await Axios.get(URL.VALIDATE_USER, {
                 params: {
                     email: email,
                     password: password
@@ -58,10 +57,10 @@ const Login = ({ onLogin }) => {
 
                 <table>
                     <tbody>
-                        <tr>
-                            <td><Link to={registerPath}>Register</Link></td>
-                            <td><Link to={forgotPasswordPath}>Forgot Password</Link></td>
-                        </tr>
+                    <tr>
+                        <td><Link to={Path.REGISTER}>Register</Link></td>
+                        <td><Link to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
+                    </tr>
                     </tbody>
                 </table>
             </div>

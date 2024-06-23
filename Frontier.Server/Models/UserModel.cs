@@ -2,7 +2,6 @@
 
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using DataAccess;
 
 public class UserModel
 {
@@ -16,9 +15,7 @@ public class UserModel
     public required string PasswordHash { get; set; }
     public string? Salt { get; set; }
     public int HistoryAmount { get; set; } = 10;
-    public List<MetalModel>? MetalModels { get; set; }
-    public List<RingSizeModel>? RingSizes { get; set; }
-
-    // history
-
+    public List<HistoryModel> History { get; set; } = new List<HistoryModel>();
+    public List<MetalModel> Metals { get; set; } = new List<MetalModel>();
+    public List<RingSizeModel> RingSizes { get; set; } = new List<RingSizeModel>();
 }

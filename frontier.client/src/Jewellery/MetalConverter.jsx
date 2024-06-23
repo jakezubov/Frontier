@@ -1,26 +1,41 @@
 import { useState } from 'react';
-import MetalSelector from './MetalSelector';
-import History from './History';
 import { validateNumber } from '../HelperFunctions';
+import MetalSelector from './MetalSelector';
+import History from '../account/History'
+import HistoryType from '../constants/HistoryTypes';
+import URL from '../constants/URLs';
+import Axios from 'axios';
 
-const MetalConverter = () => {
-    // Inputs
+const MetalConverter = ({ userId }) => {
     const [originalMetal, setOriginalMetal] = useState(null);
     const [newMetal, setNewMetal] = useState(null);
     const [weight, setWeight] = useState('');
-
-    // Calculated
     const [convertedWeight, setConvertedWeight] = useState('');
+    const [updateHistory, setUpdateHistory] = useState(false);
 
-    const handleCalculate = () => {
+    const handleCalculate = async () => {
         const isDropdownsValid = originalMetal !== undefined && newMetal !== undefined
         const isNumbersValid = validateNumber(weight);
+        setUpdateHistory(false)
 
         const calculatedWeight = isDropdownsValid && isNumbersValid ?
             (weight * (1.0 / originalMetal.specificGravity) * newMetal.specificGravity).toFixed(2) + "g"
             : "Invalid Input";
 
         setConvertedWeight(calculatedWeight);
+
+        try {
+            calculatedWeight !== "Invalid Input" && userId !== null ?
+                await Axios.put(URL.ADD_HISTORY(userId), {
+                    'historyType': HistoryType.METAL_CONVERTER,
+                    'content': `${originalMetal.name} (${weight}g) -> ${newMetal.name} (${calculatedWeight})`
+                }) : null;
+            setUpdateHistory(true)
+        }
+        catch (error) {
+            console.log(error)
+            alert('There was an error submitting the form!')
+        }
     }
 
     const handleOriginalMetalChange = (metal) => {
@@ -66,7 +81,7 @@ const MetalConverter = () => {
             <br />
             <br />
 
-            <History></History>
+            <History userId={userId} historyType={HistoryType.METAL_CONVERTER} updateHistory={updateHistory} />
         </div>
     );
 }

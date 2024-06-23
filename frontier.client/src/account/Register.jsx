@@ -1,6 +1,7 @@
 import { useState } from 'react'; 
 import { Link } from 'react-router-dom';
-import { loginPath, forgotPasswordPath } from '../Paths.jsx';
+import Path from '../constants/Paths';
+import URL from '../constants/URLs';
 import Axios from 'axios';
 
 const Register = ({ onRegister }) => {
@@ -9,8 +10,6 @@ const Register = ({ onRegister }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-
-    const url = `http://localhost:5221/api/Users`
 
     const handleSubmit = async () => {
         if (firstName === '' || lastName === '' || email === '' || password === '' || confirmPassword === '') {
@@ -24,7 +23,7 @@ const Register = ({ onRegister }) => {
         }
 
         try {
-            await Axios.post(url, {
+            await Axios.post(URL.CREATE_USER, {
                 'FirstName': firstName,
                 'LastName': lastName,
                 'Email': email,
@@ -74,8 +73,8 @@ const Register = ({ onRegister }) => {
             <table>
                 <tbody>
                     <tr>
-                        <td><Link to={loginPath}>Login</Link></td>
-                        <td><Link to={forgotPasswordPath}>Forgot Password</Link></td>
+                        <td><Link to={Path.LOGIN}>Login</Link></td>
+                        <td><Link to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
                     </tr>
                 </tbody>
             </table>
