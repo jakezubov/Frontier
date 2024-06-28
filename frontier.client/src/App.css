@@ -5,7 +5,7 @@
     text-align: center;
 }
 
-h1 {
+h1,h2,h3,h4,h5,h6 {
     text-align: center;
 }
 
@@ -35,7 +35,7 @@ table {
 }
 
     table td, table th {
-        padding: 8px;
+        padding: 6px;
     }
 
 .link {
@@ -77,3 +77,13 @@ table {
     padding: 5px;
     list-style: none;
 }
+
+.simple-button {
+    padding: 5px;
+    background-color: white;
+    margin: 5px;
+}
+
+    .simple-button:hover {
+        background-color: #45a049;
+    }

@@ -4,12 +4,12 @@ import HistoryType from '../constants/HistoryTypes';
 import URL from '../constants/URLs';
 import Axios from 'axios';
 
-const History = ({ userId, historyType, updateHistory }) => {
+const History = ({ userId, historyType, refresh }) => {
     const [history, setHistory] = useState([]);
 
     useEffect(() => {
         if (userId) loadHistory();
-    }, [updateHistory]);
+    }, [refresh]);
 
     const loadHistory = async () => {
         try {
@@ -43,7 +43,8 @@ const History = ({ userId, historyType, updateHistory }) => {
 
 History.propTypes = {
     userId: PropTypes.string,
-    historyType: PropTypes.oneOf(Object.values(HistoryType)).isRequired
+    historyType: PropTypes.oneOf(Object.values(HistoryType)).isRequired,
+    refresh: PropTypes.string
 };
 
 export default History;

@@ -21,12 +21,11 @@ const RingWeight = ({ userId }) => {
     const [weight, setWeight] = useState('');
 
     // Other
-    const [updateHistory, setUpdateHistory] = useState(false);
+    const [refresh, setRefresh] = useState('');
 
     const handleCalculate = async () => {
         const isDropdownsValid = metal !== undefined && ringSize !== undefined && profile !== ""
         const isNumbersValid = validateNumber(width) && (!thicknessRequired || validateNumber(thickness));
-        setUpdateHistory(false)
 
         const calculatedWeight = isDropdownsValid && isNumbersValid ?
             calculateRingWeight(profile, parseFloat(width), parseFloat(thickness), ringSize.diameter, metal.specificGravity).toFixed(2) + "g"
@@ -40,11 +39,11 @@ const RingWeight = ({ userId }) => {
 
         try {
             calculatedWeight !== "Invalid Input" && userId !== null ?
-                await Axios.put(URL.ADD_HISTORY(userId), {
+                await Axios.put(URL.CREATE_HISTORY(userId), {
                     'historyType': HistoryType.RING_WEIGHT,
                     'content': content
                 }) : null;
-            setUpdateHistory(true)
+            setRefresh(Date().toLocaleTimeString())
         }
         catch (error) {
             console.log(error)
@@ -74,15 +73,15 @@ const RingWeight = ({ userId }) => {
                 <tbody>
                     <tr>
                         <td>Metal</td>
-                        <td><MetalSelector label="Metal" onMetalChange={handleMetalChange} /></td>
+                        <td><MetalSelector userId={userId} label="Metal" onMetalChange={handleMetalChange} /></td>
                     </tr>
                     <tr>
                         <td>Ring Size</td>
-                        <td><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></td>
+                        <td><RingSizeSelector userId={userId} label="Ring Size" onSizeChange={handleRingSizeChange} /></td>
                     </tr>
                     <tr>
                         <td>Profile</td>
-                        <td><ProfileSelector label="Profile" onProfileChange={handleProfileChange} /></td>
+                        <td><ProfileSelector userId={userId} label="Profile" onProfileChange={handleProfileChange} /></td>
                     </tr>
                     <tr>
                         <td>Width</td>
@@ -114,7 +113,7 @@ const RingWeight = ({ userId }) => {
             <br />
             <br />
 
-            <History userId={userId} historyType={HistoryType.RING_WEIGHT} updateHistory={updateHistory} />
+            <History userId={userId} historyType={HistoryType.RING_WEIGHT} refresh={refresh} />
         </div>
     );
 }

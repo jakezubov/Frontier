@@ -9,6 +9,7 @@ public class Defaults
 
     public List<MetalModel> Metals = new List<MetalModel>
         {
+            new MetalModel { Name = "Wax", SpecificGravity = 1 },
             new MetalModel { Name = "Fine Silver", SpecificGravity = 10.64 },
             new MetalModel { Name = "Sterling Silver", SpecificGravity = 10.55 },
             new MetalModel { Name = "Fine Gold", SpecificGravity = 19.36 },
@@ -22,7 +23,6 @@ public class Defaults
             new MetalModel { Name = "14ct Pink Gold", SpecificGravity = 14 },
             new MetalModel { Name = "18ct Pink Gold", SpecificGravity = 15.45 },
             new MetalModel { Name = "Platinum", SpecificGravity = 21.24 },
-            new MetalModel { Name = "Wax", SpecificGravity = 1 },
         };
 
     public List<RingSizeModel> RingSizes = new List<RingSizeModel>

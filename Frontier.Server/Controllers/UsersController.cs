@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Frontier.Server.DataAccess;
 using Frontier.Server.Models;
+using Frontier.Server.Controllers;
+
 namespace Frontier.Server.Controllers
 {
     [Route("api/[controller]")]
@@ -8,6 +10,7 @@ namespace Frontier.Server.Controllers
     public class UsersController : ControllerBase
     {
         UserDataAccess db = new UserDataAccess();
+        DefaultsController defaults = new DefaultsController();
 
         #region User APIs
         // Get All Users
@@ -106,8 +109,8 @@ namespace Frontier.Server.Controllers
         }
 
         // Add History
-        [HttpPut("history/{id}")]
-        public async Task<IActionResult> PutHistory(string id, HistoryModel newHistory)
+        [HttpPost("history/{id}")]
+        public async Task<IActionResult> CreateHistory(string id, HistoryModel newHistory)
         {
             // Check if the user exists
             UserModel user = await db.GetUser(id);
@@ -140,6 +143,88 @@ namespace Frontier.Server.Controllers
 
             // Clear the history and update
             user.History.Clear();
+            await db.UpdateUser(user);
+            return Ok();
+        }
+        #endregion
+
+        #region Metal APIs
+        // Get Metals
+        [HttpGet("{userId}/metals")]
+        public async Task<IActionResult> GetMetals(string userId)
+        {
+            // Check if the user exists and if it does return the metals
+            UserModel user = await db.GetUser(userId);
+            if (user == null) return NotFound("User not found");
+            return Ok(user.Metals);
+        }
+
+        // Update Metals
+        [HttpPut("{userId}/metals/update")]
+        public async Task<IActionResult> UpdateMetals(string userId, List<MetalModel> updatedMetals)
+        {
+            // Check if the user exists
+            UserModel user = await db.GetUser(userId);
+            if (user == null) return NotFound("User not found");
+
+            user.Metals = updatedMetals;
+            await db.UpdateUser(user);
+            return Ok();
+        }
+
+        // Reset Metals
+        [HttpPut("{userId}/metals/reset")]
+        public async Task<IActionResult> ResetMetals(string userId)
+        {
+            // Check if the user exists
+            UserModel user = await db.GetUser(userId);
+            if (user == null) return NotFound("User not found");
+
+            // Get the default metals and replace current ones
+            IEnumerable<MetalModel> metals = await defaults.GetDefaultMetals();
+            user.Metals = metals.ToList();
+
+            await db.UpdateUser(user);
+            return Ok();
+        }
+        #endregion
+
+        #region Ring Size APIs
+        // Get Ring Sizes
+        [HttpGet("{userId}/ring-sizes")]
+        public async Task<IActionResult> GetRingSizes(string userId)
+        {
+            // Check if the user exists and if it does return the ring sizes
+            UserModel user = await db.GetUser(userId);
+            if (user == null) return NotFound("User not found");
+            return Ok(user.RingSizes);
+        }
+
+        // Update Ring Sizes
+        [HttpPut("{userId}/ring-sizes/update")]
+        public async Task<IActionResult> UpdateRingSizes(string userId, List<RingSizeModel> updatedRingSizes)
+        {
+            // Check if the user exists
+            UserModel user = await db.GetUser(userId);
+            if (user == null) return NotFound("User not found");
+
+            user.RingSizes = updatedRingSizes;
+            await db.UpdateUser(user);
+            return Ok();
+        }
+
+        // Reset Ring Sizes
+        [HttpPut("{userId}/ring-sizes/reset")]
+        public async Task<IActionResult> ResetRingSizes(string userId)
+        {
+            // Check if the user exists
+            UserModel user = await db.GetUser(userId);
+            if (user == null) return NotFound("User not found");
+
+            // Get the default ring sizes and replace current ones
+            IEnumerable<RingSizeModel> ringSizes = await defaults.GetDefaultRingSizes();
+            user.RingSizes = ringSizes.ToList();
+
             await db.UpdateUser(user);
             return Ok();
         }

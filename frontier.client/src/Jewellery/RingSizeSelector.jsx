@@ -1,42 +1,35 @@
 import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
+import URL from '../constants/URLs';
+import Axios from 'axios';
 
-const RingSizes = [
-    { letterSize: "A", numberSize: 0.5, diameter: 12.04 },
-    { letterSize: "B", numberSize: 1.0, diameter: 12.45 },
-    { letterSize: "C", numberSize: 1.5, diameter: 12.85 },
-    { letterSize: "D", numberSize: 2.0, diameter: 13.26 },
-    { letterSize: "E", numberSize: 2.5, diameter: 13.67 },
-    { letterSize: "F", numberSize: 3.0, diameter: 14.07 },
-    { letterSize: "G", numberSize: 3.5, diameter: 14.48 },
-    { letterSize: "H", numberSize: 4.0, diameter: 14.88 },
-    { letterSize: "I", numberSize: 4.5, diameter: 15.29 },
-    { letterSize: "J", numberSize: 5.0, diameter: 15.49 },
-    { letterSize: "K", numberSize: 5.5, diameter: 15.90 },
-    { letterSize: "L", numberSize: 6.0, diameter: 16.31 },
-    { letterSize: "M", numberSize: 6.5, diameter: 16.71 },
-    { letterSize: "N", numberSize: 7.0, diameter: 17.12 },
-    { letterSize: "O", numberSize: 7.5, diameter: 17.53 },
-    { letterSize: "P", numberSize: 8.0, diameter: 17.93 },
-    { letterSize: "Q", numberSize: 8.5, diameter: 18.34 },
-    { letterSize: "R", numberSize: 9.0, diameter: 18.75 },
-    { letterSize: "S", numberSize: 9.5, diameter: 19.15 },
-    { letterSize: "T", numberSize: 10.0, diameter: 19.56 },
-    { letterSize: "U", numberSize: 10.5, diameter: 19.96 },
-    { letterSize: "V", numberSize: 11.0, diameter: 20.37 },
-    { letterSize: "W", numberSize: 11.5, diameter: 20.78 },
-    { letterSize: "X", numberSize: 12.0, diameter: 21.18 },
-    { letterSize: "Y", numberSize: 12.5, diameter: 21.59 },
-    { letterSize: "Z", numberSize: 13.0, diameter: 21.79 },
-].map(ringSize => ({
-    ...ringSize,
-    name: `${ringSize.letterSize} / ${ringSize.numberSize}`
-}));
+const RingSizeSelector = ({ userId, label, onSizeChange, refresh }) => {
+    const [ringSizes, setRingSizes] = useState([]);
 
-const RingSizeSelector = ({ label, onSizeChange }) => {
+    useEffect(() => {
+        loadRingSizes();
+    }, [refresh]);
+
+    const loadRingSizes = async () => {
+        try {
+            if (userId) {
+                const response = await Axios.get(URL.GET_USER_RING_SIZES(userId));
+                setRingSizes(response.data)
+            }
+            else {
+                const response = await Axios.get(URL.GET_DEFAULT_RING_SIZES);
+                setRingSizes(response.data)
+            }
+        }
+        catch (error) {
+            console.log(error)
+            alert('There was an error loading ring sizes!')
+        }
+    }
+
     const handleSizeChange = (e) => {
         const selectedSizeName = e.target.value;
-        const selectedSize = RingSizes.find(ringSize => ringSize.name === selectedSizeName);
-
+        const selectedSize = ringSizes.find(ringSize => ringSize.name === selectedSizeName);
         if (onSizeChange) {
             onSizeChange(selectedSize);
         }
@@ -46,7 +39,7 @@ const RingSizeSelector = ({ label, onSizeChange }) => {
         <select aria-label={label} onChange={handleSizeChange}>
             <option value=""></option>
             {
-                RingSizes.map((ringSize, index) => (
+                ringSizes.map((ringSize, index) => (
                     <option key={index} value={ringSize.name}>{ringSize.name}</option>
                 ))
             }
@@ -55,8 +48,10 @@ const RingSizeSelector = ({ label, onSizeChange }) => {
 }
 
 RingSizeSelector.propTypes = {
+    userId: PropTypes.string,
     label: PropTypes.string.isRequired,
     onSizeChange: PropTypes.func.isRequired,
+    refresh: PropTypes.bool
 }
 
 export default RingSizeSelector;

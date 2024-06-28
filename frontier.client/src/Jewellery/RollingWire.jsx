@@ -85,7 +85,7 @@ const RollingWire = ({ userId }) => {
                         <td>
                             {
                                 lengthRingSizeSwitch ? <input type="number" step="0.01" value={length} onChange={(e) => setLength(e.target.value)} /> :
-                                    <div><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></div>
+                                    <div><RingSizeSelector userId={userId} label="Ring Size" onSizeChange={handleRingSizeChange} /></div>
                             }
                         </td>
                     </tr>

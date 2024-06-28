@@ -11,12 +11,11 @@ const MetalConverter = ({ userId }) => {
     const [newMetal, setNewMetal] = useState(null);
     const [weight, setWeight] = useState('');
     const [convertedWeight, setConvertedWeight] = useState('');
-    const [updateHistory, setUpdateHistory] = useState(false);
+    const [refresh, setRefresh] = useState('');
 
     const handleCalculate = async () => {
         const isDropdownsValid = originalMetal !== undefined && newMetal !== undefined
         const isNumbersValid = validateNumber(weight);
-        setUpdateHistory(false)
 
         const calculatedWeight = isDropdownsValid && isNumbersValid ?
             (weight * (1.0 / originalMetal.specificGravity) * newMetal.specificGravity).toFixed(2) + "g"
@@ -26,11 +25,11 @@ const MetalConverter = ({ userId }) => {
 
         try {
             calculatedWeight !== "Invalid Input" && userId !== null ?
-                await Axios.put(URL.ADD_HISTORY(userId), {
+                await Axios.put(URL.CREATE_HISTORY(userId), {
                     'historyType': HistoryType.METAL_CONVERTER,
                     'content': `${originalMetal.name} (${weight}g) -> ${newMetal.name} (${calculatedWeight})`
                 }) : null;
-            setUpdateHistory(true)
+            setRefresh(Date().toLocaleTimeString())
         }
         catch (error) {
             console.log(error)
@@ -54,11 +53,11 @@ const MetalConverter = ({ userId }) => {
                 <tbody>
                     <tr>
                         <td>Original Metal</td>
-                        <td><MetalSelector label="Original Metal" onMetalChange={handleOriginalMetalChange} /></td>
+                        <td><MetalSelector userId={userId} label="Original Metal" onMetalChange={handleOriginalMetalChange} /></td>
                     </tr>
                     <tr>
                         <td>New Metal</td>
-                        <td><MetalSelector label="New Metal" onMetalChange={handleNewMetalChange} /></td>
+                        <td><MetalSelector userId={userId} label="New Metal" onMetalChange={handleNewMetalChange} /></td>
                     </tr>
                     <tr>
                         <td>Weight</td>
@@ -81,7 +80,7 @@ const MetalConverter = ({ userId }) => {
             <br />
             <br />
 
-            <History userId={userId} historyType={HistoryType.METAL_CONVERTER} updateHistory={updateHistory} />
+            <History userId={userId} historyType={HistoryType.METAL_CONVERTER} refresh={refresh} />
         </div>
     );
 }
