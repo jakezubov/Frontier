@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { calculateRingWeight, validateNumber } from '../HelperFunctions';
-import MetalSelector from './MetalSelector';
-import RingSizeSelector from './RingSizeSelector';
-import ProfileSelector from './ProfileSelector';
-import History from '../account/History'
-import HistoryType from '../constants/HistoryTypes';
-import URL from '../constants/URLs';
-import Axios from 'axios';
+import PropTypes from 'prop-types'
+import Axios from 'axios'
+import { useState } from 'react'
+import { calculateRingWeight, validateNumber } from '../constants/HelperFunctions'
+import JewelleryPage from '../constants/JewelleryPages'
+import URL from '../constants/URLs'
+import MetalSelector from '../components/MetalSelector'
+import RingSizeSelector from '../components/RingSizeSelector'
+import ProfileSelector from '../components/ProfileSelector'
 
-const RingWeight = ({ userId }) => {
+const RingWeight = ({ userId, onRefresh }) => {
     // Inputs
     const [metal, setMetal] = useState(null);
     const [ringSize, setRingSize] = useState(null);
@@ -19,9 +19,6 @@ const RingWeight = ({ userId }) => {
     // Calculated
     const [thicknessRequired, setThicknessRequired] = useState(true);
     const [weight, setWeight] = useState('');
-
-    // Other
-    const [refresh, setRefresh] = useState('');
 
     const handleCalculate = async () => {
         const isDropdownsValid = metal !== undefined && ringSize !== undefined && profile !== ""
@@ -40,14 +37,14 @@ const RingWeight = ({ userId }) => {
         try {
             calculatedWeight !== "Invalid Input" && userId !== null ?
                 await Axios.put(URL.CREATE_HISTORY(userId), {
-                    'historyType': HistoryType.RING_WEIGHT,
+                    'historyType': JewelleryPage.RING_WEIGHT,
                     'content': content
                 }) : null;
-            setRefresh(Date().toLocaleTimeString())
+            onRefresh(new Date().toLocaleTimeString())
         }
         catch (error) {
             console.log(error)
-            alert('There was an error submitting the form!')
+            alert('There was an error adding the history!')
         }
     }
 
@@ -109,13 +106,13 @@ const RingWeight = ({ userId }) => {
                     </tr>
                 </tbody>
             </table>
-
-            <br />
-            <br />
-
-            <History userId={userId} historyType={HistoryType.RING_WEIGHT} refresh={refresh} />
         </div>
     );
+}
+
+RingWeight.propTypes = {
+    userId: PropTypes.string,
+    onRefresh: PropTypes.func.isRequired,
 }
 
 export default RingWeight;

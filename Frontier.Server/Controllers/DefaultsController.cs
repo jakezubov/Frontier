@@ -8,8 +8,8 @@ namespace Frontier.Server.Controllers
     [ApiController]
     public class DefaultsController : ControllerBase
     {
-        MetalDataAccess dbMetals = new MetalDataAccess();
-        RingSizeDataAccess dbRingSizes = new RingSizeDataAccess();
+        readonly MetalDataAccess dbMetals = new();
+        readonly RingSizeDataAccess dbRingSizes = new();
 
         // Get Default Metals
         [HttpGet("metals")]

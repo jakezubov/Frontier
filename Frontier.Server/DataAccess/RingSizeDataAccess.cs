@@ -5,9 +5,9 @@ using MongoDB.Driver;
 
 public class RingSizeDataAccess
 {
-    private string ConnectionString = "mongodb://localhost:27017";
-    private string DatabaseName = "frontier";
-    private string RingSizeCollection = "ring_size_defaults";
+    private readonly string ConnectionString = "mongodb://localhost:27017";
+    private readonly string DatabaseName = "frontier";
+    private readonly string RingSizeCollection = "ring_size_defaults";
 
     private IMongoCollection<T> ConnectToMongo<T>(in string collection)
     {

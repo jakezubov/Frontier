@@ -19,7 +19,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-Defaults defaults = new Defaults();
+Defaults defaults = new();
 await defaults.LoadMetalDefaults();
 await defaults.LoadRingSizeDefaults();
 

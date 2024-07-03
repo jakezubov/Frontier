@@ -1,8 +1,8 @@
+import Axios from 'axios';
 import { useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import Path from '../constants/Paths';
 import URL from '../constants/URLs';
-import Axios from 'axios';
 
 const Register = ({ onRegister }) => {
     const [firstName, setFirstName] = useState('');

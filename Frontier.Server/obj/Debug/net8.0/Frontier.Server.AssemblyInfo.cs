@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Frontier.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ae452afa252bfbcfbf96d894e2223ec6aed23b8a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0e75a4e1b03217aae68adff93813f6e1aed4b4b8")]
 [assembly: System.Reflection.AssemblyProductAttribute("Frontier.Server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Frontier.Server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

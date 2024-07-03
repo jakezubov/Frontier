@@ -3,16 +3,16 @@ const prefix = 'http://localhost:5221'
 const URL = {
     /** User */
     GET_ALL_USERS: `${prefix}/api/users`,
-    GET_USER: (id) => `${prefix}/api/users/${id}`,
+    GET_USER: (userId) => `${prefix}/api/users/${userId}`,
     VALIDATE_USER: `${prefix}/api/users/validate`,
-    CREATE_USER: `${prefix}/api/users`,
-    UPDATE_USER: (id) => `${prefix}/api/users/${id}`,
-    DELETE_USER: (id) => `${prefix}/api/users/${id}`,
+    CREATE_USER: `${prefix}/api/users/create`,
+    UPDATE_USER: (userId) => `${prefix}/api/users/${userId}/update`,
+    DELETE_USER: (userId) => `${prefix}/api/users/${userId}/delete`,
 
     /** History */
-    GET_HISTORY: (id) => `${prefix}/api/users/history/${id}`,
-    CREATE_HISTORY: (id) => `${prefix}/api/users/history/${id}`,
-    DELETE_HISTORY: (id) => `${prefix}/api/users/history/${id}`,
+    GET_HISTORY: (userId) => `${prefix}/api/users/${userId}/history`,
+    CREATE_HISTORY: (userId) => `${prefix}/api/users/${userId}/history/create`,
+    DELETE_HISTORY: (userId) => `${prefix}/api/users/${userId}/history/delete`,
 
     /** Metals */
     GET_METALS: (userId) => `${prefix}/api/users/${userId}/metals`,

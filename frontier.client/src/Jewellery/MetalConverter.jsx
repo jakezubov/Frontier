@@ -1,17 +1,17 @@
-import { useState } from 'react';
-import { validateNumber } from '../HelperFunctions';
-import MetalSelector from './MetalSelector';
-import History from '../account/History'
-import HistoryType from '../constants/HistoryTypes';
-import URL from '../constants/URLs';
-import Axios from 'axios';
+import PropTypes from 'prop-types'
+import Axios from 'axios'
+import { useState } from 'react'
+import { validateNumber } from '../constants/HelperFunctions'
+import JewelleryPage from '../constants/JewelleryPages'
+import URL from '../constants/URLs'
+import MetalSelector from '../components/MetalSelector'
 
-const MetalConverter = ({ userId }) => {
+
+const MetalConverter = ({ userId, onRefresh }) => {
     const [originalMetal, setOriginalMetal] = useState(null);
     const [newMetal, setNewMetal] = useState(null);
     const [weight, setWeight] = useState('');
     const [convertedWeight, setConvertedWeight] = useState('');
-    const [refresh, setRefresh] = useState('');
 
     const handleCalculate = async () => {
         const isDropdownsValid = originalMetal !== undefined && newMetal !== undefined
@@ -26,14 +26,14 @@ const MetalConverter = ({ userId }) => {
         try {
             calculatedWeight !== "Invalid Input" && userId !== null ?
                 await Axios.put(URL.CREATE_HISTORY(userId), {
-                    'historyType': HistoryType.METAL_CONVERTER,
+                    'historyType': JewelleryPage.METAL_CONVERTER,
                     'content': `${originalMetal.name} (${weight}g) -> ${newMetal.name} (${calculatedWeight})`
                 }) : null;
-            setRefresh(Date().toLocaleTimeString())
+            onRefresh(new Date().toLocaleTimeString())
         }
         catch (error) {
             console.log(error)
-            alert('There was an error submitting the form!')
+            alert('There was an error adding the history!')
         }
     }
 
@@ -76,13 +76,13 @@ const MetalConverter = ({ userId }) => {
                     </tr>
                 </tbody>
             </table>
-
-            <br />
-            <br />
-
-            <History userId={userId} historyType={HistoryType.METAL_CONVERTER} refresh={refresh} />
         </div>
     );
+}
+
+MetalConverter.propTypes = {
+    userId: PropTypes.string,
+    onRefresh: PropTypes.func.isRequired,
 }
 
 export default MetalConverter;

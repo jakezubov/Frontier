@@ -4,11 +4,11 @@ using Models;
 
 public class Defaults
 {
-    MetalDataAccess metalDB = new MetalDataAccess();
-    RingSizeDataAccess ringSizeDB = new RingSizeDataAccess();
+    private readonly MetalDataAccess metalDB = new();
+    private readonly RingSizeDataAccess ringSizeDB = new();
 
-    public List<MetalModel> Metals = new List<MetalModel>
-        {
+    private readonly List<MetalModel> Metals =
+        [
             new MetalModel { Name = "Wax", SpecificGravity = 1 },
             new MetalModel { Name = "Fine Silver", SpecificGravity = 10.64 },
             new MetalModel { Name = "Sterling Silver", SpecificGravity = 10.55 },
@@ -23,10 +23,10 @@ public class Defaults
             new MetalModel { Name = "14ct Pink Gold", SpecificGravity = 14 },
             new MetalModel { Name = "18ct Pink Gold", SpecificGravity = 15.45 },
             new MetalModel { Name = "Platinum", SpecificGravity = 21.24 },
-        };
+        ];
 
-    public List<RingSizeModel> RingSizes = new List<RingSizeModel>
-        {
+    private readonly List<RingSizeModel> RingSizes =
+        [
             new RingSizeModel { LetterSize = "A", NumberSize = 0.5, Diameter = 12.04 },
             new RingSizeModel { LetterSize = "B", NumberSize = 1, Diameter = 12.45 },
             new RingSizeModel { LetterSize = "C", NumberSize = 1.5, Diameter = 12.85 },
@@ -53,7 +53,7 @@ public class Defaults
             new RingSizeModel { LetterSize = "X", NumberSize = 12, Diameter = 21.18 },
             new RingSizeModel { LetterSize = "Y", NumberSize = 12.5, Diameter = 21.59 },
             new RingSizeModel { LetterSize = "Z", NumberSize = 13, Diameter = 21.79 },
-        };
+        ];
 
     public async Task LoadMetalDefaults()
     {

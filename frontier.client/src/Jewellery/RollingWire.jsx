@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { validateNumber } from '../HelperFunctions';
-import RingSizeSelector from './RingSizeSelector';
-import ProfileSelector from './ProfileSelector';
+import { validateNumber } from '../constants/HelperFunctions';
+import RingSizeSelector from '../components/RingSizeSelector';
+import ProfileSelector from '../components/ProfileSelector';
 
 const RollingWire = ({ userId }) => {
     // Inputs

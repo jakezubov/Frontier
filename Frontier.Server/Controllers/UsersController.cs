@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Frontier.Server.DataAccess;
 using Frontier.Server.Models;
-using Frontier.Server.Controllers;
 
 namespace Frontier.Server.Controllers
 {
@@ -9,8 +8,8 @@ namespace Frontier.Server.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        UserDataAccess db = new UserDataAccess();
-        DefaultsController defaults = new DefaultsController();
+        readonly UserDataAccess db = new();
+        readonly DefaultsController defaults = new();
 
         #region User APIs
         // Get All Users
@@ -18,19 +17,26 @@ namespace Frontier.Server.Controllers
         public async Task<IEnumerable<UserModel>> GetAllUsers() => await db.GetAllUsers();
 
         // Get User
-        [HttpGet("{id}")]
-        public async Task<UserModel> GetUser(string id) => await db.GetUser(id);
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetUser(string userId)
+        {
+            // Check if the user exists
+            UserModel user = await db.GetUser(userId);
+            if (user == null) return NotFound("User not found");
+            await db.GetUser(userId);
+            return Ok(user);
+        }
 
         // Validate User
-        [HttpGet("validate")]
-        public async Task<IActionResult> ValidateUser(string email, string password)
+        [HttpPost("validate")]
+        public async Task<IActionResult> ValidateUser([FromBody] CredentialsModel credentials)
         {
             // Get the user from the email
-            UserModel user = await db.ValidateUser(email);
+            UserModel user = await db.ValidateUser(credentials.Email);
             if (user == null) return NotFound("User not found");
 
             // Hash supplied password and check if it matches the user password
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(password, user.Salt);
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(credentials.Password, user.Salt);
             bool isValid = passwordHash == user.PasswordHash;
             if (!isValid) return Unauthorized("Password is incorrect");
 
@@ -38,7 +44,7 @@ namespace Frontier.Server.Controllers
         }
 
         // Create User
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateUser(UserModel user)
         {
             // Hash the password and add the salt to the user
@@ -51,12 +57,12 @@ namespace Frontier.Server.Controllers
         }
 
         // Update User Details
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser([FromBody] UserModel updateUser, bool isNewPassword)
+        [HttpPut("{userId}/update")]
+        public async Task<IActionResult> UpdateUser(string userId, UserModel updateUser, bool isNewPassword)
         {
             // Check if the user exists in MongoDB
-            if (updateUser.Id != null) {
-                UserModel user = await db.GetUser(updateUser.Id);
+            if (userId != null) {
+                UserModel user = await db.GetUser(userId);
                 if (user == null) return NotFound("User not found");
 
                 // If the HistoryAmount becomes less then current amount remove all old values down to the current amount
@@ -93,27 +99,34 @@ namespace Frontier.Server.Controllers
         }
 
         // Delete User
-        [HttpDelete("{id}")]
-        public void DeleteUser(UserModel user) => db.DeleteUser(user);
+        [HttpDelete("{userId}/delete")]
+        public async Task<IActionResult> DeleteUser(string userId)
+        {
+            // Check if the user exists
+            UserModel user = await db.GetUser(userId);
+            if (user == null) return NotFound("User not found");
+            await db.DeleteUser(user);
+            return Ok();
+        }
         #endregion
 
         #region History APIs
         // Get History
-        [HttpGet("history/{id}")]
-        public async Task<IActionResult> GetHistory(string id)
+        [HttpGet("{userId}/history")]
+        public async Task<IActionResult> GetHistory(string userId)
         {
             // Check if the user exists and if it does return the history
-            UserModel user = await db.GetUser(id);
+            UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
             return Ok(user.History);
         }
 
         // Add History
-        [HttpPost("history/{id}")]
-        public async Task<IActionResult> CreateHistory(string id, HistoryModel newHistory)
+        [HttpPut("{userId}/history/create")]
+        public async Task<IActionResult> CreateHistory(string userId, HistoryModel newHistory)
         {
             // Check if the user exists
-            UserModel user = await db.GetUser(id);
+            UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
 
             // Count the number of history entries of the same type
@@ -134,11 +147,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Delete History
-        [HttpDelete("history/{id}")]
-        public async Task<IActionResult> DeleteHistory(string id)
+        [HttpDelete("{userId}/history/delete")]
+        public async Task<IActionResult> DeleteHistory(string userId)
         {
             // Check if the user exists
-            UserModel user = await db.GetUser(id);
+            UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
 
             // Clear the history and update

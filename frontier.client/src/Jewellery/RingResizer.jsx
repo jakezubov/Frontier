@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { calculateRingWeight, validateNumber } from '../HelperFunctions';
-import MetalSelector from './MetalSelector';
-import RingSizeSelector from './RingSizeSelector';
-import ProfileSelector from './ProfileSelector';
-import History from '../account/History'
-import HistoryType from '../constants/HistoryTypes';
-import URL from '../constants/URLs';
-import Axios from 'axios';
+import PropTypes from 'prop-types'
+import Axios from 'axios'
+import { useState } from 'react'
+import { calculateRingWeight, validateNumber } from '../constants/HelperFunctions'
+import JewelleryPage from '../constants/JewelleryPages'
+import URL from '../constants/URLs'
+import MetalSelector from '../components/MetalSelector'
+import RingSizeSelector from '../components/RingSizeSelector'
+import ProfileSelector from '../components/ProfileSelector'
 
-const RingResizer = ({ userId }) => {
+const RingResizer = ({ userId, onRefresh }) => {
     // Inputs
     const [metal, setMetal] = useState(null);
     const [originalRingSize, setOriginalRingSize] = useState(null);
@@ -22,9 +22,6 @@ const RingResizer = ({ userId }) => {
     const [weightOriginal, setWeightOriginal] = useState('');
     const [weightNew, setWeightNew] = useState('');
     const [weightDifference, setWeightDifference] = useState('');
-
-    // Other
-    const [refresh, setRefresh] = useState('');
 
     const handleCalculate = async () => {
         const isDropdownsValid = metal !== undefined && originalRingSize !== undefined && newRingSize !== undefined && profile !== ""
@@ -48,14 +45,14 @@ const RingResizer = ({ userId }) => {
             try {
                 userId !== null ?
                     await Axios.put(URL.CREATE_HISTORY(userId), {
-                        'historyType': HistoryType.RING_RESIZER,
+                        'historyType': JewelleryPage.RING_RESIZER,
                         'content': content
                     }) : null
-                setRefresh(Date().toLocaleTimeString())
+                onRefresh(new Date().toLocaleTimeString())
             }
             catch (error) {
                 console.log(error)
-                alert('There was an error submitting the form!')
+                alert('There was an error adding the history!')
             }
         }
         else {
@@ -139,13 +136,13 @@ const RingResizer = ({ userId }) => {
                     </tr>
                 </tbody>
             </table>
-
-            <br />
-            <br />
-
-            <History userId={userId} historyType={HistoryType.RING_RESIZER} refresh={refresh} />
         </div>
     );
+}
+
+RingResizer.propTypes = {
+    userId: PropTypes.string,
+    onRefresh: PropTypes.func.isRequired,
 }
 
 export default RingResizer;

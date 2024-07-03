@@ -1,6 +1,6 @@
-import UserSettings from './UserSettings';
-import MetalSettings from './MetalSettings';
-import RingSizeSettings from './RingSizeSettings';
+import UserSettings from '../components/UserSettings';
+import MetalSettings from '../components/MetalSettings';
+import RingSizeSettings from '../components/RingSizeSettings';
 
 const MyAccount = ({ userId }) => {
     return (

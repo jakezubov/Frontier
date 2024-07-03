@@ -7,7 +7,7 @@ public class UserModel
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
-    public string? Id { get; set; }
+    public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
     public string FullName => $"{FirstName} {LastName}";
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
@@ -15,7 +15,7 @@ public class UserModel
     public required string PasswordHash { get; set; }
     public string? Salt { get; set; }
     public int HistoryAmount { get; set; } = 10;
-    public List<HistoryModel> History { get; set; } = new List<HistoryModel>();
-    public List<MetalModel> Metals { get; set; } = new List<MetalModel>();
-    public List<RingSizeModel> RingSizes { get; set; } = new List<RingSizeModel>();
+    public List<HistoryModel> History { get; set; } = [];
+    public List<MetalModel> Metals { get; set; } = [];
+    public List<RingSizeModel> RingSizes { get; set; } = [];
 }

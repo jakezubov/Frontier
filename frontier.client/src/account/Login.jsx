@@ -1,8 +1,8 @@
+import Axios from 'axios';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Path from '../constants/Paths';
 import URL from '../constants/URLs';
-import Axios from 'axios';
 
 const Login = ({ onLogin }) => {
     const [email, setEmail] = useState('')
@@ -15,12 +15,7 @@ const Login = ({ onLogin }) => {
         }
 
         try {
-            const response = await Axios.get(URL.VALIDATE_USER, {
-                params: {
-                    email: email,
-                    password: password
-                }
-            });
+            const response = await Axios.post(URL.VALIDATE_USER, { email, password });
 
             alert('Successfully logged in!')
             onLogin(response.data) // Pass the user ID to the callback function
