@@ -9,7 +9,8 @@ const Path = {
     MY_ACCOUNT: "/account/MyAccount",
     LOGIN_CONFIRMATION: "/account/LoginConfirmation",
     LOGOUT_CONFIRMATION: "/account/LogoutConfirmaiton",
-    REGISTER_CONFIRMATION: "/account/RegisterConfirmation"
-};
+    REGISTER_CONFIRMATION: "/account/RegisterConfirmation",
+    ACCOUNT_DELETE_CONFIRMATION: "/account/AccountDeleteConfirmation"
+}
 
-export default Path;
+export default Path

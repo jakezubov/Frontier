@@ -8,7 +8,7 @@ const RingSizeSettings = ({ userId }) => {
 
     useEffect(() => {
         loadRingSizeList()
-    }, [])
+    }, [userId])
 
     const loadRingSizeList = async () => {
         try {

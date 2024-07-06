@@ -15,7 +15,7 @@ const UserSettings = ({ userId }) => {
 
     useEffect(() => {
         getInfo()
-    }, []);
+    }, [userId]);
 
     const getInfo = async () => {
         try {

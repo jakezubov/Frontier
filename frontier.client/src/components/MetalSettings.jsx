@@ -8,7 +8,7 @@ const MetalSettings = ({ userId }) => {
 
     useEffect(() => {
         loadMetalList()
-    }, [])
+    }, [userId])
 
     const loadMetalList = async () => {
         try {

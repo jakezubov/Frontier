@@ -60,10 +60,37 @@ table {
     border-radius: 100px;
     margin: 5px;
 }
-
     .simple-button:hover {
         background-color: #45a049;
         border: 1px solid white;
+    }
+
+.warning-button {
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 20px;
+    border: 1px solid #ccc;
+    background-color: orangered;
+}
+    .warning-button:hover {
+        background-color: darkred;
+        border: 1px solid #ccc;
+    }
+
+.link-button {
+    display: inline-block;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 20px;
+    border: 1px solid #ccc;
+}
+    .link-button:hover {
+        color: black;
+        background-color: #45a049;
     }
 
 .text {
@@ -116,3 +143,25 @@ table {
 .pre-wrap {
     white-space: pre-wrap;
 }
+
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dialog-box {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+    .dialog-box button {
+        margin: 5px;
+    }

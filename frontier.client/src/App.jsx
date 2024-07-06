@@ -16,6 +16,7 @@ import LogoutConfirmation from './account/LogoutConfirmation'
 import Sidebar from './components/Sidebar'
 import JewelleryPage from './constants/JewelleryPages';
 import Path from './constants/Paths'
+import AccountDeleteConfirmation from './account/AccountDeleteConfirmation'
 
 const App = () => {
     const [loggedIn, setLoggedIn] = useState(false)
@@ -46,6 +47,11 @@ const App = () => {
     const handleRefresh = (onRefresh) => {
         setRefresh(onRefresh)
     }  
+
+    const handleDeleteAccount = () => {
+        setUserId(null)
+        setLoggedIn(false)
+    }
 
     return (
         <Router>
@@ -79,14 +85,15 @@ const App = () => {
                     <Route path={Path.METAL_CONVERTER} element={<MetalConverter userId={userId} onRefresh={handleRefresh} />} />
                     <Route path={Path.RING_WEIGHT} element={<RingWeight userId={userId} onRefresh={handleRefresh} />} />
                     <Route path={Path.RING_RESIZER} element={<RingResizer userId={userId} onRefresh={handleRefresh} />} />
-                    <Route path={Path.ROLLING_WIRE} element={<RollingWire userId={userId} />} />
+                    <Route path={Path.ROLLING_WIRE} element={<RollingWire userId={userId} onRefresh={handleRefresh} />} />
                     <Route path={Path.REGISTER} element={<Register onRegister={handleRegister} />} />
                     <Route path={Path.LOGIN} element={<Login onLogin={handleLogin} />} />
                     <Route path={Path.FORGOT_PASSWORD} element={<ForgotPassword />} />
-                    <Route path={Path.MY_ACCOUNT} element={<MyAccount userId={userId} />} />
+                    <Route path={Path.MY_ACCOUNT} element={<MyAccount userId={userId} onDelete={handleDeleteAccount} />} />
                     <Route path={Path.LOGIN_CONFIRMATION} element={<LoginConfirmation />} />
                     <Route path={Path.LOGOUT_CONFIRMATION} element={<LogoutConfirmation />} />
                     <Route path={Path.REGISTER_CONFIRMATION} element={<RegisterConfirmation />} />
+                    <Route path={Path.ACCOUNT_DELETE_CONFIRMATION} element={<AccountDeleteConfirmation /> } />
                 </Routes>
             </div>
         </Router>
