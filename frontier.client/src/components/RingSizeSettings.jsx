@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types'
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
+import PopupGeneral from './PopupGeneral'
 import URL from '../constants/URLs'
 
 const RingSizeSettings = ({ userId }) => {
     const [ringSizeList, setRingSizeList] = useState([])
+    const [isPopupOpen, setIsPopupOpen] = useState(false)
 
     useEffect(() => {
         loadRingSizeList()
@@ -18,7 +20,7 @@ const RingSizeSettings = ({ userId }) => {
             console.log(error)
             alert('There was an error loading ring sizes!')
         }
-    };
+    }
 
     const handleSave = async () => {
         for (const ringSize of Object.values(ringSizeList)) {
@@ -46,7 +48,6 @@ const RingSizeSettings = ({ userId }) => {
     const handleReset = async () => {
         try {
             await Axios.put(URL.RESET_RING_SIZES(userId))
-            alert('Ring sizes reset!')
             loadRingSizeList()
         }
         catch (error) {
@@ -109,7 +110,11 @@ const RingSizeSettings = ({ userId }) => {
                 )
             }
             <button onClick={handleSave}>Save Changes</button>
-            <button onClick={handleReset}>Reset to Defaults</button>
+            <button onClick={() => setIsPopupOpen(true)}>Reset to Defaults</button>
+
+            {isPopupOpen && (
+                <PopupGeneral isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} onConfirm={handleReset} heading="Are you sure?" />
+            )}
         </div>
     )
 }

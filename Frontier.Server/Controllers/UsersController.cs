@@ -33,12 +33,12 @@ namespace Frontier.Server.Controllers
         {
             // Get the user from the email
             UserModel user = await db.ValidateUser(credentials.Email);
-            if (user == null) return NotFound("User not found");
+            if (user == null) return Ok(null);
 
             // Hash supplied password and check if it matches the user password
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(credentials.Password, user.Salt);
             bool isValid = passwordHash == user.PasswordHash;
-            if (!isValid) return Unauthorized("Password is incorrect");
+            if (!isValid) return Ok(null);
 
             return Ok(user.Id);
         }

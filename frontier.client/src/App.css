@@ -97,6 +97,10 @@ table {
     padding: 8px;
 }
 
+.warning-text {
+    color: red;
+}
+
 .navbar {
     position: fixed;
     top: 0;
@@ -144,7 +148,7 @@ table {
     white-space: pre-wrap;
 }
 
-.dialog-overlay {
+.popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -156,12 +160,25 @@ table {
     align-items: center;
 }
 
-.dialog-box {
+.popup-box {
     background: white;
     padding: 20px;
     border-radius: 5px;
     text-align: center;
 }
-    .dialog-box button {
+    .popup-box button {
+        margin: 5px;
+    }
+
+.popup-box-error {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    background: red;
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+    .popup-box-error button {
         margin: 5px;
     }

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { validateNumber } from '../constants/HelperFunctions'
 import JewelleryPage from '../constants/JewelleryPages'
 import URL from '../constants/URLs'
@@ -8,56 +8,62 @@ import MetalSelector from '../components/MetalSelector'
 
 
 const MetalConverter = ({ userId, onRefresh }) => {
-    const [originalMetal, setOriginalMetal] = useState(null);
-    const [newMetal, setNewMetal] = useState(null);
-    const [weight, setWeight] = useState('');
-    const [convertedWeight, setConvertedWeight] = useState('');
+    const [originalMetal, setOriginalMetal] = useState(null)
+    const [newMetal, setNewMetal] = useState(null)
+    const [weight, setWeight] = useState('')
+    const [convertedWeight, setConvertedWeight] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+
+    useEffect(() => {
+        setErrorMessage('')
+    }, [originalMetal, newMetal, weight])
 
     const handleCalculate = async () => {
-        const isDropdownsValid = originalMetal !== undefined && newMetal !== undefined
-        const isNumbersValid = validateNumber(weight);
+        if (!originalMetal || !newMetal || !validateNumber(weight)) {
+            setErrorMessage("Please ensure all fields are correctly filled.")
+            setConvertedWeight('')
+            return
+        }
 
-        const calculatedWeight = isDropdownsValid && isNumbersValid ?
-            (weight * (1.0 / originalMetal.specificGravity) * newMetal.specificGravity).toFixed(2) + "g"
-            : "Invalid Input";
+        const calculatedWeightText = (weight * (1.0 / originalMetal.specificGravity) * newMetal.specificGravity).toFixed(2) + "g"
+        setConvertedWeight(calculatedWeightText)
 
-        setConvertedWeight(calculatedWeight);
-
-        try {
-            calculatedWeight !== "Invalid Input" && userId !== null ?
+        if (userId) {
+            try {
                 await Axios.put(URL.CREATE_HISTORY(userId), {
                     'historyType': JewelleryPage.METAL_CONVERTER,
-                    'content': `${originalMetal.name} (${weight}g) -> ${newMetal.name} (${calculatedWeight})`
-                }) : null;
-            onRefresh(new Date().toLocaleTimeString())
-        }
-        catch (error) {
-            console.log(error)
-            alert('There was an error adding the history!')
+                    'content': `${originalMetal.name} (${weight}g) -> ${newMetal.name} (${calculatedWeightText})`
+                })
+                onRefresh(new Date().toLocaleTimeString())
+            }
+            catch (error) {
+                console.error({
+                    message: 'Failed to add history',
+                    error: error.message,
+                    stack: error.stack,
+                    userId,
+                    originalMetal,
+                    newMetal,
+                    weight,
+                    calculatedWeightText,
+                })
+                alert('There was an error adding the history!')
+            }
         }
     }
 
-    const handleOriginalMetalChange = (metal) => {
-        setOriginalMetal(metal);
-    };
-
-    const handleNewMetalChange = (metal) => {
-        setNewMetal(metal);
-    };
-
     return (
-        <div>
+        <div>                       
             <h1>Metal Converter</h1>
-
             <table>
                 <tbody>
                     <tr>
                         <td>Original Metal</td>
-                        <td><MetalSelector userId={userId} label="Original Metal" onMetalChange={handleOriginalMetalChange} /></td>
+                        <td><MetalSelector userId={userId} label="Original Metal" onMetalChange={setOriginalMetal} /></td>
                     </tr>
                     <tr>
                         <td>New Metal</td>
-                        <td><MetalSelector userId={userId} label="New Metal" onMetalChange={handleNewMetalChange} /></td>
+                        <td><MetalSelector userId={userId} label="New Metal" onMetalChange={setNewMetal} /></td>
                     </tr>
                     <tr>
                         <td>Weight</td>
@@ -67,6 +73,7 @@ const MetalConverter = ({ userId, onRefresh }) => {
             </table>
 
             <button type="button" onClick={handleCalculate}>Calculate</button>
+            {errorMessage && <p className="pre-wrap warning-text">{errorMessage}</p>}
 
             <table>
                 <tbody>
@@ -77,7 +84,7 @@ const MetalConverter = ({ userId, onRefresh }) => {
                 </tbody>
             </table>
         </div>
-    );
+    )
 }
 
 MetalConverter.propTypes = {

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import Axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { calculateRingWeight, validateNumber } from '../constants/HelperFunctions'
 import JewelleryPage from '../constants/JewelleryPages'
 import URL from '../constants/URLs'
@@ -10,57 +10,68 @@ import ProfileSelector from '../components/ProfileSelector'
 
 const RingWeight = ({ userId, onRefresh }) => {
     // Inputs
-    const [metal, setMetal] = useState(null);
-    const [ringSize, setRingSize] = useState(null);
-    const [profile, setProfile] = useState('');
-    const [width, setWidth] = useState('');
-    const [thickness, setThickness] = useState('');
+    const [metal, setMetal] = useState(null)
+    const [ringSize, setRingSize] = useState(null)
+    const [profile, setProfile] = useState('')
+    const [width, setWidth] = useState('')
+    const [thickness, setThickness] = useState('')
 
     // Calculated
-    const [thicknessRequired, setThicknessRequired] = useState(true);
-    const [weight, setWeight] = useState('');
+    const [thicknessRequired, setThicknessRequired] = useState(true)
+    const [weight, setWeight] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+
+    useEffect(() => {
+        setErrorMessage('')
+    }, [metal, ringSize, profile, width, thickness])
 
     const handleCalculate = async () => {
-        const isDropdownsValid = metal !== undefined && ringSize !== undefined && profile !== ""
-        const isNumbersValid = validateNumber(width) && (!thicknessRequired || validateNumber(thickness));
+        const isNumbersValid = validateNumber(width) && (!thicknessRequired || validateNumber(thickness))
 
-        const calculatedWeight = isDropdownsValid && isNumbersValid ?
-            calculateRingWeight(profile, parseFloat(width), parseFloat(thickness), ringSize.diameter, metal.specificGravity).toFixed(2) + "g"
-            : "Invalid Input";
+        if (!metal || !ringSize || !profile || !isNumbersValid) {
+            setErrorMessage("Please ensure all fields are correctly filled.")
+            weight('')
+            return
+        }
 
-        setWeight(calculatedWeight);
+        const calculatedWeightText = calculateRingWeight(profile, parseFloat(width), parseFloat(thickness), ringSize.diameter, metal.specificGravity).toFixed(2) + "g"
+        setWeight(calculatedWeightText)
 
-        const content = thicknessRequired
-            ? `${metal.name} | ${ringSize.name} | ${calculatedWeight} | ${profile} | ${width}mm x ${thickness}mm`
-            : `${metal.name} | ${ringSize.name} | ${calculatedWeight} | ${profile} | ${width}mm x ${width}mm`
+        const content = thicknessRequired ?
+            `${metal.name} | ${ringSize.name} | ${calculatedWeightText} | ${profile} | ${width}mm x ${thickness}mm`
+            : `${metal.name} | ${ringSize.name} | ${calculatedWeightText} | ${profile} | ${width}mm x ${width}mm`
 
-        try {
-            calculatedWeight !== "Invalid Input" && userId !== null ?
+        if (userId) {
+            try {
                 await Axios.put(URL.CREATE_HISTORY(userId), {
                     'historyType': JewelleryPage.RING_WEIGHT,
                     'content': content
-                }) : null;
-            onRefresh(new Date().toLocaleTimeString())
-        }
-        catch (error) {
-            console.log(error)
-            alert('There was an error adding the history!')
+                })
+                onRefresh(new Date().toLocaleTimeString())
+            }
+            catch (error) {
+                console.error({
+                    message: 'Failed to add history',
+                    error: error.message,
+                    stack: error.stack,
+                    metal,
+                    ringSize,
+                    profile,
+                    width,
+                    thickness,
+                    weight,
+                    calculatedWeightText,
+                })
+                alert('There was an error adding the history!')
+            }
         }
     }
 
-    const handleMetalChange = (metal) => {
-        setMetal(metal);
-    };
-
-    const handleRingSizeChange = (ringSize) => {
-        setRingSize(ringSize);
-    };
-
     const handleProfileChange = (profile) => {
-        setProfile(profile);
+        setProfile(profile)
         const isThicknessRequired = profile == "Half-Round" || profile == "Rectangle"
         isThicknessRequired ? setThicknessRequired(true) : setThicknessRequired(false), setThickness('')
-    };
+    }
 
     return (
         <div>
@@ -70,11 +81,11 @@ const RingWeight = ({ userId, onRefresh }) => {
                 <tbody>
                     <tr>
                         <td>Metal</td>
-                        <td><MetalSelector userId={userId} label="Metal" onMetalChange={handleMetalChange} /></td>
+                        <td><MetalSelector userId={userId} label="Metal" onMetalChange={setMetal} /></td>
                     </tr>
                     <tr>
                         <td>Ring Size</td>
-                        <td><RingSizeSelector userId={userId} label="Ring Size" onSizeChange={handleRingSizeChange} /></td>
+                        <td><RingSizeSelector userId={userId} label="Ring Size" onSizeChange={setRingSize} /></td>
                     </tr>
                     <tr>
                         <td>Profile</td>
@@ -97,6 +108,7 @@ const RingWeight = ({ userId, onRefresh }) => {
             </table>
 
             <button type="button" onClick={handleCalculate}>Calculate</button>
+            {errorMessage && <p className="pre-wrap warning-text">{errorMessage}</p>}
 
             <table>
                 <tbody>
@@ -107,7 +119,7 @@ const RingWeight = ({ userId, onRefresh }) => {
                 </tbody>
             </table>
         </div>
-    );
+    )
 }
 
 RingWeight.propTypes = {
@@ -115,4 +127,4 @@ RingWeight.propTypes = {
     onRefresh: PropTypes.func.isRequired,
 }
 
-export default RingWeight;
+export default RingWeight

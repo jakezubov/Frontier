@@ -1,25 +1,31 @@
-import Axios from 'axios';
-import { useState } from 'react'; 
-import { Link } from 'react-router-dom';
-import Path from '../constants/Paths';
-import URL from '../constants/URLs';
+import Axios from 'axios'
+import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import Path from '../constants/Paths'
+import URL from '../constants/URLs'
 
 const Register = ({ onRegister }) => {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+
+    useEffect(() => {
+        setErrorMessage('')
+    }, [firstName, lastName, email, password, confirmPassword])
+
+    useEffect(() => {
+        if (password !== confirmPassword) {
+            setErrorMessage('Passwords do not match.')
+        }
+    }, [password, confirmPassword])
 
     const handleSubmit = async () => {
-        if (firstName === '' || lastName === '' || email === '' || password === '' || confirmPassword === '') {
-            alert('Please enter all information!')
+        if (!firstName || !lastName || !email || !password || !confirmPassword) {
+            setErrorMessage('Please enter all information.')
             return
-        }
-
-        if (password !== confirmPassword) {
-            alert('Passwords do not match');
-            return;
         }
 
         try {
@@ -28,21 +34,26 @@ const Register = ({ onRegister }) => {
                 'LastName': lastName,
                 'Email': email,
                 'PasswordHash': password
-            });
-
+            })
             alert('Successfully registered account!')
-            onRegister(); // Call the callback function
+            onRegister()
         }
         catch (error) {
-            console.log(error)
-            alert('There was an error submitting the form!');
+            console.error({
+                message: 'Failed to create account',
+                error: error.message,
+                stack: error.stack,
+                firstName,
+                lastName,
+                email,
+            })
+            alert('There was an error creating the account!')
         }
     }
 
     return (
         <div>
             <h1>Register</h1>
-
             <table>
                 <tbody>
                     <tr>
@@ -69,6 +80,7 @@ const Register = ({ onRegister }) => {
             </table>
 
             <button type="button" onClick={handleSubmit}>Submit</button>
+            {errorMessage && <p className="pre-wrap warning-text">{errorMessage}</p>}
 
             <table>
                 <tbody>
@@ -79,7 +91,7 @@ const Register = ({ onRegister }) => {
                 </tbody>
             </table>
         </div>
-    );
+    )
 }
 
-export default Register;
+export default Register

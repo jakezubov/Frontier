@@ -1,25 +1,27 @@
 import PropTypes from 'prop-types'
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
+import PopupGeneral from './PopupGeneral'
 import URL from '../constants/URLs'
 
 const UserSettings = ({ userId }) => {
     // Personal Details
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [oldPassword, setOldPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmNewPassword, setNewConfirmPassword] = useState('');
-    const [historyAmount, setHistoryAmount] = useState('');
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [oldPassword, setOldPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [confirmNewPassword, setNewConfirmPassword] = useState('')
+    const [historyAmount, setHistoryAmount] = useState('')
+    const [isPopupOpen, setIsPopupOpen] = useState(false)
 
     useEffect(() => {
         getInfo()
-    }, [userId]);
+    }, [userId])
 
     const getInfo = async () => {
         try {
-            const response = await Axios.get(URL.GET_USER(userId));
+            const response = await Axios.get(URL.GET_USER(userId))
 
             setFirstName(response.data.firstName)
             setLastName(response.data.lastName)
@@ -43,7 +45,7 @@ const UserSettings = ({ userId }) => {
                         email: email,
                         password: oldPassword
                     }
-                });
+                })
 
                 if (newPassword !== confirmNewPassword) {
                     alert('New Passwords do not match')
@@ -60,7 +62,7 @@ const UserSettings = ({ userId }) => {
                     params: {
                         isNewPassword: true
                     }
-                });
+                })
 
                 alert('Account details updated!')
                 getInfo()
@@ -89,7 +91,7 @@ const UserSettings = ({ userId }) => {
                     params: {
                         isNewPassword: false
                     }
-                });
+                })
 
                 alert('Account details updated!')
                 getInfo()
@@ -104,7 +106,6 @@ const UserSettings = ({ userId }) => {
     const handleClearHistory = async () => {
         try {
             await Axios.delete(URL.DELETE_HISTORY(userId))
-            alert('History has been deleted!')
         }
         catch (error) {
             console.log(error)
@@ -150,10 +151,14 @@ const UserSettings = ({ userId }) => {
                     </tr>
                     <tr>
                         <td><button type="button" onClick={handlePersonalDetailsSubmit}>Save Changes</button></td>
-                        <td><button type="button" onClick={handleClearHistory}>Clear History</button></td>
+                        <td><button type="button" onClick={() => setIsPopupOpen(true)}>Clear History</button></td>
                     </tr>
                 </tbody>
             </table>
+
+            {isPopupOpen && (
+                <PopupGeneral isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} onConfirm={handleClearHistory} heading="Are you sure?" />
+            )}
         </div>
     )
 }

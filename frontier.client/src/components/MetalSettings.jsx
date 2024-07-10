@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types'
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
+import PopupGeneral from './PopupGeneral'
 import URL from '../constants/URLs'
 
 const MetalSettings = ({ userId }) => {
     const [metalList, setMetalList] = useState([])
+    const [isPopupOpen, setIsPopupOpen] = useState(false)
 
     useEffect(() => {
         loadMetalList()
@@ -46,7 +48,6 @@ const MetalSettings = ({ userId }) => {
     const handleReset = async () => {
         try {
             await Axios.put(URL.RESET_METALS(userId))
-            alert('Metals reset!')
             loadMetalList()
         }
         catch (error) {
@@ -107,7 +108,11 @@ const MetalSettings = ({ userId }) => {
                 )
             }
             <button onClick={handleSave}>Save Changes</button>
-            <button onClick={handleReset}>Reset to Defaults</button>
+            <button onClick={() => setIsPopupOpen(true)}>Reset to Defaults</button>
+
+            {isPopupOpen && (
+                <PopupGeneral isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} onConfirm={handleReset} heading="Are you sure?" />
+            )}
         </div>
     )
 }
