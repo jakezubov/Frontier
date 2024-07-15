@@ -1,0 +1,1 @@
+Frontier (prototype name) is the new version of the Jewellery Calculation Suite, it has the same functions as the pervious iterations while adding in accounts, using a db to store information, history of previous calculations and more.

@@ -4,6 +4,8 @@ import History from './History'
 import Information from './Information'
 import Contact from './Contact'
 import JewelleryPage from '../constants/JewelleryPages'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faClockRotateLeft, faCircleInfo, faEnvelope, faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
 
 const Sidebar = ({ userId, jewelleryPage, refresh, onLogout }) => {
     const [isExpanded, setIsExpanded] = useState(false)
@@ -28,12 +30,18 @@ const Sidebar = ({ userId, jewelleryPage, refresh, onLogout }) => {
     return (
         <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
             <div className="col">
-                <button className="simple-button" aria-label='toggle' onClick={toggleSidebar}>{isExpanded ? '>>' : '<<'}</button>
-                <button className="simple-button" aria-label='information' onClick={toggleSidebar}> I </button>
-                <button className="simple-button" aria-label='contact' onClick={toggleSidebar}> C </button>
+                <button className="simple-button" aria-label='toggle' onClick={toggleSidebar}>
+                {
+                    isExpanded ?
+                        <FontAwesomeIcon className="fa-2xl" icon={faAnglesRight} />
+                        : <FontAwesomeIcon className="fa-2xl" icon={faAnglesLeft} />
+                }
+                </button>
+                <button className="simple-button" aria-label='information' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faCircleInfo} /></button>
+                <button className="simple-button" aria-label='contact' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>
                 {
                     userId ?
-                        <button className="simple-button" aria-label='history' onClick={toggleSidebar}> H </button>
+                        <button className="simple-button" aria-label='history' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
                         : null
                 }
             </div>

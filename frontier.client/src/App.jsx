@@ -1,6 +1,8 @@
 import './App.css'
 import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import Home from './Home'
 import MetalConverter from './jewellery/MetalConverter'
 import RingWeight from './jewellery/RingWeight'
@@ -77,7 +79,7 @@ const App = () => {
                                     <>
                                         <li><Link className="link" onClick={refreshSidebar(JewelleryPage.NONE)} to={Path.MY_ACCOUNT}>My Account</Link></li>
                                         <hr />
-                                        <li><Link className="link" onClick={refreshSidebar(JewelleryPage.NONE)} to={Path.CONFIRMATION_SCREEN} onClick={handleLogout} >Logout</Link></li>
+                                    <li><Link className="link" onClick={refreshSidebar(JewelleryPage.NONE)} to={Path.CONFIRMATION_SCREEN} onClick={handleLogout} >Logout <FontAwesomeIcon icon={faArrowRightFromBracket} /></Link></li>
                                     </>
                                     :
                                     <>
