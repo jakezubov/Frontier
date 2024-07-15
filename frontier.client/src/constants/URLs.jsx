@@ -7,6 +7,7 @@ const URL = {
     VALIDATE_USER: `${prefix}/api/users/validate`,
     CREATE_USER: `${prefix}/api/users/create`,
     UPDATE_USER: (userId) => `${prefix}/api/users/${userId}/update`,
+    UPDATE_PASSWORD: (userId) => `${prefix}/api/users/${userId}/update/password`,
     DELETE_USER: (userId) => `${prefix}/api/users/${userId}/delete`,
 
     /** History */
@@ -27,6 +28,9 @@ const URL = {
     /** Defaults */
     GET_DEFAULT_METALS: `${prefix}/api/defaults/metals`,
     GET_DEFAULT_RING_SIZES: `${prefix}/api/defaults/ring-sizes`,
+
+    /** Misc */
+    GENERATE_OBJECT_ID: `${prefix}/api/defaults/generate-id`,
 };
 
 export default URL;

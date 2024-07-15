@@ -7,6 +7,7 @@ import URL from '../constants/URLs'
 import MetalSelector from '../components/MetalSelector'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
+import PopupError from '../components/PopupError'
 
 const RingWeight = ({ userId, onRefresh }) => {
     // Inputs
@@ -19,18 +20,22 @@ const RingWeight = ({ userId, onRefresh }) => {
     // Calculated
     const [thicknessRequired, setThicknessRequired] = useState(true)
     const [weight, setWeight] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
+
+    // Popups
+    const [validationMessage, setValidationMessage] = useState('')
+    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
+    const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setErrorMessage('')
+        setValidationMessage('')
     }, [metal, ringSize, profile, width, thickness])
 
     const handleCalculate = async () => {
         const isNumbersValid = validateNumber(width) && (!thicknessRequired || validateNumber(thickness))
 
         if (!metal || !ringSize || !profile || !isNumbersValid) {
-            setErrorMessage("Please ensure all fields are correctly filled.")
-            weight('')
+            setValidationMessage("Please ensure all fields are correctly filled.")
+            setWeight('')
             return
         }
 
@@ -51,7 +56,7 @@ const RingWeight = ({ userId, onRefresh }) => {
             }
             catch (error) {
                 console.error({
-                    message: 'Failed to add history',
+                    message: 'Failed to save history',
                     error: error.message,
                     stack: error.stack,
                     metal,
@@ -62,7 +67,8 @@ const RingWeight = ({ userId, onRefresh }) => {
                     weight,
                     calculatedWeightText,
                 })
-                alert('There was an error adding the history!')
+                setErrorContent('Failed to save history\n' + error.message)
+                setIsErrorPopupOpen(true)
             }
         }
     }
@@ -108,7 +114,7 @@ const RingWeight = ({ userId, onRefresh }) => {
             </table>
 
             <button type="button" onClick={handleCalculate}>Calculate</button>
-            {errorMessage && <p className="pre-wrap warning-text">{errorMessage}</p>}
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
 
             <table>
                 <tbody>
@@ -118,6 +124,10 @@ const RingWeight = ({ userId, onRefresh }) => {
                     </tr>
                 </tbody>
             </table>
+
+            {isErrorPopupOpen && (
+                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
+            )}
         </div>
     )
 }

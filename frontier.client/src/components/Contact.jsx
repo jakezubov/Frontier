@@ -2,11 +2,16 @@ import PropTypes from 'prop-types'
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import URL from '../constants/URLs'
+import PopupError from './PopupError'
 
 const Contact = ({ userId, refresh }) => {
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
+
+    // Error Popup
+    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
+    const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
         if (userId) loadInformation()
@@ -20,8 +25,13 @@ const Contact = ({ userId, refresh }) => {
             setEmail(response.data.email)
         }
         catch (error) {
-            console.log(error)
-            alert('There was an error getting the user info in the sidebar!')
+            console.error({
+                message: 'Failed to get sidebar user info',
+                error: error.message,
+                stack: error.stack,
+            })
+            setErrorContent('Failed to get sidebar user info\n' + error.message)
+            setIsErrorPopupOpen(true)
         }
     }
 
@@ -52,6 +62,10 @@ const Contact = ({ userId, refresh }) => {
                     <tr><td><button type="button" onClick={handleSubmit}>Submit</button></td></tr>
                 </tbody>
             </table>
+
+            {isErrorPopupOpen && (
+                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
+            )}
         </div>
     )
 }

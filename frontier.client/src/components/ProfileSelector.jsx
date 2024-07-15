@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 
 const Profiles = [
     { name: 'Round' },
@@ -19,8 +19,8 @@ const ProfileSelector = ({ label, onProfileChange, isLimited }) => {
 
     return (
         <div>
-            {
-                isLimited ?
+        {
+            isLimited ?
                 <select aria-label={label} onChange={handleProfileChange}>
                 <option value=""></option>
                 {
@@ -37,9 +37,9 @@ const ProfileSelector = ({ label, onProfileChange, isLimited }) => {
                         ))
                     }
                 </select>
-            }
+        }
         </div>
-    );
+    )
 }
 
 ProfileSelector.propTypes = {
@@ -52,4 +52,4 @@ ProfileSelector.defaultProps = {
     isLimited: false,
 }
 
-export default ProfileSelector;
+export default ProfileSelector

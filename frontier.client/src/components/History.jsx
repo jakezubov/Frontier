@@ -3,9 +3,14 @@ import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import JewelleryPage from '../constants/JewelleryPages'
 import URL from '../constants/URLs'
+import PopupError from './PopupError'
 
 const History = ({ userId, historyType, refresh }) => {
     const [history, setHistory] = useState([])
+
+    // Error Popup
+    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
+    const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
         if (userId) loadHistory()
@@ -17,8 +22,13 @@ const History = ({ userId, historyType, refresh }) => {
             setHistory(response.data.filter(h => h.historyType === historyType))
         }
         catch (error) {
-            console.log(error)
-            alert('There was an error loading history!')
+            console.error({
+                message: 'Failed to load history',
+                error: error.message,
+                stack: error.stack,
+            })
+            setErrorContent('Failed to load history\n' + error.message)
+            setIsErrorPopupOpen(true)
         }
     }
 
@@ -29,22 +39,24 @@ const History = ({ userId, historyType, refresh }) => {
             {
                 historyType === JewelleryPage.NONE ?
                     <p>Go to any of the Jewellery Tools to get user history.</p>
-                    : userId === null ?
-                        <p>Login to see and save history.</p>
-                        : history.length > 0 ?
-                            history.map(item => (
-                                    <li className="history" key={item.id}>
-                                        {item.content}
-                                    </li>
-                            )) : <p>No History Yet!</p>
+                    : history.length > 0 ?
+                        history.map(item => (
+                                <li className="history" key={item.id}>
+                                    {item.content}
+                                </li>
+                        )) : <p>No History Yet!</p>
             }
             </ul>
+
+            {isErrorPopupOpen && (
+                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
+            )}
         </div>
     )
 }
 
 History.propTypes = {
-    userId: PropTypes.string,
+    userId: PropTypes.string.isRequired,
     historyType: PropTypes.oneOf(Object.values(JewelleryPage)).isRequired,
     refresh: PropTypes.string
 }

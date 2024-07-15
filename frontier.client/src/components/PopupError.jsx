@@ -1,34 +1,14 @@
 import PropTypes from 'prop-types'
 import { useEffect } from 'react'
 
-const PopupError = ({ isPopupOpen, setIsPopupOpen, onConfirm, heading, content }) => {
-    useEffect(() => {
-        if (isPopupOpen) {
-            document.body.style.overflow = 'hidden'
-        }
-
-        return () => {
-            document.body.style.overflow = 'auto'
-        }
-    }, [isPopupOpen])
-
-    const handleConfirmPopup = () => {
+const PopupError = ({ isPopupOpen, setIsPopupOpen, content }) => {
+    const handleClosePopup = () => {
         setIsPopupOpen(false)
-        onConfirm()
     }
 
     return (
         <div>
-            {isPopupOpen && (
-                <div className="popup-overlay">
-                    <div className="popup-box-error">
-                        <h2>{heading}</h2>
-                        <p className="pre-wrap">{content}</p>
-
-                        <button onClick={handleClosePopup} >Cancel</button>
-                    </div>
-                </div>
-            )}
+            {isPopupOpen && ( <button className="pre-wrap popup-box-error" onClick={handleClosePopup}>{content}</button>)}
         </div>
     )
 }
@@ -36,8 +16,6 @@ const PopupError = ({ isPopupOpen, setIsPopupOpen, onConfirm, heading, content }
 PopupError.propTypes = {
     isPopupOpen: PropTypes.bool.isRequired,
     setIsPopupOpen: PropTypes.func.isRequired,
-    onConfirm: PropTypes.func.isRequired,
-    heading: PropTypes.string.isRequired,
     content: PropTypes.string,
 }
 

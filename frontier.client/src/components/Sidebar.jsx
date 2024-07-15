@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import History from './History'
 import Information from './Information'
 import Contact from './Contact'
 import JewelleryPage from '../constants/JewelleryPages'
 
-const Sidebar = ({ userId, jewelleryPage, refresh }) => {
+const Sidebar = ({ userId, jewelleryPage, refresh, onLogout }) => {
     const [isExpanded, setIsExpanded] = useState(false)
     const [activeButton, setActiveButton] = useState('')
+
+    useEffect(() => {
+        setActiveButton('toggle')
+    }, [onLogout])
 
     const toggleSidebar = (e) => {
         const label = e.currentTarget.getAttribute('aria-label')
@@ -23,29 +27,37 @@ const Sidebar = ({ userId, jewelleryPage, refresh }) => {
 
     return (
         <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
-            <button className="simple-button" aria-label='toggle' onClick={toggleSidebar}>{isExpanded ? '>>' : '<<'}</button>
-            <button className="simple-button" aria-label='information' onClick={toggleSidebar}>I</button>
-            <button className="simple-button" aria-label='history' onClick={toggleSidebar}>H</button>
-            <button className="simple-button" aria-label='contact' onClick={toggleSidebar}>C</button>
-            {isExpanded && (
-                <div className="sidebar-content">
-                    {activeButton === 'information' && (
-                        <>
-                            <Information informationType={jewelleryPage} />
-                        </>
-                    )}
-                    {activeButton === 'history' && (
-                        <>
-                            <History userId={userId} historyType={jewelleryPage} refresh={refresh} />
-                        </>
-                    )}
-                    {activeButton === 'contact' && (
-                        <>
-                            <Contact userId={userId} refresh={refresh} />
-                        </>
-                    )}
-                </div>
-            )}
+            <div className="col">
+                <button className="simple-button" aria-label='toggle' onClick={toggleSidebar}>{isExpanded ? '>>' : '<<'}</button>
+                <button className="simple-button" aria-label='information' onClick={toggleSidebar}> I </button>
+                <button className="simple-button" aria-label='contact' onClick={toggleSidebar}> C </button>
+                {
+                    userId ?
+                        <button className="simple-button" aria-label='history' onClick={toggleSidebar}> H </button>
+                        : null
+                }
+            </div>
+            <div className="col">
+                {isExpanded && (
+                    <div className="sidebar-content">
+                        {activeButton === 'information' && (
+                            <>
+                                <Information informationType={jewelleryPage} />
+                            </>
+                        )}
+                        {activeButton === 'history' && (
+                            <>
+                                <History userId={userId} historyType={jewelleryPage} refresh={refresh} />
+                            </>
+                        )}
+                        {activeButton === 'contact' && (
+                            <>
+                                <Contact userId={userId} refresh={refresh} />
+                            </>
+                        )}
+                    </div>
+                )}
+            </div>          
         </div>
     )
 }

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Path from '../constants/Paths'
 import URL from '../constants/URLs'
+import PopupError from '../components/PopupError'
 
 const Register = ({ onRegister }) => {
     const [firstName, setFirstName] = useState('')
@@ -10,21 +11,29 @@ const Register = ({ onRegister }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
+
+    // Popups
+    const [validationMessage, setValidationMessage] = useState('')
+    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
+    const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setErrorMessage('')
+        setValidationMessage('')
     }, [firstName, lastName, email, password, confirmPassword])
 
     useEffect(() => {
         if (password !== confirmPassword) {
-            setErrorMessage('Passwords do not match.')
+            setValidationMessage('Passwords do not match.')
         }
     }, [password, confirmPassword])
 
     const handleSubmit = async () => {
-        if (!firstName || !lastName || !email || !password || !confirmPassword) {
-            setErrorMessage('Please enter all information.')
+        if (password !== confirmPassword) {
+            setValidationMessage('Passwords do not match.')
+            return
+        }
+        else if (!firstName || !lastName || !email || !password || !confirmPassword) {
+            setValidationMessage('Please enter all information.')
             return
         }
 
@@ -35,7 +44,6 @@ const Register = ({ onRegister }) => {
                 'Email': email,
                 'PasswordHash': password
             })
-            alert('Successfully registered account!')
             onRegister()
         }
         catch (error) {
@@ -47,7 +55,8 @@ const Register = ({ onRegister }) => {
                 lastName,
                 email,
             })
-            alert('There was an error creating the account!')
+            setErrorContent('Failed to create account\n' + error.message)
+            setIsErrorPopupOpen(true)
         }
     }
 
@@ -80,7 +89,7 @@ const Register = ({ onRegister }) => {
             </table>
 
             <button type="button" onClick={handleSubmit}>Submit</button>
-            {errorMessage && <p className="pre-wrap warning-text">{errorMessage}</p>}
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
 
             <table>
                 <tbody>
@@ -90,6 +99,10 @@ const Register = ({ onRegister }) => {
                     </tr>
                 </tbody>
             </table>
+
+            {isErrorPopupOpen && (
+                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
+            )}
         </div>
     )
 }

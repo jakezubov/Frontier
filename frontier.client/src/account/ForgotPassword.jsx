@@ -4,15 +4,15 @@ import Path from '../constants/Paths'
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState('')
 
     useEffect(() => {
-        setErrorMessage('')
+        setValidationMessage('')
     }, [email])
 
     const handleSubmit = () => {
         if (!email) {
-            setErrorMessage('Please enter an email.')
+            setValidationMessage('Please enter an email.')
             return
         }
     }
@@ -30,7 +30,7 @@ const ForgotPassword = () => {
             </table>
 
             <button type="button" onClick={handleSubmit}>Submit</button>
-            {errorMessage && <p className="pre-wrap warning-text">{errorMessage}</p>}
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
 
             <table>
                 <tbody>

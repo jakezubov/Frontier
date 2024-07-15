@@ -1,49 +1,39 @@
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import { useState } from 'react'
-import UserSettings from '../components/UserSettings'
-import MetalSettings from '../components/MetalSettings'
-import RingSizeSettings from '../components/RingSizeSettings'
-import PopupDeleteAccount from '../components/PopupDeleteAccount'
-import URL from '../constants/URLs'
+import { Link } from 'react-router-dom'
+import UserSettings from './UserSettings'
+import UpdatePassword from './UpdatePassword'
+import MetalSettings from './MetalSettings'
+import RingSizeSettings from './RingSizeSettings'
+import MyAccountPages from '../constants/MyAccountPages'
 
 const MyAccount = ({ userId, onDelete }) => {
-    const [isPopupOpen, setIsPopupOpen] = useState(false)
+    const [currentPage, setCurrentPage] = useState(MyAccountPages.USER_SETTINGS)
 
-    const handleConfirmDelete = async () => {
-        try {
-            await Axios.delete(URL.DELETE_USER(userId))
-            onDelete()
-        }
-        catch (error) {
-            console.log(error)
-            alert('There was an error deleting the account!')
-        }
-    }
 
     return (
         <div>
-            <h1>My Account</h1>
-            <UserSettings userId={userId} />
-
-            <br />
-            <br />
-
-            <MetalSettings userId={userId} />
-
-            <br />
-            <br />
-
-            <RingSizeSettings userId={userId} />
-
-            <br />
-            <br />
-
-            <button className="warning-button" type="button" onClick={() => setIsPopupOpen(true)}>Delete Account</button>
-
-            {isPopupOpen && (
-                <PopupDeleteAccount isPopupOpen={isPopupOpen} setIsPopupOpen={setIsPopupOpen} onConfirm={handleConfirmDelete} heading="Are you sure?" />
-            )}
+            <nav className="navbar-my-account col">
+                <ul>
+                    <li><Link className="small-link" onClick={() => setCurrentPage(MyAccountPages.USER_SETTINGS)} >User Settings</Link></li>
+                    <li><Link className="small-link" onClick={() => setCurrentPage(MyAccountPages.UPDATE_PASSWORD)} >Update Password</Link></li>
+                    <li><Link className="small-link" onClick={() => setCurrentPage(MyAccountPages.METAL_SETTINGS)} >Metal Settings</Link></li>
+                    <li><Link className="small-link" onClick={() => setCurrentPage(MyAccountPages.RING_SIZE_SETTINGS)} >Ring Size Settings</Link></li>
+                </ul>
+            </nav>
+            <div className="col">
+            {
+                currentPage === MyAccountPages.USER_SETTINGS ?
+                    <UserSettings userId={userId} onDelete={onDelete} />
+                : currentPage === MyAccountPages.UPDATE_PASSWORD ?
+                    <UpdatePassword userId={userId} />
+                : currentPage === MyAccountPages.METAL_SETTINGS ?
+                    <MetalSettings userId={userId} />
+                : currentPage === MyAccountPages.RING_SIZE_SETTINGS ?
+                    <RingSizeSettings userId={userId} />
+                : null
+            }
+            </div>
         </div>
     )
 }

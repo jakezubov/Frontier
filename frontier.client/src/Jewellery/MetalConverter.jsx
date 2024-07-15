@@ -5,22 +5,26 @@ import { validateNumber } from '../constants/HelperFunctions'
 import JewelleryPage from '../constants/JewelleryPages'
 import URL from '../constants/URLs'
 import MetalSelector from '../components/MetalSelector'
-
+import PopupError from '../components/PopupError'
 
 const MetalConverter = ({ userId, onRefresh }) => {
     const [originalMetal, setOriginalMetal] = useState(null)
     const [newMetal, setNewMetal] = useState(null)
     const [weight, setWeight] = useState('')
     const [convertedWeight, setConvertedWeight] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
+
+    // Popups
+    const [validationMessage, setValidationMessage] = useState('')
+    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
+    const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setErrorMessage('')
+        setValidationMessage('')
     }, [originalMetal, newMetal, weight])
 
     const handleCalculate = async () => {
         if (!originalMetal || !newMetal || !validateNumber(weight)) {
-            setErrorMessage("Please ensure all fields are correctly filled.")
+            setValidationMessage("Please ensure all fields are correctly filled.")
             setConvertedWeight('')
             return
         }
@@ -38,7 +42,7 @@ const MetalConverter = ({ userId, onRefresh }) => {
             }
             catch (error) {
                 console.error({
-                    message: 'Failed to add history',
+                    message: 'Failed to save history',
                     error: error.message,
                     stack: error.stack,
                     userId,
@@ -47,7 +51,8 @@ const MetalConverter = ({ userId, onRefresh }) => {
                     weight,
                     calculatedWeightText,
                 })
-                alert('There was an error adding the history!')
+                setErrorContent('Failed to save history\n' + error.message)
+                setIsErrorPopupOpen(true)
             }
         }
     }
@@ -73,7 +78,7 @@ const MetalConverter = ({ userId, onRefresh }) => {
             </table>
 
             <button type="button" onClick={handleCalculate}>Calculate</button>
-            {errorMessage && <p className="pre-wrap warning-text">{errorMessage}</p>}
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
 
             <table>
                 <tbody>
@@ -83,6 +88,10 @@ const MetalConverter = ({ userId, onRefresh }) => {
                     </tr>
                 </tbody>
             </table>
+
+            {isErrorPopupOpen && (
+                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
+            )}
         </div>
     )
 }

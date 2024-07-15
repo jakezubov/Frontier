@@ -6,6 +6,7 @@ import JewelleryPage from '../constants/JewelleryPages'
 import URL from '../constants/URLs'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
+import PopupError from '../components/PopupError'
 
 const RollingWire = ({ userId, onRefresh }) => {
     // Inputs
@@ -21,17 +22,21 @@ const RollingWire = ({ userId, onRefresh }) => {
     const [stockSizeRequired, setStockSizeRequired] = useState(true)
     const [output1, setOutput1] = useState('')
     const [output2, setOutput2] = useState('')
-    const [errorMessage, setErrorMessage] = useState('')
+
+    // Popups
+    const [validationMessage, setValidationMessage] = useState('')
+    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
+    const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setErrorMessage('')
+        setValidationMessage('')
     }, [ringSize, profile, width, thickness, length, stockSize])
 
     const handleCalculate = async () => {
         const isNumbersValid = validateNumber(width) && validateNumber(thickness) && validateNumber(length) && (!stockSizeRequired || validateNumber(stockSize))
 
         if (profile === "" || !isNumbersValid) {
-            setErrorMessage("Please ensure all fields are correctly filled.")
+            setValidationMessage("Please ensure all fields are correctly filled.")
             setOutput1('')
             setOutput2('')
             return
@@ -79,7 +84,7 @@ const RollingWire = ({ userId, onRefresh }) => {
             }
             catch (error) {
                 console.error({
-                    message: 'Failed to add history',
+                    message: 'Failed to save history',
                     error: error.message,
                     stack: error.stack,
                     userId,
@@ -92,7 +97,8 @@ const RollingWire = ({ userId, onRefresh }) => {
                     output1,
                     output2,
                 })
-                alert('There was an error adding the history!')
+                setErrorContent('Failed to save history\n' + error.message)
+                setIsErrorPopupOpen(true)
             }
         }
     }
@@ -166,7 +172,7 @@ const RollingWire = ({ userId, onRefresh }) => {
             </table>
 
             <button type="button" onClick={handleCalculate}>Calculate</button>
-            {errorMessage && <p className="pre-wrap warning-text">{errorMessage}</p>}
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
 
             <table>
                 <tbody>
@@ -188,6 +194,10 @@ const RollingWire = ({ userId, onRefresh }) => {
                     </tr>
                 </tbody>
             </table>
+
+            {isErrorPopupOpen && (
+                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
+            )}
         </div>
     )
 }

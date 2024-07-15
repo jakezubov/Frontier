@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Frontier.Server.DataAccess;
 using Frontier.Server.Models;
+using MongoDB.Bson;
 
 namespace Frontier.Server.Controllers
 {
@@ -18,5 +19,9 @@ namespace Frontier.Server.Controllers
         // Get Default Ring Sizes
         [HttpGet("ring-sizes")]
         public async Task<IEnumerable<RingSizeModel>> GetDefaultRingSizes() => await dbRingSizes.GetAllRingSizes();
+
+        // Generate Mongo Object ID
+        [HttpGet("generate-id")]
+        public string GenerateId() => ObjectId.GenerateNewId().ToString();
     }
 }

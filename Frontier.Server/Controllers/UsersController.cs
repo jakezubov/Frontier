@@ -58,7 +58,7 @@ namespace Frontier.Server.Controllers
 
         // Update User Details
         [HttpPut("{userId}/update")]
-        public async Task<IActionResult> UpdateUser(string userId, UserModel updateUser, bool isNewPassword)
+        public async Task<IActionResult> UpdateUser(string userId, UserModel updateUser)
         {
             // Check if the user exists in MongoDB
             if (userId != null) {
@@ -85,12 +85,25 @@ namespace Frontier.Server.Controllers
                 user.Email = updateUser.Email;
                 user.HistoryAmount = updateUser.HistoryAmount;
 
-                // Check if the user has changed password, if so hash the password and add the new salt to the user
-                if (isNewPassword) {
-                    string salt = BCrypt.Net.BCrypt.GenerateSalt(10);
-                    user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(updateUser.PasswordHash, salt);
-                    user.Salt = salt;
-                }
+                await db.UpdateUser(user);
+                return Ok();
+            }
+            else return NotFound("ERROR: User has no Id");
+        }
+
+        // Update Password
+        [HttpPut("{userId}/update/password")]
+        public async Task<IActionResult> UpdatePassword(string userId, [FromBody] CredentialsModel credentials)
+        {
+            // Check if the user exists in MongoDB
+            if (userId != null)
+            {
+                UserModel user = await db.GetUser(userId);
+                if (user == null) return NotFound("User not found");
+
+                string salt = BCrypt.Net.BCrypt.GenerateSalt(10);
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(credentials.Password, salt);
+                user.Salt = salt;
 
                 await db.UpdateUser(user);
                 return Ok();
