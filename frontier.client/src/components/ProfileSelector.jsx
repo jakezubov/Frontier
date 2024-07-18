@@ -21,7 +21,7 @@ const ProfileSelector = ({ label, onProfileChange, isLimited }) => {
         <div>
         {
             isLimited ?
-                <select aria-label={label} onChange={handleProfileChange}>
+                <select className="general-select" aria-label={label} onChange={handleProfileChange}>
                 <option value=""></option>
                 {
                     ProfilesLimited.map((profile, index) => (
@@ -29,7 +29,7 @@ const ProfileSelector = ({ label, onProfileChange, isLimited }) => {
                     ))
                 }
                 </select> :
-                <select aria-label={label} onChange={handleProfileChange}>
+                <select className="general-select" aria-label={label} onChange={handleProfileChange}>
                     <option value=""></option>
                     {
                         Profiles.map((profile, index) => (

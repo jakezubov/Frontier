@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import Axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react'
+import { UserContext } from '../contexts/UserContext'
 import URL from '../constants/URLs';
 import PopupError from './PopupError'
 
-const RingSizeSelector = ({ userId, label, onSizeChange, refresh }) => {
+const RingSizeSelector = ({ label, onSizeChange }) => {
+    const { userId } = useContext(UserContext)
     const [ringSizes, setRingSizes] = useState([])
 
     // Error Popup
@@ -13,7 +15,7 @@ const RingSizeSelector = ({ userId, label, onSizeChange, refresh }) => {
 
     useEffect(() => {
         loadRingSizes()
-    }, [refresh])
+    }, [userId])
 
     const loadRingSizes = async () => {
         try {
@@ -31,6 +33,7 @@ const RingSizeSelector = ({ userId, label, onSizeChange, refresh }) => {
                 message: 'Failed to load ring sizes',
                 error: error.message,
                 stack: error.stack,
+                userId,
             })
             setErrorContent('Failed to load ring sizes\n' + error.message)
             setIsErrorPopupOpen(true)
@@ -47,7 +50,7 @@ const RingSizeSelector = ({ userId, label, onSizeChange, refresh }) => {
 
     return (
         <div>
-            <select aria-label={label} onChange={handleSizeChange}>
+            <select className="general-select" aria-label={label} onChange={handleSizeChange}>
                 <option value=""></option>
                 {
                     ringSizes.map((ringSize, index) => (
@@ -64,10 +67,8 @@ const RingSizeSelector = ({ userId, label, onSizeChange, refresh }) => {
 }
 
 RingSizeSelector.propTypes = {
-    userId: PropTypes.string,
     label: PropTypes.string.isRequired,
     onSizeChange: PropTypes.func.isRequired,
-    refresh: PropTypes.bool
 }
 
 export default RingSizeSelector;

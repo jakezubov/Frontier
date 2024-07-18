@@ -31,8 +31,8 @@ const PopupDeleteAccount = ({ isPopupOpen, setIsPopupOpen, onConfirm, }) => {
                         <h2>Confirm Delete Account</h2>
                         <p>Are you sure you want to delete your account? This action cannot be undone.</p>
 
-                        <Link className='warning-button link-button' onClick={handleConfirmPopup} to={Path.CONFIRMATION_SCREEN}>Yes, Delete</Link>
-                        <button onClick={handleClosePopup}>Cancel</button>
+                        <Link className="link-button warning-button" onClick={handleConfirmPopup} to={Path.CONFIRMATION_SCREEN}>Yes, Delete</Link>
+                        <button className="general-button" onClick={handleClosePopup}>Cancel</button>
                     </div>
                 </div>
             )}

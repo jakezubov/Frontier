@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import { useEffect } from 'react'
 
 const PopupError = ({ isPopupOpen, setIsPopupOpen, content }) => {
     const handleClosePopup = () => {
@@ -8,7 +7,7 @@ const PopupError = ({ isPopupOpen, setIsPopupOpen, content }) => {
 
     return (
         <div>
-            {isPopupOpen && ( <button className="pre-wrap popup-box-error" onClick={handleClosePopup}>{content}</button>)}
+            {isPopupOpen && ( <button className="pre-wrap popup-box popup-box-error" onClick={handleClosePopup}>{content}</button>)}
         </div>
     )
 }

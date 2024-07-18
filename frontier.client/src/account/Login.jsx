@@ -44,38 +44,48 @@ const Login = ({ onLogin }) => {
         }
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            handleSubmit()
+        }
+    }
+
     return (
-            <div>
-                <h1>Login</h1>
+        <div>
+            <h1>Login</h1>
+
+            <form onKeyDown={handleKeyDown}>
                 <table>
                     <tbody>
                         <tr>
                             <td>Email</td>
-                            <td><input value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
+                            <td><input className="general-input" value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
                         </tr>
                         <tr>
                             <td>Password</td>
-                            <td><input value={password} type="password" onChange={(e) => setPassword(e.target.value)} /></td>
+                            <td><input className="general-input" value={password} type="password" onChange={(e) => setPassword(e.target.value)} /></td>
                         </tr>
                     </tbody>
                 </table>
 
-                <button type="button" onClick={handleSubmit}>Submit</button>
+                <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
                 {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-
-                <table>
-                    <tbody>
-                        <tr>
-                            <td><Link to={Path.REGISTER}>Register</Link></td>
-                            <td><Link to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
-                        </tr>
-                    </tbody>
+            </form>
+                
+            <table>
+                <tbody>
+                    <tr>
+                        <td><Link className="link-text" to={Path.REGISTER}>Register</Link></td>
+                        <td><Link className="link-text" to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
+                    </tr>
+                </tbody>
             </table>
 
             {isErrorPopupOpen && (
                 <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
             )}
-            </div>
+        </div>
     )
 }
 

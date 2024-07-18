@@ -1,12 +1,15 @@
-import PropTypes from 'prop-types'
 import Axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
+import { UserContext } from '../contexts/UserContext'
 import PopupConfirmation from '../components/PopupConfirmation'
 import PopupError from '../components/PopupError'
 import URL from '../constants/URLs'
 import GenerateObjectId from '../constants/GenerateObjectId'
 
-const RingSizeSettings = ({ userId }) => {
+const RingSizeSettings = () => {
+    const { userId } = useContext(UserContext)
     const { generateId } = GenerateObjectId()
     const [ringSizeList, setRingSizeList] = useState([])
 
@@ -35,6 +38,7 @@ const RingSizeSettings = ({ userId }) => {
                 message: 'Failed to load ring sizes',
                 error: error.message,
                 stack: error.stack,
+                userId,
             })
             setErrorContent('Failed to load ring sizes\n' + error.message)
             setIsErrorPopupOpen(true)
@@ -56,6 +60,7 @@ const RingSizeSettings = ({ userId }) => {
                 message: 'Failed to save ring sizes',
                 error: error.message,
                 stack: error.stack,
+                userId,
             })
             setErrorContent('Failed to save ring sizes\n' + error.message)
             setIsErrorPopupOpen(true)
@@ -72,6 +77,7 @@ const RingSizeSettings = ({ userId }) => {
                 message: 'Failed to reset ring sizes',
                 error: error.message,
                 stack: error.stack,
+                userId,
             })
             setErrorContent('Failed to reset ring sizes\n' + error.message)
             setIsErrorPopupOpen(true)
@@ -109,44 +115,51 @@ const RingSizeSettings = ({ userId }) => {
         setRingSizeList(ringSizeList => ringSizeList.filter(ringSize => ringSize.id !== id))
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            handleSave()
+        }
+    }
+
     return (
         <div>
             <h1>Ring Size Settings</h1>
-            {
-                ringSizeList.length > 0 ? (
-                <>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Letter Size</th>
-                                <th>Number Size</th>
-                                <th>Diameter</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            ringSizeList.map((ringSize, index) => (
-                                <tr key={ringSize.id}>
-                                    <td><input type="text" value={ringSize.letterSize} onChange={(e) => handleInputChange(ringSize.id, 'letterSize', e.target.value) } /></td>
-                                    <td><input type="number" min="0" step="0.5"value={ringSize.numberSize} onChange={(e) => handleInputChange(ringSize.id, 'numberSize', e.target.value) } /></td>
-                                    <td><input type="number" min="0" step="0.01" value={ringSize.diameter} onChange={(e) => handleInputChange(ringSize.id, 'diameter', e.target.value) } /></td>
-                                    <td>
-                                        <button className="simple-button" onClick={() => handleAddNew(index)}><b>+</b></button>
-                                        <button className="simple-button" onClick={() => handleDelete(ringSize.id)}><b>-</b></button>
-                                    </td>
+
+            <form onKeyDown={handleKeyDown}>
+                {ringSizeList.length > 0 ? (
+                    <>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Letter Size</th>
+                                    <th>Number Size</th>
+                                    <th>Diameter</th>
                                 </tr>
-                        ))}
-                        </tbody>
-                    </table>
-                </>
-                ) : (
-                    <p>No ring sizes found</p>
-                )
-            }
-            <button onClick={handleSave}>Save Changes</button>
-            <button onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button>
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
+                            </thead>
+                            <tbody>
+                                {
+                                    ringSizeList.map((ringSize, index) => (
+                                        <tr key={ringSize.id}>
+                                            <td><input className="general-input settings-narrow-input" type="text" value={ringSize.letterSize} onChange={(e) => handleInputChange(ringSize.id, 'letterSize', e.target.value)} /></td>
+                                            <td><input className="general-input settings-narrow-input" type="number" min="0" step="0.5" value={ringSize.numberSize} onChange={(e) => handleInputChange(ringSize.id, 'numberSize', e.target.value)} /></td>
+                                            <td><input className="general-input settings-narrow-input" type="number" min="0" step="0.01" value={ringSize.diameter} onChange={(e) => handleInputChange(ringSize.id, 'diameter', e.target.value)} /></td>
+                                            <td>
+                                                <button className="settings-icon" type="button" onClick={() => handleAddNew(index)}><FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>
+                                                <button className="settings-icon" type="button" onClick={() => handleDelete(ringSize.id)}><FontAwesomeIcon className="fa-lg" icon={faMinus} /></button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                    </>
+                ) : <p>No ring sizes found</p>}
+
+                <button className="general-button" type="button" onClick={handleSave}>Save Changes</button>
+                <button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button>
+                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+                {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
+            </form>
 
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleReset} heading="Are you sure?" />
@@ -157,10 +170,6 @@ const RingSizeSettings = ({ userId }) => {
             )}
         </div>
     )
-}
-
-RingSizeSettings.propTypes = {
-    userId: PropTypes.string.isRequired,
 }
 
 export default RingSizeSettings

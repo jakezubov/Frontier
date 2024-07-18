@@ -18,8 +18,8 @@ const PopupConfirmation = ({ isPopupOpen, setIsPopupOpen, onConfirm, heading, co
                         <h2>{heading}</h2>
                         <p className="pre-wrap">{content}</p>
 
-                        <button onClick={handleConfirmPopup} >Confirm</button>
-                        <button onClick={handleClosePopup} >Cancel</button>
+                        <button className="general-button" onClick={handleConfirmPopup} >Confirm</button>
+                        <button className="general-button" onClick={handleClosePopup} >Cancel</button>
                     </div>
                 </div>
             )}

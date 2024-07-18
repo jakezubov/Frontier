@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types'
 import Axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { UserContext } from '../contexts/UserContext'
 import URL from '../constants/URLs'
 import PopupError from '../components/PopupError'
 
-const MetalSelector = ({ userId, label, onMetalChange, refresh }) => {
+const MetalSelector = ({ label, onMetalChange }) => {
+    const { userId } = useContext(UserContext)
     const [metals, setMetals] = useState([])
 
     // Error Popup
@@ -13,7 +15,7 @@ const MetalSelector = ({ userId, label, onMetalChange, refresh }) => {
 
     useEffect(() => {
         loadMetals()
-    }, [refresh])
+    }, [ userId])
 
     const loadMetals = async () => {
         try {
@@ -31,6 +33,7 @@ const MetalSelector = ({ userId, label, onMetalChange, refresh }) => {
                 message: 'Failed to load metals',
                 error: error.message,
                 stack: error.stack,
+                userId,
             })
             setErrorContent('Failed to load metals\n' + error.message)
             setIsErrorPopupOpen(true)
@@ -47,7 +50,7 @@ const MetalSelector = ({ userId, label, onMetalChange, refresh }) => {
 
     return (
         <div>
-            <select aria-label={label} onChange={handleMetalChange}>
+            <select className="general-select" aria-label={label} onChange={handleMetalChange}>
                 <option value=""></option>
                 {
                     metals.map((metal, index) => (
@@ -64,10 +67,8 @@ const MetalSelector = ({ userId, label, onMetalChange, refresh }) => {
 }
 
 MetalSelector.propTypes = {
-    userId: PropTypes.string,
     label: PropTypes.string.isRequired,
     onMetalChange: PropTypes.func.isRequired,
-    refresh: PropTypes.string
 }
 
 export default MetalSelector;

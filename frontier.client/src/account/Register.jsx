@@ -60,42 +60,52 @@ const Register = ({ onRegister }) => {
         }
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            handleSubmit()
+        }
+    }
+
     return (
         <div>
             <h1>Register</h1>
+
+            <form onKeyDown={handleKeyDown}>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>First Name</td>
+                            <td><input className="general-input" value={firstName} onChange={(e) => setFirstName(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td><input className="general-input" value={lastName} onChange={(e) => setLastName(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td><input className="general-input" value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>Password</td>
+                            <td><input className="general-input" value={password} type="password" onChange={(e) => setPassword(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>Confirm Password</td>
+                            <td><input className="general-input" value={confirmPassword} type="password" onChange={(e) => setConfirmPassword(e.target.value)} /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
+                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+            </form>
+
             <table>
                 <tbody>
                     <tr>
-                        <td>First Name</td>
-                        <td><input value={firstName} onChange={(e) => setFirstName(e.target.value)} /></td>
-                    </tr>
-                    <tr>
-                        <td>Last Name</td>
-                        <td><input value={lastName} onChange={(e) => setLastName(e.target.value)} /></td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td><input value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td><input value={password} type="password" onChange={(e) => setPassword(e.target.value)} /></td>
-                    </tr>
-                    <tr>
-                        <td>Confirm Password</td>
-                        <td><input value={confirmPassword} type="password" onChange={(e) => setConfirmPassword(e.target.value)} /></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <button type="button" onClick={handleSubmit}>Submit</button>
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-
-            <table>
-                <tbody>
-                    <tr>
-                        <td><Link to={Path.LOGIN}>Login</Link></td>
-                        <td><Link to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
+                        <td><Link className="link-text" to={Path.LOGIN}>Login</Link></td>
+                        <td><Link className="link-text" to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
                     </tr>
                 </tbody>
             </table>

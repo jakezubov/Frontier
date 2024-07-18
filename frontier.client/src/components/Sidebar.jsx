@@ -1,19 +1,14 @@
 import PropTypes from 'prop-types'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import History from './History'
 import Information from './Information'
 import Contact from './Contact'
-import JewelleryPage from '../constants/JewelleryPages'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClockRotateLeft, faCircleInfo, faEnvelope, faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
 
-const Sidebar = ({ userId, jewelleryPage, refresh, onLogout }) => {
+const Sidebar = ({ refresh }) => {
     const [isExpanded, setIsExpanded] = useState(false)
     const [activeButton, setActiveButton] = useState('')
-
-    useEffect(() => {
-        setActiveButton('toggle')
-    }, [onLogout])
 
     const toggleSidebar = (e) => {
         const label = e.currentTarget.getAttribute('aria-label')
@@ -30,38 +25,28 @@ const Sidebar = ({ userId, jewelleryPage, refresh, onLogout }) => {
     return (
         <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
             <div className="col">
-                <button className="simple-button" aria-label='toggle' onClick={toggleSidebar}>
+                <button className="sidebar-icon" aria-label='toggle' onClick={toggleSidebar}>
                 {
                     isExpanded ?
                         <FontAwesomeIcon className="fa-2xl" icon={faAnglesRight} />
                         : <FontAwesomeIcon className="fa-2xl" icon={faAnglesLeft} />
                 }
                 </button>
-                <button className="simple-button" aria-label='information' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faCircleInfo} /></button>
-                <button className="simple-button" aria-label='contact' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>
-                {
-                    userId ?
-                        <button className="simple-button" aria-label='history' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
-                        : null
-                }
+                <button className="sidebar-icon" aria-label='information' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faCircleInfo} /></button>
+                <button className="sidebar-icon" aria-label='contact' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>
+                <button className="sidebar-icon" aria-label='history' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
             </div>
             <div className="col">
                 {isExpanded && (
                     <div className="sidebar-content">
                         {activeButton === 'information' && (
-                            <>
-                                <Information informationType={jewelleryPage} />
-                            </>
+                            <Information />
                         )}
                         {activeButton === 'history' && (
-                            <>
-                                <History userId={userId} historyType={jewelleryPage} refresh={refresh} />
-                            </>
+                            <History refresh={refresh} />
                         )}
                         {activeButton === 'contact' && (
-                            <>
-                                <Contact userId={userId} refresh={refresh} />
-                            </>
+                            <Contact refresh={refresh} />
                         )}
                     </div>
                 )}
@@ -71,8 +56,6 @@ const Sidebar = ({ userId, jewelleryPage, refresh, onLogout }) => {
 }
 
 Sidebar.propTypes = {
-    userId: PropTypes.string,
-    jewelleryPage: PropTypes.oneOf(Object.values(JewelleryPage)).isRequired,
     refresh: PropTypes.string
 }
 

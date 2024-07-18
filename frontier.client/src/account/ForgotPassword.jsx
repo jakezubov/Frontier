@@ -17,26 +17,36 @@ const ForgotPassword = () => {
         }
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            handleSubmit()
+        }
+    }
+
     return (
         <div>
             <h1>Forgot Password</h1>
+
+            <form onKeyDown={handleKeyDown}>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Email</td>
+                            <td><input className="general-input" value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
+                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+            </form>
+
             <table>
                 <tbody>
                     <tr>
-                        <td>Email</td>
-                        <td><input value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <button type="button" onClick={handleSubmit}>Submit</button>
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-
-            <table>
-                <tbody>
-                    <tr>
-                        <td><Link to={Path.LOGIN}>Login</Link></td>
-                        <td><Link to={Path.REGISTER}>Register</Link></td>
+                        <td><Link className="link-text" to={Path.LOGIN}>Login</Link></td>
+                        <td><Link className="link-text" to={Path.REGISTER}>Register</Link></td>
                     </tr>
                 </tbody>
             </table>

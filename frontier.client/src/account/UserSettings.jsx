@@ -1,12 +1,14 @@
 import PropTypes from 'prop-types'
 import Axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { UserContext } from '../contexts/UserContext'
 import DeleteAccount from '../components/DeleteAccount'
 import PopupConfirmation from '../components/PopupConfirmation'
 import PopupError from '../components/PopupError'
 import URL from '../constants/URLs'
 
-const UserSettings = ({ userId, onDelete }) => {
+const UserSettings = ({ onDelete }) => {
+    const { userId } = useContext(UserContext)
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -42,6 +44,7 @@ const UserSettings = ({ userId, onDelete }) => {
                 message: 'Failed to load user info',
                 error: error.message,
                 stack: error.stack,
+                userId,
             })
             setErrorContent('Failed to load user info\n' + error.message)
             setIsErrorPopupOpen(true)
@@ -72,6 +75,7 @@ const UserSettings = ({ userId, onDelete }) => {
                 message: 'Failed to save user info',
                 error: error.message,
                 stack: error.stack,
+                userId,
                 firstName,
                 lastName,
                 email,
@@ -93,41 +97,61 @@ const UserSettings = ({ userId, onDelete }) => {
                 message: 'Failed to clear history',
                 error: error.message,
                 stack: error.stack,
+                userId,
             })
             setErrorContent('Failed to clear history\n' + error.message)
             setIsErrorPopupOpen(true)
         }
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            handleSubmit()
+        }
+    }
+
     return (
         <div>
             <h1>User Settings</h1>
+
+            <form onKeyDown={handleKeyDown}>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>First Name</td>
+                            <td><input className="general-input" value={firstName} onChange={(e) => setFirstName(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>Last Name</td>
+                            <td><input className="general-input" value={lastName} onChange={(e) => setLastName(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td><input className="general-input" value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>History Amount</td>
+                            <td><input className="general-input" type="number" step="5" min="5" max="20" value={historyAmount} onChange={(e) => setHistoryAmount(e.target.value)} /></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button className="general-button" type="button" onClick={handleSubmit}>Save Changes</button>
+                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+                {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
+            </form>
+
+            <br />
+            <br />
+
             <table>
                 <tbody>
                     <tr>
-                        <td>First Name</td>
-                        <td><input value={firstName} onChange={(e) => setFirstName(e.target.value)} /></td>
-                    </tr>
-                    <tr>
-                        <td>Last Name</td>
-                        <td><input value={lastName} onChange={(e) => setLastName(e.target.value)} /></td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td><input value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
-                    </tr>
-                    <tr>
-                        <td>History Amount</td>
-                        <td><input type="number" step="5" min="5" max="20" value={historyAmount} onChange={(e) => setHistoryAmount(e.target.value)} /></td>
+                        <td><button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Clear History</button></td>
+                        <td><DeleteAccount userId={userId} onDelete={onDelete} /></td>
                     </tr>
                 </tbody>
             </table>
-            <button type="button" onClick={handleSubmit}>Save Changes</button>
-            <button type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Clear History</button>
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
-
-            <DeleteAccount userId={userId} onDelete={onDelete} />
 
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleClearHistory} heading="Are you sure?" />
@@ -141,7 +165,7 @@ const UserSettings = ({ userId, onDelete }) => {
 }
 
 UserSettings.propTypes = {
-    userId: PropTypes.string.isRequired,
+    onDelete: PropTypes.func.isRequired,
 }
 
 export default UserSettings
