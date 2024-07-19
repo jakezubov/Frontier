@@ -111,14 +111,14 @@ const RingWeight = ({ onRefresh }) => {
                         </tr>
                         <tr>
                             <td>Width</td>
-                            <td><input className="general-input" type="number" step="0.01" min="0" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
+                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
                         </tr>
                         <tr>
                             {
                                 thicknessRequired ?
                                     <>
                                         <td><div className="padded-text">Thickness</div></td>
-                                        <td><input className="general-input" type="number" step="0.01" min="0" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
+                                        <td><input className="general-input" type="number" step="0.01" min="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
                                     </> : null
                             }
                         </tr>
@@ -126,8 +126,9 @@ const RingWeight = ({ onRefresh }) => {
                 </table>
 
                 <button className="general-button" type="button" onClick={handleCalculate}>Calculate</button>
-                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
             </form>
+
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
             
             <table>
                 <tbody>

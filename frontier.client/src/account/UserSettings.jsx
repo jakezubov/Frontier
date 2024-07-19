@@ -12,6 +12,7 @@ const UserSettings = ({ onDelete }) => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
+    const [originalEmail, setOriginalEmail] = useState('')
     const [historyAmount, setHistoryAmount] = useState('')
 
     // Popups
@@ -30,6 +31,11 @@ const UserSettings = ({ onDelete }) => {
         setSuccessMessage('')
     }, [firstName, lastName, email, historyAmount])
 
+    const validateEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        return regex.test(String(email).toLowerCase())
+    }
+
     const getInfo = async () => {
         try {
             const response = await Axios.get(URL.GET_USER(userId))
@@ -37,6 +43,7 @@ const UserSettings = ({ onDelete }) => {
             setFirstName(response.data.firstName)
             setLastName(response.data.lastName)
             setEmail(response.data.email)
+            setOriginalEmail(response.data.email)
             setHistoryAmount(response.data.historyAmount)
         }
         catch (error) {
@@ -52,14 +59,43 @@ const UserSettings = ({ onDelete }) => {
     }
 
     const handleSubmit = async () => {
-        if (historyAmount < 0) {
-            setValidationMessage('History amount must be greater than zero.')
-            return
-        }
-        else if (!firstName || !lastName || !email || !historyAmount) {
+        if (!firstName || !lastName || !email || !historyAmount) {
             setValidationMessage('Please enter all information.')
             return
         }
+        else if (!validateEmail(email)) {
+            setValidationMessage('Invalid email address.')
+            return
+        }
+        else if (historyAmount < 0) {
+            setValidationMessage('History amount must be greater than zero.')
+            return
+        }
+
+        if (originalEmail != email) {
+            try {
+                const response = await Axios.post(URL.CHECK_EMAIL(email))
+
+                if (response.data) {
+                    setValidationMessage('Email already exists.')
+                    return
+                }
+            }
+            catch (error) {
+                console.error({
+                    message: 'Failed to check email',
+                    error: error.message,
+                    stack: error.stack,
+                    firstName,
+                    lastName,
+                    email,
+                    historyAmount,
+                })
+                setErrorContent('Failed to check email\n' + error.message)
+                setIsErrorPopupOpen(true)
+            }
+        }
+
         try {
             await Axios.put(URL.UPDATE_USER(userId), {
                 'FirstName': firstName,
@@ -137,9 +173,10 @@ const UserSettings = ({ onDelete }) => {
                     </tbody>
                 </table>
                 <button className="general-button" type="button" onClick={handleSubmit}>Save Changes</button>
-                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-                {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
             </form>
+
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
 
             <br />
             <br />
@@ -154,7 +191,7 @@ const UserSettings = ({ onDelete }) => {
             </table>
 
             {isConfirmationPopupOpen && (
-                <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleClearHistory} heading="Are you sure?" />
+                <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleClearHistory} heading="Are you sure you want to clear history?" />
             )}
 
             {isErrorPopupOpen && (

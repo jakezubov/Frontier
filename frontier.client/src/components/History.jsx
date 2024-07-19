@@ -40,21 +40,22 @@ const History = ({ refresh }) => {
     return (
         <div>
             <h3>History</h3>
-            <ul>
-            {
-                !userId ?
-                    <p>Login to save history.</p>
-                        : jewelleryPage === JewelleryPage.NONE ?
-                            <p>Go to any of the Jewellery Tools to get user history.</p>
-                            : history.length > 0 ?
-                                history.map(item => (
-                                        <li className="history" key={item.id}>
-                                            {item.content}
-                                        </li>
-                                )) : <p>No History Yet!</p>
+            {!userId ?
+                <p>To save your calculation history, please create or log in to your account. </p>
+                : jewelleryPage === JewelleryPage.NONE ?
+                    <p>Navigate to any of the Jewellery Tools to access calculation history.</p>
+                    : history.length > 0 ?
+                        <ul className="padded-text">
+                            {history.map(item => (
+                                <li className="history" key={item.id}>
+                                    {item.content}
+                                    <hr />
+                                </li>
+                            ))}
+                        </ul>
+                        : <p>There is no history at the moment. Try running a calculation.</p>
             }
-            </ul>
-
+ 
             {isErrorPopupOpen && (
                 <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
             )}

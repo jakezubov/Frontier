@@ -16,6 +16,7 @@ import Login from './account/Login'
 import ForgotPassword from './account/ForgotPassword'
 import MyAccount from './account/MyAccount'
 import Sidebar from './components/Sidebar'
+import PopupLogout from './components/PopupLogout'
 import JewelleryPage from './constants/JewelleryPages'
 import Path from './constants/Paths'
 import ConfirmationScreen from './account/ConfirmationScreen'
@@ -27,6 +28,7 @@ const App = () => {
     const [refreshSidebar, setRefreshSidebar] = useState('')
     const [confirmationMessage, setConfirmationMessage] = useState('')
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
+    const [isLogoutPopupOpen, setIsLogoutPopupOpen] = useState(false)
 
     useEffect(() => {
         updateCSSVariables(theme);
@@ -52,21 +54,21 @@ const App = () => {
 
     const handleRegister = () => {
         setConfirmationMessage('Successfully registered account!')
-        return <Navigate to={Path.CONFIRMATION_SCREEN} /> // FIX - should open confirmation screen
     }
 
     const handleLogin = (id) => {
         setConfirmationMessage('Successfully logged in!')
         setUserId(id)
-        return <Navigate to={Path.CONFIRMATION_SCREEN} /> // FIX - should open confirmation screen
     }
 
     const handleLogout = () => {
+        handlePageChange(JewelleryPage.NONE)
         setConfirmationMessage('Logged Out Successfully!')
         setUserId(null)
     }
 
     const handleDeleteAccount = () => {
+        handlePageChange(JewelleryPage.NONE)
         setConfirmationMessage('Account has been deleted!')
         setUserId(null)
     }
@@ -97,7 +99,7 @@ const App = () => {
                             <hr />
                             <li>
                                 <FontAwesomeIcon className="fa-xl navbar-icon-spacing" icon={faArrowRightFromBracket} />
-                                <Link className="navbar-links" onClick={handlePageChange(JewelleryPage.NONE)} to={Path.CONFIRMATION_SCREEN} onClick={handleLogout} >Logout</Link>
+                                <Link className="navbar-links" onClick={() => setIsLogoutPopupOpen(true)} >Logout</Link>
                             </li>
                         </>
                         :
@@ -115,6 +117,10 @@ const App = () => {
                         <button className="settings-icon" onClick={handleThemeChange}><FontAwesomeIcon className="fa-2xl" icon={faCircleHalfStroke} /></button>
                     </div>
                 </nav>
+
+                {isLogoutPopupOpen && (
+                    <PopupLogout isPopupOpen={isLogoutPopupOpen} setIsPopupOpen={setIsLogoutPopupOpen} onConfirm={handleLogout} />
+                )}
 
                 <Sidebar refresh={refreshSidebar} />
 

@@ -1,18 +1,9 @@
 import PropTypes from 'prop-types'
-import { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import Path from '../constants/Paths'
 
 const PopupDeleteAccount = ({ isPopupOpen, setIsPopupOpen, onConfirm, }) => {
-    useEffect(() => {
-        if (isPopupOpen) {
-            document.body.style.overflow = 'hidden'
-        }
-
-        return () => {
-            document.body.style.overflow = 'auto'
-        }
-    }, [isPopupOpen])
+    const navigate = useNavigate()
 
     const handleClosePopup = () => {
         setIsPopupOpen(false)
@@ -21,6 +12,7 @@ const PopupDeleteAccount = ({ isPopupOpen, setIsPopupOpen, onConfirm, }) => {
     const handleConfirmPopup = () => {
         setIsPopupOpen(false)
         onConfirm()
+        navigate(Path.CONFIRMATION_SCREEN)
     }
 
     return (
@@ -31,7 +23,7 @@ const PopupDeleteAccount = ({ isPopupOpen, setIsPopupOpen, onConfirm, }) => {
                         <h2>Confirm Delete Account</h2>
                         <p>Are you sure you want to delete your account? This action cannot be undone.</p>
 
-                        <Link className="link-button warning-button" onClick={handleConfirmPopup} to={Path.CONFIRMATION_SCREEN}>Yes, Delete</Link>
+                        <button className="warning-button" onClick={handleConfirmPopup}>Yes, Delete</button>
                         <button className="general-button" onClick={handleClosePopup}>Cancel</button>
                     </div>
                 </div>

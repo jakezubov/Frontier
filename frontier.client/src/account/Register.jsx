@@ -1,11 +1,12 @@
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import Path from '../constants/Paths'
 import URL from '../constants/URLs'
 import PopupError from '../components/PopupError'
 
 const Register = ({ onRegister }) => {
+    const navigate = useNavigate()
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -27,14 +28,55 @@ const Register = ({ onRegister }) => {
         }
     }, [password, confirmPassword])
 
-    const handleSubmit = async () => {
-        if (password !== confirmPassword) {
+    const validateEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        return regex.test(String(email).toLowerCase())
+    }
+
+    const validatePassword = (password) => {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/
+        return regex.test(String(password));
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        
+        if (!firstName || !lastName || !email || !password || !confirmPassword) {
+            setValidationMessage('Please enter all information.')
+            return
+        }
+        else if (!validateEmail(email)) {
+            setValidationMessage('Invalid email address.')
+            return
+        }
+        else if (password !== confirmPassword) {
             setValidationMessage('Passwords do not match.')
             return
         }
-        else if (!firstName || !lastName || !email || !password || !confirmPassword) {
-            setValidationMessage('Please enter all information.')
+        else if (!validatePassword(password)) {
+            setValidationMessage('Password must include the following:\n- At least 8 characters\n- An uppercase letter\n- A lowercase letter\n- A number')
             return
+        }
+
+        try {
+            const response = await Axios.post(URL.CHECK_EMAIL(email))
+
+            if (response.data) {
+                setValidationMessage('Email already exists.')
+                return
+            }
+        }
+        catch (error) {
+            console.error({
+                message: 'Failed to check email',
+                error: error.message,
+                stack: error.stack,
+                firstName,
+                lastName,
+                email,
+            })
+            setErrorContent('Failed to check email\n' + error.message)
+            setIsErrorPopupOpen(true)
         }
 
         try {
@@ -45,6 +87,7 @@ const Register = ({ onRegister }) => {
                 'PasswordHash': password
             })
             onRegister()
+            navigate(Path.CONFIRMATION_SCREEN)
         }
         catch (error) {
             console.error({
@@ -97,9 +140,10 @@ const Register = ({ onRegister }) => {
                     </tbody>
                 </table>
 
-                <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
-                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+                <button className="general-button" onClick={handleSubmit}>Submit</button>
             </form>
+
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
 
             <table>
                 <tbody>

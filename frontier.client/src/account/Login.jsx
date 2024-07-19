@@ -1,11 +1,12 @@
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import Path from '../constants/Paths'
 import URL from '../constants/URLs'
 import PopupError from '../components/PopupError'
 
 const Login = ({ onLogin }) => {
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -31,6 +32,7 @@ const Login = ({ onLogin }) => {
                 return
             }
             onLogin(response.data)
+            navigate(Path.CONFIRMATION_SCREEN)
         }
         catch (error) {
             console.error({
@@ -70,8 +72,9 @@ const Login = ({ onLogin }) => {
                 </table>
 
                 <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
-                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
             </form>
+
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
                 
             <table>
                 <tbody>

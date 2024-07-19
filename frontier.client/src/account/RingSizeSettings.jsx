@@ -51,6 +51,10 @@ const RingSizeSettings = () => {
                 setValidationMessage('All ring sizes must have a valid size names and diameter.')
                 return
             }
+            else if (ringSize.diameter <= 0) {
+                setValidationMessage('All ring sizes must have a diameter greater than zero.')
+                return
+            }
         }
         try {
             await Axios.put(URL.UPDATE_RING_SIZES(userId), ringSizeList)
@@ -143,7 +147,7 @@ const RingSizeSettings = () => {
                                         <tr key={ringSize.id}>
                                             <td><input className="general-input settings-narrow-input" type="text" value={ringSize.letterSize} onChange={(e) => handleInputChange(ringSize.id, 'letterSize', e.target.value)} /></td>
                                             <td><input className="general-input settings-narrow-input" type="number" min="0" step="0.5" value={ringSize.numberSize} onChange={(e) => handleInputChange(ringSize.id, 'numberSize', e.target.value)} /></td>
-                                            <td><input className="general-input settings-narrow-input" type="number" min="0" step="0.01" value={ringSize.diameter} onChange={(e) => handleInputChange(ringSize.id, 'diameter', e.target.value)} /></td>
+                                            <td><input className="general-input settings-narrow-input" type="number" min="0.01" step="0.01" value={ringSize.diameter} onChange={(e) => handleInputChange(ringSize.id, 'diameter', e.target.value)} /></td>
                                             <td>
                                                 <button className="settings-icon" type="button" onClick={() => handleAddNew(index)}><FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>
                                                 <button className="settings-icon" type="button" onClick={() => handleDelete(ringSize.id)}><FontAwesomeIcon className="fa-lg" icon={faMinus} /></button>
@@ -153,13 +157,20 @@ const RingSizeSettings = () => {
                             </tbody>
                         </table>
                     </>
-                ) : <p>No ring sizes found</p>}
+                ) : <button className="settings-icon" type="button" onClick={() => handleAddNew(0)}>Add a Ring Size <FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>}
 
-                <button className="general-button" type="button" onClick={handleSave}>Save Changes</button>
-                <button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button>
-                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-                {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><button className="general-button" type="button" onClick={handleSave}>Save Changes</button></td>
+                            <td><button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </form>
+
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
 
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleReset} heading="Are you sure?" />

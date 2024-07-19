@@ -14,7 +14,7 @@ public class UserModel
     public required string Email { get; set; }
     public required string PasswordHash { get; set; }
     public string? Salt { get; set; }
-    public int HistoryAmount { get; set; } = 10;
+    public int HistoryAmount { get; set; } = 5;
     public List<HistoryModel> History { get; set; } = [];
     public List<MetalModel> Metals { get; set; } = [];
     public List<RingSizeModel> RingSizes { get; set; } = [];

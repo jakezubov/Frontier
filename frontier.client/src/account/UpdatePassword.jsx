@@ -24,6 +24,11 @@ const UpdatePassword = () => {
         }
     }, [oldPassword, newPassword, confirmNewPassword])
 
+    const validatePassword = (password) => {
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/
+        return regex.test(String(password));
+    }
+
     const clearPasswords = () => {
         setOldPassword('')
         setNewPassword('')
@@ -31,12 +36,16 @@ const UpdatePassword = () => {
     }
 
     const handleSubmit = async () => {
-        if (newPassword !== confirmNewPassword) {
+        if (!oldPassword || !newPassword || !confirmNewPassword) {
+            setValidationMessage('Please enter all information.')
+            return
+        }
+        else if (newPassword !== confirmNewPassword) {
             setValidationMessage('New passwords do not match.')
             return
         }
-        else if (!oldPassword || !newPassword || !confirmNewPassword) {
-            setValidationMessage('Please enter all information.')
+        else if (!validatePassword(newPassword)) {
+            setValidationMessage('Password must include the following:\n- At least 8 characters\n- An uppercase letter\n- A lowercase letter\n- A number')
             return
         }
         try {
@@ -100,10 +109,11 @@ const UpdatePassword = () => {
                         </tr>
                     </tbody>
                 </table>
-                <button className="general-button" type="button" onClick={handleSubmit}>Save Changes</button>
-                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-                {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
+                <button className="general-button" type="button" onClick={handleSubmit}>Save Changes</button>   
             </form> 
+
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
 
             {isErrorPopupOpen && (
                 <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />

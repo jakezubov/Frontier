@@ -5,16 +5,29 @@ import Path from '../constants/Paths'
 const ForgotPassword = () => {
     const [email, setEmail] = useState('')
     const [validationMessage, setValidationMessage] = useState('')
+    const [successMessage, setSuccessMessage] = useState('')
 
     useEffect(() => {
         setValidationMessage('')
+        setSuccessMessage('')
     }, [email])
+
+    const validateEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        return regex.test(String(email).toLowerCase())
+    }
 
     const handleSubmit = () => {
         if (!email) {
             setValidationMessage('Please enter an email.')
             return
         }
+        else if (!validateEmail(email)) {
+            setValidationMessage('Please enter a valid email address.')
+            return
+        }
+
+        setSuccessMessage('Email has been sent. (not really)')
     }
 
     const handleKeyDown = (event) => {
@@ -39,8 +52,10 @@ const ForgotPassword = () => {
                 </table>
 
                 <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
-                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
             </form>
+
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
 
             <table>
                 <tbody>

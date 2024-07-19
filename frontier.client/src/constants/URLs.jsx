@@ -4,11 +4,14 @@ const URL = {
     /** User */
     GET_ALL_USERS: `${prefix}/api/users`,
     GET_USER: (userId) => `${prefix}/api/users/${userId}`,
-    VALIDATE_USER: `${prefix}/api/users/validate`,
     CREATE_USER: `${prefix}/api/users/create`,
     UPDATE_USER: (userId) => `${prefix}/api/users/${userId}/update`,
     UPDATE_PASSWORD: (userId) => `${prefix}/api/users/${userId}/update/password`,
     DELETE_USER: (userId) => `${prefix}/api/users/${userId}/delete`,
+
+    /** Validation */
+    VALIDATE_USER: `${prefix}/api/users/validate`,
+    CHECK_EMAIL: (email) => `${prefix}/api/users/check-email/${email}`,
 
     /** History */
     GET_HISTORY: (userId) => `${prefix}/api/users/${userId}/history`,
@@ -31,6 +34,6 @@ const URL = {
 
     /** Misc */
     GENERATE_OBJECT_ID: `${prefix}/api/defaults/generate-id`,
-};
+} 
 
 export default URL;

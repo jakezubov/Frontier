@@ -83,14 +83,15 @@ const MetalConverter = ({ onRefresh }) => {
                         </tr>
                         <tr>
                             <td>Weight</td>
-                            <td><input className="general-input" type="number" step="0.01" min="0" value={weight} onChange={(e) => setWeight(e.target.value)} /></td>
+                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={weight} onChange={(e) => setWeight(e.target.value)} /></td>
                         </tr>
                     </tbody>
                 </table>
 
                 <button className="general-button" type="button" onClick={handleCalculate}>Calculate</button>
-                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
             </form>
+
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
 
             <table>
                 <tbody>

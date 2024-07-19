@@ -27,22 +27,6 @@ namespace Frontier.Server.Controllers
             return Ok(user);
         }
 
-        // Validate User
-        [HttpPost("validate")]
-        public async Task<IActionResult> ValidateUser([FromBody] CredentialsModel credentials)
-        {
-            // Get the user from the email
-            UserModel user = await db.ValidateUser(credentials.Email);
-            if (user == null) return Ok(null);
-
-            // Hash supplied password and check if it matches the user password
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(credentials.Password, user.Salt);
-            bool isValid = passwordHash == user.PasswordHash;
-            if (!isValid) return Ok(null);
-
-            return Ok(user.Id);
-        }
-
         // Create User
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser(UserModel user)
@@ -123,6 +107,37 @@ namespace Frontier.Server.Controllers
         }
         #endregion
 
+
+        #region Validation APIs
+        // Validate User
+        [HttpPost("validate")]
+        public async Task<IActionResult> ValidateUser([FromBody] CredentialsModel credentials)
+        {
+            // Get the user from the email
+            UserModel user = await db.ValidateUser(credentials.Email);
+            if (user == null) return Ok(null);
+
+            // Hash supplied password and check if it matches the user password
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(credentials.Password, user.Salt);
+            bool isValid = passwordHash == user.PasswordHash;
+            if (!isValid) return Ok(null);
+
+            return Ok(user.Id);
+        }
+
+        // Check If Email Already Exists
+        [HttpPost("check-email/{email}")]
+        public async Task<IActionResult> CheckEmail(string email)
+        {
+            // Get the user from the email
+            UserModel user = await db.ValidateUser(email);
+            if (user == null) return Ok(null);
+
+            return Ok(user.Id);
+        }
+        #endregion
+
+
         #region History APIs
         // Get History
         [HttpGet("{userId}/history")]
@@ -174,6 +189,7 @@ namespace Frontier.Server.Controllers
         }
         #endregion
 
+
         #region Metal APIs
         // Get Metals
         [HttpGet("{userId}/metals")]
@@ -214,6 +230,7 @@ namespace Frontier.Server.Controllers
             return Ok();
         }
         #endregion
+
 
         #region Ring Size APIs
         // Get Ring Sizes

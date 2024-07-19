@@ -51,6 +51,10 @@ const MetalSettings = () => {
                 setValidationMessage('All metals must have a valid name and specific gravity.')
                 return
             }
+            else if (metal.specificGravity <= 0) {
+                setValidationMessage('All metals must have a specific gravity greater than zero.')
+                return
+            }
         }
         try {
             await Axios.put(URL.UPDATE_METALS(userId), metalList)
@@ -141,7 +145,7 @@ const MetalSettings = () => {
                                     metalList.map((metal, index) => (
                                         <tr key={metal.id}>
                                             <td><input className="general-input" type="text" value={metal.name} onChange={(e) => handleInputChange(metal.id, 'name', e.target.value)} /></td>
-                                            <td><input className="general-input" type="number" step="0.01" value={metal.specificGravity} onChange={(e) => handleInputChange(metal.id, 'specificGravity', e.target.value)} /></td>
+                                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={metal.specificGravity} onChange={(e) => handleInputChange(metal.id, 'specificGravity', e.target.value)} /></td>
                                             <td>
                                                 <button className="settings-icon" type="button" onClick={() => handleAddNew(index)}><FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>
                                                 <button className="settings-icon" type="button" onClick={() => handleDelete(metal.id)}><FontAwesomeIcon className="fa-lg" icon={faMinus} /></button>
@@ -151,13 +155,20 @@ const MetalSettings = () => {
                             </tbody>
                         </table>
                     </>
-                ) : <p>No metals found</p>}
+                ) : <button className="settings-icon" type="button" onClick={() => handleAddNew(0)}>Add a Metal <FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>}
 
-                <button className="general-button" type="button" onClick={handleSave}>Save Changes</button>
-                <button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button>
-                {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-                {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><button className="general-button" type="button" onClick={handleSave}>Save Changes</button></td>
+                            <td><button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button></td>
+                        </tr>
+                    </tbody>
+                </table>
             </form>
+
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
             
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleReset} heading="Are you sure?" />

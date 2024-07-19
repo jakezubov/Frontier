@@ -11,13 +11,25 @@ const Contact = ({ refresh }) => {
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
 
-    // Error Popup
+    // Popups
+    const [successMessage, setSuccessMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState('')
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
         if (userId) loadInformation()
     }, [refresh, userId])
+
+    useEffect(() => {
+        setValidationMessage('')
+        setSuccessMessage('')
+    }, [name, email, message])
+
+    const validateEmail = (email) => {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        return regex.test(String(email).toLowerCase())
+    }
 
     const loadInformation = async () => {
         try {
@@ -39,30 +51,47 @@ const Contact = ({ refresh }) => {
     }
 
     const handleSubmit = () => {
+        if (!name || !email || !message) {
+            setValidationMessage('Please enter all information.')
+            return
+        }
+        else if (!validateEmail(email)) {
+            setValidationMessage('Invalid email address.')
+            return
+        }
 
+        setSuccessMessage('Email has been sent. (not really)')
     }
 
     return (
         <div>
             <h3>Contact</h3>
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Name</td>
-                        <td><input className="general-input" value={name} onChange={(e) => setName(e.target.value)} /></td>
-                    </tr>
-                    <tr>
-                        <td>Email</td>
-                        <td><input className="general-input" value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
-                    </tr>
-                </tbody>
-            </table>
 
-            <br />
+            <form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Name</td>
+                            <td><input className="general-input" value={name} onChange={(e) => setName(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td><input className="general-input" value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <h4>Message</h4>
-            <textarea className="general-input" rows="5" value={message} onChange={(e) => setMessage(e.target.value)} />
-            <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
+                <br />
+                
+                <h4>Message</h4>
+                <textarea className="general-text-area" rows="5" value={message} onChange={(e) => setMessage(e.target.value)} />
+                
+
+                <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
+            </form>
+
+            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
 
             {isErrorPopupOpen && (
                 <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
