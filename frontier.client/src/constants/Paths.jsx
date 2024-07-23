@@ -7,6 +7,7 @@ const Path = {
     LOGIN: "/account/Login",
     FORGOT_PASSWORD: "/account/ForgotPassword",
     MY_ACCOUNT: "/account/MyAccount",
+    VERIFY_ACCOUNT: "/account/VerifyAccount",
     CONFIRMATION_SCREEN: "/account/ConfirmationScreen",
 }
 

@@ -14,6 +14,7 @@ const UserSettings = ({ onDelete }) => {
     const [email, setEmail] = useState('')
     const [originalEmail, setOriginalEmail] = useState('')
     const [historyAmount, setHistoryAmount] = useState('')
+    const [emailChanged, setEmailChanged] = useState(false)
 
     // Popups
     const [validationMessage, setValidationMessage] = useState('')
@@ -29,6 +30,9 @@ const UserSettings = ({ onDelete }) => {
     useEffect(() => {
         setValidationMessage('')
         setSuccessMessage('')
+        if (email.toLowerCase() != originalEmail) {
+            setEmailChanged(true)
+        }
     }, [firstName, lastName, email, historyAmount])
 
     const validateEmail = (email) => {
@@ -72,12 +76,27 @@ const UserSettings = ({ onDelete }) => {
             return
         }
 
-        if (originalEmail != email) {
+        if (emailChanged) {
             try {
-                const response = await Axios.post(URL.CHECK_EMAIL(email))
+                const response = await Axios.post(URL.CHECK_EMAIL(email.toLowerCase()))
 
                 if (response.data) {
                     setValidationMessage('Email already exists.')
+                    return
+                }
+
+                try {
+                    await Axios.put(URL.UNVERIFY_EMAIL(originalEmail.toLowerCase()))
+                }
+                catch (error) {
+                    console.error({
+                        message: 'Failed to unverify account',
+                        error: error.message,
+                        stack: error.stack,
+                        email,
+                    })
+                    setErrorContent('Failed to unverify account\n' + error.message)
+                    setIsErrorPopupOpen(true)
                     return
                 }
             }
@@ -120,7 +139,6 @@ const UserSettings = ({ onDelete }) => {
             setErrorContent('Failed to save user info\n' + error.message)
             setIsErrorPopupOpen(true)
         }
-        
     }
 
     const handleClearHistory = async () => {

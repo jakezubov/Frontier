@@ -59,7 +59,7 @@ const Register = ({ onRegister }) => {
         }
 
         try {
-            const response = await Axios.post(URL.CHECK_EMAIL(email))
+            const response = await Axios.post(URL.CHECK_EMAIL(email.toLowerCase()))
 
             if (response.data) {
                 setValidationMessage('Email already exists.')

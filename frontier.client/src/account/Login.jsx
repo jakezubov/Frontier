@@ -31,7 +31,24 @@ const Login = ({ onLogin }) => {
                 setValidationMessage('Email and/or Password is incorrect.')
                 return
             }
-            onLogin(response.data)
+            const userId = response.data
+
+            try {
+                await Axios.put(URL.UPDATE_LAST_LOGIN_TIME(userId))
+            }
+            catch (error) {
+                console.error({
+                    message: 'Failed to set login time',
+                    error: error.message,
+                    stack: error.stack,
+                    userId,
+                })
+                setErrorContent('Failed to set login time\n' + error.message)
+                setIsErrorPopupOpen(true)
+                return
+            }
+
+            onLogin(userId)
             navigate(Path.CONFIRMATION_SCREEN)
         }
         catch (error) {

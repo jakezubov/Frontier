@@ -14,7 +14,30 @@ namespace Frontier.Server.Controllers
         #region User APIs
         // Get All Users
         [HttpGet]
-        public async Task<IEnumerable<UserModel>> GetAllUsers() => await db.GetAllUsers();
+        public async Task<IEnumerable<UserDetailsModel>> GetAllUsers()
+        {
+            List<UserModel> users = await db.GetAllUsers();
+            List<UserDetailsModel> userDetailsList = [];
+
+            foreach (UserModel user in users)
+            {
+                var userDetails = new UserDetailsModel
+                {
+                    Id = user.Id,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    HistoryAmount = user.HistoryAmount,
+                    History = user.History,
+                    Metals = user.Metals,
+                    RingSizes = user.RingSizes
+                };
+
+                userDetailsList.Add(userDetails);
+            }
+
+            return userDetailsList.AsEnumerable();
+        } 
 
         // Get User
         [HttpGet("{userId}")]
@@ -23,8 +46,19 @@ namespace Frontier.Server.Controllers
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
-            await db.GetUser(userId);
-            return Ok(user);
+
+            // Remove Salt and PasswordHash
+            UserDetailsModel userDetails = new() {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                HistoryAmount = user.HistoryAmount,
+                History = user.History,
+                Metals = user.Metals,
+                RingSizes = user.RingSizes
+            };
+            return Ok(userDetails);
         }
 
         // Create User
@@ -35,6 +69,7 @@ namespace Frontier.Server.Controllers
             string salt = BCrypt.Net.BCrypt.GenerateSalt(10);
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, salt);
             user.Salt = salt;
+            user.Email = user.Email.ToLower();
 
             await db.CreateUser(user);
             return Created();
@@ -66,7 +101,7 @@ namespace Frontier.Server.Controllers
                 // Update the users details
                 user.FirstName = updateUser.FirstName;
                 user.LastName = updateUser.LastName;
-                user.Email = updateUser.Email;
+                user.Email = updateUser.Email.ToLower();
                 user.HistoryAmount = updateUser.HistoryAmount;
 
                 await db.UpdateUser(user);
@@ -102,6 +137,7 @@ namespace Frontier.Server.Controllers
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
+
             await db.DeleteUser(user);
             return Ok();
         }
@@ -114,7 +150,7 @@ namespace Frontier.Server.Controllers
         public async Task<IActionResult> ValidateUser([FromBody] CredentialsModel credentials)
         {
             // Get the user from the email
-            UserModel user = await db.ValidateUser(credentials.Email);
+            UserModel user = await db.ValidateUser(credentials.Email.ToLower());
             if (user == null) return Ok(null);
 
             // Hash supplied password and check if it matches the user password
@@ -130,10 +166,49 @@ namespace Frontier.Server.Controllers
         public async Task<IActionResult> CheckEmail(string email)
         {
             // Get the user from the email
-            UserModel user = await db.ValidateUser(email);
+            UserModel user = await db.ValidateUser(email.ToLower());
             if (user == null) return Ok(null);
 
             return Ok(user.Id);
+        }
+
+        // Verify User Account
+        [HttpPut("verify-email/{email}")]
+        public async Task<IActionResult> VerifyUser(string email)
+        {
+            // Get the user from the email
+            UserModel user = await db.ValidateUser(email.ToLower());
+            if (user == null) return Ok(null);
+
+            user.VerifiedTF = true;
+            await db.UpdateUser(user);
+            return Ok();
+        }
+
+        // Unverify User Account
+        [HttpPut("unverify-email/{email}")]
+        public async Task<IActionResult> UnverifyUser(string email)
+        {
+            // Get the user from the email
+            UserModel user = await db.ValidateUser(email.ToLower());
+            if (user == null) return Ok(null);
+
+            user.VerifiedTF = false;
+            await db.UpdateUser(user);
+            return Ok();
+        }
+
+        // Update Login Time
+        [HttpPut("login/{userId}")]
+        public async Task<IActionResult> UpdateLastLogin(string userId)
+        {
+            // Check if the user exists
+            UserModel user = await db.GetUser(userId);
+            if (user == null) return NotFound("User not found");
+
+            user.LastLoggedIn = DateTime.UtcNow;
+            await db.UpdateUser(user);
+            return Ok();
         }
         #endregion
 

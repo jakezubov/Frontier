@@ -1,4 +1,4 @@
-const prefix = 'http://localhost:5221'
+const prefix = 'https://localhost:5221'
 
 const URL = {
     /** User */
@@ -12,6 +12,9 @@ const URL = {
     /** Validation */
     VALIDATE_USER: `${prefix}/api/users/validate`,
     CHECK_EMAIL: (email) => `${prefix}/api/users/check-email/${email}`,
+    VERIFY_EMAIL: (email) => `${prefix}/api/users/verify-email/${email}`,
+    UNVERIFY_EMAIL: (email) => `${prefix}/api/users/unverify-email/${email}`,
+    UPDATE_LAST_LOGIN_TIME: (userId) => `${prefix}/api/users/login/${userId}`,
 
     /** History */
     GET_HISTORY: (userId) => `${prefix}/api/users/${userId}/history`,

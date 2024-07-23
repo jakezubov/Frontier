@@ -15,11 +15,13 @@ import Register from './account/Register'
 import Login from './account/Login'
 import ForgotPassword from './account/ForgotPassword'
 import MyAccount from './account/MyAccount'
+import VerifyAccount from './account/VerifyAccount'
 import Sidebar from './components/Sidebar'
 import PopupLogout from './components/PopupLogout'
 import JewelleryPage from './constants/JewelleryPages'
 import Path from './constants/Paths'
 import ConfirmationScreen from './account/ConfirmationScreen'
+
 
 const App = () => {
     const { userId, setUserId } = useContext(UserContext)
@@ -134,6 +136,7 @@ const App = () => {
                     <Route path={Path.LOGIN} element={<Login onLogin={handleLogin} />} />
                     <Route path={Path.FORGOT_PASSWORD} element={<ForgotPassword />} />
                     <Route path={Path.MY_ACCOUNT} element={<MyAccount onDelete={handleDeleteAccount} />} />
+                    <Route path={Path.VERIFY_ACCOUNT} element={<VerifyAccount />} />
                     <Route path={Path.CONFIRMATION_SCREEN} element={<ConfirmationScreen message={confirmationMessage} />} />
                 </Routes>
             </div>
