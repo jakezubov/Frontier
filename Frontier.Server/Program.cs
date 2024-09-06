@@ -1,5 +1,3 @@
-using Frontier.Server.DataAccess;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -18,10 +16,6 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-
-Defaults defaults = new();
-await defaults.LoadMetalDefaults();
-await defaults.LoadRingSizeDefaults();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

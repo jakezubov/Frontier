@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import URL from '../constants/URLs'
-import PopupError from '../components/PopupError'
+import PopupError from '../popups/PopupError'
 
 const VerifyAccount = ({ email }) => {
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)

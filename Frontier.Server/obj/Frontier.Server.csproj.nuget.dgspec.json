@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj": {}
+    "C:\\Users\\jake_\\Projects\\Froniter\\Frontier.Server\\Frontier.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj": {
+    "C:\\Users\\jake_\\Projects\\Froniter\\Frontier.Server\\Frontier.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj",
+        "projectUniqueName": "C:\\Users\\jake_\\Projects\\Froniter\\Frontier.Server\\Frontier.Server.csproj",
         "projectName": "Frontier.Server",
-        "projectPath": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj",
-        "packagesPath": "C:\\Users\\zubovadmin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\obj\\",
+        "projectPath": "C:\\Users\\jake_\\Projects\\Froniter\\Frontier.Server\\Frontier.Server.csproj",
+        "packagesPath": "C:\\Users\\jake_\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jake_\\Projects\\Froniter\\Frontier.Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\zubovadmin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\jake_\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -77,7 +78,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

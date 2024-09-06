@@ -60,7 +60,7 @@
           }
         }
       },
-      "Microsoft.AspNetCore.SpaProxy/8.0.5": {
+      "Microsoft.AspNetCore.SpaProxy/8.0.8": {
         "type": "package",
         "compile": {
           "lib/net8.0/Microsoft.AspNetCore.SpaProxy.dll": {}
@@ -431,10 +431,10 @@
         "lib/netstandard2.1/DnsClient.xml"
       ]
     },
-    "Microsoft.AspNetCore.SpaProxy/8.0.5": {
-      "sha512": "7iEMQelKbwKS5Lk79d/yTOqYSiLPq/wB07Gx4FaFUmF4cv+jtR7vWE55ODaioM+WOHV/ke9HqBCrpfilaaG/Vw==",
+    "Microsoft.AspNetCore.SpaProxy/8.0.8": {
+      "sha512": "T9Zhb64OmOr2nU0iND7br44EfJrQYHpopxvq33l33uZM2Uu/V2GTHKg5OmGMO3XJuUX59fhqvMyXOcFFj6k1pA==",
       "type": "package",
-      "path": "microsoft.aspnetcore.spaproxy/8.0.5",
+      "path": "microsoft.aspnetcore.spaproxy/8.0.8",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -442,7 +442,7 @@
         "THIRD-PARTY-NOTICES.TXT",
         "build/Microsoft.AspNetCore.SpaProxy.targets",
         "lib/net8.0/Microsoft.AspNetCore.SpaProxy.dll",
-        "microsoft.aspnetcore.spaproxy.8.0.5.nupkg.sha512",
+        "microsoft.aspnetcore.spaproxy.8.0.8.nupkg.sha512",
         "microsoft.aspnetcore.spaproxy.nuspec"
       ]
     },
@@ -857,19 +857,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zubovadmin\\.nuget\\packages\\": {}
+    "C:\\Users\\jake_\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj",
+      "projectUniqueName": "C:\\Users\\jake_\\Projects\\Froniter\\Frontier.Server\\Frontier.Server.csproj",
       "projectName": "Frontier.Server",
-      "projectPath": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj",
-      "packagesPath": "C:\\Users\\zubovadmin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\obj\\",
+      "projectPath": "C:\\Users\\jake_\\Projects\\Froniter\\Frontier.Server\\Frontier.Server.csproj",
+      "packagesPath": "C:\\Users\\jake_\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jake_\\Projects\\Froniter\\Frontier.Server\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\zubovadmin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jake_\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -877,6 +877,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -932,7 +933,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

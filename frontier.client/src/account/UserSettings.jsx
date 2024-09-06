@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import DeleteAccount from '../components/DeleteAccount'
-import PopupConfirmation from '../components/PopupConfirmation'
-import PopupError from '../components/PopupError'
+import DeleteAccountButton from '../components/DeleteAccountButton'
+import ClearHistoryButton from '../components/ClearHistoryButton'
+import PopupError from '../popups/PopupError'
 import URL from '../constants/URLs'
 
 const UserSettings = ({ onDelete }) => {
@@ -19,7 +19,6 @@ const UserSettings = ({ onDelete }) => {
     // Popups
     const [validationMessage, setValidationMessage] = useState('')
     const [successMessage, setSuccessMessage] = useState('')
-    const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
@@ -141,23 +140,6 @@ const UserSettings = ({ onDelete }) => {
         }
     }
 
-    const handleClearHistory = async () => {
-        try {
-            await Axios.delete(URL.DELETE_HISTORY(userId))
-            setSuccessMessage('History has been cleared.')
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to clear history',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to clear history\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
-    }
-
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault()
@@ -202,15 +184,11 @@ const UserSettings = ({ onDelete }) => {
             <table>
                 <tbody>
                     <tr>
-                        <td><button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Clear History</button></td>
-                        <td><DeleteAccount userId={userId} onDelete={onDelete} /></td>
+                        <td><ClearHistoryButton onSuccess={setSuccessMessage} /></td>
+                        <td><DeleteAccountButton onDelete={onDelete} /></td>
                     </tr>
                 </tbody>
             </table>
-
-            {isConfirmationPopupOpen && (
-                <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleClearHistory} heading="Are you sure you want to clear history?" />
-            )}
 
             {isErrorPopupOpen && (
                 <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />

@@ -12,8 +12,11 @@ public class UserDetailsModel
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
     public required string Email { get; set; }
-    public int HistoryAmount { get; set; } = 5;
+    public int HistoryAmount { get; set; }
     public List<HistoryModel>? History { get; set; }
     public List<MetalModel>? Metals { get; set; }
     public List<RingSizeModel>? RingSizes { get; set; }
+    public DateTime LastLoggedIn { get; set; }
+    public bool VerifiedTF { get; set; }
+    public bool AdminTF { get; set; }
 }

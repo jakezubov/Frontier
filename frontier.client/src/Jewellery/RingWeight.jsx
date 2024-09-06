@@ -2,13 +2,13 @@ import PropTypes from 'prop-types'
 import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import { calculateRingWeight, validateNumber } from '../constants/HelperFunctions'
+import { validateNumber } from '../constants/ValidateNumber'
 import JewelleryPage from '../constants/JewelleryPages'
 import URL from '../constants/URLs'
 import MetalSelector from '../components/MetalSelector'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
-import PopupError from '../components/PopupError'
+import PopupError from '../popups/PopupError'
 
 const RingWeight = ({ onRefresh }) => {
     const { userId } = useContext(UserContext)
@@ -33,6 +33,24 @@ const RingWeight = ({ onRefresh }) => {
         setValidationMessage('')
     }, [metal, ringSize, profile, width, thickness])
 
+    const calculateRingWeight = (length) => {
+        if (profile === "Round") {
+            return (Math.PI * Math.pow(width, 2) * (length + width)) * metal.specificGravity / 1000;
+        }
+        else if (profile === "Square") {
+            return (length + width + width) * Math.PI * width * width * metal.specificGravity / 1000;
+        }
+        else if (profile === "Half-Round") {
+            return ((Math.PI * Math.pow(width, 2)) * (length + width + thickness)) * metal.specificGravity / 1000;
+        }
+        else if (profile === "Rectangle") {
+            return (length + width + thickness) * Math.PI * width * thickness * metal.specificGravity / 1000;
+        }
+        else {
+            return null; // Invalid profile
+        }
+    }
+
     const handleCalculate = async () => {
         const isNumbersValid = validateNumber(width) && (!thicknessRequired || validateNumber(thickness))
 
@@ -42,7 +60,7 @@ const RingWeight = ({ onRefresh }) => {
             return
         }
 
-        const calculatedWeightText = calculateRingWeight(profile, parseFloat(width), parseFloat(thickness), ringSize.diameter, metal.specificGravity).toFixed(2) + "g"
+        const calculatedWeightText = calculateRingWeight(ringSize.diameter).toFixed(2) + "g"
         setWeight(calculatedWeightText)
 
         const content = thicknessRequired ?

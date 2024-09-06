@@ -1,17 +1,16 @@
 import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { UserContext } from '../contexts/UserContext'
-import PopupConfirmation from '../components/PopupConfirmation'
-import PopupError from '../components/PopupError'
+import PopupConfirmation from '../popups/PopupConfirmation'
+import PopupError from '../popups/PopupError'
 import URL from '../constants/URLs'
-import GenerateObjectId from '../constants/GenerateObjectId'
+import TableSchemas from '../constants/TableSchemas'
+import EditableTable from '../components/EditableTable'
 
 const RingSizeSettings = () => {
     const { userId } = useContext(UserContext)
-    const { generateId } = GenerateObjectId()
     const [ringSizeList, setRingSizeList] = useState([])
+    const [originalRingSizeList, setOriginalRingSizeList] = useState([])
 
     // Popups
     const [validationMessage, setValidationMessage] = useState('')
@@ -33,6 +32,7 @@ const RingSizeSettings = () => {
         try {
             const response = await Axios.get(URL.GET_RING_SIZES(userId))
             setRingSizeList(response.data)
+            setOriginalRingSizeList(response.data)
         } catch (error) {
             console.error({
                 message: 'Failed to load ring sizes',
@@ -59,6 +59,7 @@ const RingSizeSettings = () => {
         try {
             await Axios.put(URL.UPDATE_RING_SIZES(userId), ringSizeList)
             setSuccessMessage('Ring sizes have been updated.')
+            setOriginalRingSizeList(ringSizeList)
         } catch (error) {
             console.error({
                 message: 'Failed to save ring sizes',
@@ -88,35 +89,8 @@ const RingSizeSettings = () => {
         }
     }
 
-    const handleInputChange = (id, field, value) => {
-        setRingSizeList(ringSizeList => ringSizeList.map(
-            ringSize => ringSize.id === id ? {
-                ...ringSize, [field]: value
-            } : ringSize
-        ))
-    }
-
-    const handleAddNew = async (index) => {
-        try {
-            const newId = await generateId()
-            const newRingSize = { id: newId, letterSize: '', numberSize: '', diameter: '' }
-            const newRingSizeList = [...ringSizeList]
-            newRingSizeList.splice(index + 1, 0, newRingSize)
-            setRingSizeList(newRingSizeList)
-        }
-        catch (error) {
-            console.error({
-                message: 'Object Id failed to generate',
-                error: error.message,
-                stack: error.stack,
-            })
-            setErrorContent('Object Id failed to generate\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
-    }
-
-    const handleDelete = (id) => {
-        setRingSizeList(ringSizeList => ringSizeList.filter(ringSize => ringSize.id !== id))
+    const handleClearChanges = () => {
+        setRingSizeList(originalRingSizeList)
     }
 
     const handleKeyDown = (event) => {
@@ -131,38 +105,13 @@ const RingSizeSettings = () => {
             <h1>Ring Size Settings</h1>
 
             <form onKeyDown={handleKeyDown}>
-                {ringSizeList.length > 0 ? (
-                    <>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Letter Size</th>
-                                    <th>Number Size</th>
-                                    <th>Diameter</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    ringSizeList.map((ringSize, index) => (
-                                        <tr key={ringSize.id}>
-                                            <td><input className="general-input settings-narrow-input" type="text" value={ringSize.letterSize} onChange={(e) => handleInputChange(ringSize.id, 'letterSize', e.target.value)} /></td>
-                                            <td><input className="general-input settings-narrow-input" type="number" min="0" step="0.5" value={ringSize.numberSize} onChange={(e) => handleInputChange(ringSize.id, 'numberSize', e.target.value)} /></td>
-                                            <td><input className="general-input settings-narrow-input" type="number" min="0.01" step="0.01" value={ringSize.diameter} onChange={(e) => handleInputChange(ringSize.id, 'diameter', e.target.value)} /></td>
-                                            <td>
-                                                <button className="settings-icon" type="button" onClick={() => handleAddNew(index)}><FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>
-                                                <button className="settings-icon" type="button" onClick={() => handleDelete(ringSize.id)}><FontAwesomeIcon className="fa-lg" icon={faMinus} /></button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                            </tbody>
-                        </table>
-                    </>
-                ) : <button className="settings-icon" type="button" onClick={() => handleAddNew(0)}>Add a Ring Size <FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>}
+                <EditableTable tableList={ringSizeList} setTableList={setRingSizeList} columnSchema={TableSchemas.RingSizes} />
 
                 <table>
                     <tbody>
                         <tr>
                             <td><button className="general-button" type="button" onClick={handleSave}>Save Changes</button></td>
+                            <td><button className="general-button" type="button" onClick={handleClearChanges}>Clear Changes</button></td>
                             <td><button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button></td>
                         </tr>
                     </tbody>

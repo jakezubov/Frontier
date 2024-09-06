@@ -47,6 +47,30 @@ public class RingSizeDataAccess
         return ringSizesCollection.ReplaceOneAsync(filter, ringSize, new ReplaceOptions { IsUpsert = true });
     }
 
+    public async Task UpdateAllRingSizes(List<RingSizeModel> ringSizes)
+    {
+        var ringSizesCollection = ConnectToMongo<RingSizeModel>(RingSizeCollection);
+
+        // Extract the list of IDs from the provided ring size list
+        var ringSizeIds = ringSizes.Select(r => r.Id).ToList();
+
+        // Find and remove ring sizes that are not in the provided list
+        var deleteFilter = Builders<RingSizeModel>.Filter.Nin("Id", ringSizeIds);
+        var deleteTask = ringSizesCollection.DeleteManyAsync(deleteFilter);
+
+        // Update or insert ring sizes in the provided list
+        var updateTasks = new List<Task>();
+        foreach (var ringSize in ringSizes)
+        {
+            var filter = Builders<RingSizeModel>.Filter.Eq("Id", ringSize.Id);
+            var task = ringSizesCollection.ReplaceOneAsync(filter, ringSize, new ReplaceOptions { IsUpsert = true });
+            updateTasks.Add(task);
+        }
+
+        // Wait for all delete and update operations to complete
+        await Task.WhenAll(deleteTask, Task.WhenAll(updateTasks));
+    }
+
     public Task DeleteRingSize(RingSizeModel ringSize)
     {
         var ringSizesCollection = ConnectToMongo<RingSizeModel>(RingSizeCollection);

@@ -3,7 +3,7 @@ import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import URL from '../constants/URLs'
-import PopupError from '../components/PopupError'
+import PopupError from '../popups/PopupError'
 
 const MetalSelector = ({ label, onMetalChange }) => {
     const { userId } = useContext(UserContext)

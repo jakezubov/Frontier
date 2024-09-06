@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import Path from '../constants/Paths'
 import URL from '../constants/URLs'
-import PopupError from '../components/PopupError'
+import PopupError from '../popups/PopupError'
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate()

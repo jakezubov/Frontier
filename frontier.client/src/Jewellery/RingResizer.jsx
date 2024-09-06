@@ -2,13 +2,13 @@ import PropTypes from 'prop-types'
 import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import { calculateRingWeight, validateNumber } from '../constants/HelperFunctions'
+import { validateNumber } from '../constants/ValidateNumber'
 import JewelleryPage from '../constants/JewelleryPages'
 import URL from '../constants/URLs'
 import MetalSelector from '../components/MetalSelector'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
-import PopupError from '../components/PopupError'
+import PopupError from '../popups/PopupError'
 
 const RingResizer = ({ onRefresh }) => {
     const { userId } = useContext(UserContext)
@@ -36,6 +36,24 @@ const RingResizer = ({ onRefresh }) => {
         setValidationMessage('')
     }, [metal, originalRingSize, newRingSize, profile, width, thickness])
 
+    const calculateRingWeight = (length) => {
+        if (profile === "Round") {
+            return (Math.PI * Math.pow(width, 2) * (length + width)) * metal.specificGravity / 1000;
+        }
+        else if (profile === "Square") {
+            return (length + width + width) * Math.PI * width * width * metal.specificGravity / 1000;
+        }
+        else if (profile === "Half-Round") {
+            return ((Math.PI * Math.pow(width, 2)) * (length + width + thickness)) * metal.specificGravity / 1000;
+        }
+        else if (profile === "Rectangle") {
+            return (length + width + thickness) * Math.PI * width * thickness * metal.specificGravity / 1000;
+        }
+        else {
+            return null; // Invalid profile
+        }
+    }
+
     const handleCalculate = async () => {
         const isNumbersValid = validateNumber(width) && (!thicknessRequired || validateNumber(thickness))
 
@@ -47,8 +65,8 @@ const RingResizer = ({ onRefresh }) => {
             return
         }
 
-        const calculatedOriginal = calculateRingWeight(profile, parseFloat(width), parseFloat(thickness), originalRingSize.diameter, metal.specificGravity)
-        const calculatedNew = calculateRingWeight(profile, parseFloat(width), parseFloat(thickness), newRingSize.diameter, metal.specificGravity)
+        const calculatedOriginal = calculateRingWeight(originalRingSize.diameter)
+        const calculatedNew = calculateRingWeight(newRingSize.diameter)
 
         const weightOriginalText = calculatedOriginal.toFixed(2) + "g"
         const weightNewText = calculatedNew.toFixed(2) + "g"

@@ -4,10 +4,7 @@ using Models;
 
 public class Defaults
 {
-    private readonly MetalDataAccess metalDB = new();
-    private readonly RingSizeDataAccess ringSizeDB = new();
-
-    private readonly List<MetalModel> Metals =
+    public readonly List<MetalModel> Metals =
         [
             new MetalModel { Name = "Wax", SpecificGravity = 1 },
             new MetalModel { Name = "Fine Silver", SpecificGravity = 10.64 },
@@ -25,7 +22,7 @@ public class Defaults
             new MetalModel { Name = "Platinum", SpecificGravity = 21.24 },
         ];
 
-    private readonly List<RingSizeModel> RingSizes =
+    public readonly List<RingSizeModel> RingSizes =
         [
             new RingSizeModel { LetterSize = "A", NumberSize = 0.5, Diameter = 12.04 },
             new RingSizeModel { LetterSize = "B", NumberSize = 1, Diameter = 12.45 },
@@ -54,38 +51,4 @@ public class Defaults
             new RingSizeModel { LetterSize = "Y", NumberSize = 12.5, Diameter = 21.59 },
             new RingSizeModel { LetterSize = "Z", NumberSize = 13, Diameter = 21.79 },
         ];
-
-    public async Task LoadMetalDefaults()
-    {
-        foreach (MetalModel metal in Metals)
-        {
-            MetalModel existingMetal = await metalDB.GetMetal(metal.Name);
-            if (existingMetal == null)
-            {
-                await metalDB.CreateMetal(metal);
-            }
-            else
-            {
-                metal.Id = existingMetal.Id;
-                await metalDB.UpdateMetal(metal);
-            }
-        }
-    }
-
-    public async Task LoadRingSizeDefaults()
-    {
-        foreach (RingSizeModel ringSize in RingSizes)
-        {
-            RingSizeModel existingRingSize = await ringSizeDB.GetRingSize(ringSize.LetterSize, ringSize.NumberSize);
-            if (existingRingSize == null)
-            {
-                await ringSizeDB.CreateRingSize(ringSize);
-            }
-            else
-            {
-                ringSize.Id = existingRingSize.Id;
-                await ringSizeDB.UpdateRingSize(ringSize);
-            }
-        }
-    }
 }

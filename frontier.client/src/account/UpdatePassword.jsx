@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import PopupError from '../components/PopupError'
+import PopupError from '../popups/PopupError'
 import URL from '../constants/URLs'
 
 const UpdatePassword = () => {

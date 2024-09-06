@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import Path from '../constants/Paths'
 import URL from '../constants/URLs'
-import PopupError from '../components/PopupError'
+import PopupError from '../popups/PopupError'
 
 const Register = ({ onRegister }) => {
     const navigate = useNavigate()
@@ -38,9 +38,7 @@ const Register = ({ onRegister }) => {
         return regex.test(String(password));
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        
+    const handleSubmit = async () => {
         if (!firstName || !lastName || !email || !password || !confirmPassword) {
             setValidationMessage('Please enter all information.')
             return

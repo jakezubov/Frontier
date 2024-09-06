@@ -9,6 +9,7 @@ const Path = {
     MY_ACCOUNT: "/account/MyAccount",
     VERIFY_ACCOUNT: "/account/VerifyAccount",
     CONFIRMATION_SCREEN: "/account/ConfirmationScreen",
+    ADMIN_WORKBENCH: "/admin/AdminWorkbench",
 }
 
 export default Path

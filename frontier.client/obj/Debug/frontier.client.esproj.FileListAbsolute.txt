@@ -1,1 +1,2 @@
 C:\Users\zubovadmin\Desktop\Frontier\frontier.client\obj\Debug\frontier.client.esproj.CoreCompileInputs.cache
+C:\Users\jake_\Projects\Froniter\frontier.client\obj\Debug\frontier.client.esproj.CoreCompileInputs.cache

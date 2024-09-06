@@ -5,7 +5,7 @@ import { UserContext } from '../contexts/UserContext'
 import { JewelleryPageContext } from '../contexts/JewelleryPageContext'
 import JewelleryPage from '../constants/JewelleryPages'
 import URL from '../constants/URLs'
-import PopupError from './PopupError'
+import PopupError from '../popups/PopupError'
 
 const History = ({ refresh }) => {
     const { userId } = useContext(UserContext)

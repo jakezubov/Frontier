@@ -8,6 +8,7 @@ const URL = {
     UPDATE_USER: (userId) => `${prefix}/api/users/${userId}/update`,
     UPDATE_PASSWORD: (userId) => `${prefix}/api/users/${userId}/update/password`,
     DELETE_USER: (userId) => `${prefix}/api/users/${userId}/delete`,
+    SWITCH_ADMIN: (userId) => `${prefix}/api/users/${userId}/admin`,
 
     /** Validation */
     VALIDATE_USER: `${prefix}/api/users/validate`,
@@ -34,6 +35,10 @@ const URL = {
     /** Defaults */
     GET_DEFAULT_METALS: `${prefix}/api/defaults/metals`,
     GET_DEFAULT_RING_SIZES: `${prefix}/api/defaults/ring-sizes`,
+    UPDATE_DEFAULT_METALS: `${prefix}/api/defaults/metals/update`,
+    UPDATE_DEFAULT_RING_SIZES: `${prefix}/api/defaults/ring-sizes/update`,
+    RESET_DEFAULT_METALS: `${prefix}/api/defaults/metals/default`,
+    RESET_DEFAULT_RING_SIZES: `${prefix}/api/defaults/ring-sizes/default`,
 
     /** Misc */
     GENERATE_OBJECT_ID: `${prefix}/api/defaults/generate-id`,

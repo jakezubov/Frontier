@@ -31,6 +31,22 @@ table {
         padding: 6px;
     }
 
+.user-table {
+    border-collapse: collapse;
+    width: 100%;
+    color: var(--text-colour);
+}
+    .user-table td {
+        padding: 12px;
+        border-block: 1px solid var(--text-colour);
+    }
+    .user-table th {
+        padding: 12px;
+    }
+    .user-table tr:hover {
+        background-color: var(--accent-colour);
+    }
+
 /*#region General*/
 .general-button {
     border-radius: 20px;
@@ -199,6 +215,7 @@ table {
 
 .theme-buttons {
     margin-bottom: 40px;
+    margin-top: 20px;
 }
 
 /*#endregion*/

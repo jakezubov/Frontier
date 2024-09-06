@@ -1,17 +1,16 @@
 import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faMinus } from '@fortawesome/free-solid-svg-icons'
 import { UserContext } from '../contexts/UserContext'
-import PopupConfirmation from '../components/PopupConfirmation'
-import PopupError from '../components/PopupError'
+import PopupConfirmation from '../popups/PopupConfirmation'
+import PopupError from '../popups/PopupError'
 import URL from '../constants/URLs'
-import GenerateObjectId from '../constants/GenerateObjectId'
+import TableSchemas from '../constants/TableSchemas'
+import EditableTable from '../components/EditableTable'
 
 const MetalSettings = () => {
     const { userId } = useContext(UserContext)
-    const { generateId } = GenerateObjectId()
     const [metalList, setMetalList] = useState([])
+    const [originalMetalList, setOriginalMetalList] = useState([])
 
     // Popups
     const [validationMessage, setValidationMessage] = useState('')
@@ -33,6 +32,7 @@ const MetalSettings = () => {
         try {
             const response = await Axios.get(URL.GET_METALS(userId))
             setMetalList(response.data)
+            setOriginalMetalList(response.data)
         } catch (error) {
             console.error({
                 message: 'Failed to load metals',
@@ -59,6 +59,7 @@ const MetalSettings = () => {
         try {
             await Axios.put(URL.UPDATE_METALS(userId), metalList)
             setSuccessMessage('Metals have been updated.')
+            setOriginalMetalList(metalList)
         } catch (error) {
             console.error({
                 message: 'Failed to save metals',
@@ -88,35 +89,8 @@ const MetalSettings = () => {
         }
     }
 
-    const handleInputChange = (id, field, value) => {
-        setMetalList(metalList => metalList.map(
-            metal => metal.id === id ? {
-                ...metal, [field]: value
-            } : metal
-        ))
-    }
-
-    const handleAddNew = async (index) => {
-        try {
-            const newId = await generateId()
-            const newMetal = { id: newId, name: '', specificGravity: '' }
-            const newMetalsList = [...metalList]
-            newMetalsList.splice(index + 1, 0, newMetal)
-            setMetalList(newMetalsList)
-        }
-        catch (error) {
-            console.error({
-                message: 'Object Id failed to generate',
-                error: error.message,
-                stack: error.stack,
-            })
-            setErrorContent('Object Id failed to generate\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
-    }
-
-    const handleDelete = (id) => {
-        setMetalList(metalList => metalList.filter(metal => metal.id !== id))
+    const handleClearChanges = () => {
+        setMetalList(originalMetalList)
     }
 
     const handleKeyDown = (event) => {
@@ -131,36 +105,13 @@ const MetalSettings = () => {
             <h1>Metal Settings</h1>
 
             <form onKeyDown={handleKeyDown}>
-                {metalList.length > 0 ? (
-                    <>
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Specific Gravity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    metalList.map((metal, index) => (
-                                        <tr key={metal.id}>
-                                            <td><input className="general-input" type="text" value={metal.name} onChange={(e) => handleInputChange(metal.id, 'name', e.target.value)} /></td>
-                                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={metal.specificGravity} onChange={(e) => handleInputChange(metal.id, 'specificGravity', e.target.value)} /></td>
-                                            <td>
-                                                <button className="settings-icon" type="button" onClick={() => handleAddNew(index)}><FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>
-                                                <button className="settings-icon" type="button" onClick={() => handleDelete(metal.id)}><FontAwesomeIcon className="fa-lg" icon={faMinus} /></button>
-                                            </td>
-                                        </tr>
-                                    ))}
-                            </tbody>
-                        </table>
-                    </>
-                ) : <button className="settings-icon" type="button" onClick={() => handleAddNew(0)}>Add a Metal <FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>}
+                <EditableTable tableList={metalList} setTableList={setMetalList} columnSchema={TableSchemas.Metals} />
 
                 <table>
                     <tbody>
                         <tr>
                             <td><button className="general-button" type="button" onClick={handleSave}>Save Changes</button></td>
+                            <td><button className="general-button" type="button" onClick={handleClearChanges}>Clear Changes</button></td>
                             <td><button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button></td>
                         </tr>
                     </tbody>

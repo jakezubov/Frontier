@@ -8,8 +8,8 @@ namespace Frontier.Server.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        readonly UserDataAccess db = new();
-        readonly DefaultsController defaults = new();
+        private readonly UserDataAccess db = new();
+        private readonly DefaultsController defaults = new();
 
         #region User APIs
         // Get All Users
@@ -30,7 +30,10 @@ namespace Frontier.Server.Controllers
                     HistoryAmount = user.HistoryAmount,
                     History = user.History,
                     Metals = user.Metals,
-                    RingSizes = user.RingSizes
+                    RingSizes = user.RingSizes,
+                    LastLoggedIn = user.LastLoggedIn,
+                    VerifiedTF = user.VerifiedTF,
+                    AdminTF = user.AdminTF
                 };
 
                 userDetailsList.Add(userDetails);
@@ -56,7 +59,10 @@ namespace Frontier.Server.Controllers
                 HistoryAmount = user.HistoryAmount,
                 History = user.History,
                 Metals = user.Metals,
-                RingSizes = user.RingSizes
+                RingSizes = user.RingSizes,
+                LastLoggedIn = user.LastLoggedIn,
+                VerifiedTF = user.VerifiedTF,
+                AdminTF = user.AdminTF
             };
             return Ok(userDetails);
         }
@@ -140,6 +146,24 @@ namespace Frontier.Server.Controllers
 
             await db.DeleteUser(user);
             return Ok();
+        }
+
+        // Switch Admin Status
+        [HttpPut("{userId}/admin")]
+        public async Task<IActionResult> SwitchAdmin(string userId)
+        {
+            // Check if the user exists in MongoDB
+            if (userId != null)
+            {
+                UserModel user = await db.GetUser(userId);
+                if (user == null) return NotFound("User not found");
+
+                user.AdminTF = !user.AdminTF;
+
+                await db.UpdateUser(user);
+                return Ok();
+            }
+            else return NotFound("ERROR: User has no Id");
         }
         #endregion
 

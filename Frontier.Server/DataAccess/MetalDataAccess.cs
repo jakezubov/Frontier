@@ -43,6 +43,30 @@ public class MetalDataAccess
         return metalsCollection.ReplaceOneAsync(filter, metal, new ReplaceOptions { IsUpsert = true });
     }
 
+    public async Task UpdateAllMetals(List<MetalModel> metals)
+    {
+        var metalsCollection = ConnectToMongo<MetalModel>(MetalCollection);
+
+        // Extract the list of IDs from the provided metals list
+        var metalIds = metals.Select(m => m.Id).ToList();
+
+        // Find and remove metals that are not in the provided list
+        var deleteFilter = Builders<MetalModel>.Filter.Nin("Id", metalIds);
+        var deleteTask = metalsCollection.DeleteManyAsync(deleteFilter);
+
+        // Update or insert metals in the provided list
+        var updateTasks = new List<Task>();
+        foreach (var metal in metals)
+        {
+            var filter = Builders<MetalModel>.Filter.Eq("Id", metal.Id);
+            var task = metalsCollection.ReplaceOneAsync(filter, metal, new ReplaceOptions { IsUpsert = true });
+            updateTasks.Add(task);
+        }
+
+        // Wait for all delete and update operations to complete
+        await Task.WhenAll(deleteTask, Task.WhenAll(updateTasks));
+    }
+
     public Task DeleteMetal(MetalModel metal)
     {
         var metalsCollection = ConnectToMongo<MetalModel>(MetalCollection);

@@ -2,11 +2,11 @@ import PropTypes from 'prop-types'
 import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import { validateNumber } from '../constants/HelperFunctions'
+import { validateNumber } from '../constants/ValidateNumber'
 import JewelleryPage from '../constants/JewelleryPages'
 import URL from '../constants/URLs'
 import MetalSelector from '../components/MetalSelector'
-import PopupError from '../components/PopupError'
+import PopupError from '../popups/PopupError'
 
 const MetalConverter = ({ onRefresh }) => {
     const { userId } = useContext(UserContext)
