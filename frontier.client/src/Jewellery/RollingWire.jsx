@@ -3,6 +3,8 @@ import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import { validateNumber } from '../constants/ValidateNumber'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRepeat } from '@fortawesome/free-solid-svg-icons'
 import JewelleryPage from '../constants/JewelleryPages'
 import URL from '../constants/URLs'
 import RingSizeSelector from '../components/RingSizeSelector'
@@ -27,12 +29,12 @@ const RollingWire = ({ onRefresh }) => {
     const [output2, setOutput2] = useState('')
 
     // Popups
-    const [validationMessage, setValidationMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setValidationMessage('')
+        setValidationMessage(' ')
     }, [ringSize, profile, width, thickness, length, stockSize])
 
     const handleCalculate = async () => {
@@ -136,79 +138,74 @@ const RollingWire = ({ onRefresh }) => {
 
             <form onKeyDown={handleKeyDown}>
                 <table>
+                    <thead>
+                        <th colSpan="2"><h3>Required Dimensions</h3></th>
+                        <th></th>
+                        <th colSpan="2"><h3>Starting Metal</h3></th>
+                    </thead>
                     <tbody>
                         <tr>
-                            <td colSpan="2"><h3>Required Dimensions</h3></td>
-                        </tr>
-                        <tr>
-                            <td>
-                            {
-                                lengthRingSizeSwitch ? <button className="general-button switch-button" type="button" onClick={handleLengthRingSizeSwitch}>Length</button>
-                                    : <button className="general-button switch-button" type="button" onClick={handleLengthRingSizeSwitch}>Ring Size</button>
-                            }
+                            <td className="rolling-wire-switch">
+                                {lengthRingSizeSwitch ? <p>Length</p>
+                                    : <p>Ring Size</p>}
+                                <button className="settings-icon" type="button" onClick={handleLengthRingSizeSwitch}><FontAwesomeIcon icon={faRepeat} /></button>
                             </td>
                             <td>
-                            {
-                                lengthRingSizeSwitch ? <input className="general-input" type="number" step="0.01" min="0.01" value={length} onChange={(e) => setLength(e.target.value)} />
-                                    : <div><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></div>
-                            }
+                                {lengthRingSizeSwitch ? <input className="general-input" type="number" step="0.01" min="0.01" value={length} onChange={(e) => setLength(e.target.value)} />
+                                        : <div><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></div> }
                             </td>
-                        </tr>
-                        <tr>
-                            <td>Width</td>
-                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
-                        </tr>
-                        <tr>
-                            <td>Thickness</td>
-                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="2"><h3>Starting Metal</h3></td>
-                        </tr>
-                        <tr>
+                            <td className="table-break"></td>
                             <td>Profile</td>
                             <td><ProfileSelector label="Profile" onProfileChange={setProfile} isLimited={true} /></td>
                         </tr>
                         <tr>
+                            <td>Width</td>
+                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
+                            <td className="table-break"></td>
                             <td>Starting with Stock</td>
                             <td><input type="checkbox" onClick={handleStockCheckbox} defaultChecked={true} /></td>
                         </tr>
                         <tr>
+                            <td>Thickness</td>
+                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
+                            <td className="table-break"></td>
                             <td>
-                            {
-                                stockSizeRequired ? <div className="padded-text" >Stock Size</div> : null
-                            }
+                                {stockSizeRequired ?
+                                    <div className="padded-text" >Stock Size</div>
+                                    : null }
                             </td>
                             <td>
-                            {
-                                stockSizeRequired ? <input className="general-input" type="number" step="0.01" min="0.01" value={stockSize} onChange={(e) => setStockSize(e.target.value)} /> : null
-                            }
+                                {stockSizeRequired ?
+                                    <input className="general-input" type="number" step="0.01" min="0.01" value={stockSize} onChange={(e) => setStockSize(e.target.value)} />
+                                    : null }
                             </td>
+                        </tr>
+                        <tr>
+                            <td colSpan="5"><button className="general-button" type="button" onClick={handleCalculate}>Calculate</button></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="5">{validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>
+            </form> 
 
-                <button className="general-button" type="button" onClick={handleCalculate}>Calculate</button>
-            </form>
-
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-            
             <table>
+                <thead>
+                    <th>
+                        {profile === 'Round' ?
+                            <h3>Diameter</h3>
+                            : <h3>Side</h3>}
+                    </th>
+                    <th>
+                        {stockSizeRequired ?
+                            <h3>Stock Length</h3>
+                            : <h3>Length</h3>}
+                    </th>
+                </thead>
                 <tbody>
                     <tr>
-                    {
-                        profile === 'Round' ?
-                            <td>Diameter</td>
-                                : <td>Side</td>
-                    }
                         <td><input className="general-output" type="text" value={output1} disabled /></td>
-                    </tr>
-                    <tr>
-                    {
-                        stockSizeRequired ?
-                            <td>Stock Length</td>
-                            : <td>Length</td>
-                    }
                         <td><input className="general-output" type="text" value={output2} disabled /></td>
                     </tr>
                 </tbody>

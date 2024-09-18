@@ -49,7 +49,8 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
     return (
         <div>
             {tableList.length > 0 ? (
-            <>
+            <div className="table-scroll">
+
                 <table>
                     <thead>
                         <tr>
@@ -82,7 +83,7 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
                         ))}
                     </tbody>
                 </table>
-            </>
+            </div>
             ) : <button className="settings-icon" type="button" onClick={() => handleAddNew(0)}><FontAwesomeIcon className="fa-lg" icon={faPlus} /> Add a new row</button>}
 
             {isErrorPopupOpen && (

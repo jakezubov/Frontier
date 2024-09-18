@@ -1,7 +1,7 @@
 import './App.css'
 import Axios from 'axios'
 import { useContext, useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket, faArrowRightToBracket, faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons'
 import { updateCSSVariables } from './Themes'
@@ -41,6 +41,10 @@ const App = () => {
     const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
+        getAdminStatus(userId)
+    }, [])
+
+    useEffect(() => {
         updateCSSVariables(theme);
         localStorage.setItem('theme', theme)
     }, [theme])
@@ -72,7 +76,21 @@ const App = () => {
         getAdminStatus(id)
     }
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        try {
+            await Axios.put(URL.LOGOUT_UPDATES(userId))
+        }
+        catch (error) {
+            console.error({
+                message: 'Failed to make logout updates',
+                error: error.message,
+                stack: error.stack,
+                userId,
+            })
+            setErrorContent('Failed to make logout updates\n' + error.message)
+            setIsErrorPopupOpen(true)
+            return
+        }
         handlePageChange(JewelleryPage.NONE)
         setConfirmationMessage('Logged Out Successfully!')
         setUserId(null)
@@ -87,19 +105,21 @@ const App = () => {
     }
 
     const getAdminStatus = async (id) => {
-        try {
-            const user = await Axios.get(URL.GET_USER(id));
-            setAdminStatus(user.data.adminTF)
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to get user info',
-                error: error.message,
-                stack: error.stack,
-                id,
-            })
-            setErrorContent('Failed to get user info\n' + error.message)
-            setIsErrorPopupOpen(true)
+        if (loggedIn) {
+            try {
+                const user = await Axios.get(URL.GET_USER(id));
+                setAdminStatus(user.data.adminTF)
+            }
+            catch (error) {
+                console.error({
+                    message: 'Failed to get user info',
+                    error: error.message,
+                    stack: error.stack,
+                    id,
+                })
+                setErrorContent('Failed to get user info\n' + error.message)
+                setIsErrorPopupOpen(true)
+            }
         }
     }
 

@@ -47,6 +47,18 @@ table {
         background-color: var(--accent-colour);
     }
 
+.table-break {
+    padding: 24px;
+}
+
+.rolling-wire-switch {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100px;
+    padding: 0px;
+}
+
 /*#region General*/
 .general-button {
     border-radius: 20px;
@@ -76,11 +88,6 @@ table {
         background-color: darkred;
     }
 
-.switch-button {
-    padding: 8px;
-    margin: 0px;
-}
-
 .general-input, .general-select, .general-output {
     width: calc(100% - 16px);
     padding: 8px;
@@ -89,6 +96,7 @@ table {
     border: 2px solid var(--accent-colour);
     border-radius: 4px;
     color: var(--text-colour);
+    max-width: 200px;
 }
 
 .general-text-area {
@@ -177,6 +185,13 @@ table {
     width: 100px;
 }
 
+.table-scroll {
+    overflow-y: auto;
+    height: 53vh;
+    padding-right: 24px;
+    scrollbar-color: var(--text-colour) var(--background-colour);
+}
+
 /*#endregion */
 
 
@@ -260,6 +275,13 @@ table {
 .history {
     list-style: none;
     color: var(--text-colour);
+}
+
+.history-scroll {
+    overflow-y: auto;
+    height: 80vh;
+    scrollbar-color: var(--text-colour) var(--secondary-colour);
+    padding: 16px;
 }
 
 /*#endregion */

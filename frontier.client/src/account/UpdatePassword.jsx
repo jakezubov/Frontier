@@ -11,14 +11,14 @@ const UpdatePassword = () => {
     const [confirmNewPassword, setNewConfirmPassword] = useState('')
 
     // Popups
-    const [validationMessage, setValidationMessage] = useState('')
-    const [successMessage, setSuccessMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
+    const [successMessage, setSuccessMessage] = useState(' ')
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setValidationMessage('')
-        setSuccessMessage('')
+        setValidationMessage(' ')
+        setSuccessMessage(' ')
         if (newPassword !== confirmNewPassword) {
             setValidationMessage('New Password do not match.')
         }
@@ -107,13 +107,16 @@ const UpdatePassword = () => {
                             <td>Confirm New Password</td>
                             <td><input className="general-input" value={confirmNewPassword} type="password" onChange={(e) => setNewConfirmPassword(e.target.value)} /></td>
                         </tr>
+                        <tr>
+                            <td colSpan="2"><button className="general-button" type="button" onClick={handleSubmit}>Save Changes</button></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
+                                : <p className="pre-wrap success-text">{successMessage}</p>}</td>
+                        </tr>
                     </tbody>
                 </table>
-                <button className="general-button" type="button" onClick={handleSubmit}>Save Changes</button>   
             </form> 
-
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
 
             {isErrorPopupOpen && (
                 <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />

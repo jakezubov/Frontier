@@ -14,12 +14,12 @@ const Register = ({ onRegister }) => {
     const [confirmPassword, setConfirmPassword] = useState('')
 
     // Popups
-    const [validationMessage, setValidationMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setValidationMessage('')
+        setValidationMessage(' ')
     }, [firstName, lastName, email, password, confirmPassword])
 
     useEffect(() => {
@@ -38,7 +38,8 @@ const Register = ({ onRegister }) => {
         return regex.test(String(password));
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event) => {
+        event.preventDefault()
         if (!firstName || !lastName || !email || !password || !confirmPassword) {
             setValidationMessage('Please enter all information.')
             return

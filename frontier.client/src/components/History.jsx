@@ -45,7 +45,7 @@ const History = ({ refresh }) => {
                 : jewelleryPage === JewelleryPage.NONE ?
                     <p>Navigate to any of the Jewellery Tools to access calculation history.</p>
                     : history.length > 0 ?
-                        <ul className="padded-text">
+                        <ul className="padded-text history-scroll">
                             {history.map(item => (
                                 <li className="history" key={item.id}>
                                     {item.content}

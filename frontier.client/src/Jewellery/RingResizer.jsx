@@ -28,12 +28,12 @@ const RingResizer = ({ onRefresh }) => {
     const [weightDifference, setWeightDifference] = useState('')
 
     // Popups
-    const [validationMessage, setValidationMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setValidationMessage('')
+        setValidationMessage(' ')
     }, [metal, originalRingSize, newRingSize, profile, width, thickness])
 
     const calculateRingWeight = (length) => {
@@ -157,13 +157,15 @@ const RingResizer = ({ onRefresh }) => {
                                     </> : null
                             }
                         </tr>
+                        <tr>
+                            <td colSpan="2"><button className="general-button" type="button" onClick={handleCalculate}>Calculate</button></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}</td>
+                        </tr>
                     </tbody>
                 </table>
-
-                <button className="general-button" type="button" onClick={handleCalculate}>Calculate</button>
             </form>
-
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
 
             <table>
                 <tbody>

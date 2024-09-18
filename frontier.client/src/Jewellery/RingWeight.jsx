@@ -25,12 +25,12 @@ const RingWeight = ({ onRefresh }) => {
     const [weight, setWeight] = useState('')
 
     // Popups
-    const [validationMessage, setValidationMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setValidationMessage('')
+        setValidationMessage(' ')
     }, [metal, ringSize, profile, width, thickness])
 
     const calculateRingWeight = (length) => {
@@ -140,18 +140,20 @@ const RingWeight = ({ onRefresh }) => {
                                     </> : null
                             }
                         </tr>
+                        <tr>
+                            <td colSpan="2"><button className="general-button" type="button" onClick={handleCalculate}>Calculate</button></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}</td>
+                        </tr>
                     </tbody>
                 </table>
-
-                <button className="general-button" type="button" onClick={handleCalculate}>Calculate</button>
             </form>
-
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
             
             <table>
                 <tbody>
                     <tr>
-                        <td>Ring Weight</td>
+                        <td>Calculated Weight</td>
                         <td><input className="general-output" type="text" value={weight} disabled /></td>
                     </tr>
                 </tbody>

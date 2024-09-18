@@ -16,12 +16,12 @@ const MetalConverter = ({ onRefresh }) => {
     const [convertedWeight, setConvertedWeight] = useState('')
 
     // Popups
-    const [validationMessage, setValidationMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setValidationMessage('')
+        setValidationMessage(' ')
     }, [originalMetal, newMetal, weight])
 
     const handleCalculate = async () => {
@@ -85,13 +85,15 @@ const MetalConverter = ({ onRefresh }) => {
                             <td>Weight</td>
                             <td><input className="general-input" type="number" step="0.01" min="0.01" value={weight} onChange={(e) => setWeight(e.target.value)} /></td>
                         </tr>
+                        <tr>
+                            <td colSpan="2"><button className="general-button" type="button" onClick={handleCalculate}>Calculate</button></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}</td>
+                        </tr>
                     </tbody>
                 </table>
-
-                <button className="general-button" type="button" onClick={handleCalculate}>Calculate</button>
             </form>
-
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
 
             <table>
                 <tbody>

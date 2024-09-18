@@ -3,24 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\jake_\\Projects\\Froniter\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\jake_\\projects\\froniter\\frontier.client\\src\\components\\contact.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\components\\contact.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\jake_\\projects\\froniter\\frontier.client\\src\\admin\\useraccounts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\admin\\useraccounts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\jake_\\projects\\froniter\\frontier.client\\src\\account\\login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\account\\login.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\jake_\\projects\\froniter\\frontier.client\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\jake_\\projects\\froniter\\frontier.client\\src\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\jake_\\projects\\froniter\\frontier.client\\src\\components\\editabletable.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\components\\editabletable.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\jake_\\projects\\froniter\\frontier.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\jake_\\projects\\froniter\\frontier.client\\src\\constants\\urls.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -39,79 +31,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Contact.jsx",
-              "DocumentMoniker": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\components\\Contact.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\components\\Contact.jsx",
-              "ToolTip": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\components\\Contact.jsx",
-              "RelativeToolTip": "frontier.client\\src\\components\\Contact.jsx",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAiwCIAAAANAAAAAAAAAA==",
+              "Title": "Login.jsx",
+              "DocumentMoniker": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\account\\Login.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\account\\Login.jsx",
+              "ToolTip": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\account\\Login.jsx",
+              "RelativeToolTip": "frontier.client\\src\\account\\Login.jsx",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAAC0AAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-09-06T09:55:33.625Z",
+              "WhenOpened": "2024-09-18T20:42:48.121Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "App.css",
-              "DocumentMoniker": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\App.css",
-              "RelativeDocumentMoniker": "frontier.client\\src\\App.css",
-              "ToolTip": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\App.css",
-              "RelativeToolTip": "frontier.client\\src\\App.css",
-              "ViewState": "AgIAABMAAAAAAAAAAADwvysAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-09-05T20:55:19.437Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "EditableTable.jsx",
-              "DocumentMoniker": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\components\\EditableTable.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\components\\EditableTable.jsx",
-              "ToolTip": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\components\\EditableTable.jsx",
-              "RelativeToolTip": "frontier.client\\src\\components\\EditableTable.jsx",
-              "ViewState": "AgIAADYAAAAAAAAAAAAAAFIAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-09-05T20:35:40.22Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "URLs.jsx",
               "DocumentMoniker": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\constants\\URLs.jsx",
               "RelativeDocumentMoniker": "frontier.client\\src\\constants\\URLs.jsx",
               "ToolTip": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\constants\\URLs.jsx",
               "RelativeToolTip": "frontier.client\\src\\constants\\URLs.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-09-04T07:31:48.735Z",
+              "WhenOpened": "2024-09-18T20:41:26.778Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "App.jsx",
-              "DocumentMoniker": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\App.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\App.jsx",
-              "ToolTip": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\App.jsx",
-              "RelativeToolTip": "frontier.client\\src\\App.jsx",
-              "ViewState": "AgIAAFIAAAAAAAAAAAAowIwAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-09-02T07:37:09.308Z",
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Users\\jake_\\Projects\\Froniter\\Frontier.Server\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "Frontier.Server\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Users\\jake_\\Projects\\Froniter\\Frontier.Server\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "Frontier.Server\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAAKYAAAAAAAAAAAAcwLoAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-09-18T20:33:21.515Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UserAccounts.jsx",
-              "DocumentMoniker": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\admin\\UserAccounts.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\admin\\UserAccounts.jsx",
-              "ToolTip": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\admin\\UserAccounts.jsx",
-              "RelativeToolTip": "frontier.client\\src\\admin\\UserAccounts.jsx",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAAAFgAAAAlAAAAAAAAAA==",
+              "Title": "App.jsx",
+              "DocumentMoniker": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\App.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\App.jsx",
+              "ToolTip": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\src\\App.jsx",
+              "RelativeToolTip": "frontier.client\\src\\App.jsx",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAFsAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-09-02T07:29:37.294Z",
+              "WhenOpened": "2024-09-17T21:10:52.052Z",
               "EditorCaption": ""
             }
           ]

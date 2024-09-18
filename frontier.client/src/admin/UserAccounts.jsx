@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserTie } from '@fortawesome/free-solid-svg-icons'
+import { faUserTie, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import PopupConfirmation from '../popups/PopupConfirmation'
 import PopupError from '../popups/PopupError'
 import URL from '../constants/URLs'
@@ -10,8 +10,8 @@ const UserAccounts = () => {
     const [userList, setUserList] = useState([])
 
     // Popups
-    const [validationMessage, setValidationMessage] = useState('')
-    const [successMessage, setSuccessMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
+    const [successMessage, setSuccessMessage] = useState(' ')
     const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
@@ -21,8 +21,8 @@ const UserAccounts = () => {
     }, [])
 
     useEffect(() => {
-        setValidationMessage('')
-        setSuccessMessage('')
+        setValidationMessage(' ')
+        setSuccessMessage(' ')
     }, [userList])
 
     const loadUserList = async () => {
@@ -56,6 +56,21 @@ const UserAccounts = () => {
         }
     }
 
+    const handleSendVerification = async (userId) => {
+        try {
+            
+        } catch (error) {
+            console.error({
+                message: 'Failed to send verification email',
+                error: error.message,
+                stack: error.stack,
+                userId,
+            })
+            setErrorContent('Failed to send verification email\n' + error.message)
+            setIsErrorPopupOpen(true)
+        }
+    }
+
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault()
@@ -82,7 +97,10 @@ const UserAccounts = () => {
                             <tr key={user.id}>
                                 <td>{user.fullName}</td>
                                 <td>{user.email}</td>
-                                <td>{user.verifiedTF === true ? "True" : "False"}</td>
+                                <td>
+                                    {user.verifiedTF === true ? "True" : "False"}
+                                    {user.verifiedTF === false ? <button className="settings-icon" type="button" onClick={() => handleSendVerification(user.id)}><FontAwesomeIcon className="fa-md" icon={faEnvelope} /></button> : null}
+                                </td>
                                 <td>
                                     {user.adminTF === true ? "True" : "False"}
                                     <button className="settings-icon" type="button" onClick={() => handleSwitchAdmin(user.id)}><FontAwesomeIcon className="fa-md" icon={faUserTie} /></button>
@@ -94,8 +112,8 @@ const UserAccounts = () => {
 
             </form>
 
-            { validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p> }
-            {successMessage && <p className="pre-wrap success-text">{successMessage}</p> }
+            {validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
+                : <p className="pre-wrap success-text">{successMessage}</p>}
 
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleReset} heading="Are you sure?" />

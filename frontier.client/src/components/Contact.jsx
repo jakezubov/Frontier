@@ -12,8 +12,8 @@ const Contact = ({ refresh }) => {
     const [message, setMessage] = useState('')
 
     // Popups
-    const [successMessage, setSuccessMessage] = useState('')
-    const [validationMessage, setValidationMessage] = useState('')
+    const [successMessage, setSuccessMessage] = useState(' ')
+    const [validationMessage, setValidationMessage] = useState(' ')
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
@@ -22,8 +22,8 @@ const Contact = ({ refresh }) => {
     }, [refresh, userId])
 
     useEffect(() => {
-        setValidationMessage('')
-        setSuccessMessage('')
+        setValidationMessage(' ')
+        setSuccessMessage(' ')
     }, [name, email, message])
 
     const validateEmail = (email) => {
@@ -65,7 +65,7 @@ const Contact = ({ refresh }) => {
 
     return (
         <div>
-            <h3>Contact</h3>
+            <h3>Contact / Feature Request</h3>
 
             <form>
                 <table>
@@ -78,20 +78,26 @@ const Contact = ({ refresh }) => {
                             <td>Email</td>
                             <td><input className="general-input" value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
                         </tr>
+                        <br />
+                        <tr>
+                            <td>Message</td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2"><textarea className="general-text-area" rows="5" value={message} onChange={(e) => setMessage(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2"><button className="general-button" type="button" onClick={handleSubmit}>Send Email</button></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
+                                : <p className="pre-wrap success-text">{successMessage}</p>}</td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">If you would like to contact the developer to voice any concerns, issues or feature requests, please fill out the form above.</td>
+                        </tr>
                     </tbody>
                 </table>
-
-                <br />
-                
-                <h4>Message</h4>
-                <textarea className="general-text-area" rows="5" value={message} onChange={(e) => setMessage(e.target.value)} />
-                
-
-                <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
             </form>
-
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
 
             {isErrorPopupOpen && (
                 <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />

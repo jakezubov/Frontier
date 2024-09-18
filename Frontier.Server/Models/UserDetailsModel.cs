@@ -17,6 +17,7 @@ public class UserDetailsModel
     public List<MetalModel>? Metals { get; set; }
     public List<RingSizeModel>? RingSizes { get; set; }
     public DateTime LastLoggedIn { get; set; }
+    public bool LoggedInTF { get; set; }
     public bool VerifiedTF { get; set; }
     public bool AdminTF { get; set; }
 }

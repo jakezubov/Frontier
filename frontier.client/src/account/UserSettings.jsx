@@ -17,8 +17,8 @@ const UserSettings = ({ onDelete }) => {
     const [emailChanged, setEmailChanged] = useState(false)
 
     // Popups
-    const [validationMessage, setValidationMessage] = useState('')
-    const [successMessage, setSuccessMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
+    const [successMessage, setSuccessMessage] = useState(' ')
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
@@ -27,8 +27,8 @@ const UserSettings = ({ onDelete }) => {
     }, [userId])
 
     useEffect(() => {
-        setValidationMessage('')
-        setSuccessMessage('')
+        setValidationMessage(' ')
+        setSuccessMessage(' ')
         if (email.toLowerCase() != originalEmail) {
             setEmailChanged(true)
         }
@@ -120,7 +120,7 @@ const UserSettings = ({ onDelete }) => {
                 'LastName': lastName,
                 'Email': email,
                 'PasswordHash': '',
-                'HistoryAmount': historyAmount,
+                'HistoryAmount': Math.round(historyAmount),
             })
             setSuccessMessage('Account details updated.')
         }
@@ -168,18 +168,18 @@ const UserSettings = ({ onDelete }) => {
                         </tr>
                         <tr>
                             <td>History Amount</td>
-                            <td><input className="general-input" type="number" step="5" min="5" max="20" value={historyAmount} onChange={(e) => setHistoryAmount(e.target.value)} /></td>
+                            <td><input className="general-input" type="number" step="5" min="5" value={historyAmount} onChange={(e) => setHistoryAmount(e.target.value)} /></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2"><button className="general-button" type="button" onClick={handleSubmit}>Save Changes</button></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
+                                : <p className="pre-wrap success-text">{successMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>
-                <button className="general-button" type="button" onClick={handleSubmit}>Save Changes</button>
             </form>
-
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
-
-            <br />
-            <br />
 
             <table>
                 <tbody>

@@ -9,13 +9,14 @@ const URL = {
     UPDATE_PASSWORD: (userId) => `${prefix}/api/users/${userId}/update/password`,
     DELETE_USER: (userId) => `${prefix}/api/users/${userId}/delete`,
     SWITCH_ADMIN: (userId) => `${prefix}/api/users/${userId}/admin`,
+    LOGIN_UPDATES: (userId) => `${prefix}/api/users/${userId}/login`,
+    LOGOUT_UPDATES: (userId) => `${prefix}/api/users/${userId}/logout`,
 
     /** Validation */
     VALIDATE_USER: `${prefix}/api/users/validate`,
     CHECK_EMAIL: (email) => `${prefix}/api/users/check-email/${email}`,
     VERIFY_EMAIL: (email) => `${prefix}/api/users/verify-email/${email}`,
     UNVERIFY_EMAIL: (email) => `${prefix}/api/users/unverify-email/${email}`,
-    UPDATE_LAST_LOGIN_TIME: (userId) => `${prefix}/api/users/login/${userId}`,
 
     /** History */
     GET_HISTORY: (userId) => `${prefix}/api/users/${userId}/history`,

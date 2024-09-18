@@ -32,6 +32,7 @@ namespace Frontier.Server.Controllers
                     Metals = user.Metals,
                     RingSizes = user.RingSizes,
                     LastLoggedIn = user.LastLoggedIn,
+                    LoggedInTF = user.LoggedInTF,
                     VerifiedTF = user.VerifiedTF,
                     AdminTF = user.AdminTF
                 };
@@ -61,6 +62,7 @@ namespace Frontier.Server.Controllers
                 Metals = user.Metals,
                 RingSizes = user.RingSizes,
                 LastLoggedIn = user.LastLoggedIn,
+                LoggedInTF = user.LoggedInTF,
                 VerifiedTF = user.VerifiedTF,
                 AdminTF = user.AdminTF
             };
@@ -165,6 +167,39 @@ namespace Frontier.Server.Controllers
             }
             else return NotFound("ERROR: User has no Id");
         }
+
+        // Changes on login
+        [HttpPut("{userId}/login")]
+        public async Task<IActionResult> OnLogin(string userId)
+        {
+            // Check if the user exists
+            UserModel user = await db.GetUser(userId);
+            if (user == null) return NotFound("User not found");
+
+            user.LastLoggedIn = DateTime.UtcNow;
+            user.LoggedInTF = true;
+
+            await db.UpdateUser(user);
+            return Ok();
+        }
+
+        // Changes on logout
+        [HttpPut("{userId}/logout")]
+        public async Task<IActionResult> OnLogout(string userId)
+        {
+            // Check if the user exists in MongoDB
+            if (userId != null)
+            {
+                UserModel user = await db.GetUser(userId);
+                if (user == null) return NotFound("User not found");
+
+                user.LoggedInTF = false;
+
+                await db.UpdateUser(user);
+                return Ok();
+            }
+            else return NotFound("ERROR: User has no Id");
+        }
         #endregion
 
 
@@ -218,19 +253,6 @@ namespace Frontier.Server.Controllers
             if (user == null) return Ok(null);
 
             user.VerifiedTF = false;
-            await db.UpdateUser(user);
-            return Ok();
-        }
-
-        // Update Login Time
-        [HttpPut("login/{userId}")]
-        public async Task<IActionResult> UpdateLastLogin(string userId)
-        {
-            // Check if the user exists
-            UserModel user = await db.GetUser(userId);
-            if (user == null) return NotFound("User not found");
-
-            user.LastLoggedIn = DateTime.UtcNow;
             await db.UpdateUser(user);
             return Ok();
         }

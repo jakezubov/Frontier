@@ -13,8 +13,8 @@ const RingSizeSettings = () => {
     const [originalRingSizeList, setOriginalRingSizeList] = useState([])
 
     // Popups
-    const [validationMessage, setValidationMessage] = useState('')
-    const [successMessage, setSuccessMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
+    const [successMessage, setSuccessMessage] = useState(' ')
     const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
@@ -24,8 +24,8 @@ const RingSizeSettings = () => {
     }, [userId])
 
     useEffect(() => {
-        setValidationMessage('')
-        setSuccessMessage('')
+        setValidationMessage(' ')
+        setSuccessMessage(' ')
     }, [ringSizeList])
 
     const loadRingSizeList = async () => {
@@ -114,12 +114,13 @@ const RingSizeSettings = () => {
                             <td><button className="general-button" type="button" onClick={handleClearChanges}>Clear Changes</button></td>
                             <td><button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button></td>
                         </tr>
+                        <tr>
+                            <td colSpan="3">{validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
+                                : <p className="pre-wrap success-text">{successMessage}</p>}</td>
+                        </tr>
                     </tbody>
                 </table>
             </form>
-
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-            {successMessage && <p className="pre-wrap success-text">{successMessage}</p>}
 
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleReset} heading="Are you sure?" />

@@ -19,6 +19,7 @@ public class UserModel
     public List<MetalModel> Metals { get; set; } = [];
     public List<RingSizeModel> RingSizes { get; set; } = [];
     public DateTime LastLoggedIn { get; set; } = DateTime.UtcNow;
+    public bool LoggedInTF { get; set; } = false;
     public bool VerifiedTF { get; set; } = false;
     public bool AdminTF { get; set; } = false;
 }

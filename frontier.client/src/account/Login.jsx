@@ -11,12 +11,12 @@ const Login = ({ onLogin }) => {
     const [password, setPassword] = useState('')
 
     // Popups
-    const [validationMessage, setValidationMessage] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
     const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
     const [errorContent, setErrorContent] = useState('')
 
     useEffect(() => {
-        setValidationMessage('')
+        setValidationMessage(' ')
     }, [email, password])
 
     const handleSubmit = async () => {
@@ -34,16 +34,16 @@ const Login = ({ onLogin }) => {
             const userId = response.data
 
             try {
-                await Axios.put(URL.UPDATE_LAST_LOGIN_TIME(userId))
+                await Axios.put(URL.LOGIN_UPDATES(userId))
             }
             catch (error) {
                 console.error({
-                    message: 'Failed to set login time',
+                    message: 'Failed to make login updates',
                     error: error.message,
                     stack: error.stack,
                     userId,
                 })
-                setErrorContent('Failed to set login time\n' + error.message)
+                setErrorContent('Failed to make login updates\n' + error.message)
                 setIsErrorPopupOpen(true)
                 return
             }
