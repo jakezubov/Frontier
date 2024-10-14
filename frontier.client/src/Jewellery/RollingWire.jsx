@@ -139,9 +139,11 @@ const RollingWire = ({ onRefresh }) => {
             <form onKeyDown={handleKeyDown}>
                 <table>
                     <thead>
-                        <th colSpan="2"><h3>Required Dimensions</h3></th>
-                        <th></th>
-                        <th colSpan="2"><h3>Starting Metal</h3></th>
+                        <tr>
+                            <th colSpan="2"><h3>Required Dimensions</h3></th>
+                            <th></th>
+                            <th colSpan="2"><h3>Starting Metal</h3></th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr>
@@ -192,16 +194,18 @@ const RollingWire = ({ onRefresh }) => {
 
             <table>
                 <thead>
-                    <th>
-                        {profile === 'Round' ?
-                            <h3>Diameter</h3>
-                            : <h3>Side</h3>}
-                    </th>
-                    <th>
-                        {stockSizeRequired ?
-                            <h3>Stock Length</h3>
-                            : <h3>Length</h3>}
-                    </th>
+                    <tr>
+                        <th>
+                            {profile === 'Round' ?
+                                <h3>Diameter</h3>
+                                : <h3>Side</h3>}
+                        </th>
+                        <th>
+                            {stockSizeRequired ?
+                                <h3>Stock Length</h3>
+                                : <h3>Length</h3>}
+                        </th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr>

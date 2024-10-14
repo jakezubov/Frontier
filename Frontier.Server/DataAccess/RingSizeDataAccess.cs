@@ -44,7 +44,8 @@ public class RingSizeDataAccess
     {
         var ringSizesCollection = ConnectToMongo<RingSizeModel>(RingSizeCollection);
         var filter = Builders<RingSizeModel>.Filter.Eq("Id", ringSize.Id);
-        return ringSizesCollection.ReplaceOneAsync(filter, ringSize, new ReplaceOptions { IsUpsert = true });
+        ReplaceOptions options = new() { IsUpsert = true };
+        return ringSizesCollection.ReplaceOneAsync(filter, ringSize, options);
     }
 
     public async Task UpdateAllRingSizes(List<RingSizeModel> ringSizes)
@@ -63,7 +64,8 @@ public class RingSizeDataAccess
         foreach (var ringSize in ringSizes)
         {
             var filter = Builders<RingSizeModel>.Filter.Eq("Id", ringSize.Id);
-            var task = ringSizesCollection.ReplaceOneAsync(filter, ringSize, new ReplaceOptions { IsUpsert = true });
+            ReplaceOptions options = new() { IsUpsert = true };
+            var task = ringSizesCollection.ReplaceOneAsync(filter, ringSize, options);
             updateTasks.Add(task);
         }
 

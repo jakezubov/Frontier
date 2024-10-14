@@ -100,12 +100,27 @@ const Register = ({ onRegister }) => {
             setErrorContent('Failed to create account\n' + error.message)
             setIsErrorPopupOpen(true)
         }
+
+        try {
+            await Axios.post(URL.VERIFICATION(`${firstName} ${lastName}`, email))
+        } catch (error) {
+            console.error({
+                message: 'Failed to send verification email',
+                error: error.message,
+                stack: error.stack,
+                firstName,
+                lastName,
+                email,
+            })
+            setErrorContent('Failed to send verification email\n' + error.message)
+            setIsErrorPopupOpen(true)
+        }
     }
 
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault()
-            handleSubmit()
+            handleSubmit(event)
         }
     }
 

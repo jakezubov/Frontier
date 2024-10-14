@@ -131,6 +131,14 @@ table {
     padding: 8px;
 }
 
+.break-top {
+    padding-top: 24px;
+}
+
+.break-bottom {
+    padding-bottom: 24px;
+}
+
 .warning-text {
     color: red
 }

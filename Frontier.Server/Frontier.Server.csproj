@@ -29,11 +29,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.12.1" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>8.*-*</Version>
     </PackageReference>
-    <PackageReference Include="MongoDB.Driver" Version="2.25.0" />
+    <PackageReference Include="Microsoft.Graph" Version="5.59.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.29.0" />
   </ItemGroup>
 
 </Project>

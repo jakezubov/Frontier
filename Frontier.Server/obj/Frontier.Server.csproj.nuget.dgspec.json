@@ -46,6 +46,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Azure.Identity": {
+              "target": "Package",
+              "version": "[1.12.1, )"
+            },
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
@@ -54,9 +58,13 @@
               "target": "Package",
               "version": "[8.*-*, )"
             },
+            "Microsoft.Graph": {
+              "target": "Package",
+              "version": "[5.59.0, )"
+            },
             "MongoDB.Driver": {
               "target": "Package",
-              "version": "[2.25.0, )"
+              "version": "[2.29.0, )"
             }
           },
           "imports": [

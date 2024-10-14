@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import UserAccounts from './UserAccounts'
 import DefaultRingSizes from './DefaultRingSizes'
 import DefaultMetals from './DefaultMetals'
+import ConfigureEmail from './ConfigureEmail'
 import AdminPages from '../constants/AdminPages'
 
 const AdminWorkbench = () => {
@@ -15,6 +16,7 @@ const AdminWorkbench = () => {
                     <li><Link className="navbar-my-account-links" onClick={() => setCurrentPage(AdminPages.USER_ACCOUNTS)} >User Accounts</Link></li>
                     <li><Link className="navbar-my-account-links" onClick={() => setCurrentPage(AdminPages.DEFAULT_METALS)} >Metals Settings</Link></li>
                     <li><Link className="navbar-my-account-links" onClick={() => setCurrentPage(AdminPages.DEFAULT_RING_SIZES)} >Ring Sizes Settings</Link></li>
+                    <li><Link className="navbar-my-account-links" onClick={() => setCurrentPage(AdminPages.CONFIGURE_EMAIL)} >Configure Email</Link></li>
                 </ul>
             </nav>
             <div>
@@ -26,6 +28,9 @@ const AdminWorkbench = () => {
                 )}
                 {currentPage === AdminPages.DEFAULT_RING_SIZES && (
                     <DefaultRingSizes />
+                )}
+                {currentPage === AdminPages.CONFIGURE_EMAIL && (
+                    <ConfigureEmail />
                 )}
             </div>
         </div>

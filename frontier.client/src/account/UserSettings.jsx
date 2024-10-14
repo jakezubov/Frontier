@@ -98,6 +98,21 @@ const UserSettings = ({ onDelete }) => {
                     setIsErrorPopupOpen(true)
                     return
                 }
+
+                try {
+                    await Axios.post(URL.VERIFICATION(`${firstName} ${lastName}`, email))
+                } catch (error) {
+                    console.error({
+                        message: 'Failed to send verification email',
+                        error: error.message,
+                        stack: error.stack,
+                        firstName,
+                        lastName,
+                        email,
+                    })
+                    setErrorContent('Failed to send verification email\n' + error.message)
+                    setIsErrorPopupOpen(true)
+                }
             }
             catch (error) {
                 console.error({

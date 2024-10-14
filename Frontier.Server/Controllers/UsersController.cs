@@ -120,7 +120,7 @@ namespace Frontier.Server.Controllers
 
         // Update Password
         [HttpPut("{userId}/update/password")]
-        public async Task<IActionResult> UpdatePassword(string userId, [FromBody] CredentialsModel credentials)
+        public async Task<IActionResult> UpdatePassword(string userId, CredentialsModel credentials)
         {
             // Check if the user exists in MongoDB
             if (userId != null)

@@ -41,6 +41,14 @@ const URL = {
     RESET_DEFAULT_METALS: `${prefix}/api/defaults/metals/default`,
     RESET_DEFAULT_RING_SIZES: `${prefix}/api/defaults/ring-sizes/default`,
 
+    /** Email */
+    CONTACT_FORM: `${prefix}/api/azure/send/contact-form`,
+    PASSWORD_RESET: (email) => `${prefix}/api/azure/send/password-reset/${email}`,
+    REGISTRATION: (name, email) => `${prefix}/api/azure/send/registration/${name}/${email}`,
+    VERIFICATION: (name, email) => `${prefix}/api/azure/send/verification/${name}/${email}`,
+    GET_AZURE: `${prefix}/api/azure/get/client`,
+    UPDATE_AZURE: `${prefix}/api/azure/update/client`,
+
     /** Misc */
     GENERATE_OBJECT_ID: `${prefix}/api/defaults/generate-id`,
 } 

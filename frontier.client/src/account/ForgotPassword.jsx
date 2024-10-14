@@ -1,6 +1,8 @@
+import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Path from '../constants/Paths'
+import URL from '../constants/URLs'
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('')
@@ -17,7 +19,7 @@ const ForgotPassword = () => {
         return regex.test(String(email).toLowerCase())
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!email) {
             setValidationMessage('Please enter an email.')
             return
@@ -26,8 +28,28 @@ const ForgotPassword = () => {
             setValidationMessage('Please enter a valid email address.')
             return
         }
+        try {
 
-        setSuccessMessage('Email has been sent. (not really)')
+            var response = await Axios.post(URL.CHECK_EMAIL(email))
+            if (!response.data) {
+                setValidationMessage('No account found with that email.')
+                return
+            }
+
+            setSuccessMessage("Sending...")
+            await Axios.post(URL.PASSWORD_RESET(email))
+            setSuccessMessage('Email has been sent.')
+            setValidationMessage(' ')
+        } catch (error) {
+            console.error({
+                message: 'Failed to send password reset email',
+                error: error.message,
+                stack: error.stack,
+                email,
+            })
+            setErrorContent('Failed to send password reset email\n' + error.message)
+            setIsErrorPopupOpen(true)
+        }
     }
 
     const handleKeyDown = (event) => {

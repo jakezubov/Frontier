@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect } from 'react'
 import PopupConfirmation from '../popups/PopupConfirmation'
 import PopupError from '../popups/PopupError'
 import URL from '../constants/URLs'

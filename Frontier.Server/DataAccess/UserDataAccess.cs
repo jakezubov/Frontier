@@ -51,7 +51,8 @@ public class UserDataAccess
     {
         var usersCollection = ConnectToMongo<UserModel>(UserCollection);
         var filter = Builders<UserModel>.Filter.Eq("Id", user.Id);
-        return usersCollection.ReplaceOneAsync(filter, user, new ReplaceOptions { IsUpsert = true });
+        ReplaceOptions options = new() { IsUpsert = true };
+        return usersCollection.ReplaceOneAsync(filter, user, options);
     }
 
     public Task DeleteUser(UserModel user)

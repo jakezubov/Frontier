@@ -56,15 +56,16 @@ const UserAccounts = () => {
         }
     }
 
-    const handleSendVerification = async (userId) => {
+    const handleSendVerification = async (name, email) => {
         try {
-            
+            await Axios.post(URL.VERIFICATION(name, email))
         } catch (error) {
             console.error({
                 message: 'Failed to send verification email',
                 error: error.message,
                 stack: error.stack,
-                userId,
+                name,
+                email,
             })
             setErrorContent('Failed to send verification email\n' + error.message)
             setIsErrorPopupOpen(true)
@@ -99,7 +100,7 @@ const UserAccounts = () => {
                                 <td>{user.email}</td>
                                 <td>
                                     {user.verifiedTF === true ? "True" : "False"}
-                                    {user.verifiedTF === false ? <button className="settings-icon" type="button" onClick={() => handleSendVerification(user.id)}><FontAwesomeIcon className="fa-md" icon={faEnvelope} /></button> : null}
+                                    {user.verifiedTF === false ? <button className="settings-icon" type="button" onClick={() => handleSendVerification(user.fullName, user.email)}><FontAwesomeIcon className="fa-md" icon={faEnvelope} /></button> : null}
                                 </td>
                                 <td>
                                     {user.adminTF === true ? "True" : "False"}

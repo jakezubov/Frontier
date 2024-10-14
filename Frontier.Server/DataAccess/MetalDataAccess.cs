@@ -40,7 +40,8 @@ public class MetalDataAccess
     {
         var metalsCollection = ConnectToMongo<MetalModel>(MetalCollection);
         var filter = Builders<MetalModel>.Filter.Eq("Id", metal.Id);
-        return metalsCollection.ReplaceOneAsync(filter, metal, new ReplaceOptions { IsUpsert = true });
+        ReplaceOptions options = new() { IsUpsert = true };
+        return metalsCollection.ReplaceOneAsync(filter, metal, options);
     }
 
     public async Task UpdateAllMetals(List<MetalModel> metals)
@@ -59,7 +60,8 @@ public class MetalDataAccess
         foreach (var metal in metals)
         {
             var filter = Builders<MetalModel>.Filter.Eq("Id", metal.Id);
-            var task = metalsCollection.ReplaceOneAsync(filter, metal, new ReplaceOptions { IsUpsert = true });
+            ReplaceOptions options = new() { IsUpsert = true };
+            var task = metalsCollection.ReplaceOneAsync(filter, metal, options);
             updateTasks.Add(task);
         }
 

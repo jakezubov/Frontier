@@ -3,7 +3,7 @@ import Axios from 'axios'
 import { useContext, useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRightFromBracket, faArrowRightToBracket, faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRightFromBracket, faArrowRightToBracket, faCircleHalfStroke, faHeart, faGear } from '@fortawesome/free-solid-svg-icons'
 import { updateCSSVariables } from './Themes'
 import { UserContext } from './contexts/UserContext'
 import { JewelleryPageContext } from './contexts/JewelleryPageContext'
@@ -18,10 +18,11 @@ import Register from './account/Register'
 import Login from './account/Login'
 import ForgotPassword from './account/ForgotPassword'
 import MyAccount from './account/MyAccount'
-import VerifyAccount from './account/VerifyAccount'
 import ConfirmationScreen from './account/ConfirmationScreen'
+import VerifyAccount from './account/email/VerifyAccount'
+import ResetPassword from './account/email/ResetPassword'
 import AdminWorkbench from './admin/AdminWorkbench'
-import Sidebar from './components/Sidebar'
+import Sidebar from './sidebar/Sidebar'
 import PopupLogout from './popups/PopupLogout'
 import JewelleryPage from './constants/JewelleryPages'
 import Path from './constants/Paths'
@@ -77,19 +78,20 @@ const App = () => {
     }
 
     const handleLogout = async () => {
-        try {
-            await Axios.put(URL.LOGOUT_UPDATES(userId))
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to make logout updates',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to make logout updates\n' + error.message)
-            setIsErrorPopupOpen(true)
-            return
+        if (userId != null) {
+            try {
+                await Axios.put(URL.LOGOUT_UPDATES(userId))
+            }
+            catch (error) {
+                console.error({
+                    message: 'Failed to make logout updates',
+                    error: error.message,
+                    stack: error.stack,
+                    userId,
+                })
+                setErrorContent('Failed to make logout updates\n' + error.message)
+                setIsErrorPopupOpen(true)
+            }
         }
         handlePageChange(JewelleryPage.NONE)
         setConfirmationMessage('Logged Out Successfully!')
@@ -105,19 +107,19 @@ const App = () => {
     }
 
     const getAdminStatus = async (id) => {
-        if (loggedIn) {
+        if (id != null) {
             try {
                 const user = await Axios.get(URL.GET_USER(id));
                 setAdminStatus(user.data.adminTF)
             }
             catch (error) {
                 console.error({
-                    message: 'Failed to get user info',
+                    message: 'Failed to get admin status',
                     error: error.message,
                     stack: error.stack,
                     id,
                 })
-                setErrorContent('Failed to get user info\n' + error.message)
+                setErrorContent('Failed to get admin status\n' + error.message)
                 setIsErrorPopupOpen(true)
             }
         }
@@ -163,13 +165,16 @@ const App = () => {
                         }
                     </ul>
                     <ul>
-                        { adminStatus ?
-                            <li><Link className="navbar-links" onClick={handlePageChange(JewelleryPage.NONE)} to={Path.ADMIN_WORKBENCH}>Admin Settings</Link></li>
-                            : null
-                        }
+                        <li>
+                            
+                        </li>
                         <li>
                             <div className="theme-buttons">
                                 <button className="settings-icon" onClick={handleThemeChange}><FontAwesomeIcon className="fa-2xl" icon={faCircleHalfStroke} /></button>
+                                <a href="https://paypal.me/jakezubov"><button className="settings-icon"><FontAwesomeIcon className="fa-2xl" icon={faHeart} /></button></a>
+                                {adminStatus && (
+                                    <Link to={Path.ADMIN_WORKBENCH}><button className="settings-icon" onClick={handlePageChange(JewelleryPage.NONE)} ><FontAwesomeIcon className="fa-2xl" icon={faGear} /></button></Link>
+                                )}
                             </div>
                         </li>
                     </ul>
@@ -191,8 +196,9 @@ const App = () => {
                     <Route path={Path.LOGIN} element={<Login onLogin={handleLogin} />} />
                     <Route path={Path.FORGOT_PASSWORD} element={<ForgotPassword />} />
                     <Route path={Path.MY_ACCOUNT} element={<MyAccount onDelete={handleDeleteAccount} />} />
-                    <Route path={Path.VERIFY_ACCOUNT} element={<VerifyAccount />} />
                     <Route path={Path.CONFIRMATION_SCREEN} element={<ConfirmationScreen message={confirmationMessage} />} />
+                    <Route path={Path.VERIFY_ACCOUNT} element={<VerifyAccount />} />
+                    <Route path={Path.RESET_PASSWORD} element={<ResetPassword />} />
                     <Route path={Path.ADMIN_WORKBENCH} element={<AdminWorkbench />} />
                 </Routes>
 
