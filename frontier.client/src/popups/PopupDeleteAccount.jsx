@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
-import Path from '../constants/Paths'
+import Path from '../common/Paths'
 
 const PopupDeleteAccount = ({ isPopupOpen, setIsPopupOpen, onConfirm, }) => {
     const navigate = useNavigate()

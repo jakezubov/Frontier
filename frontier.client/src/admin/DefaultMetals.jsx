@@ -1,21 +1,20 @@
-import Axios from 'axios'
 import { useState, useEffect } from 'react'
+import { useGetDefaultMetals, useUpdateDefaultMetals, useResetDefaultMetals } from '../common/APIs'
+import TableSchemas from '../common/TableSchemas'
 import PopupConfirmation from '../popups/PopupConfirmation'
-import PopupError from '../popups/PopupError'
-import URL from '../constants/URLs'
-import TableSchemas from '../constants/TableSchemas'
 import EditableTable from '../components/EditableTable'
 
 const DefaultMetals = () => {
     const [metalList, setMetalList] = useState([])
     const [originalMetalList, setOriginalMetalList] = useState([])
-
-    // Popups
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
     const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { getDefaultMetals } = useGetDefaultMetals()
+    const { updateDefaultMetals } = useUpdateDefaultMetals()
+    const { resetDefaultMetals } = useResetDefaultMetals()
 
     useEffect(() => {
         loadMetalList()
@@ -27,19 +26,9 @@ const DefaultMetals = () => {
     }, [metalList])
 
     const loadMetalList = async () => {
-        try {
-            const response = await Axios.get(URL.GET_DEFAULT_METALS)
-            setMetalList(response.data)
-            setOriginalMetalList(response.data)
-        } catch (error) {
-            console.error({
-                message: 'Failed to load metals',
-                error: error.message,
-                stack: error.stack,
-            })
-            setErrorContent('Failed to load metals\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        const response = await getDefaultMetals()
+        setMetalList(response)
+        setOriginalMetalList(response)
     }
 
     const handleSave = async () => {
@@ -53,35 +42,15 @@ const DefaultMetals = () => {
                 return
             }
         }
-        try {
-            await Axios.put(URL.UPDATE_DEFAULT_METALS, metalList)
-            setSuccessMessage('Metals have been updated.')
-            setOriginalMetalList(metalList)
-        } catch (error) {
-            console.error({
-                message: 'Failed to save metals',
-                error: error.message,
-                stack: error.stack,
-            })
-            setErrorContent('Failed to save metals\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await updateDefaultMetals(metalList)
+
+        setSuccessMessage('Metals have been updated.')
+        setOriginalMetalList(metalList)
     }
 
     const handleReset = async () => {
-        try {
-            await Axios.put(URL.RESET_DEFAULT_METALS)
-            loadMetalList()
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to reset metals',
-                error: error.message,
-                stack: error.stack,
-            })
-            setErrorContent('Failed to reset metals\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await resetDefaultMetals()
+        loadMetalList()
     }
 
     const handleClearChanges = () => {
@@ -119,10 +88,6 @@ const DefaultMetals = () => {
 
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleReset} heading="Are you sure?" />
-            )}
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
             )}
         </div>
     )

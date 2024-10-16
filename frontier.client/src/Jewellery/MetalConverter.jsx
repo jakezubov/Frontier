@@ -1,24 +1,25 @@
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import { validateNumber } from '../constants/ValidateNumber'
-import JewelleryPage from '../constants/JewelleryPages'
-import URL from '../constants/URLs'
+import { validateNumber } from '../common/ValidateNumber'
+import { useSaveHistory } from '../common/APIs'
+import JewelleryPage from '../common/JewelleryPages'
 import MetalSelector from '../components/MetalSelector'
-import PopupError from '../popups/PopupError'
 
 const MetalConverter = ({ onRefresh }) => {
     const { userId } = useContext(UserContext)
+
+    // Inputs
     const [originalMetal, setOriginalMetal] = useState(null)
     const [newMetal, setNewMetal] = useState(null)
     const [weight, setWeight] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
+
+    // Calculated
     const [convertedWeight, setConvertedWeight] = useState('')
 
-    // Popups
-    const [validationMessage, setValidationMessage] = useState(' ')
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+    // APIs
+    const { saveHistory } = useSaveHistory()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -35,27 +36,8 @@ const MetalConverter = ({ onRefresh }) => {
         setConvertedWeight(calculatedWeightText)
 
         if (userId) {
-            try {
-                await Axios.put(URL.CREATE_HISTORY(userId), {
-                    'historyType': JewelleryPage.METAL_CONVERTER,
-                    'content': `${originalMetal.name} (${weight}g) -> ${newMetal.name} (${calculatedWeightText})`
-                })
-                onRefresh()
-            }
-            catch (error) {
-                console.error({
-                    message: 'Failed to save history',
-                    error: error.message,
-                    stack: error.stack,
-                    userId,
-                    originalMetal,
-                    newMetal,
-                    weight,
-                    calculatedWeightText,
-                })
-                setErrorContent('Failed to save history\n' + error.message)
-                setIsErrorPopupOpen(true)
-            }
+            await saveHistory(userId, JewelleryPage.METAL_CONVERTER, calculatedWeightText)
+            onRefresh()
         }
     }
 
@@ -103,10 +85,6 @@ const MetalConverter = ({ onRefresh }) => {
                     </tr>
                 </tbody>
             </table>
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

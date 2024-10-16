@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react'
-import JewelleryPage from '../constants/JewelleryPages'
+import JewelleryPage from '../common/JewelleryPages'
 
 export const JewelleryPageContext = createContext()
 

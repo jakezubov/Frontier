@@ -1,34 +1,19 @@
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import { useState, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
+import { useDeleteUser } from '../common/APIs'
 import PopupDeleteAccount from '../popups/PopupDeleteAccount'
-import PopupError from '../popups/PopupError'
-import URL from '../constants/URLs'
 
 const DeleteAccount = ({ onDelete }) => {
     const { userId } = useContext(UserContext)
-
-    // Popups
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { deleteUser } = useDeleteUser()
 
     const handleConfirmDelete = async () => {
-        try {
-            await Axios.delete(URL.DELETE_USER(userId))
-            onDelete()
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to delete account',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to delete account\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await deleteUser(userId)
+        onDelete()
     }
 
     return (
@@ -37,10 +22,6 @@ const DeleteAccount = ({ onDelete }) => {
 
             {isDeletePopupOpen && (
                 <PopupDeleteAccount isPopupOpen={isDeletePopupOpen} setIsPopupOpen={setIsDeletePopupOpen} onConfirm={handleConfirmDelete} heading="Are you sure?" />
-            )}
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
             )}
         </div>
     )

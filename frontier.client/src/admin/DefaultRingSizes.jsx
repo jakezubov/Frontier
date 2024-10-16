@@ -1,21 +1,20 @@
-import Axios from 'axios'
 import { useState, useEffect } from 'react'
+import { useGetDefaultRingSizes, useUpdateDefaultRingSizes, useResetDefaultRingSizes } from '../common/APIs'
+import TableSchemas from '../common/TableSchemas'
 import PopupConfirmation from '../popups/PopupConfirmation'
-import PopupError from '../popups/PopupError'
-import URL from '../constants/URLs'
-import TableSchemas from '../constants/TableSchemas'
 import EditableTable from '../components/EditableTable'
 
 const DefaultRingSizes = () => {
     const [ringSizeList, setRingSizeList] = useState([])
     const [originalRingSizeList, setOriginalRingSizeList] = useState([])
-
-    // Popups
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
     const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { getDefaultRingSizes } = useGetDefaultRingSizes()
+    const { updateDefaultRingSizes } = useUpdateDefaultRingSizes()
+    const { resetDefaultRingSizes } = useResetDefaultRingSizes()
 
     useEffect(() => {
         loadRingSizeList()
@@ -27,19 +26,9 @@ const DefaultRingSizes = () => {
     }, [ringSizeList])
 
     const loadRingSizeList = async () => {
-        try {
-            const response = await Axios.get(URL.GET_DEFAULT_RING_SIZES)
-            setRingSizeList(response.data)
-            setOriginalRingSizeList(response.data)
-        } catch (error) {
-            console.error({
-                message: 'Failed to load ring sizes',
-                error: error.message,
-                stack: error.stack,
-            })
-            setErrorContent('Failed to load ring sizes\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        const response = await getDefaultRingSizes()
+        setRingSizeList(response)
+        setOriginalRingSizeList(response)
     }
 
     const handleSave = async () => {
@@ -53,36 +42,15 @@ const DefaultRingSizes = () => {
                 return
             }
         }
-        try {
-            await Axios.put(URL.UPDATE_DEFAULT_RING_SIZES, ringSizeList)
-            setSuccessMessage('Ring sizes have been updated.')
-            setOriginalRingSizeList(ringSizeList)
-        } catch (error) {
-            console.error({
-                message: 'Failed to save ring sizes',
-                error: error.message,
-                stack: error.stack,
-            })
-            setErrorContent('Failed to save ring sizes\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await updateDefaultRingSizes(ringSizeList)
+
+        setSuccessMessage('Ring sizes have been updated.')
+        setOriginalRingSizeList(ringSizeList)
     }
 
     const handleReset = async () => {
-        try {
-            await Axios.put(URL.RESET_DEFAULT_RING_SIZES)
-            loadRingSizeList()
-        }
-        catch (error) {
-            cconsole.error({
-                message: 'Failed to reset ring sizes',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to reset ring sizes\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await resetDefaultRingSizes()
+        loadRingSizeList()
     }
 
     const handleClearChanges = () => {
@@ -120,10 +88,6 @@ const DefaultRingSizes = () => {
 
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleReset} heading="Are you sure?" />
-            )}
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
             )}
         </div>
     )

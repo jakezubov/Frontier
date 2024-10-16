@@ -1,42 +1,28 @@
 import PropTypes from 'prop-types';
-import Axios from 'axios';
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import URL from '../constants/URLs';
-import PopupError from '../popups/PopupError'
+import { useGetRingSizes, useGetDefaultRingSizes } from '../common/APIs'
 
 const RingSizeSelector = ({ label, onSizeChange }) => {
     const { userId } = useContext(UserContext)
     const [ringSizes, setRingSizes] = useState([])
 
-    // Error Popup
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+    // APIs
+    const { getRingSizes } = useGetRingSizes()
+    const { getDefaultRingSizes } = useGetDefaultRingSizes()
 
     useEffect(() => {
         loadRingSizes()
     }, [userId])
 
     const loadRingSizes = async () => {
-        try {
-            if (userId) {
-                const response = await Axios.get(URL.GET_RING_SIZES(userId));
-                setRingSizes(response.data)
-            }
-            else {
-                const response = await Axios.get(URL.GET_DEFAULT_RING_SIZES);
-                setRingSizes(response.data)
-            }
+        if (userId) {
+            const response = await getRingSizes(userId);
+            setRingSizes(response)
         }
-        catch (error) {
-            console.error({
-                message: 'Failed to load ring sizes',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to load ring sizes\n' + error.message)
-            setIsErrorPopupOpen(true)
+        else {
+            const response = await getDefaultRingSizes();
+            setRingSizes(response)
         }
     }
 
@@ -58,10 +44,6 @@ const RingSizeSelector = ({ label, onSizeChange }) => {
                     ))
                 }
             </select>
-
-            {isErrorPopupOpen && (
-                    <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

@@ -1,34 +1,19 @@
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import { useState, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
+import { useDeleteUserHistory } from '../common/APIs'
 import PopupConfirmation from '../popups/PopupConfirmation'
-import PopupError from '../popups/PopupError'
-import URL from '../constants/URLs'
 
 const ClearHistoryButton = ({ onSuccess }) => {
     const { userId } = useContext(UserContext)
-
-    // Popups
     const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { deleteUserHistory } = useDeleteUserHistory()
 
     const handleClearHistory = async () => {
-        try {
-            await Axios.delete(URL.DELETE_HISTORY(userId))
-            onSuccess('History has been cleared.')
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to clear history',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to clear history\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await deleteUserHistory(userId)
+        onSuccess('History has been cleared.')
     }
 
     return (
@@ -37,10 +22,6 @@ const ClearHistoryButton = ({ onSuccess }) => {
 
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleClearHistory} heading="Are you sure you want to clear history?" />
-            )}
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
             )}
         </div>
     )

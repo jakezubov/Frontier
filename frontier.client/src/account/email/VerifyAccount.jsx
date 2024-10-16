@@ -1,14 +1,13 @@
-import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import URL from '../../constants/URLs'
-import PopupError from '../../popups/PopupError'
+import { useVerifyAccount } from '../../common/APIs'
 
 const VerifyAccount = () => {
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
     const [email, setEmail] = useState('')
     const location = useLocation()
+
+    // APIs
+    const { verifyAccount } = useVerifyAccount()
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search)
@@ -23,28 +22,12 @@ const VerifyAccount = () => {
     }, [email])
 
     const verify = async () => {
-        try {
-            await Axios.put(URL.VERIFY_EMAIL(email))
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to verify account',
-                error: error.message,
-                stack: error.stack,
-                email,
-            })
-            setErrorContent('Failed to verify account\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await verifyAccount(email)
     }
 
     return (
         <div>
             <h1>Account has been verified!</h1>
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

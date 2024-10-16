@@ -1,9 +1,7 @@
-import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import Path from '../constants/Paths'
-import URL from '../constants/URLs'
-import PopupError from '../popups/PopupError'
+import { useCheckEmailExists, useCreateUser, useSendRegistration } from '../common/APIs'
+import Path from '../common/Paths'
 
 const Register = ({ onRegister }) => {
     const navigate = useNavigate()
@@ -12,11 +10,12 @@ const Register = ({ onRegister }) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-
-    // Popups
     const [validationMessage, setValidationMessage] = useState(' ')
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { checkEmailExists } = useCheckEmailExists()
+    const { createUser } = useCreateUser()
+    const { sendRegistration } = useSendRegistration()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -56,65 +55,18 @@ const Register = ({ onRegister }) => {
             setValidationMessage('Password must include the following:\n- At least 8 characters\n- An uppercase letter\n- A lowercase letter\n- A number')
             return
         }
+        const userId = await checkEmailExists(email.toLowerCase())
 
-        try {
-            const response = await Axios.post(URL.CHECK_EMAIL(email.toLowerCase()))
+        if (userId) {
+            setValidationMessage('Email already exists.')
+            return
+        }
+        await createUser(firstName, lastName, email, password)
 
-            if (response.data) {
-                setValidationMessage('Email already exists.')
-                return
-            }
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to check email',
-                error: error.message,
-                stack: error.stack,
-                firstName,
-                lastName,
-                email,
-            })
-            setErrorContent('Failed to check email\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await sendRegistration(`${firstName} ${lastName}`, email)
 
-        try {
-            await Axios.post(URL.CREATE_USER, {
-                'FirstName': firstName,
-                'LastName': lastName,
-                'Email': email,
-                'PasswordHash': password
-            })
-            onRegister()
-            navigate(Path.CONFIRMATION_SCREEN)
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to create account',
-                error: error.message,
-                stack: error.stack,
-                firstName,
-                lastName,
-                email,
-            })
-            setErrorContent('Failed to create account\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
-
-        try {
-            await Axios.post(URL.VERIFICATION(`${firstName} ${lastName}`, email))
-        } catch (error) {
-            console.error({
-                message: 'Failed to send verification email',
-                error: error.message,
-                stack: error.stack,
-                firstName,
-                lastName,
-                email,
-            })
-            setErrorContent('Failed to send verification email\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        onRegister()
+        navigate(Path.CONFIRMATION_SCREEN)
     }
 
     const handleKeyDown = (event) => {
@@ -167,10 +119,6 @@ const Register = ({ onRegister }) => {
                     </tr>
                 </tbody>
             </table>
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

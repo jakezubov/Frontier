@@ -1,14 +1,12 @@
 import './App.css'
-import Axios from 'axios'
 import { useContext, useState, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket, faArrowRightToBracket, faCircleHalfStroke, faHeart, faGear } from '@fortawesome/free-solid-svg-icons'
-import { updateCSSVariables } from './Themes'
+import { updateCSSVariables } from './common/Themes'
 import { UserContext } from './contexts/UserContext'
 import { JewelleryPageContext } from './contexts/JewelleryPageContext'
-import URL from './constants/URLs'
-import PopupError from './popups/PopupError'
+import { useGetUser, useLogLogout } from './common/APIs'
 import Home from './Home'
 import MetalConverter from './jewellery/MetalConverter'
 import RingWeight from './jewellery/RingWeight'
@@ -24,25 +22,27 @@ import ResetPassword from './account/email/ResetPassword'
 import AdminWorkbench from './admin/AdminWorkbench'
 import Sidebar from './sidebar/Sidebar'
 import PopupLogout from './popups/PopupLogout'
-import JewelleryPage from './constants/JewelleryPages'
-import Path from './constants/Paths'
+import JewelleryPage from './common/JewelleryPages'
+import Path from './common/Paths'
 
 const App = () => {
     const { userId, setUserId } = useContext(UserContext)
-    const { setJewelleryPage } = useContext(JewelleryPageContext)
+    const { jewelleryPage, setJewelleryPage } = useContext(JewelleryPageContext)
     const [loggedIn, setLoggedIn] = useState(!!userId)
     const [adminStatus, setAdminStatus] = useState(false)
     const [refreshSidebar, setRefreshSidebar] = useState('')
     const [confirmationMessage, setConfirmationMessage] = useState('')
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
-
-    // Popups
     const [isLogoutPopupOpen, setIsLogoutPopupOpen] = useState(false)
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { getUser } = useGetUser()
+    const { logLogout } = useLogLogout()
 
     useEffect(() => {
         getAdminStatus(userId)
+        setJewelleryPage(jewelleryPage)
+        getLoggedInStatus()
     }, [])
 
     useEffect(() => {
@@ -54,10 +54,6 @@ const App = () => {
         setLoggedIn(!!userId)
     }, [userId])
 
-    useEffect(() => {
-        setJewelleryPage(JewelleryPage.NONE)
-    }, [])
-
     const handlePageChange = (page) => () => {
         setJewelleryPage(page)
         setRefreshSidebar(new Date().toLocaleTimeString())
@@ -65,7 +61,7 @@ const App = () => {
 
     const handleHistoryRefresh = () => {
         setRefreshSidebar(new Date().toLocaleTimeString())
-    }  
+    }
 
     const handleRegister = () => {
         setConfirmationMessage('Successfully registered account!')
@@ -79,19 +75,7 @@ const App = () => {
 
     const handleLogout = async () => {
         if (userId != null) {
-            try {
-                await Axios.put(URL.LOGOUT_UPDATES(userId))
-            }
-            catch (error) {
-                console.error({
-                    message: 'Failed to make logout updates',
-                    error: error.message,
-                    stack: error.stack,
-                    userId,
-                })
-                setErrorContent('Failed to make logout updates\n' + error.message)
-                setIsErrorPopupOpen(true)
-            }
+            await logLogout(userId)
         }
         handlePageChange(JewelleryPage.NONE)
         setConfirmationMessage('Logged Out Successfully!')
@@ -108,22 +92,23 @@ const App = () => {
 
     const getAdminStatus = async (id) => {
         if (id != null) {
-            try {
-                const user = await Axios.get(URL.GET_USER(id));
-                setAdminStatus(user.data.adminTF)
-            }
-            catch (error) {
-                console.error({
-                    message: 'Failed to get admin status',
-                    error: error.message,
-                    stack: error.stack,
-                    id,
-                })
-                setErrorContent('Failed to get admin status\n' + error.message)
-                setIsErrorPopupOpen(true)
+            const user = await getUser(id)
+            setAdminStatus(user.adminTF)
+        }
+    }
+
+    const getLoggedInStatus = async () => {
+        if (userId != null) {
+            const user = await getUser(userId)
+            if (!user.loggedInTF) {
+                handlePageChange(JewelleryPage.NONE)
+                setConfirmationMessage('You have logged out in another window!')
+                setUserId(null)
+                setAdminStatus(false)
             }
         }
     }
+
 
     const handleThemeChange = () => {
         theme === 'light' ? setTheme('dark') : setTheme('light') 
@@ -201,10 +186,6 @@ const App = () => {
                     <Route path={Path.RESET_PASSWORD} element={<ResetPassword />} />
                     <Route path={Path.ADMIN_WORKBENCH} element={<AdminWorkbench />} />
                 </Routes>
-
-                {isErrorPopupOpen && (
-                    <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-                )}
             </div>
         </Router>
     )

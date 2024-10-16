@@ -1,19 +1,17 @@
-import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import Path from '../constants/Paths'
-import URL from '../constants/URLs'
-import PopupError from '../popups/PopupError'
+import { useValidateUser, useLogLogin } from '../common/APIs'
+import Path from '../common/Paths'
 
 const Login = ({ onLogin }) => {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-
-    // Popups
     const [validationMessage, setValidationMessage] = useState(' ')
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { validateUser } = useValidateUser()
+    const { logLogin } = useLogLogin()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -24,43 +22,16 @@ const Login = ({ onLogin }) => {
             setValidationMessage('Please enter all information.')
             return
         }
+        const userId = await validateUser(email, password)
 
-        try {
-            const response = await Axios.post(URL.VALIDATE_USER, { email, password })
-            if (!response.data) {
-                setValidationMessage('Email and/or Password is incorrect.')
-                return
-            }
-            const userId = response.data
-
-            try {
-                await Axios.put(URL.LOGIN_UPDATES(userId))
-            }
-            catch (error) {
-                console.error({
-                    message: 'Failed to make login updates',
-                    error: error.message,
-                    stack: error.stack,
-                    userId,
-                })
-                setErrorContent('Failed to make login updates\n' + error.message)
-                setIsErrorPopupOpen(true)
-                return
-            }
-
-            onLogin(userId)
-            navigate(Path.CONFIRMATION_SCREEN)
+        if (!userId) {
+            setValidationMessage('Email and/or Password is incorrect.')
+            return
         }
-        catch (error) {
-            console.error({
-                message: 'Failed to login',
-                error: error.message,
-                stack: error.stack,
-                email,
-            })
-            setErrorContent('Failed to login\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await logLogin(userId)
+
+        onLogin(userId)
+        navigate(Path.CONFIRMATION_SCREEN)
     }
 
     const handleKeyDown = (event) => {
@@ -101,10 +72,6 @@ const Login = ({ onLogin }) => {
                     </tr>
                 </tbody>
             </table>
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

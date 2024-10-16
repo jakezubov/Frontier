@@ -1,15 +1,13 @@
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import { validateNumber } from '../constants/ValidateNumber'
+import { validateNumber } from '../common/ValidateNumber'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRepeat } from '@fortawesome/free-solid-svg-icons'
-import JewelleryPage from '../constants/JewelleryPages'
-import URL from '../constants/URLs'
+import { useSaveHistory } from '../common/APIs'
+import JewelleryPage from '../common/JewelleryPages'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
-import PopupError from '../popups/PopupError'
 
 const RollingWire = ({ onRefresh }) => {
     const { userId } = useContext(UserContext)
@@ -21,6 +19,7 @@ const RollingWire = ({ onRefresh }) => {
     const [thickness, setThickness] = useState('')
     const [length, setLength] = useState('')
     const [stockSize, setStockSize] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
 
     // Calculated
     const [lengthRingSizeSwitch, setLengthRingSizeSwitch] = useState(true)
@@ -28,10 +27,8 @@ const RollingWire = ({ onRefresh }) => {
     const [output1, setOutput1] = useState('')
     const [output2, setOutput2] = useState('')
 
-    // Popups
-    const [validationMessage, setValidationMessage] = useState(' ')
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+    // APIs
+    const { saveHistory } = useSaveHistory()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -80,31 +77,8 @@ const RollingWire = ({ onRefresh }) => {
         }
 
         if (userId) {
-            try {
-                await Axios.put(URL.CREATE_HISTORY(userId), {
-                    'historyType': JewelleryPage.ROLLING_WIRE,
-                    'content': content
-                })
-                onRefresh()
-            }
-            catch (error) {
-                console.error({
-                    message: 'Failed to save history',
-                    error: error.message,
-                    stack: error.stack,
-                    userId,
-                    ringSize,
-                    profile,
-                    width,
-                    thickness,
-                    length,
-                    stockSize,
-                    output1,
-                    output2,
-                })
-                setErrorContent('Failed to save history\n' + error.message)
-                setIsErrorPopupOpen(true)
-            }
+            await saveHistory(userId, JewelleryPage.ROLLING_WIRE, content)
+            onRefresh()                
         }
     }
 
@@ -214,10 +188,6 @@ const RollingWire = ({ onRefresh }) => {
                     </tr>
                 </tbody>
             </table>
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

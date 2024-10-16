@@ -5,7 +5,7 @@ import UserSettings from './UserSettings'
 import UpdatePassword from './UpdatePassword'
 import MetalSettings from './MetalSettings'
 import RingSizeSettings from './RingSizeSettings'
-import MyAccountPages from '../constants/MyAccountPages'
+import MyAccountPages from '../common/MyAccountPages'
 
 const MyAccount = ({ onDelete }) => {
     const [currentPage, setCurrentPage] = useState(MyAccountPages.USER_SETTINGS)

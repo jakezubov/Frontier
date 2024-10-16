@@ -1,40 +1,26 @@
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import { JewelleryPageContext } from '../contexts/JewelleryPageContext'
-import JewelleryPage from '../constants/JewelleryPages'
-import URL from '../constants/URLs'
-import PopupError from '../popups/PopupError'
+import { useGetHistory } from '../common/APIs'
+import JewelleryPage from '../common/JewelleryPages'
 
 const History = ({ refresh }) => {
     const { userId } = useContext(UserContext)
     const { jewelleryPage } = useContext(JewelleryPageContext)
     const [history, setHistory] = useState([])
 
-    // Error Popup
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+    // APIs
+    const { getHistory } = useGetHistory()
 
     useEffect(() => {
         if (userId) loadHistory()
     }, [refresh, userId])
 
     const loadHistory = async () => {
-        try {
-            const response = await Axios.get(URL.GET_HISTORY(userId))
-            setHistory(response.data.filter(h => h.historyType === jewelleryPage))
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to load history',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to load history\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        const response = await getHistory(userId, jewelleryPage)
+        console.log(response)
+        setHistory(response)
     }
 
     return (
@@ -55,10 +41,6 @@ const History = ({ refresh }) => {
                         </ul>
                         : <p>There is no history at the moment. Try running a calculation.</p>
             }
- 
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

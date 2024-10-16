@@ -1,23 +1,22 @@
-import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
+import { useGetRingSizes, useUpdateRingSizes, useResetRingSizes } from '../common/APIs'
+import TableSchemas from '../common/TableSchemas'
 import PopupConfirmation from '../popups/PopupConfirmation'
-import PopupError from '../popups/PopupError'
-import URL from '../constants/URLs'
-import TableSchemas from '../constants/TableSchemas'
 import EditableTable from '../components/EditableTable'
 
 const RingSizeSettings = () => {
     const { userId } = useContext(UserContext)
     const [ringSizeList, setRingSizeList] = useState([])
     const [originalRingSizeList, setOriginalRingSizeList] = useState([])
-
-    // Popups
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
     const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { getRingSizes } = useGetRingSizes()
+    const { updateRingSizes } = useUpdateRingSizes()
+    const { resetRingSizes } = useResetRingSizes()
 
     useEffect(() => {
         loadRingSizeList()
@@ -29,20 +28,9 @@ const RingSizeSettings = () => {
     }, [ringSizeList])
 
     const loadRingSizeList = async () => {
-        try {
-            const response = await Axios.get(URL.GET_RING_SIZES(userId))
-            setRingSizeList(response.data)
-            setOriginalRingSizeList(response.data)
-        } catch (error) {
-            console.error({
-                message: 'Failed to load ring sizes',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to load ring sizes\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        const response = await getRingSizes(userId)
+        setRingSizeList(response)
+        setOriginalRingSizeList(response)
     }
 
     const handleSave = async () => {
@@ -56,37 +44,15 @@ const RingSizeSettings = () => {
                 return
             }
         }
-        try {
-            await Axios.put(URL.UPDATE_RING_SIZES(userId), ringSizeList)
-            setSuccessMessage('Ring sizes have been updated.')
-            setOriginalRingSizeList(ringSizeList)
-        } catch (error) {
-            console.error({
-                message: 'Failed to save ring sizes',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to save ring sizes\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await updateRingSizes(userId, ringSizeList)
+
+        setSuccessMessage('Ring sizes have been updated.')
+        setOriginalRingSizeList(ringSizeList)
     }
 
     const handleReset = async () => {
-        try {
-            await Axios.put(URL.RESET_RING_SIZES(userId))
-            loadRingSizeList()
-        }
-        catch (error) {
-            cconsole.error({
-                message: 'Failed to reset ring sizes',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to reset ring sizes\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await resetRingSizes(userId)
+        loadRingSizeList()
     }
 
     const handleClearChanges = () => {
@@ -124,10 +90,6 @@ const RingSizeSettings = () => {
 
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleReset} heading="Are you sure?" />
-            )}
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
             )}
         </div>
     )

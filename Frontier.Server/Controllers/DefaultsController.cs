@@ -26,7 +26,7 @@ namespace Frontier.Server.Controllers
         }
 
         // Reset To Default Metals
-        [HttpPut("metals/default")]
+        [HttpPut("metals/reset")]
         public async Task<IActionResult> ResetMetals()
         {
             await dbMetals.UpdateAllMetals(defaults.Metals);
@@ -46,7 +46,7 @@ namespace Frontier.Server.Controllers
         }
 
         // Reset To Default Ring Sizes
-        [HttpPut("ring-sizes/default")]
+        [HttpPut("ring-sizes/reset")]
         public async Task<IActionResult> ResetRingSizes()
         {
             await dbRingSizes.UpdateAllRingSizes(defaults.RingSizes);

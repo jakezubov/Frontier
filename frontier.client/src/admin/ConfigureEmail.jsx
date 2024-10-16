@@ -1,7 +1,5 @@
-import Axios from 'axios'
 import { useState, useEffect } from 'react'
-import URL from '../constants/URLs'
-import PopupError from '../popups/PopupError'
+import { useGetAzureClient, useUpdateAzureClient, useSendContactForm } from '../common/APIs'
 import EmailClientSelector from '../components/EmailClientSelector'
 
 const ConfigureEmail = () => {
@@ -11,12 +9,13 @@ const ConfigureEmail = () => {
     const [tenantId, setTenantId] = useState('')
     const [sendingEmail, setSendingEmail] = useState('')
     const [contactFormRecipient, setContactFormRecipient] = useState('')
-
-    // Popups
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { getAzureClient } = useGetAzureClient()
+    const { updateAzureClient } = useUpdateAzureClient()
+    const { sendContactForm } = useSendContactForm()
 
     useEffect(() => {
         loadEmailSettings()
@@ -33,26 +32,15 @@ const ConfigureEmail = () => {
     }
 
     const loadEmailSettings = async () => {
-        try {
-            if (selectedClient == "Azure") {
-                const response = await Axios.get(URL.GET_AZURE)
-                if (response.data) {
-                    setClientId(response.data.clientId || '')
-                    setClientSecret(response.data.clientSecret || '')
-                    setTenantId(response.data.tenantId || '')
-                    setSendingEmail(response.data.sendingEmail || '')
-                    setContactFormRecipient(response.data.contactFormRecipient || '')
-                }
+        if (selectedClient == "Azure") {
+            const client = await getAzureClient()
+            if (client) {
+                setClientId(client.clientId || '')
+                setClientSecret(client.clientSecret || '')
+                setTenantId(client.tenantId || '')
+                setSendingEmail(client.sendingEmail || '')
+                setContactFormRecipient(client.contactFormRecipient || '')
             }
-        } catch (error) {
-            console.error({
-                message: 'Failed to load client',
-                error: error.message,
-                stack: error.stack,
-                selectedClient,
-            })
-            setErrorContent('Failed to load client\n' + error.message)
-            setIsErrorPopupOpen(true)
         }
     }
 
@@ -63,42 +51,17 @@ const ConfigureEmail = () => {
                 return
             }
             else if (!validateEmail(sendingEmail) || !validateEmail(contactFormRecipient)) {
-                setValidationMessage('Please enter a valid email addresses.')
+                setValidationMessage('Please enter valid email addresses.')
                 return
             }
-            try {
-                setSuccessMessage('Updating...')
-                await Axios.post(URL.UPDATE_AZURE, {
-                    'ClientId': clientId,
-                    'ClientSecret': clientSecret,
-                    'TenantId': tenantId,
-                    'SendingEmail': sendingEmail,
-                    'ContactFormRecipient': contactFormRecipient
-                })
+            setSuccessMessage('Updating...')
+            await updateAzureClient(clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient)
 
-                setSuccessMessage('Sending test email...')
-                await Axios.post(URL.CONTACT_FORM, {
-                    'Name': "Email Tester",
-                    'Email': contactFormRecipient,
-                    'Message': "This is a test email"
-                })
-                setSuccessMessage('Email has been sent.')
-                setValidationMessage(' ')
-            } catch (error) {
-                console.error({
-                    message: 'Failed to update azure client',
-                    error: error.message,
-                    stack: error.stack,
-                    selectedClient,
-                    clientId,
-                    clientSecret,
-                    tenantId,
-                    sendingEmail,
-                    contactFormRecipient
-                })
-                setErrorContent('Failed to update azure client\n' + error.message)
-                setIsErrorPopupOpen(true)
-            }
+            setSuccessMessage('Sending test email...')
+            await sendContactForm('Email Tester', contactFormRecipient, 'This is a test email')
+
+            setSuccessMessage('Email has been sent.')
+            setValidationMessage(' ')
         }
     }
 
@@ -153,10 +116,6 @@ const ConfigureEmail = () => {
 
             {validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
                 : <p className="pre-wrap success-text">{successMessage}</p>}
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

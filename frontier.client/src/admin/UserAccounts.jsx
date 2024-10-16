@@ -1,75 +1,28 @@
-import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserTie, faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import PopupConfirmation from '../popups/PopupConfirmation'
-import PopupError from '../popups/PopupError'
-import URL from '../constants/URLs'
+import { useGetAllUsers, useSwitchAdminStatus, useSendVerification } from '../common/APIs'
 
 const UserAccounts = () => {
     const [userList, setUserList] = useState([])
 
-    // Popups
-    const [validationMessage, setValidationMessage] = useState(' ')
-    const [successMessage, setSuccessMessage] = useState(' ')
-    const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+    // APIs
+    const { getAllUsers } = useGetAllUsers()
+    const { switchAdminStatus } = useSwitchAdminStatus()
+    const { sendVerification } = useSendVerification()
 
     useEffect(() => {
-        loadUserList()
+        loadUsers()
     }, [])
 
-    useEffect(() => {
-        setValidationMessage(' ')
-        setSuccessMessage(' ')
-    }, [userList])
-
-    const loadUserList = async () => {
-        try {
-            const response = await Axios.get(URL.GET_ALL_USERS)
-            setUserList(response.data)
-        } catch (error) {
-            console.error({
-                message: 'Failed to load users',
-                error: error.message,
-                stack: error.stack,
-            })
-            setErrorContent('Failed to load users\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+    const loadUsers = async () => {
+        const response = await getAllUsers()
+        setUserList(response)
     }
 
     const handleSwitchAdmin = async (userId) => {
-        try {
-            await Axios.put(URL.SWITCH_ADMIN(userId))
-            loadUserList()
-        } catch (error) {
-            console.error({
-                message: 'Failed to load users',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to load users\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
-    }
-
-    const handleSendVerification = async (name, email) => {
-        try {
-            await Axios.post(URL.VERIFICATION(name, email))
-        } catch (error) {
-            console.error({
-                message: 'Failed to send verification email',
-                error: error.message,
-                stack: error.stack,
-                name,
-                email,
-            })
-            setErrorContent('Failed to send verification email\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        await switchAdminStatus(userId)
+        loadUsers()
     }
 
     const handleKeyDown = (event) => {
@@ -100,7 +53,7 @@ const UserAccounts = () => {
                                 <td>{user.email}</td>
                                 <td>
                                     {user.verifiedTF === true ? "True" : "False"}
-                                    {user.verifiedTF === false ? <button className="settings-icon" type="button" onClick={() => handleSendVerification(user.fullName, user.email)}><FontAwesomeIcon className="fa-md" icon={faEnvelope} /></button> : null}
+                                    {user.verifiedTF === false ? <button className="settings-icon" type="button" onClick={() => sendVerification(user.fullName, user.email)}><FontAwesomeIcon className="fa-md" icon={faEnvelope} /></button> : null}
                                 </td>
                                 <td>
                                     {user.adminTF === true ? "True" : "False"}
@@ -112,17 +65,6 @@ const UserAccounts = () => {
                 </table>
 
             </form>
-
-            {validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
-                : <p className="pre-wrap success-text">{successMessage}</p>}
-
-            {isConfirmationPopupOpen && (
-                <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleReset} heading="Are you sure?" />
-            )}
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div >
     )
 }

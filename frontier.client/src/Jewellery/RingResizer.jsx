@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import { validateNumber } from '../constants/ValidateNumber'
-import JewelleryPage from '../constants/JewelleryPages'
-import URL from '../constants/URLs'
+import { validateNumber } from '../common/ValidateNumber'
+import { useSaveHistory } from '../common/APIs'
+import JewelleryPage from '../common/JewelleryPages'
 import MetalSelector from '../components/MetalSelector'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
-import PopupError from '../popups/PopupError'
 
 const RingResizer = ({ onRefresh }) => {
     const { userId } = useContext(UserContext)
@@ -20,6 +18,7 @@ const RingResizer = ({ onRefresh }) => {
     const [profile, setProfile] = useState('')
     const [width, setWidth] = useState('')
     const [thickness, setThickness] = useState('')
+    const [validationMessage, setValidationMessage] = useState(' ')
 
     // Calculated
     const [thicknessRequired, setThicknessRequired] = useState(true)
@@ -27,10 +26,8 @@ const RingResizer = ({ onRefresh }) => {
     const [weightNew, setWeightNew] = useState('')
     const [weightDifference, setWeightDifference] = useState('')
 
-    // Popups
-    const [validationMessage, setValidationMessage] = useState(' ')
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+    // APIs
+    const { saveHistory } = useSaveHistory()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -80,31 +77,8 @@ const RingResizer = ({ onRefresh }) => {
             : `${originalRingSize.name} (${weightOriginalText}) -> ${newRingSize.name} (${weightNewText}) | ${metal.name} | ${profile} | ${width}mm x ${width}mm`
 
         if (userId) {
-            try {
-                await Axios.put(URL.CREATE_HISTORY(userId), {
-                    'historyType': JewelleryPage.RING_RESIZER,
-                    'content': content
-                })
-                onRefresh()
-            }
-            catch (error) {
-                console.error({
-                    message: 'Failed to save history',
-                    error: error.message,
-                    stack: error.stack,
-                    userId,
-                    metal,
-                    originalRingSize,
-                    newRingSize,
-                    profile,
-                    width,
-                    thickness,
-                    weightOriginalText,
-                    weightNewText,
-                })
-                setErrorContent('Failed to save history\n' + error.message)
-                setIsErrorPopupOpen(true)
-            }
+            await saveHistory(userId, JewelleryPage.RING_RESIZER, content)
+            onRefresh()
         }
     }
 
@@ -183,10 +157,6 @@ const RingResizer = ({ onRefresh }) => {
                     </tr>
                 </tbody>
             </table>
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

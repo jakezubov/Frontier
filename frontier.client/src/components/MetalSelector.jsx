@@ -1,42 +1,28 @@
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import URL from '../constants/URLs'
-import PopupError from '../popups/PopupError'
+import { useGetMetals, useGetDefaultMetals } from '../common/APIs'
 
 const MetalSelector = ({ label, onMetalChange }) => {
     const { userId } = useContext(UserContext)
     const [metals, setMetals] = useState([])
 
-    // Error Popup
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+    // APIs
+    const { getMetals } = useGetMetals()
+    const { getDefaultMetals } = useGetDefaultMetals()
 
     useEffect(() => {
         loadMetals()
     }, [ userId])
 
     const loadMetals = async () => {
-        try {
-            if (userId) {
-                const response = await Axios.get(URL.GET_METALS(userId))
-                setMetals(response.data)
-            }
-            else {
-                const response = await Axios.get(URL.GET_DEFAULT_METALS)
-                setMetals(response.data)
-            }
+        if (userId) {
+            const response = await getMetals(userId)
+            setMetals(response)
         }
-        catch (error) {
-            console.error({
-                message: 'Failed to load metals',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to load metals\n' + error.message)
-            setIsErrorPopupOpen(true)
+        else {
+            const response = await getDefaultMetals()
+            setMetals(response)
         }
     }
 
@@ -58,10 +44,6 @@ const MetalSelector = ({ label, onMetalChange }) => {
                     ))
                 }
             </select>
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import { JewelleryPageContext } from '../contexts/JewelleryPageContext'
-import JewelleryPage from '../constants/JewelleryPages'
+import JewelleryPage from '../common/JewelleryPages'
 
 const Information = () => {
     const [information, setInformation] = useState('')

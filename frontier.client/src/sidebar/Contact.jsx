@@ -1,21 +1,19 @@
 import PropTypes from 'prop-types'
-import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import URL from '../constants/URLs'
-import PopupError from '../popups/PopupError'
+import { useGetUser, useSendContactForm } from '../common/APIs'
 
 const Contact = ({ refresh }) => {
     const { userId } = useContext(UserContext)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
-
-    // Popups
     const [successMessage, setSuccessMessage] = useState(' ')
     const [validationMessage, setValidationMessage] = useState(' ')
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { getUser } = useGetUser()
+    const { sendContactForm } = useSendContactForm()
 
     useEffect(() => {
         if (userId) loadInformation()
@@ -32,22 +30,10 @@ const Contact = ({ refresh }) => {
     }
 
     const loadInformation = async () => {
-        try {
-            const response = await Axios.get(URL.GET_USER(userId))
+        const user = await getUser(userId)
 
-            setName(`${response.data.firstName} ${response.data.lastName}`)
-            setEmail(response.data.email)
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to get sidebar user info',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setErrorContent('Failed to get sidebar user info\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        setName(`${user.firstName} ${user.lastName}`)
+        setEmail(user.email)
     }
 
     const handleSubmit = async () => {
@@ -59,26 +45,10 @@ const Contact = ({ refresh }) => {
             setValidationMessage('Invalid email address.')
             return
         }
-        try {
-            setSuccessMessage('Sending...')
-            await Axios.post(URL.CONTACT_FORM, {
-                'Name': name,
-                'Email': email,
-                'Message': message
-            })
-            setSuccessMessage('Email has been sent.')
-        }
-        catch (error) {
-            console.error({
-                message: 'Failed to send email',
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            setSuccessMessage(' ')
-            setErrorContent('Failed to send email\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        setSuccessMessage('Sending...')
+        await sendContactForm(name, email, message)
+
+        setSuccessMessage('Email has been sent.')
     }
 
     return (
@@ -115,10 +85,6 @@ const Contact = ({ refresh }) => {
                     </tbody>
                 </table>
             </form>
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }

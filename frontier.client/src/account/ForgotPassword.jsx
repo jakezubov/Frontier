@@ -1,13 +1,16 @@
-import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import Path from '../constants/Paths'
-import URL from '../constants/URLs'
+import { useCheckEmailExists, useSendPasswordReset } from '../common/APIs'
+import Path from '../common/Paths'
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('')
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
+
+    // APIs
+    const { checkEmailExists } = useCheckEmailExists()
+    const { sendPasswordReset } = useSendPasswordReset()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -28,28 +31,17 @@ const ForgotPassword = () => {
             setValidationMessage('Please enter a valid email address.')
             return
         }
-        try {
+        const userId = await checkEmailExists(email)
 
-            var response = await Axios.post(URL.CHECK_EMAIL(email))
-            if (!response.data) {
-                setValidationMessage('No account found with that email.')
-                return
-            }
-
-            setSuccessMessage("Sending...")
-            await Axios.post(URL.PASSWORD_RESET(email))
-            setSuccessMessage('Email has been sent.')
-            setValidationMessage(' ')
-        } catch (error) {
-            console.error({
-                message: 'Failed to send password reset email',
-                error: error.message,
-                stack: error.stack,
-                email,
-            })
-            setErrorContent('Failed to send password reset email\n' + error.message)
-            setIsErrorPopupOpen(true)
+        if (!userId) {
+            setValidationMessage('No account found with that email.')
+            return
         }
+        setSuccessMessage("Sending...")
+        await sendPasswordReset(email)
+
+        setSuccessMessage('Email has been sent.')
+        setValidationMessage(' ')
     }
 
     const handleKeyDown = (event) => {

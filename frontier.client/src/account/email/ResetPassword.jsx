@@ -1,20 +1,18 @@
-import Axios from 'axios'
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import URL from '../../constants/URLs'
-import PopupError from '../../popups/PopupError'
+import { useCheckEmailExists, useUpdatePassword } from '../../common/APIs'
 
 const ResetPassword = () => {
     const [email, setEmail] = useState('')
     const location = useLocation()
     const [newPassword, setNewPassword] = useState('')
     const [confirmNewPassword, setNewConfirmPassword] = useState('')
-
-    // Popups
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
-    const [isErrorPopupOpen, setIsErrorPopupOpen] = useState(false)
-    const [errorContent, setErrorContent] = useState('')
+
+    // APIs
+    const { checkEmailExists } = useCheckEmailExists()
+    const { updatePassword } = useUpdatePassword()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -53,30 +51,16 @@ const ResetPassword = () => {
             setValidationMessage('Password must include the following:\n- At least 8 characters\n- An uppercase letter\n- A lowercase letter\n- A number')
             return
         }
-        try {
-            var response = await Axios.post(URL.CHECK_EMAIL(email))
-            if (!response.data) {
-                setValidationMessage('No account found with that email.')
-                return
-            }
-            clearPasswords()
-            
-            await Axios.put(URL.UPDATE_PASSWORD(response.data), {
-                'Email': email,
-                'Password': newPassword,
-            })
-            setSuccessMessage('Password has been updated.')
+        const userId = await checkEmailExists(email)
+
+        if (!userId) {
+            setValidationMessage('No account found with that email.')
+            return
         }
-        catch (error) {
-            console.error({
-                message: 'Failed to save new password',
-                error: error.message,
-                stack: error.stack,
-                email,
-            })
-            setErrorContent('Failed to save new password\n' + error.message)
-            setIsErrorPopupOpen(true)
-        }
+        clearPasswords()
+        await updatePassword(userId, email, newPassword)
+
+        setSuccessMessage('Password has been updated.')
     }
 
     const handleKeyDown = (event) => {
@@ -111,10 +95,6 @@ const ResetPassword = () => {
                     </tbody>
                 </table>
             </form>
-
-            {isErrorPopupOpen && (
-                <PopupError isPopupOpen={isErrorPopupOpen} setIsPopupOpen={setIsErrorPopupOpen} content={errorContent} />
-            )}
         </div>
     )
 }
