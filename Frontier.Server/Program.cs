@@ -1,3 +1,5 @@
+using Frontier.Server.Functions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -31,5 +33,8 @@ app.UseAuthorization(); // Enable authorization if needed
 app.MapControllers(); // Map controller routes
 
 app.MapFallbackToFile("/index.html");
+
+Setup initialSetupCheck = new();
+initialSetupCheck.CheckFirstTimeSetup();
 
 app.Run();

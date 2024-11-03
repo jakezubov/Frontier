@@ -73,6 +73,11 @@ table {
         background-color: var(--accent-colour);
         color: var(--text-colour);
     }
+    .general-button:disabled {
+        background-color: var(--primary-colour);
+        color: var(--text-colour);
+        border: 1px solid var(--accent-colour);
+    }
 
 .warning-button {
     border-radius: 20px;
@@ -98,6 +103,9 @@ table {
     color: var(--text-colour);
     max-width: 200px;
 }
+    .general-input:disabled, .general-select:disabled {
+        background-color: var(--primary-colour);
+    }
 
 .general-text-area {
     width: 100%;
@@ -108,6 +116,12 @@ table {
     border-radius: 4px;
     color: var(--text-colour);
     resize: none;
+}
+
+.center-table {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 /*#endregion */
@@ -145,6 +159,22 @@ table {
 
 .success-text {
     color: green
+}
+
+.left-align {
+    text-align: left;
+}
+
+.tight-text {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.tight-top {
+    padding-top: 0px;
+    margin-top: 0px;
 }
 
 /*#endregion */
@@ -291,6 +321,16 @@ table {
     scrollbar-color: var(--text-colour) var(--secondary-colour);
     padding: 16px;
 }
+
+.information {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80vh;
+}
+    .information ul {
+        list-style: none;
+    }
 
 /*#endregion */
 

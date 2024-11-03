@@ -9,36 +9,36 @@ public class MetalDataAccess
     private readonly string DatabaseName = "frontier";
     private readonly string MetalCollection = "metal_defaults";
 
-    private IMongoCollection<T> ConnectToMongo<T>(in string collection)
+    private IMongoCollection<MetalModel> ConnectToMongo()
     {
         var client = new MongoClient(ConnectionString);
         var db = client.GetDatabase(DatabaseName);
-        return db.GetCollection<T>(collection);
+        return db.GetCollection<MetalModel>(MetalCollection);
     }
 
     public async Task<List<MetalModel>> GetAllMetals()
     {
-        var metalsCollection = ConnectToMongo<MetalModel>(MetalCollection);
+        var metalsCollection = ConnectToMongo();
         var results = await metalsCollection.FindAsync(_ => true);
         return results.ToList();
     }
 
     public async Task<MetalModel> GetMetal(string name)
     {
-        var metalsCollection = ConnectToMongo<MetalModel>(MetalCollection);
+        var metalsCollection = ConnectToMongo();
         var results = await metalsCollection.FindAsync(m => m.Name == name);
         return results.FirstOrDefault();
     }
 
     public Task CreateMetal(MetalModel metal)
     {
-        var metalsCollection = ConnectToMongo<MetalModel>(MetalCollection);
+        var metalsCollection = ConnectToMongo();
         return metalsCollection.InsertOneAsync(metal);
     }
 
     public Task UpdateMetal(MetalModel metal)
     {
-        var metalsCollection = ConnectToMongo<MetalModel>(MetalCollection);
+        var metalsCollection = ConnectToMongo();
         var filter = Builders<MetalModel>.Filter.Eq("Id", metal.Id);
         ReplaceOptions options = new() { IsUpsert = true };
         return metalsCollection.ReplaceOneAsync(filter, metal, options);
@@ -46,7 +46,7 @@ public class MetalDataAccess
 
     public async Task UpdateAllMetals(List<MetalModel> metals)
     {
-        var metalsCollection = ConnectToMongo<MetalModel>(MetalCollection);
+        var metalsCollection = ConnectToMongo();
 
         // Extract the list of IDs from the provided metals list
         var metalIds = metals.Select(m => m.Id).ToList();
@@ -71,7 +71,7 @@ public class MetalDataAccess
 
     public Task DeleteMetal(MetalModel metal)
     {
-        var metalsCollection = ConnectToMongo<MetalModel>(MetalCollection);
+        var metalsCollection = ConnectToMongo();
         return metalsCollection.DeleteOneAsync(m => m.Id == metal.Id);
     }
 }

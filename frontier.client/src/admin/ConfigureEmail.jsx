@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { useGetAzureClient, useUpdateAzureClient, useSendContactForm } from '../common/APIs'
+import { useGetAzureClient, useTestAzureClient, useUpdateAzureClient } from '../common/APIs'
+import { validateEmail } from '../common/Validation'
 import EmailClientSelector from '../components/EmailClientSelector'
 
 const ConfigureEmail = () => {
@@ -11,11 +12,12 @@ const ConfigureEmail = () => {
     const [contactFormRecipient, setContactFormRecipient] = useState('')
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
+    const [clientTestedTF, setClientTestedTF] = useState(false)
 
     // APIs
     const { getAzureClient } = useGetAzureClient()
+    const { testAzureClient } = useTestAzureClient()
     const { updateAzureClient } = useUpdateAzureClient()
-    const { sendContactForm } = useSendContactForm()
 
     useEffect(() => {
         loadEmailSettings()
@@ -24,12 +26,8 @@ const ConfigureEmail = () => {
     useEffect(() => {
         setValidationMessage(' ')
         setSuccessMessage(' ')
+        setClientTestedTF(false)
     }, [selectedClient, clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient])
-
-    const validateEmail = (email) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        return regex.test(String(email).toLowerCase())
-    }
 
     const loadEmailSettings = async () => {
         if (selectedClient == "Azure") {
@@ -44,6 +42,29 @@ const ConfigureEmail = () => {
         }
     }
 
+    const handleTestClient = async () => {
+        if (selectedClient == "Azure") {
+            if (!clientId || !clientSecret || !tenantId || !sendingEmail || !contactFormRecipient) {
+                setValidationMessage('Please fill all fields.')
+                return
+            }
+            else if (!validateEmail(sendingEmail) || !validateEmail(contactFormRecipient)) {
+                setValidationMessage('Please enter valid email addresses.')
+                return
+            }
+            setSuccessMessage('Sending test email...')
+            const response = await testAzureClient(clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient)
+
+            if (response && response.status !== 200) {
+                setValidationMessage('Test was not successful')
+                return
+            }
+            setSuccessMessage('Email has been sent.')
+            setValidationMessage(' ')
+            setClientTestedTF(true)
+        }
+    }
+
     const handleUpdateClient = async () => {
         if (selectedClient == "Azure") {
             if (!clientId || !clientSecret || !tenantId || !sendingEmail || !contactFormRecipient) {
@@ -54,13 +75,9 @@ const ConfigureEmail = () => {
                 setValidationMessage('Please enter valid email addresses.')
                 return
             }
-            setSuccessMessage('Updating...')
             await updateAzureClient(clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient)
 
-            setSuccessMessage('Sending test email...')
-            await sendContactForm('Email Tester', contactFormRecipient, 'This is a test email')
-
-            setSuccessMessage('Email has been sent.')
+            setSuccessMessage('Client has been updated.')
             setValidationMessage(' ')
         }
     }
@@ -106,7 +123,8 @@ const ConfigureEmail = () => {
                                     <td><input className="general-input" value={contactFormRecipient} onChange={(e) => setContactFormRecipient(e.target.value)} /></td>
                                 </tr>
                                 <tr>
-                                    <td colSpan="2"><button className="general-button" type="button" onClick={handleUpdateClient}>Update Client and Send Test Email</button></td>
+                                    <td><button className="general-button" type="button" onClick={handleTestClient}>Send Test Email</button></td>
+                                    <td><button className="general-button" type="button" onClick={handleUpdateClient} disabled={!clientTestedTF}>Update Client</button></td>
                                 </tr>
                             </>
                         )}
@@ -114,8 +132,8 @@ const ConfigureEmail = () => {
                 </table>
             </form>
 
-            {validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
-                : <p className="pre-wrap success-text">{successMessage}</p>}
+            {validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
+                : <p className="pre-wrap success-text tight-top">{successMessage}</p>}
         </div>
     )
 }

@@ -52,21 +52,22 @@ export const useGetUser = () => {
 export const useCreateUser = () => {
     const { handleError } = useError()
 
-    const createUser = async (firstName, lastName, email, password) => {
+    const createUser = async (firstName, lastName, email, password, admin = false) => {
         try {
             await Axios.post(`${urlPrefix}/users/create`, {
                 'FirstName': firstName,
                 'LastName': lastName,
                 'Email': email,
                 'PasswordHash': password,
+                'AdminTF': admin,
             })
         }
         catch (error) {
             const title = 'Failed to create account'
             handleError(`${title}\n${error.message}`)
             console.error({
-                message,
-                title: error.message,
+                title,
+                error: error.message,
                 stack: error.stack,
                 firstName,
                 lastName,
@@ -327,8 +328,11 @@ export const useGetHistory = () => {
 
     const getHistory = async (userId, historyType) => {
         try {
-            const response = await Axios.get(`${urlPrefix}/users/${userId}/history`)
-            return response.data.filter(h => h.historyType === historyType)
+            if (userId) {
+                const response = await Axios.get(`${urlPrefix}/users/${userId}/history`)
+                return response.data.filter(h => h.historyType === historyType)
+            }
+            return null
         }
         catch (error) {
             const title = 'Failed to get history'
@@ -471,7 +475,7 @@ export const useGetDefaultMetals = () => {
 
     const getDefaultMetals = async () => {
         try {
-            const response = await Axios.get(`${urlPrefix}/defaults/metals`)
+            const response = await Axios.get(`${urlPrefix}/config/metals`)
             return response.data
         }
         catch (error) {
@@ -493,7 +497,7 @@ export const useUpdateDefaultMetals = () => {
 
     const updateDefaultMetals = async (metalList) => {
         try {
-            await Axios.put(`${urlPrefix}/defaults/metals/update`, metalList)
+            await Axios.put(`${urlPrefix}/config/metals/update`, metalList)
         }
         catch (error) {
             const title = 'Failed to update default metals'
@@ -515,7 +519,7 @@ export const useResetDefaultMetals = () => {
 
     const resetDefaultMetals = async () => {
         try {
-            await Axios.put(`${urlPrefix}/defaults/metals/reset`)
+            await Axios.put(`${urlPrefix}/config/metals/reset`)
         }
         catch (error) {
             const title = 'Failed to reset default metals'
@@ -608,7 +612,7 @@ export const useGetDefaultRingSizes = () => {
 
     const getDefaultRingSizes = async () => {
         try {
-            const response = await Axios.get(`${urlPrefix}/defaults/ring-sizes`)
+            const response = await Axios.get(`${urlPrefix}/config/ring-sizes`)
             return response.data
         }
         catch (error) {
@@ -630,7 +634,7 @@ export const useUpdateDefaultRingSizes = () => {
 
     const updateDefaultRingSizes = async (ringSizeList) => {
         try {
-            await Axios.put(`${urlPrefix}/defaults/ring-sizes/update`, ringSizeList)
+            await Axios.put(`${urlPrefix}/config/ring-sizes/update`, ringSizeList)
         }
         catch (error) {
             const title = 'Failed to update default ring sizes'
@@ -652,7 +656,7 @@ export const useResetDefaultRingSizes = () => {
 
     const resetDefaultRingSizes = async () => {
         try {
-            await Axios.put(`${urlPrefix}/defaults/ring-sizes/reset`)
+            await Axios.put(`${urlPrefix}/config/ring-sizes/reset`)
         }
         catch (error) {
             const title = 'Failed to reset default ring sizes'
@@ -826,16 +830,137 @@ export const useUpdateAzureClient = () => {
     return { updateAzureClient }
 }
 
+export const useTestAzureClient = () => {
+    const { handleError } = useError()
+
+    const testAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
+        try {
+            const response = await Axios.put(`${urlPrefix}/azure/test/client`, {
+                'ClientId': clientId,
+                'ClientSecret': clientSecret,
+                'TenantId': tenantId,
+                'SendingEmail': sendingEmail,
+                'ContactFormRecipient': contactFormRecipient
+            })
+            return response
+        }
+        catch (error) {
+            const title = 'Failed to test Azure client'
+            handleError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                clientId,
+                clientSecret,
+                tenantId,
+                sendingEmail,
+                contactFormRecipient,
+            })
+        }
+    }
+
+    return { testAzureClient }
+}
+
 //#endregion
 
-//#region Misc
+//#region Config
+
+export const useGetInitialisedStatus = () => {
+    const { handleError } = useError()
+
+    const getInitialisedStatus = async () => {
+        try {
+            const response = await Axios.get(`${urlPrefix}/config/init`)
+            return response.data
+        }
+        catch (error) {
+            const title = 'Failed to get the initialised status'
+            handleError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+            })
+        }
+    }
+
+    return { getInitialisedStatus }
+}
+
+export const useUpdateInitialisedStatus = () => {
+    const { handleError } = useError()
+
+    const updateInitialisedStatus = async (newStatus) => {
+        try {
+            await Axios.put(`${urlPrefix}/config/init/update/${newStatus}`)
+        }
+        catch (error) {
+            const title = 'Failed to update the initialised status'
+            handleError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                newStatus,
+            })
+        }
+    }
+
+    return { updateInitialisedStatus }
+}
+
+export const useGetCurrentClientType = () => {
+    const { handleError } = useError()
+
+    const getCurrentClientType = async () => {
+        try {
+            const response = await Axios.get(`${urlPrefix}/config/client-type`)
+            return response.data
+        }
+        catch (error) {
+            const title = 'Failed to get the current client type'
+            handleError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+            })
+        }
+    }
+
+    return { getCurrentClientType }
+}
+
+export const useUpdateCurrentClientType = () => {
+    const { handleError } = useError()
+
+    const updateCurrentClientType = async (newClientType) => {
+        try {
+            await Axios.put(`${urlPrefix}/config/client-type/update/${newClientType}`)
+        }
+        catch (error) {
+            const title = 'Failed to update the current client type'
+            handleError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                newClientType,
+            })
+        }
+    }
+
+    return { updateCurrentClientType }
+}
 
 export const useGenerateObjectId = () => {
     const { handleError } = useError()
 
     const generateObjectId = async () => {
         try {
-            const response = await Axios.get(`${urlPrefix}/defaults/generate-id`)
+            const response = await Axios.get(`${urlPrefix}/config/generate-id`)
             return response.data
         }
         catch (error) {

@@ -81,8 +81,8 @@ const MetalSettings = () => {
                             <td><button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="3">{validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
-                                : <p className="pre-wrap success-text">{successMessage}</p>}</td>
+                            <td colSpan="3">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
+                                : <p className="pre-wrap success-text tight-top">{successMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>

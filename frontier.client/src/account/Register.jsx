@@ -1,7 +1,10 @@
+import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCheckEmailExists, useCreateUser, useSendRegistration } from '../common/APIs'
+import { validatePassword, validateEmail } from '../common/Validation'
 import Path from '../common/Paths'
+import PasswordRequirements from '../components/PasswordRequirements'
 
 const Register = ({ onRegister }) => {
     const navigate = useNavigate()
@@ -27,16 +30,6 @@ const Register = ({ onRegister }) => {
         }
     }, [password, confirmPassword])
 
-    const validateEmail = (email) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        return regex.test(String(email).toLowerCase())
-    }
-
-    const validatePassword = (password) => {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/
-        return regex.test(String(password));
-    }
-
     const handleSubmit = async (event) => {
         event.preventDefault()
         if (!firstName || !lastName || !email || !password || !confirmPassword) {
@@ -52,7 +45,7 @@ const Register = ({ onRegister }) => {
             return
         }
         else if (!validatePassword(password)) {
-            setValidationMessage('Password must include the following:\n- At least 8 characters\n- An uppercase letter\n- A lowercase letter\n- A number')
+            setValidationMessage('Password does not meet complexity requirements.')
             return
         }
         const userId = await checkEmailExists(email.toLowerCase())
@@ -103,14 +96,15 @@ const Register = ({ onRegister }) => {
                             <td>Confirm Password</td>
                             <td><input className="general-input" value={confirmPassword} type="password" onChange={(e) => setConfirmPassword(e.target.value)} /></td>
                         </tr>
+                        <tr>
+                            <td colSpan="2"><button className="general-button" onClick={handleSubmit}>Submit</button></td>
+                        </tr>
+                        <tr>
+                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}</td>
+                        </tr>
                     </tbody>
                 </table>
-
-                <button className="general-button" onClick={handleSubmit}>Submit</button>
             </form>
-
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
-
             <table>
                 <tbody>
                     <tr>
@@ -119,8 +113,14 @@ const Register = ({ onRegister }) => {
                     </tr>
                 </tbody>
             </table>
+            <br />
+            <PasswordRequirements />
         </div>
     )
+}
+
+Register.propTypes = {
+    onRegister: PropTypes.func.isRequired,
 }
 
 export default Register

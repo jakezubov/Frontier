@@ -31,7 +31,15 @@ const Information = () => {
     return (
         <div>
             <h3>Information</h3>
-            <p className="pre-wrap">{information}</p>
+
+            <div className="information">
+                <ul>
+                    <li><p className="pre-wrap">{information}</p></li>
+                </ul>
+                <ul>
+                    <li><p>v1.0</p></li>
+                </ul>
+            </div>
         </div>
     )
 }

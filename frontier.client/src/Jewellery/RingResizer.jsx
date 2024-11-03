@@ -1,15 +1,14 @@
-import PropTypes from 'prop-types'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import { validateNumber } from '../common/ValidateNumber'
-import { useSaveHistory } from '../common/APIs'
-import JewelleryPage from '../common/JewelleryPages'
+import { useHistory } from '../contexts/HistoryContext'
+import { validateNumber } from '../common/Validation'
 import MetalSelector from '../components/MetalSelector'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
 
-const RingResizer = ({ onRefresh }) => {
+const RingResizer = () => {
     const { userId } = useContext(UserContext)
+    const { addHistory } = useHistory()
 
     // Inputs
     const [metal, setMetal] = useState(null)
@@ -25,9 +24,6 @@ const RingResizer = ({ onRefresh }) => {
     const [weightOriginal, setWeightOriginal] = useState('')
     const [weightNew, setWeightNew] = useState('')
     const [weightDifference, setWeightDifference] = useState('')
-
-    // APIs
-    const { saveHistory } = useSaveHistory()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -72,13 +68,12 @@ const RingResizer = ({ onRefresh }) => {
         setWeightNew(weightNewText)
         setWeightDifference((calculatedNew - calculatedOriginal).toFixed(2) + "g")
 
-        const content = thicknessRequired
-            ? `${originalRingSize.name} (${weightOriginalText}) -> ${newRingSize.name} (${weightNewText}) | ${metal.name} | ${profile} | ${width}mm x ${thickness}mm`
-            : `${originalRingSize.name} (${weightOriginalText}) -> ${newRingSize.name} (${weightNewText}) | ${metal.name} | ${profile} | ${width}mm x ${width}mm`
-
         if (userId) {
-            await saveHistory(userId, JewelleryPage.RING_RESIZER, content)
-            onRefresh()
+            const content = thicknessRequired
+                ? `${originalRingSize.name} (${weightOriginalText}) -> ${newRingSize.name} (${weightNewText}) | ${metal.name} | ${profile} | ${width}mm x ${thickness}mm`
+                : `${originalRingSize.name} (${weightOriginalText}) -> ${newRingSize.name} (${weightNewText}) | ${metal.name} | ${profile} | ${width}mm x ${width}mm`
+
+            addHistory(content)
         }
     }
 
@@ -135,7 +130,7 @@ const RingResizer = ({ onRefresh }) => {
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleCalculate}>Calculate</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}</td>
+                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -159,10 +154,6 @@ const RingResizer = ({ onRefresh }) => {
             </table>
         </div>
     )
-}
-
-RingResizer.propTypes = {
-    onRefresh: PropTypes.func.isRequired,
 }
 
 export default RingResizer

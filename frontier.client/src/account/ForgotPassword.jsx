@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useCheckEmailExists, useSendPasswordReset } from '../common/APIs'
+import { validateEmail } from '../common/Validation'
 import Path from '../common/Paths'
 
 const ForgotPassword = () => {
@@ -16,11 +17,6 @@ const ForgotPassword = () => {
         setValidationMessage(' ')
         setSuccessMessage(' ')
     }, [email])
-
-    const validateEmail = (email) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        return regex.test(String(email).toLowerCase())
-    }
 
     const handleSubmit = async () => {
         if (!email) {
@@ -66,8 +62,8 @@ const ForgotPassword = () => {
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleSubmit}>Submit</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="3">{validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
-                                : <p className="pre-wrap success-text">{successMessage}</p>}</td>
+                            <td className="tight-top" colSpan="3">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
+                                : <p className="pre-wrap success-text tight-top">{successMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>

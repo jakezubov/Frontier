@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import { useState } from 'react'
 import History from './History'
 import Information from './Information'
@@ -6,7 +5,7 @@ import Contact from './Contact'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClockRotateLeft, faCircleInfo, faEnvelope, faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
 
-const Sidebar = ({ refresh }) => {
+const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(false)
     const [activeButton, setActiveButton] = useState('')
 
@@ -43,20 +42,16 @@ const Sidebar = ({ refresh }) => {
                             <Information />
                         )}
                         {activeButton === 'history' && (
-                            <History refresh={refresh} />
+                            <History />
                         )}
                         {activeButton === 'contact' && (
-                            <Contact refresh={refresh} />
+                            <Contact />
                         )}
                     </div>
                 )}
             </div>          
         </div>
     )
-}
-
-Sidebar.propTypes = {
-    refresh: PropTypes.string
 }
 
 export default Sidebar

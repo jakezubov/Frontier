@@ -1,16 +1,15 @@
-import PropTypes from 'prop-types'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import { validateNumber } from '../common/ValidateNumber'
+import { useHistory } from '../contexts/HistoryContext'
+import { validateNumber } from '../common/Validation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRepeat } from '@fortawesome/free-solid-svg-icons'
-import { useSaveHistory } from '../common/APIs'
-import JewelleryPage from '../common/JewelleryPages'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
 
-const RollingWire = ({ onRefresh }) => {
+const RollingWire = () => {
     const { userId } = useContext(UserContext)
+    const { addHistory } = useHistory()
 
     // Inputs
     const [ringSize, setRingSize] = useState(null)
@@ -26,9 +25,6 @@ const RollingWire = ({ onRefresh }) => {
     const [stockSizeRequired, setStockSizeRequired] = useState(true)
     const [output1, setOutput1] = useState('')
     const [output2, setOutput2] = useState('')
-
-    // APIs
-    const { saveHistory } = useSaveHistory()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -77,8 +73,7 @@ const RollingWire = ({ onRefresh }) => {
         }
 
         if (userId) {
-            await saveHistory(userId, JewelleryPage.ROLLING_WIRE, content)
-            onRefresh()                
+            addHistory(content)
         }
     }
 
@@ -145,22 +140,14 @@ const RollingWire = ({ onRefresh }) => {
                             <td>Thickness</td>
                             <td><input className="general-input" type="number" step="0.01" min="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
                             <td className="table-break"></td>
-                            <td>
-                                {stockSizeRequired ?
-                                    <div className="padded-text" >Stock Size</div>
-                                    : null }
-                            </td>
-                            <td>
-                                {stockSizeRequired ?
-                                    <input className="general-input" type="number" step="0.01" min="0.01" value={stockSize} onChange={(e) => setStockSize(e.target.value)} />
-                                    : null }
-                            </td>
+                            <td><div className="padded-text" >Stock Size</div></td>
+                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={stockSize} onChange={(e) => setStockSize(e.target.value)} disabled={!stockSizeRequired} /></td>
                         </tr>
                         <tr>
                             <td colSpan="5"><button className="general-button" type="button" onClick={handleCalculate}>Calculate</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="5">{validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}</td>
+                            <td colSpan="5">{validationMessage && <p className="pre-wrap warning-text tight-text">{validationMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -190,10 +177,6 @@ const RollingWire = ({ onRefresh }) => {
             </table>
         </div>
     )
-}
-
-RollingWire.propTypes = {
-    onRefresh: PropTypes.func.isRequired,
 }
 
 export default RollingWire

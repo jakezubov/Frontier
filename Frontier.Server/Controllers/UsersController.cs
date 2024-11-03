@@ -9,7 +9,7 @@ namespace Frontier.Server.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserDataAccess db = new();
-        private readonly DefaultsController defaults = new();
+        private readonly ConfigController defaults = new();
 
         #region User APIs
         // Get All Users

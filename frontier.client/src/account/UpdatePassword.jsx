@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import { useGetUser, useValidateUser, useUpdatePassword } from '../common/APIs'
+import { validatePassword } from '../common/Validation'
+import PasswordRequirements from '../components/PasswordRequirements'
 
 const UpdatePassword = () => {
     const { userId } = useContext(UserContext)
@@ -23,11 +25,6 @@ const UpdatePassword = () => {
         }
     }, [oldPassword, newPassword, confirmNewPassword])
 
-    const validatePassword = (password) => {
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/
-        return regex.test(String(password));
-    }
-
     const clearPasswords = () => {
         setOldPassword('')
         setNewPassword('')
@@ -44,7 +41,7 @@ const UpdatePassword = () => {
             return
         }
         else if (!validatePassword(newPassword)) {
-            setValidationMessage('Password must include the following:\n- At least 8 characters\n- An uppercase letter\n- A lowercase letter\n- A number')
+            setValidationMessage('Password does not meet complexity requirements.')
             return
         }
         const user = await getUser(userId)
@@ -91,12 +88,13 @@ const UpdatePassword = () => {
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleSubmit}>Save Changes</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
-                                : <p className="pre-wrap success-text">{successMessage}</p>}</td>
+                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
+                                : <p className="pre-wrap success-text tight-top">{successMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>
-            </form> 
+            </form>
+            <PasswordRequirements />
         </div>
     )
 }

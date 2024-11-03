@@ -21,10 +21,12 @@ public class AzureController : ControllerBase
     [HttpPost("send/contact-form")]
     public async Task<IActionResult> ContactForm(ContactFormModel newSubmission)
     {
-        IEmailClientModel client = await LoadAzureClient();
-        if (client == null) {
+        IEmailClientModel client = await GetAzureClient();
+        if (client == null)
+        {
             return BadRequest("Emailing Not Setup Correctly");
         }
+        LoadAzureClient((AzureClientModel)client);
 
         ContactFormTemplate emailType = new(newSubmission);
         BaseTemplate emailContents = new(emailType);
@@ -35,10 +37,12 @@ public class AzureController : ControllerBase
     [HttpPost("send/password-reset/{email}")]
     public async Task<IActionResult> PasswordReset(string email)
     {
-        IEmailClientModel client = await LoadAzureClient();
-        if (client == null) {
+        IEmailClientModel client = await GetAzureClient();
+        if (client == null)
+        {
             return BadRequest("Emailing Not Setup Correctly");
         }
+        LoadAzureClient((AzureClientModel)client);
 
         PasswordResetTemplate emailType = new(email);
         BaseTemplate emailContents = new(emailType);
@@ -49,10 +53,12 @@ public class AzureController : ControllerBase
     [HttpPost("send/registration/{name}/{email}")]
     public async Task<IActionResult> Registration(string name, string email)
     {
-        IEmailClientModel client = await LoadAzureClient();
-        if (client == null) {
+        IEmailClientModel client = await GetAzureClient();
+        if (client == null)
+        {
             return BadRequest("Emailing Not Setup Correctly");
         }
+        LoadAzureClient((AzureClientModel)client);
 
         RegistrationTemplate emailType = new(name, email);
         BaseTemplate emailContents = new(emailType);
@@ -63,10 +69,12 @@ public class AzureController : ControllerBase
     [HttpPost("send/verification/{name}/{email}")]
     public async Task<IActionResult> Verification(string name, string email)
     {
-        IEmailClientModel client = await LoadAzureClient();
-        if (client == null) {
+        IEmailClientModel client = await GetAzureClient();
+        if (client == null)
+        {
             return BadRequest("Emailing Not Setup Correctly");
         }
+        LoadAzureClient((AzureClientModel)client);
 
         VerificaitonTemplate emailType = new(name, email);
         BaseTemplate emailContents = new(emailType);
@@ -74,34 +82,10 @@ public class AzureController : ControllerBase
         return await SendEmail(subject, emailContents, email, client.SendingEmail);
     }
 
-    [HttpGet("get/client")]
-    public async Task<AzureClientModel> GetAzureClient()
-    {
-        return await _db.GetAzureClient();
-    }
-
-    private async Task<AzureClientModel> LoadAzureClient()
-    {
-        AzureClientModel client = await _db.GetAzureClient();
-
-        ClientSecretCredentialOptions options = new() { AuthorityHost = AzureAuthorityHosts.AzurePublicCloud };
-        ClientSecretCredential clientSecretCredential = new(client.TenantId, client.ClientId, client.ClientSecret, options);
-
-        _graphClient = new GraphServiceClient(clientSecretCredential, ["https://graph.microsoft.com/.default"]);
-
-        return client;
-    }
-
-    [HttpPost("update/client")]
-    public async Task<IActionResult> UpsertEmailClient(AzureClientModel client)
-    {
-        await _db.UpsertAzureClient(client);
-        return Ok();
-    }
-
     private async Task<IActionResult> SendEmail(string subject, BaseTemplate emailContents, string recipient, string sendingEmail)
     {
-        if (_graphClient != null) {
+        if (_graphClient != null)
+        {
             try
             {
                 Message message = new()
@@ -137,5 +121,47 @@ public class AzureController : ControllerBase
             }
         }
         return BadRequest("Emailing Not Setup Correctly");
+    }
+
+    [HttpGet("get/client")]
+    public async Task<AzureClientModel> GetAzureClient()
+    {
+        return await _db.GetAzureClient();
+    }
+
+    private void LoadAzureClient(AzureClientModel client)
+    {
+        ClientSecretCredentialOptions options = new() { AuthorityHost = AzureAuthorityHosts.AzurePublicCloud };
+        ClientSecretCredential clientSecretCredential = new(client.TenantId, client.ClientId, client.ClientSecret, options);
+
+        _graphClient = new(clientSecretCredential, ["https://graph.microsoft.com/.default"]);
+    }
+
+    [HttpPut("test/client")]
+    public async Task<IActionResult> TestEmailClient(AzureClientModel client)
+    {
+        LoadAzureClient(client);
+
+        ContactFormModel contactTest = new()
+        {
+            Name = "Email Tester",
+            Email = client.ContactFormRecipient,
+            Message = "This is a test email"
+        };
+
+        ContactFormTemplate emailType = new(contactTest);
+        BaseTemplate emailContents = new(emailType);
+        string subject = $"Test Email from {contactTest.Name}";
+        IActionResult response = await SendEmail(subject, emailContents, client.ContactFormRecipient, client.SendingEmail);
+
+        if (response is OkResult) return Ok();
+        return NoContent();
+    }
+
+    [HttpPost("update/client")]
+    public async Task<IActionResult> UpsertEmailClient(AzureClientModel client)
+    {
+        await _db.UpsertAzureClient(client);
+        return Ok();
     }
 }

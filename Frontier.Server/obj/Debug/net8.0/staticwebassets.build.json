@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "Hash": "uA+jvYH+GMi14xJbDmXXRBohbeouoHgMnCUkdg3ByM0=",
+  "Hash": "L+C9tBaObI4dKqnzF/QzXltjzp2JL5oEOisn1x9Aacs=",
   "Source": "Frontier.Server",
   "BasePath": "_content/Frontier.Server",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [
     {
-      "Identity": "C:\\Users\\jake_\\Projects\\Froniter\\frontier.client\\frontier.client.esproj",
+      "Identity": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\frontier.client.esproj",
       "Version": 2,
       "Source": "frontier.client",
       "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",

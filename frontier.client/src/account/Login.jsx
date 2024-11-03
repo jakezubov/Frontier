@@ -62,7 +62,7 @@ const Login = ({ onLogin }) => {
                 <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
             </form>
 
-            {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
+            {validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}
                 
             <table>
                 <tbody>

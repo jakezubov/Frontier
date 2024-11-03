@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import { useGetUser, useCheckEmailExists, useUnverifyAccount, useSendVerification, useUpdateUser } from '../common/APIs'
+import { validateEmail } from '../common/Validation'
 import DeleteAccountButton from '../components/DeleteAccountButton'
 import ClearHistoryButton from '../components/ClearHistoryButton'
 
@@ -34,11 +35,6 @@ const UserSettings = ({ onDelete }) => {
             setEmailChanged(true)
         }
     }, [firstName, lastName, email, historyAmount])
-
-    const validateEmail = (email) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        return regex.test(String(email).toLowerCase())
-    }
 
     const loadUser = async () => {
         const response = await getUser(userId)
@@ -119,8 +115,8 @@ const UserSettings = ({ onDelete }) => {
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleSubmit}>Save Changes</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
-                                : <p className="pre-wrap success-text">{successMessage}</p>}</td>
+                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-text">{validationMessage}</p>
+                                : <p className="pre-wrap success-text tight-text">{successMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>

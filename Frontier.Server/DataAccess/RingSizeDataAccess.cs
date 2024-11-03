@@ -9,23 +9,23 @@ public class RingSizeDataAccess
     private readonly string DatabaseName = "frontier";
     private readonly string RingSizeCollection = "ring_size_defaults";
 
-    private IMongoCollection<T> ConnectToMongo<T>(in string collection)
+    private IMongoCollection<RingSizeModel> ConnectToMongo()
     {
         var client = new MongoClient(ConnectionString);
         var db = client.GetDatabase(DatabaseName);
-        return db.GetCollection<T>(collection);
+        return db.GetCollection<RingSizeModel>(RingSizeCollection);
     }
 
     public async Task<List<RingSizeModel>> GetAllRingSizes()
     {
-        var ringSizesCollection = ConnectToMongo<RingSizeModel>(RingSizeCollection);
+        var ringSizesCollection = ConnectToMongo();
         var results = await ringSizesCollection.FindAsync(_ => true);
         return results.ToList();
     }
 
     public async Task<RingSizeModel> GetRingSize(string letterSize, double numberSize)
     {
-        var ringSizesCollection = ConnectToMongo<RingSizeModel>(RingSizeCollection);
+        var ringSizesCollection = ConnectToMongo();
         var filter = Builders<RingSizeModel>.Filter.And(
         Builders<RingSizeModel>.Filter.Eq(r => r.LetterSize, letterSize),
         Builders<RingSizeModel>.Filter.Eq(r => r.NumberSize, numberSize)
@@ -36,13 +36,13 @@ public class RingSizeDataAccess
 
     public Task CreateRingSize(RingSizeModel ringSize)
     {
-        var ringSizesCollection = ConnectToMongo<RingSizeModel>(RingSizeCollection);
+        var ringSizesCollection = ConnectToMongo();
         return ringSizesCollection.InsertOneAsync(ringSize);
     }
 
     public Task UpdateRingSize(RingSizeModel ringSize)
     {
-        var ringSizesCollection = ConnectToMongo<RingSizeModel>(RingSizeCollection);
+        var ringSizesCollection = ConnectToMongo();
         var filter = Builders<RingSizeModel>.Filter.Eq("Id", ringSize.Id);
         ReplaceOptions options = new() { IsUpsert = true };
         return ringSizesCollection.ReplaceOneAsync(filter, ringSize, options);
@@ -50,7 +50,7 @@ public class RingSizeDataAccess
 
     public async Task UpdateAllRingSizes(List<RingSizeModel> ringSizes)
     {
-        var ringSizesCollection = ConnectToMongo<RingSizeModel>(RingSizeCollection);
+        var ringSizesCollection = ConnectToMongo();
 
         // Extract the list of IDs from the provided ring size list
         var ringSizeIds = ringSizes.Select(r => r.Id).ToList();
@@ -75,7 +75,7 @@ public class RingSizeDataAccess
 
     public Task DeleteRingSize(RingSizeModel ringSize)
     {
-        var ringSizesCollection = ConnectToMongo<RingSizeModel>(RingSizeCollection);
+        var ringSizesCollection = ConnectToMongo();
         return ringSizesCollection.DeleteOneAsync(r => r.Id == ringSize.Id);
     }
 }

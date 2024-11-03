@@ -1,13 +1,12 @@
-import PropTypes from 'prop-types'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import { validateNumber } from '../common/ValidateNumber'
-import { useSaveHistory } from '../common/APIs'
-import JewelleryPage from '../common/JewelleryPages'
+import { useHistory } from '../contexts/HistoryContext'
+import { validateNumber } from '../common/Validation'
 import MetalSelector from '../components/MetalSelector'
 
-const MetalConverter = ({ onRefresh }) => {
+const MetalConverter = () => {
     const { userId } = useContext(UserContext)
+    const { addHistory } = useHistory()
 
     // Inputs
     const [originalMetal, setOriginalMetal] = useState(null)
@@ -17,9 +16,6 @@ const MetalConverter = ({ onRefresh }) => {
 
     // Calculated
     const [convertedWeight, setConvertedWeight] = useState('')
-
-    // APIs
-    const { saveHistory } = useSaveHistory()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -36,8 +32,10 @@ const MetalConverter = ({ onRefresh }) => {
         setConvertedWeight(calculatedWeightText)
 
         if (userId) {
-            await saveHistory(userId, JewelleryPage.METAL_CONVERTER, calculatedWeightText)
-            onRefresh()
+            const originalWeightText = parseFloat(weight).toFixed(2) + "g"
+            const content = `${originalMetal.name} | ${originalWeightText} => ${newMetal.name} | ${calculatedWeightText}`
+
+            addHistory(content)
         }
     }
 
@@ -71,7 +69,7 @@ const MetalConverter = ({ onRefresh }) => {
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleCalculate}>Calculate</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}</td>
+                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -87,10 +85,6 @@ const MetalConverter = ({ onRefresh }) => {
             </table>
         </div>
     )
-}
-
-MetalConverter.propTypes = {
-    onRefresh: PropTypes.func.isRequired,
 }
 
 export default MetalConverter;

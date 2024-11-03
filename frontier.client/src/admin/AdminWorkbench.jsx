@@ -1,10 +1,16 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import AdminPages from '../common/AdminPages'
 import UserAccounts from './UserAccounts'
 import DefaultRingSizes from './DefaultRingSizes'
 import DefaultMetals from './DefaultMetals'
 import ConfigureEmail from './ConfigureEmail'
+
+const AdminPages = {
+    USER_ACCOUNTS: 'UserAccounts',
+    DEFAULT_METALS: 'DefaultMetals',
+    DEFAULT_RING_SIZES: 'DefaultRingSizes',
+    CONFIGURE_EMAIL: 'ConfigureEmail',
+}
 
 const AdminWorkbench = () => {
     const [currentPage, setCurrentPage] = useState(AdminPages.USER_ACCOUNTS)

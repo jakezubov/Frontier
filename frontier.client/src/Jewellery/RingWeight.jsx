@@ -1,16 +1,14 @@
-import PropTypes from 'prop-types'
-import Axios from 'axios'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
-import { validateNumber } from '../common/ValidateNumber'
-import { useSaveHistory } from '../common/APIs'
-import JewelleryPage from '../common/JewelleryPages'
+import { useHistory } from '../contexts/HistoryContext'
+import { validateNumber } from '../common/Validation'
 import MetalSelector from '../components/MetalSelector'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
 
-const RingWeight = ({ onRefresh }) => {
+const RingWeight = () => {
     const { userId } = useContext(UserContext)
+    const { addHistory } = useHistory()
 
     // Inputs
     const [metal, setMetal] = useState(null)
@@ -23,9 +21,6 @@ const RingWeight = ({ onRefresh }) => {
     // Calculated
     const [thicknessRequired, setThicknessRequired] = useState(true)
     const [weight, setWeight] = useState('')
-
-    // APIs
-    const { saveHistory } = useSaveHistory()
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -61,13 +56,12 @@ const RingWeight = ({ onRefresh }) => {
         const calculatedWeightText = calculateRingWeight(ringSize.diameter).toFixed(2) + "g"
         setWeight(calculatedWeightText)
 
-        const content = thicknessRequired ?
-            `${metal.name} | ${ringSize.name} | ${calculatedWeightText} | ${profile} | ${width}mm x ${thickness}mm`
-            : `${metal.name} | ${ringSize.name} | ${calculatedWeightText} | ${profile} | ${width}mm x ${width}mm`
-
         if (userId) {
-            await saveHistory(userId, JewelleryPage.RING_WEIGHT, content)
-            onRefresh()
+            const content = thicknessRequired
+                ? `${metal.name} | ${ringSize.name} | ${calculatedWeightText} | ${profile} | ${width}mm x ${thickness}mm`
+                : `${metal.name} | ${ringSize.name} | ${calculatedWeightText} | ${profile} | ${width}mm x ${width}mm`
+
+            addHistory(content)
         }
     }
 
@@ -120,7 +114,7 @@ const RingWeight = ({ onRefresh }) => {
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleCalculate}>Calculate</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}</td>
+                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -136,10 +130,6 @@ const RingWeight = ({ onRefresh }) => {
             </table>
         </div>
     )
-}
-
-RingWeight.propTypes = {
-    onRefresh: PropTypes.func.isRequired,
 }
 
 export default RingWeight

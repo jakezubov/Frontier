@@ -3,6 +3,7 @@ const JewelleryPage = {
     RING_WEIGHT: 'RingWeight',
     RING_RESIZER: 'RingResizer',
     ROLLING_WIRE: 'RollingWire',
+    SETUP: 'Setup',
     NONE: 'None'
 }
 

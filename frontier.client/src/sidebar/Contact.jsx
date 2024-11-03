@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types'
 import { useState, useEffect, useContext } from 'react'
 import { UserContext } from '../contexts/UserContext'
 import { useGetUser, useSendContactForm } from '../common/APIs'
+import { validateEmail } from '../common/Validation'
 
-const Contact = ({ refresh }) => {
+const Contact = () => {
     const { userId } = useContext(UserContext)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
@@ -17,17 +17,12 @@ const Contact = ({ refresh }) => {
 
     useEffect(() => {
         if (userId) loadInformation()
-    }, [refresh, userId])
+    }, [userId])
 
     useEffect(() => {
         setValidationMessage(' ')
         setSuccessMessage(' ')
     }, [name, email, message])
-
-    const validateEmail = (email) => {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        return regex.test(String(email).toLowerCase())
-    }
 
     const loadInformation = async () => {
         const user = await getUser(userId)
@@ -59,7 +54,7 @@ const Contact = ({ refresh }) => {
                 <table>
                     <tbody>
                         <tr>
-                            <td className="break-bottom" colSpan="2">If you would like to contact the developer to voice any concerns, issues or feature requests, please fill out the form below.</td>   
+                            <td className="break-bottom" colSpan="2">If you would like to contact the developer to voice any concerns, issues or feature requests, please fill out the form below.</td>
                         </tr>
                         <tr>
                             <td>Name</td>
@@ -79,18 +74,14 @@ const Contact = ({ refresh }) => {
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleSubmit}>Send Email</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text">{validationMessage}</p>
-                                : <p className="pre-wrap success-text">{successMessage}</p>}</td>
+                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
+                                : <p className="pre-wrap success-text tight-top">{successMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>
             </form>
         </div>
     )
-}
-
-Contact.propTypes = {
-    refresh: PropTypes.string,
 }
 
 export default Contact

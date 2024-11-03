@@ -30,16 +30,13 @@ public class AzureClientDataAccess
         {
             var collection = ConnectToMongo();
             var filter = Builders<AzureClientModel>.Filter.Eq(e => e.ClientType, EmailClientType.Azure);
-
             var existingDocument = await collection.Find(filter).FirstOrDefaultAsync();
 
-            if (existingDocument != null)
-            {
+            if (existingDocument != null) {
                 client.Id = existingDocument.Id;
                 await collection.ReplaceOneAsync(filter, client);
             }
-            else
-            {
+            else {
                 await collection.InsertOneAsync(client);
             }
         }
