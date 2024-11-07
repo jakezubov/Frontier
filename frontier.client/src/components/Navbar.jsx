@@ -14,7 +14,7 @@ import Path from '../common/Paths'
 const Navbar = ({ adminStatus, loggedIn, onLogout }) => {
     const { userId } = useContext(UserContext)
     const { setJewelleryPage } = useContext(JewelleryPageContext)
-    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
+    const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark')
     const [isLogoutPopupOpen, setIsLogoutPopupOpen] = useState(false)
 
     // APIs

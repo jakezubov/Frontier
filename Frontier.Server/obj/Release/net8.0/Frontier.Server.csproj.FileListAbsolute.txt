@@ -70,3 +70,6 @@ C:\Users\zubovadmin\Desktop\Frontier\Frontier.Server\obj\Release\net8.0\refint\F
 C:\Users\zubovadmin\Desktop\Frontier\Frontier.Server\obj\Release\net8.0\Frontier.Server.pdb
 C:\Users\zubovadmin\Desktop\Frontier\Frontier.Server\obj\Release\net8.0\Frontier.Server.genruntimeconfig.cache
 C:\Users\zubovadmin\Desktop\Frontier\Frontier.Server\obj\Release\net8.0\ref\Frontier.Server.dll
+C:\Users\zubovadmin\Desktop\Frontier\Frontier.Server\bin\Release\net8.0\Frontier.Server.staticwebassets.runtime.json
+C:\Users\zubovadmin\Desktop\Frontier\Frontier.Server\bin\Release\net8.0\Frontier.Server.xml
+C:\Users\zubovadmin\Desktop\Frontier\Frontier.Server\obj\Release\net8.0\Frontier.Server.xml

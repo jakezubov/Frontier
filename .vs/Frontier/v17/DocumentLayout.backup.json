@@ -3,28 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\sidebar\\information.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\sidebar\\information.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\common\\themes.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\common\\themes.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\setup\\setupregister.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}|",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\setup\\setupregister.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}|"
+      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\frontier.server.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\frontier.server.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}|",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\components\\navbar.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\components\\navbar.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\src\\common\\apis.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\common\\apis.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\vite.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\vite.config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.client\\.vscode\\launch.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\.vscode\\launch.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\zubovadmin\\desktop\\frontier\\frontier.server\\frontier.server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\frontier.server.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,75 +47,99 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Information.jsx",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\sidebar\\Information.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\sidebar\\Information.jsx",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\sidebar\\Information.jsx",
-              "RelativeToolTip": "frontier.client\\src\\sidebar\\Information.jsx",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAACcAAAAfAAAAAAAAAA==",
+              "Title": "Themes.jsx",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\common\\Themes.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\common\\Themes.jsx",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\common\\Themes.jsx",
+              "RelativeToolTip": "frontier.client\\src\\common\\Themes.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-11-03T20:09:35.094Z",
+              "WhenOpened": "2024-11-06T22:04:53.048Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "App.css",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\App.css",
-              "RelativeDocumentMoniker": "frontier.client\\src\\App.css",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\App.css",
-              "RelativeToolTip": "frontier.client\\src\\App.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8BAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-11-03T19:41:52.906Z"
+              "DocumentIndex": 3,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Frontier.Server\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Frontier.Server\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-06T21:30:43.269Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "SetupRegister.jsx",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\setup\\SetupRegister.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\setup\\SetupRegister.jsx",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\setup\\SetupRegister.jsx",
-              "RelativeToolTip": "frontier.client\\src\\setup\\SetupRegister.jsx",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAAAFgAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-11-03T00:48:53.529Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "App.jsx",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\App.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\App.jsx",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\App.jsx",
-              "RelativeToolTip": "frontier.client\\src\\App.jsx",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAAAAcAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-11-02T22:52:40.89Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Navbar.jsx",
-              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\components\\Navbar.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\components\\Navbar.jsx",
-              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\components\\Navbar.jsx",
-              "RelativeToolTip": "frontier.client\\src\\components\\Navbar.jsx",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAACkAAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-10-30T19:52:53.388Z"
+              "Title": "Frontier.Server.http",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.http",
+              "RelativeDocumentMoniker": "Frontier.Server\\Frontier.Server.http",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.http",
+              "RelativeToolTip": "Frontier.Server\\Frontier.Server.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-11-06T21:30:42.112Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "vite.config.js",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\vite.config.js",
+              "RelativeDocumentMoniker": "frontier.client\\vite.config.js",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\vite.config.js",
+              "RelativeToolTip": "frontier.client\\vite.config.js",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2024-11-06T21:29:49.629Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "APIs.jsx",
               "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\common\\APIs.jsx",
               "RelativeDocumentMoniker": "frontier.client\\src\\common\\APIs.jsx",
               "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\src\\common\\APIs.jsx",
               "RelativeToolTip": "frontier.client\\src\\common\\APIs.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMDAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-10-29T19:43:45.177Z"
+              "WhenOpened": "2024-11-06T20:00:12.736Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Program.cs",
+              "RelativeDocumentMoniker": "Frontier.Server\\Program.cs",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Program.cs",
+              "RelativeToolTip": "Frontier.Server\\Program.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAcwBkAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-05T20:17:17.574Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "launch.json",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\.vscode\\launch.json",
+              "RelativeDocumentMoniker": "frontier.client\\.vscode\\launch.json",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\.vscode\\launch.json",
+              "RelativeToolTip": "frontier.client\\.vscode\\launch.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-05T20:09:41.991Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Frontier.Server.csproj",
+              "DocumentMoniker": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj",
+              "RelativeDocumentMoniker": "Frontier.Server\\Frontier.Server.csproj",
+              "ToolTip": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\Frontier.Server.csproj",
+              "RelativeToolTip": "Frontier.Server\\Frontier.Server.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-11-05T20:07:18.086Z"
             }
           ]
         }

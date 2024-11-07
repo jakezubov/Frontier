@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "QH6ZSet0U8BhzLUNqmluOCgkyWskwSsOKbQJuv876Qk=",
+  "Hash": "ps5LAp1cRikO6tSpbyIxqy8O2+pfBm0QtREBOIMueNc=",
   "Source": "Frontier.Server",
   "BasePath": "_content/Frontier.Server",
   "Mode": "Default",
@@ -18,6 +18,14 @@
       "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
     }
   ],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Frontier.Server\\wwwroot",
+      "Source": "Frontier.Server",
+      "ContentRoot": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\wwwroot\\",
+      "BasePath": "_content/Frontier.Server",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }

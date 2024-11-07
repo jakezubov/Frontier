@@ -1,6 +1,10 @@
 export const validatePassword = (password) => {
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/
-    return regex.test(String(password));
+    const pass = String(password);
+
+    return /[a-z]/.test(pass) &&
+           /[A-Z]/.test(pass) &&
+           /\d/.test(pass) &&
+           pass.length >= 8;
 }
 
 export const validateEmail = (email) => {

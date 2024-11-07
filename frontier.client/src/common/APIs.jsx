@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import { useError } from '../contexts/ErrorPopupContext'
 
-const urlPrefix = 'https://localhost:5221/api'
+const urlPrefix = 'https://jewellery.zubov.com.au/api'
 
 //#region User CRUD
 

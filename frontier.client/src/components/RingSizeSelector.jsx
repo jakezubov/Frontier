@@ -39,7 +39,7 @@ const RingSizeSelector = ({ label, onSizeChange }) => {
             <select className="general-select" aria-label={label} onChange={handleSizeChange}>
                 <option value=""></option>
                 {
-                    ringSizes.map((ringSize, index) => (
+                    ringSizes?.map((ringSize, index) => (
                         <option key={index} value={ringSize.name}>{ringSize.name}</option>
                     ))
                 }

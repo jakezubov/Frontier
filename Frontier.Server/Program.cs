@@ -10,19 +10,23 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigins",
         builder =>
         {
-            builder.WithOrigins("https://localhost:5173")
-                   .AllowAnyHeader()
-                   .AllowAnyMethod()
-                   .AllowCredentials();
+            builder.WithOrigins(
+                "http://localhost:5173",
+                "https://jewellery.zubov.com.au"
+                )
+                .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .WithHeaders("Authorization", "Content-Type")
+                .AllowCredentials()
+                .SetIsOriginAllowedToAllowWildcardSubdomains();
         });
 });
 
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.ListenAnyIP(5221); // Only need HTTP since Cloudflare handles HTTPS
+});
+
 var app = builder.Build();
-
-app.UseDefaultFiles();
-app.UseStaticFiles();
-
-app.UseHttpsRedirection(); // Configure the HTTP request pipeline.
 
 app.UseCors("AllowSpecificOrigins");
 

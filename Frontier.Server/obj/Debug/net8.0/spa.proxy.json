@@ -1,6 +1,6 @@
 {
 "SpaProxyServer": {
-"ServerUrl": "https://localhost:5173",
+"ServerUrl": "http://localhost:5173",
 "RedirectUrl": "",
 "LaunchCommand": "npm run dev",
 "WorkingDirectory": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\..\\frontier.client",

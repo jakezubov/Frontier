@@ -39,7 +39,7 @@ const MetalSelector = ({ label, onMetalChange }) => {
             <select className="general-select" aria-label={label} onChange={handleMetalChange}>
                 <option value=""></option>
                 {
-                    metals.map((metal, index) => (
+                    metals?.map((metal, index) => (
                         <option key={index} value={metal.name}>{metal.name}</option>
                     ))
                 }
