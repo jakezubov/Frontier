@@ -100,7 +100,7 @@ const SetupRegister = ({ onRegisterComplete }) => {
                             <td colSpan="2"><button className="general-button" onClick={handleSubmit}>Submit</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}</td>
+                            <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text tight-text">{validationMessage}</p>}</td>
                         </tr>
                     </tbody>
                 </table>

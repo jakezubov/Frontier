@@ -10,22 +10,23 @@ export const HistoryProvider = ({ children }) => {
     const { jewelleryPage } = useContext(JewelleryPageContext)
     const [history, setHistory] = useState([])
 
+    // APIs
     const { getHistory } = useGetHistory()
     const { saveHistory } = useSaveHistory()
 
     const loadHistory = useCallback(async () => {
         const response = await getHistory(userId, jewelleryPage)
         setHistory(response)
-    }, [userId, jewelleryPage, getHistory])
+    }, [userId, jewelleryPage])
 
-    const addHistory = useCallback( (newHistory) => {
-        setHistory(prev => [...prev, newHistory])
-        saveHistory(userId, jewelleryPage, newHistory)
-    }, [userId, jewelleryPage, saveHistory])
+    const addHistory = useCallback(async (newHistory) => {
+        await saveHistory(userId, jewelleryPage, newHistory)
+        loadHistory()
+    }, [userId, jewelleryPage])
 
     useEffect(() => {
         loadHistory()
-    }, [loadHistory])
+    }, [userId, jewelleryPage])
 
     return (
         <HistoryContext.Provider value={{ history, addHistory }}>

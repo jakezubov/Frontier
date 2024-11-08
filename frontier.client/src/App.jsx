@@ -91,14 +91,12 @@ const App = () => {
     return (
         <Router>
             <div>
-                {!setupComplete
-                    ? <FirstTimeSetupHandler onNotAlreadySetup={() => setSetupComplete(false)} />
-                    :
-                    <div>
+                <FirstTimeSetupHandler onNotAlreadySetup={() => setSetupComplete(false)} />
+                {setupComplete
+                    ? <div>
                         <Navbar adminStatus={adminStatus} loggedIn={loggedIn} onLogout={handleLogout} />
-
                         <Sidebar />
-                    </div>
+                    </div> : null
                 }
 
                 <Routes>

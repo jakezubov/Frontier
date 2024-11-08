@@ -37,7 +37,7 @@ const Information = () => {
                     <li><p className="pre-wrap">{information}</p></li>
                 </ul>
                 <ul>
-                    <li><p>v1.0</p></li>
+                    <li><p>v1.0.2</p></li>
                 </ul>
             </div>
         </div>
