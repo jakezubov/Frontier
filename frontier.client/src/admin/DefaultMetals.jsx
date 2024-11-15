@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useGetDefaultMetals, useUpdateDefaultMetals, useResetDefaultMetals } from '../common/APIs'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import TableSchemas from '../common/TableSchemas'
 import PopupConfirmation from '../popups/PopupConfirmation'
 import EditableTable from '../components/EditableTable'
 
 const DefaultMetals = () => {
+    const { setCurrentPage, Pages } = useCurrentPage()
+
     const [metalList, setMetalList] = useState([])
     const [originalMetalList, setOriginalMetalList] = useState([])
     const [validationMessage, setValidationMessage] = useState(' ')
@@ -17,6 +20,7 @@ const DefaultMetals = () => {
     const { resetDefaultMetals } = useResetDefaultMetals()
 
     useEffect(() => {
+        setCurrentPage(Pages.DEFAULT_METALS)
         loadMetalList()
     }, [])
 

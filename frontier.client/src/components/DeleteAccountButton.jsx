@@ -1,11 +1,13 @@
-import PropTypes from 'prop-types'
-import { useState, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useUserSession } from '../contexts/UserContext'
 import { useDeleteUser } from '../common/APIs'
 import PopupDeleteAccount from '../popups/PopupDeleteAccount'
+import Path from '../common/Paths'
 
-const DeleteAccount = ({ onDelete }) => {
-    const { userId } = useContext(UserContext)
+const DeleteAccount = () => {
+    const { userId, setUserId } = useUserSession()
+    const navigate = useNavigate()
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
 
     // APIs
@@ -13,7 +15,14 @@ const DeleteAccount = ({ onDelete }) => {
 
     const handleConfirmDelete = async () => {
         await deleteUser(userId)
-        onDelete()
+        handleDelete()
+    }
+
+    const handleDelete = () => {
+        setUserId(null)
+        navigate(Path.CONFIRMATION_SCREEN, {
+            state: { message: 'Account has been deleted!' }
+        })
     }
 
     return (
@@ -25,10 +34,6 @@ const DeleteAccount = ({ onDelete }) => {
             )}
         </div>
     )
-}
-
-DeleteAccount.propTypes = {
-    onDelete: PropTypes.func.isRequired,
 }
 
 export default DeleteAccount

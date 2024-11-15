@@ -1,20 +1,19 @@
-import { useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+import { useUserSession } from '../contexts/UserContext'
 import { useHistory } from '../contexts/HistoryContext'
-import { JewelleryPageContext } from '../contexts/JewelleryPageContext'
-import JewelleryPage from '../common/JewelleryPages'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 
 const History = () => {
-    const { userId } = useContext(UserContext)
-    const { jewelleryPage } = useContext(JewelleryPageContext)
+    const { userId } = useUserSession()
     const { history } = useHistory()
+    const { currentPage, Pages } = useCurrentPage()
 
     return (
         <div>
             <h3>History</h3>
             {!userId ?
                 <p>To save your calculation history, please create or log in to your account.</p>
-                : jewelleryPage === JewelleryPage.NONE ?
+                : currentPage !== Pages.METAL_CONVERTER || currentPage !== Pages.RING_RESIZER ||
+                    currentPage !== Pages.RING_WEIGHT || currentPage !== Pages.ROLLING_WIRE ?
                     <p>Navigate to any of the Jewellery Tools to access calculation history.</p>
                     : history.length > 0 ?
                         <ul className="padded-text history-scroll">

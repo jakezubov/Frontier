@@ -1,7 +1,8 @@
 import Axios from 'axios'
 import { useError } from '../contexts/ErrorPopupContext'
 
-const urlPrefix = 'https://jewellery.zubov.com.au/api'
+const urlPrefix = 'http://localhost:5221/api'
+// const urlPrefix = 'https://jewellery.zubov.com.au/api'
 
 //#region User CRUD
 
@@ -52,7 +53,7 @@ export const useGetUser = () => {
 export const useCreateUser = () => {
     const { handleError } = useError()
 
-    const createUser = async (firstName, lastName, email, password, admin = false) => {
+    const createUser = async (firstName, lastName, email, password, admin=false) => {
         try {
             await Axios.post(`${urlPrefix}/users/create`, {
                 'FirstName': firstName,
@@ -408,7 +409,7 @@ export const useGetMetals = () => {
     const getMetals = async (userId) => {
         try {
             const response = await Axios.get(`${urlPrefix}/users/${userId}/metals`)
-            return response.data
+            return response.data.sort((a, b) => a.listIndex - b.listIndex)
         }
         catch (error) {
             const title = 'Failed to get metals'
@@ -476,7 +477,7 @@ export const useGetDefaultMetals = () => {
     const getDefaultMetals = async () => {
         try {
             const response = await Axios.get(`${urlPrefix}/config/metals`)
-            return response.data
+            return response.data.sort((a, b) => a.listIndex - b.listIndex)
         }
         catch (error) {
             const title = 'Failed to get metals'
@@ -545,7 +546,7 @@ export const useGetRingSizes = () => {
     const getRingSizes = async (userId) => {
         try {
             const response = await Axios.get(`${urlPrefix}/users/${userId}/ring-sizes`)
-            return response.data
+            return response.data.sort((a, b) => a.listIndex - b.listIndex)
         }
         catch (error) {
             const title = 'Failed to get ring sizes'
@@ -613,7 +614,7 @@ export const useGetDefaultRingSizes = () => {
     const getDefaultRingSizes = async () => {
         try {
             const response = await Axios.get(`${urlPrefix}/config/ring-sizes`)
-            return response.data
+            return response.data.sort((a, b) => a.listIndex - b.listIndex)
         }
         catch (error) {
             const title = 'Failed to get default ring sizes'
@@ -681,7 +682,7 @@ export const useSendContactForm = () => {
 
     const sendContactForm = async (name, email, message) => {
         try {
-            await Axios.post(`${urlPrefix}/azure/send/contact-form`, {
+            await Axios.post(`${urlPrefix}/email/send/contact-form`, {
                 'Name': name,
                 'Email': email,
                 'Message': message,
@@ -709,7 +710,7 @@ export const useSendPasswordReset = () => {
 
     const sendPasswordReset = async (email) => {
         try {
-            await Axios.post(`${urlPrefix}/azure/send/password-reset/${email}`)
+            await Axios.post(`${urlPrefix}/email/send/password-reset/${email}`)
         }
         catch (error) {
             const title = 'Failed to send password reset email'
@@ -731,7 +732,7 @@ export const useSendRegistration = () => {
 
     const sendRegistration = async (name, email) => {
         try {
-            await Axios.post(`${urlPrefix}/azure/send/registration/${name}/${email}`)
+            await Axios.post(`${urlPrefix}/email/send/registration/${name}/${email}`)
         }
         catch (error) {
             const title = 'Failed to send registration email'
@@ -754,7 +755,7 @@ export const useSendVerification = () => {
 
     const sendVerification = async (name, email) => {
         try {
-            await Axios.post(`${urlPrefix}/azure/send/verification/${name}/${email}`)
+            await Axios.post(`${urlPrefix}/email/send/verification/${name}/${email}`)
         }
         catch (error) {
             const title = 'Failed to send verification email'
@@ -776,12 +777,57 @@ export const useSendVerification = () => {
 
 //#region Email Clients
 
+export const useGetCurrentClientType = () => {
+    const { handleError } = useError()
+
+    const getCurrentClientType = async () => {
+        try {
+            const response = await Axios.get(`${urlPrefix}/email/client-type`)
+            return response.data
+        }
+        catch (error) {
+            const title = 'Failed to get the current client type'
+            handleError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+            })
+        }
+    }
+
+    return { getCurrentClientType }
+}
+
+export const useUpdateCurrentClientType = () => {
+    const { handleError } = useError()
+
+    const updateCurrentClientType = async (newClientType) => {
+        try {
+            await Axios.put(`${urlPrefix}/email/client-type/update/${newClientType}`)
+        }
+        catch (error) {
+            const title = 'Failed to update the current client type'
+            handleError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                newClientType,
+            })
+        }
+    }
+
+    return { updateCurrentClientType }
+}
+
+
 export const useGetAzureClient = () => {
     const { handleError } = useError()
 
     const getAzureClient = async () => {
         try {
-            const response = await Axios.get(`${urlPrefix}/azure/get/client`)
+            const response = await Axios.get(`${urlPrefix}/email/get/Azure/client`)
             return response.data
         }
         catch (error) {
@@ -803,7 +849,7 @@ export const useUpdateAzureClient = () => {
 
     const updateAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
         try {
-            await Axios.post(`${urlPrefix}/azure/update/client`, {
+            await Axios.post(`${urlPrefix}/email/update/azure/client`, {
                 'ClientId': clientId,
                 'ClientSecret': clientSecret,
                 'TenantId': tenantId,
@@ -835,7 +881,7 @@ export const useTestAzureClient = () => {
 
     const testAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
         try {
-            const response = await Axios.put(`${urlPrefix}/azure/test/client`, {
+            const response = await Axios.put(`${urlPrefix}/email/test/azure`, {
                 'ClientId': clientId,
                 'ClientSecret': clientSecret,
                 'TenantId': tenantId,
@@ -909,50 +955,6 @@ export const useUpdateInitialisedStatus = () => {
     }
 
     return { updateInitialisedStatus }
-}
-
-export const useGetCurrentClientType = () => {
-    const { handleError } = useError()
-
-    const getCurrentClientType = async () => {
-        try {
-            const response = await Axios.get(`${urlPrefix}/config/client-type`)
-            return response.data
-        }
-        catch (error) {
-            const title = 'Failed to get the current client type'
-            handleError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-            })
-        }
-    }
-
-    return { getCurrentClientType }
-}
-
-export const useUpdateCurrentClientType = () => {
-    const { handleError } = useError()
-
-    const updateCurrentClientType = async (newClientType) => {
-        try {
-            await Axios.put(`${urlPrefix}/config/client-type/update/${newClientType}`)
-        }
-        catch (error) {
-            const title = 'Failed to update the current client type'
-            handleError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                newClientType,
-            })
-        }
-    }
-
-    return { updateCurrentClientType }
 }
 
 export const useGenerateObjectId = () => {

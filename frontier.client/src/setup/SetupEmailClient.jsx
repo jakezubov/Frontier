@@ -3,11 +3,14 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTestAzureClient, useUpdateAzureClient, useGetInitialisedStatus, useUpdateInitialisedStatus, useUpdateCurrentClientType } from '../common/APIs'
 import { validateEmail } from '../common/Validation'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import Path from '../common/Paths'
 import EmailClientSelector from '../components/EmailClientSelector'
 
 const ConfigureEmail = ({ onConfigureEmailComplete }) => {
     const navigate = useNavigate()
+    const { setCurrentPage, Pages } = useCurrentPage()
+
     const [selectedClient, setSelectedClient] = useState(null)
     const [clientId, setClientId] = useState('')
     const [clientSecret, setClientSecret] = useState('')
@@ -26,6 +29,7 @@ const ConfigureEmail = ({ onConfigureEmailComplete }) => {
     const { updateCurrentClientType } = useUpdateCurrentClientType()
 
     useEffect(() => {
+        setCurrentPage(Pages.SETUP_EMAIL_CLIENT)
         const checkInitialization = async () => {
             const isInitialized = await getInitialisedStatus()
             if (isInitialized) {

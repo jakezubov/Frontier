@@ -21,7 +21,7 @@ public class Setup
     {
         ConfigModel config = new();
 
-        await _configDataAccess.UpsertConfig(config);
+        await _configDataAccess.CreateConfig(config);
         await _configController.ResetMetals();
         await _configController.ResetRingSizes();
     }

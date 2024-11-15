@@ -10,4 +10,5 @@ public class MetalModel
     public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
     public required string Name { get; set; }
     public required double SpecificGravity { get; set; }
+    public required int ListIndex { get; set; }
 }

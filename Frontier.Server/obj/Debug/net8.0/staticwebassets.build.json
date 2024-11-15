@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "Hash": "aq449QLyb+fx0VrP5rfd1X/cvvEGdxL2UHqucs7V47g=",
+  "Hash": "Lfy3nYI0StAI4JmZrqX+V9ZoyuT7dpX4LgJljuNOFLc=",
   "Source": "Frontier.Server",
   "BasePath": "_content/Frontier.Server",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [
     {
-      "Identity": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\frontier.client\\frontier.client.esproj",
+      "Identity": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\frontier.client.esproj",
       "Version": 2,
       "Source": "frontier.client",
       "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
@@ -22,7 +22,7 @@
     {
       "Name": "Frontier.Server\\wwwroot",
       "Source": "Frontier.Server",
-      "ContentRoot": "C:\\Users\\zubovadmin\\Desktop\\Frontier\\Frontier.Server\\wwwroot\\",
+      "ContentRoot": "C:\\Users\\Administrator\\Desktop\\Frontier\\Frontier.Server\\wwwroot\\",
       "BasePath": "_content/Frontier.Server",
       "Pattern": "**"
     }

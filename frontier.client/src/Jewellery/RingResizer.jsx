@@ -1,14 +1,16 @@
-import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+import { useState, useEffect } from 'react'
+import { useUserSession } from '../contexts/UserContext'
 import { useHistory } from '../contexts/HistoryContext'
 import { validateNumber } from '../common/Validation'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import MetalSelector from '../components/MetalSelector'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
 
 const RingResizer = () => {
-    const { userId } = useContext(UserContext)
+    const { userId } = useUserSession()
     const { addHistory } = useHistory()
+    const { setCurrentPage, Pages } = useCurrentPage()
 
     // Inputs
     const [metal, setMetal] = useState(null)
@@ -24,6 +26,10 @@ const RingResizer = () => {
     const [weightOriginal, setWeightOriginal] = useState('')
     const [weightNew, setWeightNew] = useState('')
     const [weightDifference, setWeightDifference] = useState('')
+
+    useEffect(() => {
+        setCurrentPage(Pages.RING_RESIZER)
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')

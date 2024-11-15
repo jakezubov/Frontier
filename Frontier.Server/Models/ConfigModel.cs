@@ -10,5 +10,6 @@ public class ConfigModel
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
     public bool InitialisedTF { get; set; } = false;
-    public EmailClientType? CurrentClientType { get; set; }
+    public EmailClientType CurrentClientType { get; set; }
+    public AzureClientModel? AzureClient { get; set; }
 }

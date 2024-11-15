@@ -1,10 +1,11 @@
-import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
-import { useGetUser, useSendContactForm } from '../common/APIs'
+import { useState, useEffect } from 'react'
+import { useUserSession } from '../contexts/UserContext'
+import { useSendContactForm } from '../common/APIs'
 import { validateEmail } from '../common/Validation'
 
 const Contact = () => {
-    const { userId } = useContext(UserContext)
+    const { userId, localFirstName, localLastName, localEmail } = useUserSession()
+
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
@@ -12,11 +13,12 @@ const Contact = () => {
     const [validationMessage, setValidationMessage] = useState(' ')
 
     // APIs
-    const { getUser } = useGetUser()
     const { sendContactForm } = useSendContactForm()
 
     useEffect(() => {
-        if (userId) loadInformation()
+        if (userId) {
+            loadInformation()
+        }
     }, [userId])
 
     useEffect(() => {
@@ -25,10 +27,8 @@ const Contact = () => {
     }, [name, email, message])
 
     const loadInformation = async () => {
-        const user = await getUser(userId)
-
-        setName(`${user.firstName} ${user.lastName}`)
-        setEmail(user.email)
+        setName(`${localFirstName} ${localLastName}`)
+        setEmail(localEmail)
     }
 
     const handleSubmit = async () => {

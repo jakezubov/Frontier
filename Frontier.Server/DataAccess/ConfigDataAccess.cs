@@ -1,5 +1,6 @@
 ﻿namespace Frontier.Server.DataAccess;
 
+using Frontier.Server.Interfaces;
 using Frontier.Server.Models;
 using MongoDB.Driver;
 
@@ -22,7 +23,7 @@ public class ConfigDataAccess
         return await collection.Find(_ => true).FirstOrDefaultAsync();
     }
 
-    public async Task UpsertConfig(ConfigModel config)
+    public async Task CreateConfig(ConfigModel config)
     {
         var collection = ConnectToMongo();
         var existingDocument = await collection.Find(_ => true).FirstOrDefaultAsync();
@@ -34,5 +35,56 @@ public class ConfigDataAccess
         else {
             await collection.InsertOneAsync(config);
         }
+    }
+
+    public async Task<EmailClientType> GetCurrentClientType()
+    {
+        ConfigModel config = await GetConfig();
+        return config.CurrentClientType;
+    }
+
+    public async Task UpdateCurrentClientType(EmailClientType newClientType)
+    {
+        ConfigModel config = await GetConfig();
+
+        config.CurrentClientType = newClientType;
+        var collection = ConnectToMongo();
+        await collection.ReplaceOneAsync(_ => true, config);
+    }
+
+    public async Task<IEmailClientModel?> GetEmailClient(EmailClientType type)
+    {
+        ConfigModel config = await GetConfig();
+
+        if (type == EmailClientType.Azure) { return config.AzureClient; }
+        else return null;
+    }
+
+    public async Task UpdateAzureClient(AzureClientModel client)
+    {
+        ConfigModel config = await GetConfig();
+
+        config.AzureClient = client;
+        var collection = ConnectToMongo();
+        await collection.ReplaceOneAsync(_ => true, config);
+    }
+
+    public async Task<bool> GetInitialisedStatus()
+    {
+        ConfigModel config = await GetConfig();
+
+        if (config == null) {
+            return false;
+        }
+        return config.InitialisedTF;
+    }
+
+    public async Task UpdateInitialisedStatus(bool newStatus)
+    {
+        ConfigModel config = await GetConfig();
+
+        config.InitialisedTF = newStatus;
+        var collection = ConnectToMongo();
+        await collection.ReplaceOneAsync(_ => true, config);
     }
 }

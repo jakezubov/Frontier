@@ -1,12 +1,14 @@
-import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+import { useState, useEffect } from 'react'
+import { useUserSession } from '../contexts/UserContext'
 import { useHistory } from '../contexts/HistoryContext'
 import { validateNumber } from '../common/Validation'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import MetalSelector from '../components/MetalSelector'
 
 const MetalConverter = () => {
-    const { userId } = useContext(UserContext)
+    const { userId } = useUserSession()
     const { addHistory } = useHistory()
+    const { setCurrentPage, Pages } = useCurrentPage()
 
     // Inputs
     const [originalMetal, setOriginalMetal] = useState(null)
@@ -16,6 +18,10 @@ const MetalConverter = () => {
 
     // Calculated
     const [convertedWeight, setConvertedWeight] = useState('')
+
+    useEffect(() => {
+        setCurrentPage(Pages.METAL_CONVERTER)
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')

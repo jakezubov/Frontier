@@ -1,13 +1,15 @@
-import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useCheckEmailExists, useCreateUser, useSendRegistration } from '../common/APIs'
 import { validatePassword, validateEmail } from '../common/Validation'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import Path from '../common/Paths'
 import PasswordRequirements from '../components/PasswordRequirements'
 
-const Register = ({ onRegister }) => {
+const Register = () => {
     const navigate = useNavigate()
+    const { setCurrentPage, Pages } = useCurrentPage()
+
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -19,6 +21,10 @@ const Register = ({ onRegister }) => {
     const { checkEmailExists } = useCheckEmailExists()
     const { createUser } = useCreateUser()
     const { sendRegistration } = useSendRegistration()
+
+    useEffect(() => {
+        setCurrentPage(Pages.REGISTER)
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -58,8 +64,9 @@ const Register = ({ onRegister }) => {
 
         await sendRegistration(`${firstName} ${lastName}`, email)
 
-        onRegister()
-        navigate(Path.CONFIRMATION_SCREEN)
+        navigate(Path.CONFIRMATION_SCREEN, {
+            state: { message: 'Successfully registered account!' }
+        })
     }
 
     const handleKeyDown = (event) => {
@@ -117,10 +124,6 @@ const Register = ({ onRegister }) => {
             <PasswordRequirements />
         </div>
     )
-}
-
-Register.propTypes = {
-    onRegister: PropTypes.func.isRequired,
 }
 
 export default Register

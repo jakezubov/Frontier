@@ -12,4 +12,5 @@ public class RingSizeModel
     public required string LetterSize { get; set; }
     public required double NumberSize { get; set; }
     public required double Diameter { get; set; }
+    public required int ListIndex { get; set; }
 }

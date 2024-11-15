@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useGetAzureClient, useTestAzureClient, useUpdateAzureClient } from '../common/APIs'
 import { validateEmail } from '../common/Validation'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import EmailClientSelector from '../components/EmailClientSelector'
 
 const ConfigureEmail = () => {
+    const { setCurrentPage, Pages } = useCurrentPage()
+
     const [selectedClient, setSelectedClient] = useState(null)
     const [clientId, setClientId] = useState('')
     const [clientSecret, setClientSecret] = useState('')
@@ -18,6 +21,10 @@ const ConfigureEmail = () => {
     const { getAzureClient } = useGetAzureClient()
     const { testAzureClient } = useTestAzureClient()
     const { updateAzureClient } = useUpdateAzureClient()
+
+    useEffect(() => {
+        setCurrentPage(Pages.CONFIGURE_EMAIL)
+    }, [])
 
     useEffect(() => {
         loadEmailSettings()

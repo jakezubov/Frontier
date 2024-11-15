@@ -2,11 +2,14 @@ import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useCheckEmailExists, useUpdatePassword } from '../../common/APIs'
 import { validatePassword } from '../../common/Validation'
+import { useCurrentPage } from '../../contexts/CurrentPageContext'
 import PasswordRequirements from '../../components/PasswordRequirements'
 
 const ResetPassword = () => {
-    const [email, setEmail] = useState('')
+    const { setCurrentPage, Pages } = useCurrentPage()
     const location = useLocation()
+
+    const [email, setEmail] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [confirmNewPassword, setNewConfirmPassword] = useState('')
     const [validationMessage, setValidationMessage] = useState(' ')
@@ -15,6 +18,10 @@ const ResetPassword = () => {
     // APIs
     const { checkEmailExists } = useCheckEmailExists()
     const { updatePassword } = useUpdatePassword()
+
+    useEffect(() => {
+        setCurrentPage(Pages.RESET_PASSWORD)
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')

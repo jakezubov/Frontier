@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
 import { useGetDefaultRingSizes, useUpdateDefaultRingSizes, useResetDefaultRingSizes } from '../common/APIs'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import TableSchemas from '../common/TableSchemas'
 import PopupConfirmation from '../popups/PopupConfirmation'
 import EditableTable from '../components/EditableTable'
 
 const DefaultRingSizes = () => {
+    const { setCurrentPage, Pages } = useCurrentPage()
+
     const [ringSizeList, setRingSizeList] = useState([])
     const [originalRingSizeList, setOriginalRingSizeList] = useState([])
     const [validationMessage, setValidationMessage] = useState(' ')
@@ -17,6 +20,7 @@ const DefaultRingSizes = () => {
     const { resetDefaultRingSizes } = useResetDefaultRingSizes()
 
     useEffect(() => {
+        setCurrentPage(Pages.DEFAULT_RING_SIZES)
         loadRingSizeList()
     }, [])
 

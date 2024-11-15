@@ -1,15 +1,17 @@
-import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+import { useState, useEffect } from 'react'
+import { useUserSession } from '../contexts/UserContext'
 import { useHistory } from '../contexts/HistoryContext'
 import { validateNumber } from '../common/Validation'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faRepeat } from '@fortawesome/free-solid-svg-icons'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
 
 const RollingWire = () => {
-    const { userId } = useContext(UserContext)
+    const { userId } = useUserSession()
     const { addHistory } = useHistory()
+    const { setCurrentPage, Pages } = useCurrentPage()
 
     // Inputs
     const [ringSize, setRingSize] = useState(null)
@@ -25,6 +27,10 @@ const RollingWire = () => {
     const [stockSizeRequired, setStockSizeRequired] = useState(true)
     const [output1, setOutput1] = useState('')
     const [output2, setOutput2] = useState('')
+
+    useEffect(() => {
+        setCurrentPage(Pages.ROLLING_WIRE)
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')

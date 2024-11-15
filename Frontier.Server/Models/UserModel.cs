@@ -8,7 +8,6 @@ public class UserModel
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
     public string Id { get; set; } = ObjectId.GenerateNewId().ToString();
-    public string FullName => $"{FirstName} {LastName}";
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
     public required string Email { get; set; }

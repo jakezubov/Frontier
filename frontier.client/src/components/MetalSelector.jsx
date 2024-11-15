@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+import { useState, useEffect } from 'react'
+import { useUserSession } from '../contexts/UserContext'
 import { useGetMetals, useGetDefaultMetals } from '../common/APIs'
 
 const MetalSelector = ({ label, onMetalChange }) => {
-    const { userId } = useContext(UserContext)
+    const { userId } = useUserSession()
     const [metals, setMetals] = useState([])
 
     // APIs

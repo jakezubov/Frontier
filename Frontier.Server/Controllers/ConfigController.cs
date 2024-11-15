@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using Frontier.Server.DataAccess;
 using Frontier.Server.Models;
-using MongoDB.Bson;
-using Frontier.Server.Interfaces;
 using Frontier.Server.Functions;
 
 namespace Frontier.Server.Controllers
@@ -20,48 +19,14 @@ namespace Frontier.Server.Controllers
         [HttpGet("init")]
         public async Task<bool> GetInitialisedStatus()
         {
-            ConfigModel config = await dbConfig.GetConfig();
-            if (config == null) {
-                return false;
-            }
-            return config.InitialisedTF;
+            return await dbConfig.GetInitialisedStatus();
         }
 
         // Update Initialised Status
         [HttpPut("init/update/{newStatus}")]
         public async Task<IActionResult> UpdateInitialisedStatus(bool newStatus)
         {
-            ConfigModel config = await dbConfig.GetConfig();
-            if (config == null) {
-                return NotFound();
-            }
-            config.InitialisedTF = newStatus;
-            await dbConfig.UpsertConfig(config);
-            return Ok();
-        }
-
-        // Get Client Type
-        [HttpGet("client-type")]
-        public async Task<IActionResult> GetCurrentClientType()
-        {
-            ConfigModel config = await dbConfig.GetConfig();
-            if (config == null)
-            {
-                return NotFound();
-            }
-            return Ok(config.CurrentClientType);
-        }
-
-        // Update Client Type
-        [HttpPut("client-type/update/{newClientType}")]
-        public async Task<IActionResult> UpdateCurrentClientType(EmailClientType newClientType)
-        {
-            ConfigModel config = await dbConfig.GetConfig();
-            if (config == null) {
-                return NotFound();
-            }
-            config.CurrentClientType = newClientType;
-            await dbConfig.UpsertConfig(config);
+            await dbConfig.UpdateInitialisedStatus(newStatus);
             return Ok();
         }
 

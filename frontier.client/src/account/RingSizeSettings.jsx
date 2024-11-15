@@ -1,12 +1,15 @@
-import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+import { useState, useEffect } from 'react'
+import { useUserSession } from '../contexts/UserContext'
 import { useGetRingSizes, useUpdateRingSizes, useResetRingSizes } from '../common/APIs'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import TableSchemas from '../common/TableSchemas'
 import PopupConfirmation from '../popups/PopupConfirmation'
 import EditableTable from '../components/EditableTable'
 
 const RingSizeSettings = () => {
-    const { userId } = useContext(UserContext)
+    const { userId } = useUserSession()
+    const { setCurrentPage, Pages } = useCurrentPage()
+
     const [ringSizeList, setRingSizeList] = useState([])
     const [originalRingSizeList, setOriginalRingSizeList] = useState([])
     const [validationMessage, setValidationMessage] = useState(' ')
@@ -19,8 +22,11 @@ const RingSizeSettings = () => {
     const { resetRingSizes } = useResetRingSizes()
 
     useEffect(() => {
-        loadRingSizeList()
-    }, [userId])
+        if (userId) {
+            setCurrentPage(Pages.RING_SIZE_SETTINGS)
+            loadRingSizeList()
+        }
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')

@@ -1,14 +1,16 @@
-import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+import { useState, useEffect } from 'react'
+import { useUserSession } from '../contexts/UserContext'
 import { useHistory } from '../contexts/HistoryContext'
 import { validateNumber } from '../common/Validation'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import MetalSelector from '../components/MetalSelector'
 import RingSizeSelector from '../components/RingSizeSelector'
 import ProfileSelector from '../components/ProfileSelector'
 
 const RingWeight = () => {
-    const { userId } = useContext(UserContext)
+    const { userId } = useUserSession()
     const { addHistory } = useHistory()
+    const { setCurrentPage, Pages } = useCurrentPage()
 
     // Inputs
     const [metal, setMetal] = useState(null)
@@ -21,6 +23,10 @@ const RingWeight = () => {
     // Calculated
     const [thicknessRequired, setThicknessRequired] = useState(true)
     const [weight, setWeight] = useState('')
+
+    useEffect(() => {
+        setCurrentPage(Pages.RING_WEIGHT)
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')

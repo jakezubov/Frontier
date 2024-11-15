@@ -1,12 +1,15 @@
-import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
+import { useState, useEffect } from 'react'
+import { useUserSession } from '../contexts/UserContext'
 import { useGetMetals, useUpdateMetals, useResetMetals } from '../common/APIs'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import TableSchemas from '../common/TableSchemas'
 import PopupConfirmation from '../popups/PopupConfirmation'
 import EditableTable from '../components/EditableTable'
 
 const MetalSettings = () => {
-    const { userId } = useContext(UserContext)
+    const { userId } = useUserSession()
+    const { setCurrentPage, Pages } = useCurrentPage()
+
     const [metalList, setMetalList] = useState([])
     const [originalMetalList, setOriginalMetalList] = useState([])
     const [validationMessage, setValidationMessage] = useState(' ')
@@ -19,8 +22,11 @@ const MetalSettings = () => {
     const { resetMetals } = useResetMetals()
 
     useEffect(() => {
-        loadMetalList()
-    }, [userId])
+        if (userId) {
+            setCurrentPage(Pages.METAL_SETTINGS)
+            loadMetalList()
+        }
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')

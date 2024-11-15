@@ -1,10 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useValidateUser, useLogLogin } from '../common/APIs'
+import { useUserSession } from '../contexts/UserContext'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import Path from '../common/Paths'
 
-const Login = ({ onLogin }) => {
+const Login = () => {
     const navigate = useNavigate()
+    const { setCurrentPage, Pages } = useCurrentPage()
+    const { setUserId } = useUserSession()
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [validationMessage, setValidationMessage] = useState(' ')
@@ -12,6 +17,10 @@ const Login = ({ onLogin }) => {
     // APIs
     const { validateUser } = useValidateUser()
     const { logLogin } = useLogLogin()
+
+    useEffect(() => {
+        setCurrentPage(Pages.LOGIN)
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -30,8 +39,10 @@ const Login = ({ onLogin }) => {
         }
         await logLogin(userId)
 
-        onLogin(userId)
-        navigate(Path.CONFIRMATION_SCREEN)
+        setUserId(userId)
+        navigate(Path.CONFIRMATION_SCREEN, {
+            state: { message: 'Successfully logged in!' }
+        })
     }
 
     const handleKeyDown = (event) => {

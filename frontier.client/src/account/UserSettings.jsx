@@ -1,13 +1,15 @@
-import PropTypes from 'prop-types'
-import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
-import { useGetUser, useCheckEmailExists, useUnverifyAccount, useSendVerification, useUpdateUser } from '../common/APIs'
+import { useState, useEffect } from 'react'
+import { useUserSession } from '../contexts/UserContext'
+import { useCheckEmailExists, useUnverifyAccount, useSendVerification, useUpdateUser } from '../common/APIs'
 import { validateEmail } from '../common/Validation'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import DeleteAccountButton from '../components/DeleteAccountButton'
 import ClearHistoryButton from '../components/ClearHistoryButton'
 
-const UserSettings = ({ onDelete }) => {
-    const { userId } = useContext(UserContext)
+const UserSettings = () => {
+    const { userId, verifiedStatus, localFirstName, localLastName, localEmail, localHistoryAmount, updateUserSession } = useUserSession()
+    const { setCurrentPage, Pages } = useCurrentPage()
+    
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -18,15 +20,17 @@ const UserSettings = ({ onDelete }) => {
     const [successMessage, setSuccessMessage] = useState(' ')
 
     // APIs
-    const { getUser } = useGetUser()
     const { updateUser } = useUpdateUser()
     const { checkEmailExists } = useCheckEmailExists()
     const { unverifyAccount } = useUnverifyAccount()
     const { sendVerification } = useSendVerification()
 
     useEffect(() => {
-        loadUser()
-    }, [userId])
+        if (userId) {
+            setCurrentPage(Pages.USER_SETTINGS)
+            loadUser()
+        }
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -37,13 +41,11 @@ const UserSettings = ({ onDelete }) => {
     }, [firstName, lastName, email, historyAmount])
 
     const loadUser = async () => {
-        const response = await getUser(userId)
-
-        setFirstName(response.firstName)
-        setLastName(response.lastName)
-        setEmail(response.email)
-        setOriginalEmail(response.email)
-        setHistoryAmount(response.historyAmount)
+        setFirstName(localFirstName)
+        setLastName(localLastName)
+        setEmail(localEmail)
+        setOriginalEmail(localEmail)
+        setHistoryAmount(localHistoryAmount)
     }
 
     const handleSubmit = async () => {
@@ -79,6 +81,12 @@ const UserSettings = ({ onDelete }) => {
         await updateUser(userId, firstName, lastName, email, historyAmount)
 
         setSuccessMessage('Details have been updated')
+        await updateUserSession()
+    }
+
+    const handleSendVerification = async () => {
+        await sendVerification(`${firstName} ${lastName}`, email)
+        setSuccessMessage('Email has been sent.')
     }
 
     const handleKeyDown = (event) => {
@@ -126,16 +134,16 @@ const UserSettings = ({ onDelete }) => {
                 <tbody>
                     <tr>
                         <td><ClearHistoryButton onSuccess={setSuccessMessage} /></td>
-                        <td><DeleteAccountButton onDelete={onDelete} /></td>
+                        <td><DeleteAccountButton /></td>
+                        {!verifiedStatus ?
+                            <td><button className="general-button" type="button" onClick={handleSendVerification}>Verifiy Email</button></td>
+                            : null
+                        }
                     </tr>
                 </tbody>
             </table>
         </div>
     )
-}
-
-UserSettings.propTypes = {
-    onDelete: PropTypes.func.isRequired,
 }
 
 export default UserSettings

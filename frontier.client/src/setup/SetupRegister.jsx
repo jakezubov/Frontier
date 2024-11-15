@@ -3,11 +3,14 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCreateUser, useGetInitialisedStatus } from '../common/APIs'
 import { validatePassword, validateEmail } from '../common/Validation'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import Path from '../common/Paths'
 import PasswordRequirements from '../components/PasswordRequirements'
 
 const SetupRegister = ({ onRegisterComplete }) => {
     const navigate = useNavigate()
+    const { setCurrentPage, Pages } = useCurrentPage()
+
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -20,6 +23,7 @@ const SetupRegister = ({ onRegisterComplete }) => {
     const { getInitialisedStatus } = useGetInitialisedStatus()
 
     useEffect(() => {
+        setCurrentPage(Pages.SETUP_REGISTER)
         const checkInitialization = async () => {
             const isInitialized = await getInitialisedStatus()
             if (isInitialized) {

@@ -8,5 +8,6 @@ public interface IEmailClientModel
 }
 
 public enum EmailClientType {
+    None,
     Azure,
 }

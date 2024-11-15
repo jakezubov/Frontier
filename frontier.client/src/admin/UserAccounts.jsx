@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserTie, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { useGetAllUsers, useSwitchAdminStatus, useSendVerification } from '../common/APIs'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 
 const UserAccounts = () => {
     const [userList, setUserList] = useState([])
+    const { setCurrentPage, Pages } = useCurrentPage()
 
     // APIs
     const { getAllUsers } = useGetAllUsers()
@@ -12,6 +14,7 @@ const UserAccounts = () => {
     const { sendVerification } = useSendVerification()
 
     useEffect(() => {
+        setCurrentPage(Pages.USER_ACCOUNTS)
         loadUsers()
     }, [])
 
@@ -49,7 +52,7 @@ const UserAccounts = () => {
                     <tbody>
                         {userList.map(user => (
                             <tr key={user.id}>
-                                <td>{user.fullName}</td>
+                                <td>{user.firstName} {user.lastName}</td>
                                 <td>{user.email}</td>
                                 <td>
                                     {user.verifiedTF === true ? "True" : "False"}
@@ -63,9 +66,8 @@ const UserAccounts = () => {
                         ))}
                     </tbody>
                 </table>
-
             </form>
-        </div >
+        </div>
     )
 }
 

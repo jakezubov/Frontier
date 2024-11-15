@@ -1,9 +1,11 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useUserSession } from '../contexts/UserContext'
 import UserAccounts from './UserAccounts'
 import DefaultRingSizes from './DefaultRingSizes'
 import DefaultMetals from './DefaultMetals'
 import ConfigureEmail from './ConfigureEmail'
+import Path from '../common/Paths'
 
 const AdminPages = {
     USER_ACCOUNTS: 'UserAccounts',
@@ -13,7 +15,18 @@ const AdminPages = {
 }
 
 const AdminWorkbench = () => {
+    const { adminStatus } = useUserSession()
+    const navigate = useNavigate()
+
     const [currentPage, setCurrentPage] = useState(AdminPages.USER_ACCOUNTS)
+
+    useEffect(() => {
+        if (!adminStatus) {
+            navigate(Path.CONFIRMATION_SCREEN, {
+                state: { message: 'You need to be an admin to access that page!' }
+            })
+        }
+    }, [adminStatus])
 
     return (
         <div>

@@ -1,10 +1,11 @@
-import PropTypes from 'prop-types'
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useUserSession } from '../contexts/UserContext'
 import UserSettings from './UserSettings'
 import UpdatePassword from './UpdatePassword'
 import MetalSettings from './MetalSettings'
 import RingSizeSettings from './RingSizeSettings'
+import Path from '../common/Paths'
 
 const MyAccountPages = {
     USER_SETTINGS: 'UserSettings',
@@ -13,8 +14,18 @@ const MyAccountPages = {
     RING_SIZE_SETTINGS: 'RingSizeSettings',
 }
 
-const MyAccount = ({ onDelete }) => {
+const MyAccount = () => {
+    const { loggedInStatus } = useUserSession()
+    const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState(MyAccountPages.USER_SETTINGS)
+
+    useEffect(() => {
+        if (!loggedInStatus) {
+            navigate(Path.CONFIRMATION_SCREEN, {
+                state: { message: 'You need to be logged in to access that page!' }
+            })
+        }
+    }, [loggedInStatus])
 
     return (
         <div>
@@ -28,7 +39,7 @@ const MyAccount = ({ onDelete }) => {
             </nav>
             <div>
                 {currentPage === MyAccountPages.USER_SETTINGS && (
-                    <UserSettings onDelete={onDelete} />
+                    <UserSettings />
                 )}
                 {currentPage === MyAccountPages.UPDATE_PASSWORD && (
                     <UpdatePassword />
@@ -42,10 +53,6 @@ const MyAccount = ({ onDelete }) => {
             </div>
         </div>
     )
-}
-
-MyAccount.propTypes = { 
-    onDelete: PropTypes.func.isRequired,
 }
 
 export default MyAccount

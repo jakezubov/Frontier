@@ -1,11 +1,14 @@
-import { useState, useEffect, useContext } from 'react'
-import { UserContext } from '../contexts/UserContext'
-import { useGetUser, useValidateUser, useUpdatePassword } from '../common/APIs'
+import { useState, useEffect } from 'react'
+import { useUserSession } from '../contexts/UserContext'
+import { useValidateUser, useUpdatePassword } from '../common/APIs'
 import { validatePassword } from '../common/Validation'
+import { useCurrentPage } from '../contexts/CurrentPageContext'
 import PasswordRequirements from '../components/PasswordRequirements'
 
 const UpdatePassword = () => {
-    const { userId } = useContext(UserContext)
+    const { userId, localEmail } = useUserSession()
+    const { setCurrentPage, Pages } = useCurrentPage()
+
     const [oldPassword, setOldPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [confirmNewPassword, setNewConfirmPassword] = useState('')
@@ -13,9 +16,14 @@ const UpdatePassword = () => {
     const [successMessage, setSuccessMessage] = useState(' ')
 
     // APIs
-    const { getUser } = useGetUser()
     const { validateUser } = useValidateUser()
     const { updatePassword } = useUpdatePassword()
+
+    useEffect(() => {
+        if (userId) {
+            setCurrentPage(Pages.UPDATE_PASSWORD)
+        }     
+    }, [])
 
     useEffect(() => {
         setValidationMessage(' ')
@@ -44,16 +52,14 @@ const UpdatePassword = () => {
             setValidationMessage('Password does not meet complexity requirements.')
             return
         }
-        const user = await getUser(userId)
-
-        const validatedUserId = await validateUser(user.email, oldPassword)
+        const validatedUserId = await validateUser(localEmail, oldPassword)
 
         if (!validatedUserId) {
             setValidationMessage('Old password is incorrect.')
             return
         }
         clearPasswords()
-        await updatePassword(userId, user.email, newPassword)
+        await updatePassword(userId, localEmail, newPassword)
 
         setSuccessMessage('Password has been updated.')
     }
