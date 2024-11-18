@@ -15,8 +15,8 @@ using Frontier.Server.Interfaces;
 [ApiController]
 public class EmailController : ControllerBase
 {
-    private readonly ConfigDataAccess _db = new();
-    private GraphServiceClient? _graphClient;
+    private readonly ConfigDataAccess db = new();
+    private GraphServiceClient? graphClient;
 
     #region Sending Emails
 
@@ -117,17 +117,17 @@ public class EmailController : ControllerBase
             ]
         };
 
-        if (_graphClient != null)
+        if (graphClient != null)
         {
             try
             {
-                await _graphClient.Users[sendingEmail]
+                await graphClient.Users[sendingEmail]
                     .SendMail
                     .PostAsync(new Microsoft.Graph.Users.Item.SendMail.SendMailPostRequestBody {
                         Message = message
                     });
 
-                _graphClient = null;
+                graphClient = null;
                 return Ok();
             }
             catch (Exception e)
@@ -145,7 +145,7 @@ public class EmailController : ControllerBase
 
     private async Task<IEmailClientModel?> GetCurrentClient()
     {
-        EmailClientType currentEmailClient = await _db.GetCurrentClientType();
+        EmailClientType currentEmailClient = await db.GetCurrentClientType();
 
         if (currentEmailClient == EmailClientType.Azure && await GetEmailClient(currentEmailClient) is AzureClientModel client) {
             LoadAzureClient(client);
@@ -159,33 +159,35 @@ public class EmailController : ControllerBase
         ClientSecretCredentialOptions options = new() { AuthorityHost = AzureAuthorityHosts.AzurePublicCloud };
         ClientSecretCredential clientSecretCredential = new(client.TenantId, client.ClientId, client.ClientSecret, options);
 
-        _graphClient = new(clientSecretCredential, ["https://graph.microsoft.com/.default"]);
+        graphClient = new(clientSecretCredential, ["https://graph.microsoft.com/.default"]);
     }
 
     [HttpGet("get/{type}/client")]
     public async Task<IEmailClientModel?> GetEmailClient(EmailClientType type)
     {
-        if (type == EmailClientType.Azure) { return await _db.GetEmailClient(type) as AzureClientModel; }
+        if (type == EmailClientType.Azure) { return await db.GetEmailClient(type) as AzureClientModel; }
         else return null;
     }
 
     [HttpPost("update/azure/client")]
     public async Task<IActionResult> UpdateAzureClient(AzureClientModel client)
     {
-        await _db.UpdateAzureClient(client);
+        await db.UpdateAzureClient(client);
+        await db.UpdateCurrentClientType(EmailClientType.Azure);
         return Ok();
     }
 
     [HttpGet("client-type")]
-    public async Task<EmailClientType> GetCurrentClientType()
+    public async Task<IActionResult> GetCurrentClientType()
     {
-        return await _db.GetCurrentClientType();
+        EmailClientType result = await db.GetCurrentClientType();
+        return Ok(result);
     }
 
     [HttpPut("client-type/update/{newClientType}")]
     public async Task<IActionResult> UpdateCurrentClientType(EmailClientType newClientType)
     {
-        await _db.UpdateCurrentClientType(newClientType);
+        await db.UpdateCurrentClientType(newClientType);
         return Ok();
     }
 

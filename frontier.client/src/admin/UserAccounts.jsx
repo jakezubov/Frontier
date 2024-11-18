@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserTie, faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { useGetAllUsers, useSwitchAdminStatus, useSendVerification } from '../common/APIs'
+import { faUserTie, faEnvelope, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { useGetAllUsers, useSwitchAdminStatus, useSendVerification, useDeleteUser } from '../common/APIs'
 import { useCurrentPage } from '../contexts/CurrentPageContext'
+import PopupDeleteAccount from '../popups/PopupDeleteAccount'
 
 const UserAccounts = () => {
     const [userList, setUserList] = useState([])
+    const [selectedUserId, setSelectedUserId] = useState('')
     const { setCurrentPage, Pages } = useCurrentPage()
+    const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
 
     // APIs
     const { getAllUsers } = useGetAllUsers()
     const { switchAdminStatus } = useSwitchAdminStatus()
     const { sendVerification } = useSendVerification()
+    const { deleteUser } = useDeleteUser()
 
     useEffect(() => {
         setCurrentPage(Pages.USER_ACCOUNTS)
@@ -25,6 +29,17 @@ const UserAccounts = () => {
 
     const handleSwitchAdmin = async (userId) => {
         await switchAdminStatus(userId)
+        loadUsers()
+    }
+
+    const handleDeletePopup = (userId) => {
+        setIsDeletePopupOpen(true)
+        setSelectedUserId(userId)
+    }
+
+    const handleConfirmDelete = async () => {
+        await deleteUser(selectedUserId)
+        setSelectedUserId('')
         loadUsers()
     }
 
@@ -47,6 +62,7 @@ const UserAccounts = () => {
                             <th>Email</th>
                             <th>Verified</th>
                             <th>Admin</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,11 +78,18 @@ const UserAccounts = () => {
                                     {user.adminTF === true ? "True" : "False"}
                                     <button className="settings-icon" type="button" onClick={() => handleSwitchAdmin(user.id)}><FontAwesomeIcon className="fa-md" icon={faUserTie} /></button>
                                 </td>
+                                <td>
+                                    <button className="settings-icon" type="button" onClick={() => handleDeletePopup(user.id)}><FontAwesomeIcon className="fa-md" icon={faTrashCan} /></button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             </form>
+
+            {isDeletePopupOpen && (
+                <PopupDeleteAccount isPopupOpen={isDeletePopupOpen} setIsPopupOpen={setIsDeletePopupOpen} onConfirm={handleConfirmDelete} />
+            )}
         </div>
     )
 }

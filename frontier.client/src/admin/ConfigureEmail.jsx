@@ -3,6 +3,7 @@ import { useGetAzureClient, useTestAzureClient, useUpdateAzureClient } from '../
 import { validateEmail } from '../common/Validation'
 import { useCurrentPage } from '../contexts/CurrentPageContext'
 import EmailClientSelector from '../components/EmailClientSelector'
+import Client from '../common/EmailClients';
 
 const ConfigureEmail = () => {
     const { setCurrentPage, Pages } = useCurrentPage()
@@ -37,7 +38,7 @@ const ConfigureEmail = () => {
     }, [selectedClient, clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient])
 
     const loadEmailSettings = async () => {
-        if (selectedClient == "Azure") {
+        if (selectedClient === Client.AZURE) {
             const client = await getAzureClient()
             if (client) {
                 setClientId(client.clientId || '')
@@ -50,7 +51,7 @@ const ConfigureEmail = () => {
     }
 
     const handleTestClient = async () => {
-        if (selectedClient == "Azure") {
+        if (selectedClient === Client.AZURE) {
             if (!clientId || !clientSecret || !tenantId || !sendingEmail || !contactFormRecipient) {
                 setValidationMessage('Please fill all fields.')
                 return
@@ -73,7 +74,7 @@ const ConfigureEmail = () => {
     }
 
     const handleUpdateClient = async () => {
-        if (selectedClient == "Azure") {
+        if (selectedClient === Client.AZURE) {
             if (!clientId || !clientSecret || !tenantId || !sendingEmail || !contactFormRecipient) {
                 setValidationMessage('Please fill all fields.')
                 return
@@ -107,7 +108,7 @@ const ConfigureEmail = () => {
                             <td>Client</td>
                             <td><EmailClientSelector label="Email Client" onClientChange={setSelectedClient} /></td>
                         </tr>
-                        {selectedClient == "Azure" && (
+                        {selectedClient === Client.AZURE && (
                             <>
                                 <tr>
                                     <td>Client Id</td>

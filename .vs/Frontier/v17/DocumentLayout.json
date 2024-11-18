@@ -1,12 +1,54 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Administrator\\Desktop\\Frontier\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\admin\\useraccounts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\admin\\useraccounts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\components\\deleteaccountbutton.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\components\\deleteaccountbutton.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "DeleteAccountButton.jsx",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\components\\DeleteAccountButton.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\components\\DeleteAccountButton.jsx",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\components\\DeleteAccountButton.jsx",
+              "RelativeToolTip": "frontier.client\\src\\components\\DeleteAccountButton.jsx",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-11-18T20:11:43.502Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UserAccounts.jsx",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\admin\\UserAccounts.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\admin\\UserAccounts.jsx",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\admin\\UserAccounts.jsx",
+              "RelativeToolTip": "frontier.client\\src\\admin\\UserAccounts.jsx",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACoAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-11-18T19:58:14.375Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

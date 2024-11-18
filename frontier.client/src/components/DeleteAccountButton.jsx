@@ -15,10 +15,6 @@ const DeleteAccount = () => {
 
     const handleConfirmDelete = async () => {
         await deleteUser(userId)
-        handleDelete()
-    }
-
-    const handleDelete = () => {
         setUserId(null)
         navigate(Path.CONFIRMATION_SCREEN, {
             state: { message: 'Account has been deleted!' }
@@ -30,7 +26,7 @@ const DeleteAccount = () => {
             <button className="general-button" type="button" onClick={() => setIsDeletePopupOpen(true)}>Delete Account</button>
 
             {isDeletePopupOpen && (
-                <PopupDeleteAccount isPopupOpen={isDeletePopupOpen} setIsPopupOpen={setIsDeletePopupOpen} onConfirm={handleConfirmDelete} heading="Are you sure?" />
+                <PopupDeleteAccount isPopupOpen={isDeletePopupOpen} setIsPopupOpen={setIsDeletePopupOpen} onConfirm={handleConfirmDelete} />
             )}
         </div>
     )

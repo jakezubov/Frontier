@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\Administrator\\Desktop\\Frontier\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\sidebar\\information.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\sidebar\\information.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\components\\emailclientselector.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\components\\emailclientselector.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\admin\\configureemail.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\admin\\configureemail.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\administrator\\desktop\\frontier\\frontier.server\\controllers\\emailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\controllers\\emailcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +22,45 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EmailController.cs",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\Frontier.Server\\Controllers\\EmailController.cs",
+              "RelativeDocumentMoniker": "Frontier.Server\\Controllers\\EmailController.cs",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\Frontier.Server\\Controllers\\EmailController.cs",
+              "RelativeToolTip": "Frontier.Server\\Controllers\\EmailController.cs",
+              "ViewState": "AgIAAKMAAAAAAAAAAAAowLkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-18T19:48:05.587Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Information.jsx",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\sidebar\\Information.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\sidebar\\Information.jsx",
-              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\sidebar\\Information.jsx",
-              "RelativeToolTip": "frontier.client\\src\\sidebar\\Information.jsx",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAACYAAAAhAAAAAAAAAA==",
+              "Title": "EmailClientSelector.jsx",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\components\\EmailClientSelector.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\components\\EmailClientSelector.jsx",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\components\\EmailClientSelector.jsx",
+              "RelativeToolTip": "frontier.client\\src\\components\\EmailClientSelector.jsx",
+              "ViewState": "AgIAAAkAAAAAAAAAAADwvxkAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2024-11-15T12:03:32.507Z",
+              "WhenOpened": "2024-11-17T19:38:45.354Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ConfigureEmail.jsx",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\admin\\ConfigureEmail.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\admin\\ConfigureEmail.jsx",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\admin\\ConfigureEmail.jsx",
+              "RelativeToolTip": "frontier.client\\src\\admin\\ConfigureEmail.jsx",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAAAAEAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2024-11-17T19:37:42.621Z",
               "EditorCaption": ""
             }
           ]
