@@ -1,9 +1,16 @@
 import { useState } from 'react'
-import History from './History'
-import Information from './Information'
-import Contact from './Contact'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClockRotateLeft, faCircleInfo, faEnvelope, faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
+import History from './history'
+import Information from './information'
+import Contact from './contact'
+
+const SidebarButtons = {
+    TOGGLE: 'Toggle',
+    INFORMATION: 'Information',
+    CONTACT: 'Contact',
+    HISTORY: 'History',
+}
 
 const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(false)
@@ -11,9 +18,9 @@ const Sidebar = () => {
 
     const toggleSidebar = (e) => {
         const label = e.currentTarget.getAttribute('aria-label')
-        label !== 'toggle' ? setActiveButton(label) : null
+        label === SidebarButtons.TOGGLE ? setActiveButton(SidebarButtons.INFORMATION) : setActiveButton(label)
 
-        if (isExpanded && label === 'toggle') {
+        if (isExpanded && label === SidebarButtons.TOGGLE) {
             setIsExpanded(false)
         }
         else if (!isExpanded) {
@@ -24,27 +31,27 @@ const Sidebar = () => {
     return (
         <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
             <div className="col">
-                <button className="sidebar-icon" aria-label='toggle' onClick={toggleSidebar}>
+                <button className="sidebar-icon" aria-label={SidebarButtons.TOGGLE} onClick={toggleSidebar}>
                 {
-                    isExpanded ?
-                        <FontAwesomeIcon className="fa-2xl" icon={faAnglesRight} />
+                    isExpanded 
+                        ? <FontAwesomeIcon className="fa-2xl" icon={faAnglesRight} />
                         : <FontAwesomeIcon className="fa-2xl" icon={faAnglesLeft} />
                 }
                 </button>
-                <button className="sidebar-icon" aria-label='information' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faCircleInfo} /></button>
-                <button className="sidebar-icon" aria-label='contact' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>
-                <button className="sidebar-icon" aria-label='history' onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
+                <button className="sidebar-icon" aria-label={SidebarButtons.INFORMATION} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faCircleInfo} /></button>
+                <button className="sidebar-icon" aria-label={SidebarButtons.CONTACT} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>
+                <button className="sidebar-icon" aria-label={SidebarButtons.HISTORY} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
             </div>
             <div className="col">
                 {isExpanded && (
                     <div className="sidebar-content">
-                        {activeButton === 'information' && (
+                        {activeButton === SidebarButtons.INFORMATION && (
                             <Information />
                         )}
-                        {activeButton === 'history' && (
+                        {activeButton === SidebarButtons.HISTORY && (
                             <History />
                         )}
-                        {activeButton === 'contact' && (
+                        {activeButton === SidebarButtons.CONTACT && (
                             <Contact />
                         )}
                     </div>

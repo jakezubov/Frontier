@@ -1,6 +1,6 @@
-import { useUserSession } from '../contexts/UserContext'
-import { useHistory } from '../contexts/HistoryContext'
-import { useCurrentPage } from '../contexts/CurrentPageContext'
+import { useUserSession } from '../contexts/user-context'
+import { useHistory } from '../contexts/history-context'
+import { useCurrentPage } from '../contexts/current-page-context'
 
 const History = () => {
     const { userId } = useUserSession()
@@ -12,9 +12,9 @@ const History = () => {
             <h3>History</h3>
             {!userId ?
                 <p>To save your calculation history, please create or log in to your account.</p>
-                : currentPage !== Pages.METAL_CONVERTER || currentPage !== Pages.RING_RESIZER ||
-                    currentPage !== Pages.RING_WEIGHT || currentPage !== Pages.ROLLING_WIRE ?
-                    <p>Navigate to any of the Jewellery Tools to access calculation history.</p>
+                : currentPage !== Pages.METAL_CONVERTER || currentPage !== Pages.RING_RESIZER
+                    || currentPage !== Pages.RING_WEIGHT || currentPage !== Pages.ROLLING_WIRE
+                    ? <p>Navigate to any of the Jewellery Tools to access calculation history.</p>
                     : history.length > 0 ?
                         <ul className="padded-text history-scroll">
                             {history?.map(item => (

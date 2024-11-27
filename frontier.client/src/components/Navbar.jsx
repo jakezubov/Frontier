@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket, faArrowRightToBracket, faCircleHalfStroke, faHeart, faGear } from '@fortawesome/free-solid-svg-icons'
-import { useUserSession } from '../contexts/UserContext'
+import { useUserSession } from '../contexts/user-context'
 import { useLogLogout, useGetUser } from '../common/APIs'
-import { updateCSSVariables } from '../common/Themes'
-import PopupLogout from '../popups/PopupLogout'
-import Path from '../common/Paths'
+import { updateCSSVariables } from '../common/themes'
+import PopupLogout from '../popups/popup-logout'
+import Path from '../common/paths'
 
 const Navbar = () => {
     const { userId, setUserId, adminStatus, loggedInStatus } = useUserSession()

@@ -11,7 +11,7 @@ namespace Frontier.Server.Controllers
         private readonly UserDataAccess db = new();
         private readonly ConfigController defaults = new();
 
-        #region User APIs
+        #region User CRUD APIs
         // Get All Users
         [HttpGet]
         public async Task<IEnumerable<UserDetailsModel>> GetAllUsers()
@@ -30,7 +30,6 @@ namespace Frontier.Server.Controllers
                     HistoryAmount = user.HistoryAmount,
                     LastLoggedIn = user.LastLoggedIn,
                     LoggedInTF = user.LoggedInTF,
-                    VerifiedTF = user.VerifiedTF,
                     AdminTF = user.AdminTF
                 };
 
@@ -57,7 +56,6 @@ namespace Frontier.Server.Controllers
                 HistoryAmount = user.HistoryAmount,
                 LastLoggedIn = user.LastLoggedIn,
                 LoggedInTF = user.LoggedInTF,
-                VerifiedTF = user.VerifiedTF,
                 AdminTF = user.AdminTF
             };
             return Ok(userDetails);
@@ -143,6 +141,36 @@ namespace Frontier.Server.Controllers
             await db.DeleteUser(user);
             return Ok();
         }
+        #endregion
+
+
+        #region Utility APIs
+        // Validate User
+        [HttpPost("validate")]
+        public async Task<IActionResult> ValidateUser([FromBody] CredentialsModel credentials)
+        {
+            // Get the user from the email
+            UserModel user = await db.ValidateUser(credentials.Email.ToLower());
+            if (user == null) return Ok(null);
+
+            // Hash supplied password and check if it matches the user password
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(credentials.Password, user.Salt);
+            bool isValid = passwordHash == user.PasswordHash;
+            if (!isValid) return Ok(null);
+
+            return Ok(user.Id);
+        }
+
+        // Check If Email Already Exists
+        [HttpPost("check-email/{email}")]
+        public async Task<IActionResult> CheckEmail(string email)
+        {
+            // Get the user from the email
+            UserModel user = await db.ValidateUser(email.ToLower());
+            if (user == null) return Ok(null);
+
+            return Ok(user.Id);
+        }
 
         // Switch Admin Status
         [HttpPut("{userId}/admin")]
@@ -193,62 +221,6 @@ namespace Frontier.Server.Controllers
                 return Ok();
             }
             else return NotFound("ERROR: User has no Id");
-        }
-        #endregion
-
-
-        #region Validation APIs
-        // Validate User
-        [HttpPost("validate")]
-        public async Task<IActionResult> ValidateUser([FromBody] CredentialsModel credentials)
-        {
-            // Get the user from the email
-            UserModel user = await db.ValidateUser(credentials.Email.ToLower());
-            if (user == null) return Ok(null);
-
-            // Hash supplied password and check if it matches the user password
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(credentials.Password, user.Salt);
-            bool isValid = passwordHash == user.PasswordHash;
-            if (!isValid) return Ok(null);
-
-            return Ok(user.Id);
-        }
-
-        // Check If Email Already Exists
-        [HttpPost("check-email/{email}")]
-        public async Task<IActionResult> CheckEmail(string email)
-        {
-            // Get the user from the email
-            UserModel user = await db.ValidateUser(email.ToLower());
-            if (user == null) return Ok(null);
-
-            return Ok(user.Id);
-        }
-
-        // Verify User Account
-        [HttpPut("verify-email/{email}")]
-        public async Task<IActionResult> VerifyUser(string email)
-        {
-            // Get the user from the email
-            UserModel user = await db.ValidateUser(email.ToLower());
-            if (user == null) return Ok(null);
-
-            user.VerifiedTF = true;
-            await db.UpdateUser(user);
-            return Ok();
-        }
-
-        // Unverify User Account
-        [HttpPut("unverify-email/{email}")]
-        public async Task<IActionResult> UnverifyUser(string email)
-        {
-            // Get the user from the email
-            UserModel user = await db.ValidateUser(email.ToLower());
-            if (user == null) return Ok(null);
-
-            user.VerifiedTF = false;
-            await db.UpdateUser(user);
-            return Ok();
         }
         #endregion
 

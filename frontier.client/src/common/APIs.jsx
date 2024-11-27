@@ -1,5 +1,5 @@
 import Axios from 'axios'
-import { useError } from '../contexts/ErrorPopupContext'
+import { useError } from '../contexts/error-popup-context'
 
 const urlPrefix = 'http://localhost:5221/api'
 // const urlPrefix = 'https://jewellery.zubov.com.au/api'
@@ -274,50 +274,6 @@ export const useCheckEmailExists = () => {
     }
 
     return { checkEmailExists }
-}
-
-export const useVerifyAccount = () => {
-    const { handleError } = useError()
-
-    const verifyAccount = async (email) => {
-        try {
-            await Axios.put(`${urlPrefix}/users/verify-email/${email}`)
-        }
-        catch (error) {
-            const title = 'Failed to verify account'
-            handleError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                email,
-            })
-        }
-    }
-
-    return { verifyAccount }
-}
-
-export const useUnverifyAccount = () => {
-    const { handleError } = useError()
-
-    const unverifyAccount = async (email) => {
-        try {
-            await Axios.put(`${urlPrefix}/users/unverify-email/${email}`)
-        }
-        catch (error) {
-            const title = 'Failed to verify account'
-            handleError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                email,
-            })
-        }
-    }
-
-    return { unverifyAccount }
 }
 
 //#endregion
@@ -771,6 +727,30 @@ export const useSendVerification = () => {
     }
 
     return { sendVerification }
+}
+
+export const useCheckVerificationCode = () => {
+    const { handleError } = useError()
+
+    const checkVerificationCode = async (email, code) => {
+        try {
+            const response = await Axios.delete(`${urlPrefix}/email/verification/${email}/${code}`)
+            return response
+        }
+        catch (error) {
+            const title = 'Failed to check verification code'
+            handleError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                email,
+                code,
+            })
+        }
+    }
+
+    return { checkVerificationCode }
 }
 
 //#endregion

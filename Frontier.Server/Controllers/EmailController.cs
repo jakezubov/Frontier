@@ -10,12 +10,14 @@ using Frontier.Server.Models;
 using Frontier.Server.EmailTemplates;
 using Frontier.Server.DataAccess;
 using Frontier.Server.Interfaces;
+using MongoDB.Bson;
 
 [Route("api/[controller]")]
 [ApiController]
 public class EmailController : ControllerBase
 {
     private readonly ConfigDataAccess db = new();
+    private readonly VerificationCodeDataAccess dbVerify = new();
     private GraphServiceClient? graphClient;
 
     #region Sending Emails
@@ -51,7 +53,8 @@ public class EmailController : ControllerBase
     {
         IEmailClientModel? client = await GetCurrentClient();
         if (client != null) {
-            RegistrationTemplate emailType = new(name, email);
+            string code = await NewVerificationCode(email);
+            RegistrationTemplate emailType = new(name, code);
             BaseTemplate emailContents = new(emailType);
             string subject = "Account Registration";
             return await SendEmail(subject, emailContents, email, client.SendingEmail);
@@ -64,7 +67,8 @@ public class EmailController : ControllerBase
     {
         IEmailClientModel? client = await GetCurrentClient();
         if (client != null) {
-            VerificaitonTemplate emailType = new(name, email);
+            string code = await NewVerificationCode(email);
+            VerificaitonTemplate emailType = new(name, code);
             BaseTemplate emailContents = new(emailType);
             string subject = "Account Verification";
             return await SendEmail(subject, emailContents, email, client.SendingEmail);
@@ -189,6 +193,52 @@ public class EmailController : ControllerBase
     {
         await db.UpdateCurrentClientType(newClientType);
         return Ok();
+    }
+
+    #endregion
+
+    #region Verification
+
+    [HttpDelete("verification/{email}/{code}")]
+    public async Task<IActionResult> CheckVerificationCode(string email, string code)
+    {
+        VerificationCodeModel result = await dbVerify.GetVerificationCode(email);
+
+        if (result != null && result.Code == code) {
+            await dbVerify.DeleteVerificationCode(email);
+            return Ok();
+        }
+        return NoContent();
+    }
+
+    private async Task<string> NewVerificationCode(string email)
+    {
+        string code = GenerateCode();
+        VerificationCodeModel newVerification = new()
+        {
+            Email = email,
+            Code = code
+        };
+        await dbVerify.CreateVerificationCode(newVerification);
+        return code;
+    }
+
+    private static string GenerateCode()
+    {
+        Random random = new();
+        string code = "";
+        int lastDigit = -1;
+
+        for (int i = 0; i < 6; i++) {
+            int newDigit;
+            do {
+                newDigit = random.Next(0, 10);
+            } while (newDigit == lastDigit);
+
+            code += newDigit.ToString();
+            lastDigit = newDigit;
+        }
+        return code;
     }
 
     #endregion

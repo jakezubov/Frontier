@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useCurrentPage } from './contexts/CurrentPageContext'
+import { useCurrentPage } from './contexts/current-page-context'
 
 const Home = () => {
     const { setCurrentPage, Pages } = useCurrentPage()
