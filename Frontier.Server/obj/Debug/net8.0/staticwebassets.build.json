@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Lfy3nYI0StAI4JmZrqX+V9ZoyuT7dpX4LgJljuNOFLc=",
+  "Hash": "a8EPIIcw1AbTdMKjKaiyBSSxnMY3RV0S7inXX9p/+7g=",
   "Source": "Frontier.Server",
   "BasePath": "_content/Frontier.Server",
   "Mode": "Default",
@@ -11,10 +11,10 @@
       "Version": 2,
       "Source": "frontier.client",
       "GetPublishAssetsTargets": "GetCurrentProjectPublishStaticWebAssetItems",
-      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishProperties": "",
       "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained",
       "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
-      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildProperties": "",
       "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
     }
   ],

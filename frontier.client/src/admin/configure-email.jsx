@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useCurrentPage } from '../contexts/current-page-context'
+import { useUserSession } from '../contexts/user-context'
 import { useGetAzureClient, useTestAzureClient, useUpdateAzureClient } from '../common/APIs'
 import { validateEmail } from '../common/validation'
 import Client from '../common/email-clients'
 import EmailClientSelector from '../components/email-client-selector'
+import Path from '../common/paths'
 
 const ConfigureEmail = () => {
     const { setCurrentPage, Pages } = useCurrentPage()
+    const { adminStatus } = useUserSession()
+    const navigate = useNavigate()
 
     const [selectedClient, setSelectedClient] = useState(null)
     const [clientId, setClientId] = useState('')
@@ -26,6 +31,14 @@ const ConfigureEmail = () => {
     useEffect(() => {
         setCurrentPage(Pages.CONFIGURE_EMAIL)
     }, [])
+
+    useEffect(() => {
+        if (!adminStatus) {
+            navigate(Path.CONFIRMATION_SCREEN, {
+                state: { message: 'You need to be an admin to access that page!' }
+            })
+        }
+    }, [adminStatus])
 
     useEffect(() => {
         loadEmailSettings()

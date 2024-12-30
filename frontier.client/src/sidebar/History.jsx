@@ -12,8 +12,8 @@ const History = () => {
             <h3>History</h3>
             {!userId ?
                 <p>To save your calculation history, please create or log in to your account.</p>
-                : currentPage !== Pages.METAL_CONVERTER || currentPage !== Pages.RING_RESIZER
-                    || currentPage !== Pages.RING_WEIGHT || currentPage !== Pages.ROLLING_WIRE
+                : currentPage !== Pages.METAL_CONVERTER && currentPage !== Pages.RING_RESIZER
+                    && currentPage !== Pages.RING_WEIGHT && currentPage !== Pages.ROLLING_WIRE
                     ? <p>Navigate to any of the Jewellery Tools to access calculation history.</p>
                     : history.length > 0 ?
                         <ul className="padded-text history-scroll">

@@ -32,19 +32,31 @@ const Information = () => {
     return (
         <div>
             <h3>Information</h3>
+
             <div className="information">
-                <ul>
-                    <li><p className="pre-wrap">{information}</p></li>
-                    {currentPage === Pages.METAL_CONVERTER || currentPage === Pages.RING_RESIZER
-                        || currentPage === Pages.RING_WEIGHT || currentPage === Pages.ROLLING_WIRE
-                        ? <li><Link className="link-text" to={Path.CALCULATIONS}>Extended Calculation Information</Link></li>
-                        : null
-                    }
-                </ul>
-                
-                <ul>
-                    <li><p>v1.1.2</p></li>
-                </ul>
+                <table>                  
+                    <tbody>
+                        <tr>
+                            <td><p className="pre-wrap">{information}</p></td>
+                        </tr>
+                        { currentPage === Pages.METAL_CONVERTER || currentPage === Pages.RING_RESIZER
+                            || currentPage === Pages.RING_WEIGHT || currentPage === Pages.ROLLING_WIRE
+                            ?
+                            <tr>
+                                <td><Link className="link-text" to={Path.CALCULATIONS}>Extended Calculation Information</Link></td>
+                            </tr>
+                            : null
+                        }
+                    </tbody>
+                </table>
+
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><p>v1.1.3</p></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     )

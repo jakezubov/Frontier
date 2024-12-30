@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useUserSession } from '../contexts/user-context'
 import { useCheckEmailExists, useSendVerification, useUpdateUser } from '../common/APIs'
 import { validateEmail } from '../common/validation'
@@ -6,11 +7,13 @@ import { useCurrentPage } from '../contexts/current-page-context'
 import DeleteAccountButton from '../components/delete-account-button'
 import ClearHistoryButton from '../components/clear-history-button'
 import PopupVerification from '../popups/popup-verification'
-
+import Path from '../common/paths'
 
 const UserSettings = () => {
     const { userId, localFirstName, localLastName, localEmail, localHistoryAmount, updateUserSession } = useUserSession()
     const { setCurrentPage, Pages } = useCurrentPage()
+    const { loggedInStatus } = useUserSession()
+    const navigate = useNavigate()
     
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -33,6 +36,14 @@ const UserSettings = () => {
             loadUser()
         }
     }, [])
+
+    useEffect(() => {
+        if (!loggedInStatus) {
+            navigate(Path.CONFIRMATION_SCREEN, {
+                state: { message: 'You need to be logged in to access that page!' }
+            })
+        }
+    }, [loggedInStatus])
 
     useEffect(() => {
         setValidationMessage(' ')

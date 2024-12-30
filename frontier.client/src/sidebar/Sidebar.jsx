@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClockRotateLeft, faCircleInfo, faEnvelope, faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
+import { useCurrentPage } from '../contexts/current-page-context'
 import History from './history'
 import Information from './information'
 import Contact from './contact'
@@ -15,6 +16,7 @@ const SidebarButtons = {
 const Sidebar = () => {
     const [isExpanded, setIsExpanded] = useState(false)
     const [activeButton, setActiveButton] = useState('')
+    const { isMobile } = useCurrentPage()
 
     const toggleSidebar = (e) => {
         const label = e.currentTarget.getAttribute('aria-label')
@@ -31,11 +33,10 @@ const Sidebar = () => {
     return (
         <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
             <div className="col">
-                <button className="sidebar-icon" aria-label={SidebarButtons.TOGGLE} onClick={toggleSidebar}>
-                {
-                    isExpanded 
-                        ? <FontAwesomeIcon className="fa-2xl" icon={faAnglesRight} />
-                        : <FontAwesomeIcon className="fa-2xl" icon={faAnglesLeft} />
+                <button className="sidebar-icon sidebar-toggle" aria-label={SidebarButtons.TOGGLE} onClick={toggleSidebar} disabled={isMobile && !isExpanded}>
+                { isExpanded 
+                    ? <FontAwesomeIcon className="fa-2xl" icon={faAnglesRight} />
+                    : <FontAwesomeIcon className="fa-2xl" icon={faAnglesLeft} />
                 }
                 </button>
                 <button className="sidebar-icon" aria-label={SidebarButtons.INFORMATION} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faCircleInfo} /></button>

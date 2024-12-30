@@ -9,10 +9,16 @@ const Path = {
     LOGIN: "/core/login",
     FORGOT_PASSWORD: "/core/forgot-password",
     CONFIRMATION_SCREEN: "/core/confirmation-screen",
-    MY_ACCOUNT: "/account/my-account",
     RESET_PASSWORD: "/core/reset-password",
-    ADMIN_WORKBENCH: "/admin/admin-workbench",
     FIRST_TIME_SETUP: "/admin/first-time-setup",
+    USER_SETTINGS: '/my-account/user-settings',
+    UPDATE_PASSWORD: '/my-account/update-password',
+    METAL_SETTINGS: '/my-account/metal-settings',
+    RING_SIZE_SETTINGS: '/my-account/ring-size-settings',
+    USER_ACCOUNTS: '/admin/user-accounts',
+    DEFAULT_METALS: '/admin/default-metals',
+    DEFAULT_RING_SIZES: '/admin/default-ring-sizes',
+    CONFIGURE_EMAIL: '/admin/configure-email',
 }
 
 export default Path

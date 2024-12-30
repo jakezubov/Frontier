@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useUserSession } from '../contexts/user-context'
 import { useValidateUser, useUpdatePassword } from '../common/APIs'
 import { validatePassword } from '../common/validation'
 import { useCurrentPage } from '../contexts/current-page-context'
 import PasswordRequirements from '../components/password-requirements'
+import Path from '../common/paths'
 
 const UpdatePassword = () => {
     const { userId, localEmail } = useUserSession()
     const { setCurrentPage, Pages } = useCurrentPage()
+    const { loggedInStatus } = useUserSession()
+    const navigate = useNavigate()
 
     const [oldPassword, setOldPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
@@ -24,6 +28,14 @@ const UpdatePassword = () => {
             setCurrentPage(Pages.UPDATE_PASSWORD)
         }     
     }, [])
+
+    useEffect(() => {
+        if (!loggedInStatus) {
+            navigate(Path.CONFIRMATION_SCREEN, {
+                state: { message: 'You need to be logged in to access that page!' }
+            })
+        }
+    }, [loggedInStatus])
 
     useEffect(() => {
         setValidationMessage(' ')

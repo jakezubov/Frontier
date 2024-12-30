@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useGetDefaultRingSizes, useUpdateDefaultRingSizes, useResetDefaultRingSizes } from '../common/APIs'
 import { useCurrentPage } from '../contexts/current-page-context'
+import { useUserSession } from '../contexts/user-context'
 import TableSchemas from '../common/table-schemas'
 import PopupConfirmation from '../popups/popup-confirmation'
 import EditableTable from '../components/editable-table'
+import Path from '../common/paths'
 
 const DefaultRingSizes = () => {
     const { setCurrentPage, Pages } = useCurrentPage()
+    const { adminStatus } = useUserSession()
+    const navigate = useNavigate()
 
     const [ringSizeList, setRingSizeList] = useState([])
     const [originalRingSizeList, setOriginalRingSizeList] = useState([])
@@ -23,6 +28,14 @@ const DefaultRingSizes = () => {
         setCurrentPage(Pages.DEFAULT_RING_SIZES)
         loadRingSizeList()
     }, [])
+
+    useEffect(() => {
+        if (!adminStatus) {
+            navigate(Path.CONFIRMATION_SCREEN, {
+                state: { message: 'You need to be an admin to access that page!' }
+            })
+        }
+    }, [adminStatus])
 
     useEffect(() => {
         setValidationMessage(' ')

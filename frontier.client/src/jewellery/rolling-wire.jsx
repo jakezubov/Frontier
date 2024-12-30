@@ -11,7 +11,7 @@ import ProfileSelector from '../components/profile-selector'
 const RollingWire = () => {
     const { userId } = useUserSession()
     const { addHistory } = useHistory()
-    const { setCurrentPage, Pages } = useCurrentPage()
+    const { setCurrentPage, Pages, isMobile } = useCurrentPage()
 
     // Inputs
     const [ringSize, setRingSize] = useState(null)
@@ -112,6 +112,7 @@ const RollingWire = () => {
             <h1>Rolling Wire</h1>
 
             <form onKeyDown={handleKeyDown}>
+            { !isMobile ?
                 <table>
                     <thead>
                         <tr>
@@ -129,7 +130,7 @@ const RollingWire = () => {
                             </td>
                             <td>
                                 {lengthRingSizeSwitch ? <input className="general-input" type="number" step="0.01" min="0.01" value={length} onChange={(e) => setLength(e.target.value)} />
-                                        : <div><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></div> }
+                                    : <div><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></div>}
                             </td>
                             <td className="table-break"></td>
                             <td>Profile</td>
@@ -157,6 +158,66 @@ const RollingWire = () => {
                         </tr>
                     </tbody>
                 </table>
+                :
+                <>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colSpan="2"><h3>Required Dimensions</h3></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td className="rolling-wire-switch">
+                                    {lengthRingSizeSwitch ? <p>Length</p>
+                                        : <p>Ring Size</p>}
+                                    <button className="settings-icon" type="button" onClick={handleLengthRingSizeSwitch}><FontAwesomeIcon icon={faRepeat} /></button>
+                                </td>
+                                <td>
+                                    {lengthRingSizeSwitch ? <input className="general-input" type="number" step="0.01" min="0.01" value={length} onChange={(e) => setLength(e.target.value)} />
+                                        : <div><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></div>}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Width</td>
+                                <td><input className="general-input" type="number" step="0.01" min="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
+                            </tr>
+                            <tr>
+                                <td>Thickness</td>
+                                <td><input className="general-input" type="number" step="0.01" min="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div className="table-break"></div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th colSpan="2"><h3>Starting Metal</h3></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Profile</td>
+                                <td><ProfileSelector label="Profile" onProfileChange={setProfile} isLimited={true} /></td>
+                            </tr>
+                            <tr>
+                                <td>Starting with Stock</td>
+                                <td><input type="checkbox" onClick={handleStockCheckbox} defaultChecked={true} /></td>
+                            </tr>
+                            <tr>
+                                <td><div className="padded-text" >Stock Size</div></td>
+                                <td><input className="general-input" type="number" step="0.01" min="0.01" value={stockSize} onChange={(e) => setStockSize(e.target.value)} disabled={!stockSizeRequired} /></td>
+                            </tr>
+                            <tr>
+                                <td colSpan="2"><button className="general-button" type="button" onClick={handleCalculate}>Calculate</button></td>
+                            </tr>
+                            <tr>
+                                <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text tight-text">{validationMessage}</p>}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </>
+            }
             </form> 
 
             <table>

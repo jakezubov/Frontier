@@ -11,11 +11,20 @@
     margin: 0 auto;
     padding: 2rem;
     text-align: center;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 20vw;
+    padding-right: 20vw;
+}
+
+@media screen and (max-width: 768px) {
+    #root {
+        max-width: 768px;
+        padding-left: 20px;
+        padding-right: 80px;
+    }
 }
 
 /*#region General*/
+
 .general-button {
     border-radius: 20px;
     cursor: pointer;
@@ -83,10 +92,26 @@
     padding: 0px;
 }
 
+.settings-icon {
+    padding: 5px;
+    background-color: var(--background-colour);
+    border-radius: 100px;
+    margin-left: 5px;
+    color: var(--text-colour);
+    transition: background-color 0.3s, border 0.3s;
+}
+    .settings-icon:hover {
+        background-color: var(--accent-colour);
+    }
+    .settings-icon:focus {
+        outline: none;
+    }
+
 /*#endregion */
 
 
 /*#region Text*/
+
 h1, h2, h3, h4, h5, h6 {
     text-align: center;
     color: var(--text-colour);
@@ -154,6 +179,7 @@ p {
 
 
 /*#region Tables*/
+
 table {
     border-collapse: collapse;
     width: 100%;
@@ -189,52 +215,6 @@ table {
     padding: 24px;
 }
 
-/*#endregion */
-
-
-/*#region My Account*/
-.navbar-my-account {
-    position: fixed;
-    top: 0;
-    left: 250px; /* Should be next to the general navbar */
-    padding: 20px;
-    text-align: left;
-    height: 100vh;
-    color: var(--text-colour);
-}
-    .navbar-my-account ul {
-        list-style: none;
-        margin: 20px;
-        padding: 0px;
-    }
-
-.navbar-my-account-links {
-    color: var(--text-colour);
-    font-size: 20px;
-}
-    .navbar-my-account-links:hover {
-        color: var(--accent-colour);
-    }
-
-.settings-icon {
-    padding: 5px;
-    background-color: var(--background-colour);
-    border-radius: 100px;
-    margin-left: 5px;
-    color: var(--text-colour);
-    transition: background-color 0.3s, border 0.3s;
-}
-    .settings-icon:hover {
-        background-color: var(--accent-colour);
-    }
-    .settings-icon:focus {
-        outline: none;
-    }
-
-.settings-narrow-input {
-    width: 100px;
-}
-
 .table-scroll {
     overflow-y: auto;
     height: 53vh;
@@ -246,6 +226,7 @@ table {
 
 
 /*#region Navbar*/
+
 .navbar {
     display: flex;
     flex-direction: column;
@@ -256,11 +237,11 @@ table {
     padding: 20px;
     text-align: left;
     background-color: var(--primary-colour);
-    height: 100vh;
-    width: 12.5vw;
+    height: 100%;
+    width: 15vw;
     min-width: 150px;
     color: var(--text-colour);
-    z-index: 1;
+    z-index: 2;
 }
     .navbar ul {
         list-style: none;
@@ -286,23 +267,51 @@ table {
     margin-top: 20px;
 }
 
+.mini-navbar {
+    position: fixed;
+    top: 0;
+    left: 250px; /* Should be next to the general navbar */
+    padding: 20px;
+    text-align: left;
+    height: 100vh;
+    color: var(--text-colour);
+}
+    .mini-navbar ul {
+        list-style: none;
+        margin: 20px;
+        padding: 0px;
+    }
+
+.mini-navbar-links {
+    color: var(--text-colour);
+    font-size: 20px;
+}
+    .mini-navbar-links:hover {
+        color: var(--accent-colour);
+    }
+
+.mobile-menu-toggle {
+    display: none;
+}
+
 /*#endregion*/
 
 
 /*#region Sidebar*/
+
 .sidebar {
     width: 60px; /* width when collapsed */
-    height: 100vh;
+    height: 100%;
     background-color: var(--secondary-colour);
     color: var(--background-colour);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    transition: width 0.3s;
+    transition: width 0.3s ease-in-out;
     position: fixed;
     right: 0;
     top: 0;
-    z-index: 1;
+    z-index: 2;
 }
     .sidebar.expanded {
         width: 20vw; /* width when expanded */
@@ -317,10 +326,10 @@ table {
 
 .sidebar-icon {
     padding: 5px;
+    margin: 5px;
     background-color: var(--background-colour);
     color: var(--text-colour);
     border-radius: 100px;
-    margin: 5px;
     transition: background-color 0.3s, border 0.3s;
 }
     .sidebar-icon:hover {
@@ -353,6 +362,7 @@ table {
 
 
 /*#region Popups*/
+
 .popup-overlay {
     position: fixed;
     top: 0;
@@ -366,6 +376,7 @@ table {
 }
 
 .popup-box {
+    width: 30vw;
     background-color: var(--background-colour);
     padding: 20px;
     border: 2px solid var(--accent-colour);
@@ -373,7 +384,6 @@ table {
     text-align: center;
     color: var(--text-colour);
 }
-
     .popup-box button {
         margin: 5px;
     }
@@ -386,7 +396,7 @@ table {
     right: 50px;
 }
 
-.code-input {
+.popup-code-input {
     width: 50%;
     padding: 12px;
     font-size: 32px;
@@ -400,3 +410,67 @@ table {
 
 /*#endregion*/
 
+
+/*#region Mobile*/
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        justify-content: left;
+        height: auto;
+        width: 100%;
+        min-width: 0;
+        padding: 10px;
+        z-index: 3;
+    }
+        .navbar ul {
+            margin: 10px;
+            width: 50%;
+        }
+        .navbar.collapsed {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        .navbar.expanded {
+            transform: translateY(0);
+            transition: transform 0.3s ease-in-out;
+        }
+
+    .navbar-links {
+        font-size: 18px;
+    }
+
+    .theme-buttons {
+        margin: 10px 0;
+    }
+
+    .mini-navbar {
+        left: 0;
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+        position: fixed;
+        top: 5px;
+        right: 10px;
+        z-index: 4;
+        padding: 10px;
+        background-color: var(--primary-colour);
+        border: none;
+        color: var(--text-colour);
+    }
+
+    .sidebar.expanded {
+        width: 100%;
+    }
+
+    .sidebar-toggle:disabled {
+        border: 0;
+    }
+
+    .popup-box {
+        width: 50vw;
+    }
+}
+
+/*#endregion*/

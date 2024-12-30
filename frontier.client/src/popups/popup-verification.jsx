@@ -35,7 +35,7 @@ const PopupVerification = ({ isPopupOpen, setIsPopupOpen, onVerify, onCancel, em
                     <div className="popup-box">
                         <h2>Verify Email</h2>
                         <p className="pre-wrap">Please enter the code to verify your email and create your account.</p>
-                        <input className="code-input" value={code} maxLength="6" onChange={(e) => setCode(e.target.value)} />
+                        <input className="popup-code-input" value={code} maxLength="6" onChange={(e) => setCode(e.target.value)} />
                         
                         {validationMessage && <p className="pre-wrap warning-text">{validationMessage}</p>}
 

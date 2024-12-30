@@ -4,13 +4,30 @@ const CurrentPageContext = createContext()
 
 export const CurrentPageProvider = ({ children }) => {
     const [currentPage, setCurrentPage] = useState(sessionStorage.getItem('currentPage') || ' ')
+    const [isMobile, setIsMobile] = useState(sessionStorage.getItem('isMobile') || false)
+
+    useEffect(() => {
+        window.addEventListener('resize', checkIfMobile);
+        return () => {
+            window.removeEventListener('resize', checkIfMobile);
+        }
+    }, []);
 
     useEffect(() => {
         sessionStorage.setItem('currentPage', currentPage)
     }, [currentPage])
 
+    useEffect(() => {
+        sessionStorage.setItem('isMobile', isMobile)
+    }, [isMobile])
+
+    const checkIfMobile = () => {
+        const deviceWidth = window.innerWidth
+        deviceWidth <= 768 ? setIsMobile(true) : setIsMobile(false)
+    }
+
     return (
-        <CurrentPageContext.Provider value={{ currentPage, setCurrentPage, Pages }}>
+        <CurrentPageContext.Provider value={{ currentPage, setCurrentPage, Pages, isMobile }}>
             {children}
         </CurrentPageContext.Provider>
     )

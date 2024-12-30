@@ -54,7 +54,28 @@ const Calculations = () => {
                                 <p id={`metalConverter-${index}`} key={index}></p>
                             ))}
                         </td>
-                        <td rowSpan="3">
+                    </tr>
+                    <tr><td><hr /></td></tr>
+                    <tr>
+                        <td>
+                            <h3>Ring Weight Calculation</h3>
+                            {formulas.ringWeight.map((_, index) => (
+                                <p id={`ringWeight-${index}`} key={index}></p>
+                            ))}
+                        </td>
+                    </tr>
+                    <tr><td><hr /></td></tr>
+                    <tr>
+                        <td>
+                            <h3>Ring Resizer Calculation</h3>
+                            {formulas.ringResizer.map((_, index) => (
+                                <p id={`ringResizer-${index}`} key={index}></p>
+                            ))}
+                        </td>
+                    </tr>
+                    <tr><td><hr /></td></tr>
+                    <tr>
+                        <td>
                             <h3>Rolling Wire Calculation</h3>
                             <p id="rollwingWire-0"></p>
                             <p id="rollwingWire-1"></p>
@@ -68,25 +89,6 @@ const Calculations = () => {
                             <h5 className="tight-bottom"><i>If starting with Square Stock:</i></h5>
                             <p id="rollwingWire-4"></p>
                         </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>Ring Weight Calculation</h3>
-                            {formulas.ringWeight.map((_, index) => (
-                                <p id={`ringWeight-${index}`} key={index}></p>
-                            ))}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h3>Ring Resizer Calculation</h3>
-                            {formulas.ringResizer.map((_, index) => (
-                                <p id={`ringResizer-${index}`} key={index}></p>
-                            ))}
-                        </td>
-                    </tr>
-                    <tr>
-                        
                     </tr>
                 </tbody>
             </table>

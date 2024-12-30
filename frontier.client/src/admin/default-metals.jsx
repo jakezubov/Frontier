@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useGetDefaultMetals, useUpdateDefaultMetals, useResetDefaultMetals } from '../common/APIs'
 import { useCurrentPage } from '../contexts/current-page-context'
+import { useUserSession } from '../contexts/user-context'
 import TableSchemas from '../common/table-schemas'
 import PopupConfirmation from '../popups/popup-confirmation'
 import EditableTable from '../components/editable-table'
+import Path from '../common/paths'
 
 const DefaultMetals = () => {
     const { setCurrentPage, Pages } = useCurrentPage()
+    const { adminStatus } = useUserSession()
+    const navigate = useNavigate()
 
     const [metalList, setMetalList] = useState([])
     const [originalMetalList, setOriginalMetalList] = useState([])
@@ -23,6 +28,14 @@ const DefaultMetals = () => {
         setCurrentPage(Pages.DEFAULT_METALS)
         loadMetalList()
     }, [])
+
+    useEffect(() => {
+        if (!adminStatus) {
+            navigate(Path.CONFIRMATION_SCREEN, {
+                state: { message: 'You need to be an admin to access that page!' }
+            })
+        }
+    }, [adminStatus])
 
     useEffect(() => {
         setValidationMessage(' ')

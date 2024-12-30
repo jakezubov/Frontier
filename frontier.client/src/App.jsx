@@ -13,9 +13,15 @@ import MetalConverter from './jewellery/metal-converter'
 import RingWeight from './jewellery/ring-weight'
 import RingResizer from './jewellery/ring-resizer'
 import RollingWire from './jewellery/rolling-wire'
-import MyAccount from './account/my-account'
-import AdminWorkbench from './admin/admin-workbench'
-import Navbar from './components/navbar'
+import UserSettings from './account/user-settings'
+import UpdatePassword from './account/update-password'
+import MetalSettings from './account/metal-settings'
+import RingSizeSettings from './account/ring-size-settings'
+import UserAccounts from './admin/user-accounts'
+import DefaultMetals from './admin/default-metals'
+import DefaultRingSizes from './admin/default-ring-sizes'
+import ConfigureEmail from './admin/configure-email'
+import Navbar from './navbar/navbar'
 import Sidebar from './sidebar/sidebar'
 import FirstTimeSetup from './setup/first-time-setup'
 import FirstTimeSetupHandler from './setup/first-time-setup-handler'
@@ -44,11 +50,17 @@ const App = () => {
                     <Route path={Path.REGISTER} element={<Register />} />
                     <Route path={Path.LOGIN} element={<Login />} />
                     <Route path={Path.FORGOT_PASSWORD} element={<ForgotPassword />} />
-                    <Route path={Path.MY_ACCOUNT} element={<MyAccount />} />
                     <Route path={Path.CONFIRMATION_SCREEN} element={<ConfirmationScreen />} />
                     <Route path={Path.RESET_PASSWORD} element={<ResetPassword />} />
-                    <Route path={Path.ADMIN_WORKBENCH} element={<AdminWorkbench />} />
                     <Route path={Path.FIRST_TIME_SETUP} element={<FirstTimeSetup onSetupComplete={() => setSetupComplete(true)} />} />
+                    <Route path={Path.USER_SETTINGS} element={<UserSettings />} />
+                    <Route path={Path.UPDATE_PASSWORD} element={<UpdatePassword />} />
+                    <Route path={Path.METAL_SETTINGS} element={<MetalSettings />} />
+                    <Route path={Path.RING_SIZE_SETTINGS} element={<RingSizeSettings />} />
+                    <Route path={Path.USER_ACCOUNTS} element={<UserAccounts />} />
+                    <Route path={Path.DEFAULT_METALS} element={<DefaultMetals />} />
+                    <Route path={Path.DEFAULT_RING_SIZES} element={<DefaultRingSizes />} />
+                    <Route path={Path.CONFIGURE_EMAIL} element={<ConfigureEmail />} />
                 </Routes>
             </div>
         </Router>

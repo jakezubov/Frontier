@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useUserSession } from '../contexts/user-context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserTie, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentPage } from '../contexts/current-page-context'
 import { useGetAllUsers, useSwitchAdminStatus, useDeleteUser } from '../common/APIs'
 import PopupDeleteAccount from '../popups/popup-delete-account'
+import Path from '../common/paths'
 
 const UserAccounts = () => {
+    const { adminStatus } = useUserSession()
+    const navigate = useNavigate()
+
     const [userList, setUserList] = useState([])
     const [selectedUserId, setSelectedUserId] = useState('')
     const { setCurrentPage, Pages } = useCurrentPage()
@@ -20,6 +26,14 @@ const UserAccounts = () => {
         setCurrentPage(Pages.USER_ACCOUNTS)
         loadUsers()
     }, [])
+
+    useEffect(() => {
+        if (!adminStatus) {
+            navigate(Path.CONFIRMATION_SCREEN, {
+                state: { message: 'You need to be an admin to access that page!' }
+            })
+        }
+    }, [adminStatus])
 
     const loadUsers = async () => {
         const response = await getAllUsers()
