@@ -33,7 +33,7 @@ const Sidebar = () => {
     return (
         <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
             <div className="col">
-                <button className="sidebar-icon sidebar-toggle" aria-label={SidebarButtons.TOGGLE} onClick={toggleSidebar} disabled={isMobile && !isExpanded}>
+                <button className="sidebar-icon sidebar-toggle" aria-label={SidebarButtons.TOGGLE} onClick={toggleSidebar} disabled={isMobile === "true" && !isExpanded}>
                 { isExpanded 
                     ? <FontAwesomeIcon className="fa-2xl" icon={faAnglesRight} />
                     : <FontAwesomeIcon className="fa-2xl" icon={faAnglesLeft} />

@@ -1,35 +1,21 @@
 import PropTypes from 'prop-types'
-import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket, faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons'
 import { useUserSession } from '../contexts/user-context'
-import { useLogLogout, useGetUser } from '../common/APIs'
-import PopupLogout from '../popups/popup-logout'
+import { useGetUser } from '../common/APIs'
 import Path from '../common/paths'
 
-const GeneralNavbar = ({ toggleNavbar, activateAccountNavbar }) => {
+const GeneralNavbar = ({ toggleNavbar, activateAccountNavbar, handleLogoutClick }) => {
     const { userId, setUserId, loggedInStatus } = useUserSession()
-    const navigate = useNavigate()
-    const [isLogoutPopupOpen, setIsLogoutPopupOpen] = useState(false)
 
     // APIs
-    const { logLogout } = useLogLogout()
     const { getUser } = useGetUser()
 
     useEffect(() => {
         checkLoggedInStatus()
     }, [])
-
-    const handleLogout = async () => {
-        if (userId) {
-            await logLogout(userId)
-        }
-        setUserId(null)
-        navigate(Path.CONFIRMATION_SCREEN, {
-            state: { message: 'Logged Out Successfully!' }
-        })
-    }
 
     const checkLoggedInStatus = async () => {
         if (userId) {
@@ -38,11 +24,6 @@ const GeneralNavbar = ({ toggleNavbar, activateAccountNavbar }) => {
                 setUserId(null)
             }
         }
-    }
-
-    const handleLogoutClick = () => {
-        setIsLogoutPopupOpen(true)
-        toggleNavbar()
     }
 
     return (
@@ -80,10 +61,6 @@ const GeneralNavbar = ({ toggleNavbar, activateAccountNavbar }) => {
                     </>
                 }
             </ul>
-
-            {isLogoutPopupOpen && (
-                <PopupLogout isPopupOpen={isLogoutPopupOpen} setIsPopupOpen={setIsLogoutPopupOpen} onConfirm={handleLogout} />
-            )}
         </div>
     )
 }
@@ -91,6 +68,7 @@ const GeneralNavbar = ({ toggleNavbar, activateAccountNavbar }) => {
 GeneralNavbar.propTypes = {
     toggleNavbar: PropTypes.func.isRequired,
     activateAccountNavbar: PropTypes.func.isRequired,
+    handleLogoutClick: PropTypes.func.isRequired,
 }
 
 export default GeneralNavbar

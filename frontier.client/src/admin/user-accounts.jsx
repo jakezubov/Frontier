@@ -14,7 +14,7 @@ const UserAccounts = () => {
 
     const [userList, setUserList] = useState([])
     const [selectedUserId, setSelectedUserId] = useState('')
-    const { setCurrentPage, Pages } = useCurrentPage()
+    const { setCurrentPage, Pages, isMobile } = useCurrentPage()
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
 
     // APIs
@@ -71,8 +71,13 @@ const UserAccounts = () => {
                 <table className="user-table">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Email</th>
+                            {isMobile === "false" ? 
+                                <>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                </> :
+                                <th>Name / Email</th>
+                            }
                             <th>Admin</th>
                             <th>Delete</th>
                         </tr>
@@ -80,10 +85,15 @@ const UserAccounts = () => {
                     <tbody>
                         {userList.map(user => (
                             <tr key={user.id}>
-                                <td>{user.firstName} {user.lastName}</td>
-                                <td>{user.email}</td>
+                                {isMobile === "false" ?
+                                    <>
+                                        <td>{user.firstName} {user.lastName}</td>
+                                        <td>{user.email}</td>
+                                    </> :
+                                    <td>{user.firstName} {user.lastName} / {user.email}</td>
+                                }
                                 <td>
-                                    {user.adminTF === true ? "True" : "False"}
+                                    {user.adminTF === true ? "True " : "False"}
                                     <button className="settings-icon" type="button" onClick={() => handleSwitchAdmin(user.id)}><FontAwesomeIcon className="fa-md" icon={faUserTie} /></button>
                                 </td>
                                 <td>

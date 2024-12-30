@@ -222,6 +222,10 @@ table {
     scrollbar-color: var(--text-colour) var(--background-colour);
 }
 
+.editable-table {
+    padding: 6px;
+}
+
 /*#endregion */
 
 
@@ -373,6 +377,7 @@ table {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 10;
 }
 
 .popup-box {
@@ -470,6 +475,19 @@ table {
 
     .popup-box {
         width: 50vw;
+    }
+
+    .user-table td {
+        padding: 6px;
+    }
+
+    .editable-table {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .settings-icon {
+        margin: 0px;
     }
 }
 

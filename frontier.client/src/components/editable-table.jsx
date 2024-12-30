@@ -60,7 +60,7 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
         <div>
             { tableList.length > 0 ? (
                 <div className="table-scroll">
-                    <table>
+                    <table className="editable-table">
                         <thead>
                             <tr>
                                 <th>Index</th>

@@ -53,7 +53,7 @@ const Information = () => {
                 <table>
                     <tbody>
                         <tr>
-                            <td><p>v1.1.3</p></td>
+                            <td><p>v1.1.4</p></td>
                         </tr>
                     </tbody>
                 </table>

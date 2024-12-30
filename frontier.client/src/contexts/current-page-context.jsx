@@ -4,7 +4,7 @@ const CurrentPageContext = createContext()
 
 export const CurrentPageProvider = ({ children }) => {
     const [currentPage, setCurrentPage] = useState(sessionStorage.getItem('currentPage') || ' ')
-    const [isMobile, setIsMobile] = useState(sessionStorage.getItem('isMobile') || false)
+    const [isMobile, setIsMobile] = useState(sessionStorage.getItem('isMobile') || "false")
 
     useEffect(() => {
         window.addEventListener('resize', checkIfMobile);
@@ -23,7 +23,7 @@ export const CurrentPageProvider = ({ children }) => {
 
     const checkIfMobile = () => {
         const deviceWidth = window.innerWidth
-        deviceWidth <= 768 ? setIsMobile(true) : setIsMobile(false)
+        deviceWidth <= 768 ? setIsMobile("true") : setIsMobile("false")
     }
 
     return (
