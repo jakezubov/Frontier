@@ -21,6 +21,7 @@ import UserAccounts from './admin/user-accounts'
 import DefaultMetals from './admin/default-metals'
 import DefaultRingSizes from './admin/default-ring-sizes'
 import ConfigureEmail from './admin/configure-email'
+import ErrorLedger from './admin/error-ledger'
 import Navbar from './navbar/navbar'
 import Sidebar from './sidebar/sidebar'
 import FirstTimeSetup from './setup/first-time-setup'
@@ -61,6 +62,7 @@ const App = () => {
                     <Route path={Path.DEFAULT_METALS} element={<DefaultMetals />} />
                     <Route path={Path.DEFAULT_RING_SIZES} element={<DefaultRingSizes />} />
                     <Route path={Path.CONFIGURE_EMAIL} element={<ConfigureEmail />} />
+                    <Route path={Path.ERROR_LEDGER} element={<ErrorLedger />} />
                 </Routes>
             </div>
         </Router>

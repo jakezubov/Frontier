@@ -19,6 +19,7 @@ const Path = {
     DEFAULT_METALS: '/admin/default-metals',
     DEFAULT_RING_SIZES: '/admin/default-ring-sizes',
     CONFIGURE_EMAIL: '/admin/configure-email',
+    ERROR_LEDGER: '/admin/error-ledger',
 }
 
 export default Path

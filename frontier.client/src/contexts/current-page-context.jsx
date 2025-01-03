@@ -50,6 +50,7 @@ export const Pages = {
     DEFAULT_METALS: 'Default Metals',
     DEFAULT_RING_SIZES: 'Default Ring Sizes',
     USER_ACCOUNTS: 'User Accounts',
+    ERROR_LEDGER: 'Error Ledger',
     SETUP_EMAIL_CLIENT: 'Setup Email Client',
     SETUP_REGISTER: 'Setup Register',
     METAL_CONVERTER: 'Metal Converter',

@@ -19,11 +19,13 @@ const AdminNavbar = ({ toggleNavbar, backSelected, submenuExpanded }) => {
             <ul className={`submenu ${toggleExpand ? 'expanded' : 'collapsed'}`}>
                 <li><Link className="navbar-links" onClick={backSelected} >Back</Link></li>
                 <hr />
-                <li><Link className="navbar-links" onClick={toggleNavbar} to={Path.USER_ACCOUNTS} >User Accounts</Link></li>
-                <hr />
                 <li><Link className="navbar-links" onClick={toggleNavbar} to={Path.DEFAULT_METALS} >Metals Settings</Link></li>
                 <hr />
                 <li><Link className="navbar-links" onClick={toggleNavbar} to={Path.DEFAULT_RING_SIZES} >Ring Sizes Settings</Link></li>
+                <hr />
+                <li><Link className="navbar-links" onClick={toggleNavbar} to={Path.USER_ACCOUNTS} >User Accounts</Link></li>
+                <hr />
+                <li><Link className="navbar-links" onClick={toggleNavbar} to={Path.ERROR_LEDGER} >API Error Ledger</Link></li>
                 <hr />
                 <li><Link className="navbar-links" onClick={toggleNavbar} to={Path.CONFIGURE_EMAIL} >Configure Email</Link></li>
             </ul>

@@ -10,7 +10,6 @@ using Frontier.Server.Models;
 using Frontier.Server.EmailTemplates;
 using Frontier.Server.DataAccess;
 using Frontier.Server.Interfaces;
-using Amazon.Runtime;
 
 [Route("api/[controller]")]
 [ApiController]

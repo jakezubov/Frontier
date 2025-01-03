@@ -1,4 +1,2 @@
-export const urlPrefix = () => {
-    // return 'http://localhost:5221/api'
-    return 'https://jewellery.zubov.com.au/api'
-}
+// export const urlPrefix = 'http://localhost:5221/api'
+export const urlPrefix 'https://jewellery.zubov.com.au/api'

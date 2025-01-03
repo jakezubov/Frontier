@@ -1,12 +1,13 @@
 import Axios from 'axios'
-import { useError } from '../contexts/error-popup-context'
+import { useError } from '../contexts/error-context'
 import { useUserSession } from '../contexts/user-context'
 import { urlPrefix } from './api-url'
 
 //#region User CRUD
 
 export const useGetAllUsers = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
 
     const getAllUsers = async () => {
         try {
@@ -14,12 +15,13 @@ export const useGetAllUsers = () => {
             return response.data
         } catch (error) {
             const title = 'Failed to load users'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -27,7 +29,7 @@ export const useGetAllUsers = () => {
 }
 
 export const useGetUser = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const getUser = async (userId) => {
         try {
@@ -36,13 +38,14 @@ export const useGetUser = () => {
         }
         catch (error) {
             const title = 'Failed to get user'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -50,8 +53,8 @@ export const useGetUser = () => {
 }
 
 export const useCreateUser = () => {
-    const { handleError } = useError()
-    const { apiToken } = useUserSession()
+    const { displayError, logError } = useError()
+    const { apiToken, userId } = useUserSession()
 
     const createUser = async (firstName, lastName, email, password, admin=false) => {
         try {
@@ -70,7 +73,7 @@ export const useCreateUser = () => {
         }
         catch (error) {
             const title = 'Failed to create account'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -80,6 +83,7 @@ export const useCreateUser = () => {
                 email,
                 apiToken,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -87,7 +91,7 @@ export const useCreateUser = () => {
 }
 
 export const useUpdateUser = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const updateUser = async (userId, firstName, lastName, email, historyAmount) => {
         try {
@@ -101,7 +105,7 @@ export const useUpdateUser = () => {
         }
         catch (error) {
             const title = 'Failed to update account'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -112,6 +116,7 @@ export const useUpdateUser = () => {
                 email,
                 historyAmount,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -119,7 +124,7 @@ export const useUpdateUser = () => {
 }
 
 export const useUpdatePassword = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const updatePassword = async (userId, email, newPassword) => {
         try {
@@ -130,7 +135,7 @@ export const useUpdatePassword = () => {
         }
         catch (error) {
             const title = 'Failed to update password'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -138,6 +143,7 @@ export const useUpdatePassword = () => {
                 userId,
                 email,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -145,7 +151,7 @@ export const useUpdatePassword = () => {
 }
 
 export const useDeleteUser = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const deleteUser = async (userId) => {
         try {
@@ -153,13 +159,14 @@ export const useDeleteUser = () => {
         }
         catch (error) {
             const title = 'Failed to delete account'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -171,7 +178,7 @@ export const useDeleteUser = () => {
 //#region User Utility
 
 export const useSwitchAdminStatus = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
     const { apiToken } = useUserSession()
 
     const switchAdminStatus = async (changedUserId) => {
@@ -180,13 +187,14 @@ export const useSwitchAdminStatus = () => {
         }
         catch (error) {
             const title = 'Failed to switch admin status'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -194,7 +202,7 @@ export const useSwitchAdminStatus = () => {
 }
 
 export const useLogLogin = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const logLogin = async (userId) => {
         try {
@@ -202,13 +210,14 @@ export const useLogLogin = () => {
         }
         catch (error) {
             const title = 'Failed to log login'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -216,7 +225,7 @@ export const useLogLogin = () => {
 }
 
 export const useLogLogout = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const logLogout = async (userId) => {
         try {
@@ -224,13 +233,14 @@ export const useLogLogout = () => {
         }
         catch (error) {
             const title = 'Failed to log logout'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -238,7 +248,7 @@ export const useLogLogout = () => {
 }
 
 export const useValidateUser = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const validateUser = async (email, password) => {
         try {
@@ -247,13 +257,14 @@ export const useValidateUser = () => {
         }
         catch (error) {
             const title = 'Failed to validate user'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 email,
             })
+            logError(email, title, error.message, error.stack)
         }
     }
 
@@ -261,7 +272,7 @@ export const useValidateUser = () => {
 }
 
 export const useCheckEmailExists = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const checkEmailExists = async (email) => {
         try {
@@ -270,13 +281,14 @@ export const useCheckEmailExists = () => {
         }
         catch (error) {
             const title = 'Failed to check if email exists'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 email,
             })
+            logError(email, title, error.message, error.stack)
         }
     }
 
@@ -288,7 +300,7 @@ export const useCheckEmailExists = () => {
 //#region History
 
 export const useGetHistory = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const getHistory = async (userId, historyType) => {
         try {
@@ -300,13 +312,14 @@ export const useGetHistory = () => {
         }
         catch (error) {
             const title = 'Failed to get history'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -314,7 +327,7 @@ export const useGetHistory = () => {
 }
 
 export const useSaveHistory = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const saveHistory = async (userId, historyType, content) => {
         try {
@@ -325,7 +338,7 @@ export const useSaveHistory = () => {
         }
         catch (error) {
             const title = 'Failed to save history'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -334,6 +347,7 @@ export const useSaveHistory = () => {
                 historyType,
                 content,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -341,7 +355,7 @@ export const useSaveHistory = () => {
 }
 
 export const useDeleteUserHistory = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const deleteUserHistory = async (userId) => {
         try {
@@ -349,13 +363,14 @@ export const useDeleteUserHistory = () => {
         }
         catch (error) {
             const title = 'Failed to delete user history'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -367,7 +382,7 @@ export const useDeleteUserHistory = () => {
 //#region Metals
 
 export const useGetMetals = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const getMetals = async (userId) => {
         try {
@@ -376,13 +391,14 @@ export const useGetMetals = () => {
         }
         catch (error) {
             const title = 'Failed to get metals'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -390,7 +406,7 @@ export const useGetMetals = () => {
 }
 
 export const useUpdateMetals = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const updateMetals = async (userId, metalList) => {
         try {
@@ -398,7 +414,7 @@ export const useUpdateMetals = () => {
         }
         catch (error) {
             const title = 'Failed to update metals'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -406,6 +422,7 @@ export const useUpdateMetals = () => {
                 userId,
                 metalList,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -413,7 +430,7 @@ export const useUpdateMetals = () => {
 }
 
 export const useResetMetals = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const resetMetals = async (userId) => {
         try {
@@ -421,13 +438,14 @@ export const useResetMetals = () => {
         }
         catch (error) {
             const title = 'Failed to update metals'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -435,7 +453,8 @@ export const useResetMetals = () => {
 }
 
 export const useGetDefaultMetals = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
 
     const getDefaultMetals = async () => {
         try {
@@ -444,12 +463,13 @@ export const useGetDefaultMetals = () => {
         }
         catch (error) {
             const title = 'Failed to get metals'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -457,8 +477,8 @@ export const useGetDefaultMetals = () => {
 }
 
 export const useUpdateDefaultMetals = () => {
-    const { handleError } = useError()
-    const { apiToken } = useUserSession()
+    const { displayError, logError } = useError()
+    const { apiToken, userId } = useUserSession()
 
     const updateDefaultMetals = async (metalList) => {
         try {
@@ -466,13 +486,14 @@ export const useUpdateDefaultMetals = () => {
         }
         catch (error) {
             const title = 'Failed to update default metals'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 metalList,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -480,7 +501,8 @@ export const useUpdateDefaultMetals = () => {
 }
 
 export const useResetDefaultMetals = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
 
     const resetDefaultMetals = async () => {
         try {
@@ -488,12 +510,13 @@ export const useResetDefaultMetals = () => {
         }
         catch (error) {
             const title = 'Failed to reset default metals'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -505,7 +528,7 @@ export const useResetDefaultMetals = () => {
 //#region Ring Sizes
 
 export const useGetRingSizes = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const getRingSizes = async (userId) => {
         try {
@@ -514,13 +537,14 @@ export const useGetRingSizes = () => {
         }
         catch (error) {
             const title = 'Failed to get ring sizes'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -528,7 +552,7 @@ export const useGetRingSizes = () => {
 }
 
 export const useUpdateRingSizes = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const updateRingSizes = async (userId, ringSizeList) => {
         try {
@@ -536,7 +560,7 @@ export const useUpdateRingSizes = () => {
         }
         catch (error) {
             const title = 'Failed to update ring sizes'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -544,6 +568,7 @@ export const useUpdateRingSizes = () => {
                 userId,
                 ringSizeList,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -551,7 +576,7 @@ export const useUpdateRingSizes = () => {
 }
 
 export const useResetRingSizes = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const resetRingSizes = async (userId) => {
         try {
@@ -559,13 +584,14 @@ export const useResetRingSizes = () => {
         }
         catch (error) {
             const title = 'Failed to update ring sizes'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 userId,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -573,7 +599,8 @@ export const useResetRingSizes = () => {
 }
 
 export const useGetDefaultRingSizes = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
 
     const getDefaultRingSizes = async () => {
         try {
@@ -582,12 +609,13 @@ export const useGetDefaultRingSizes = () => {
         }
         catch (error) {
             const title = 'Failed to get default ring sizes'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -595,8 +623,8 @@ export const useGetDefaultRingSizes = () => {
 }
 
 export const useUpdateDefaultRingSizes = () => {
-    const { handleError } = useError()
-    const { apiToken } = useUserSession()
+    const { displayError, logError } = useError()
+    const { apiToken, userId } = useUserSession()
 
     const updateDefaultRingSizes = async (ringSizeList) => {
         try {
@@ -604,13 +632,14 @@ export const useUpdateDefaultRingSizes = () => {
         }
         catch (error) {
             const title = 'Failed to update default ring sizes'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 ringSizeList,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -618,7 +647,8 @@ export const useUpdateDefaultRingSizes = () => {
 }
 
 export const useResetDefaultRingSizes = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
 
     const resetDefaultRingSizes = async () => {
         try {
@@ -626,12 +656,13 @@ export const useResetDefaultRingSizes = () => {
         }
         catch (error) {
             const title = 'Failed to reset default ring sizes'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -643,7 +674,7 @@ export const useResetDefaultRingSizes = () => {
 //#region Sending Emails
 
 export const useSendContactForm = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const sendContactForm = async (name, email, message) => {
         try {
@@ -655,7 +686,7 @@ export const useSendContactForm = () => {
         }
         catch (error) {
             const title = 'Failed to send contact form email'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -664,6 +695,7 @@ export const useSendContactForm = () => {
                 email,
                 message,
             })
+            logError(email, title, error.message, error.stack)
         }
     }
 
@@ -671,7 +703,7 @@ export const useSendContactForm = () => {
 }
 
 export const useSendPasswordReset = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const sendPasswordReset = async (email) => {
         try {
@@ -679,13 +711,14 @@ export const useSendPasswordReset = () => {
         }
         catch (error) {
             const title = 'Failed to send password reset email'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 email,
             })
+            logError(email, title, error.message, error.stack)
         }
     }
 
@@ -693,7 +726,7 @@ export const useSendPasswordReset = () => {
 }
 
 export const useSendRegistration = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const sendRegistration = async (name, email) => {
         try {
@@ -701,7 +734,7 @@ export const useSendRegistration = () => {
         }
         catch (error) {
             const title = 'Failed to send registration email'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -709,6 +742,7 @@ export const useSendRegistration = () => {
                 name,
                 email,
             })
+            logError(email, title, error.message, error.stack)
         }
     }
 
@@ -716,7 +750,7 @@ export const useSendRegistration = () => {
 }
 
 export const useSendVerification = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const sendVerification = async (name, email) => {
         try {
@@ -724,7 +758,7 @@ export const useSendVerification = () => {
         }
         catch (error) {
             const title = 'Failed to send verification email'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -732,6 +766,7 @@ export const useSendVerification = () => {
                 name,
                 email,
             })
+            logError(email, title, error.message, error.stack)
         }
     }
 
@@ -739,7 +774,7 @@ export const useSendVerification = () => {
 }
 
 export const useCheckVerificationCode = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const checkVerificationCode = async (email, code) => {
         try {
@@ -748,7 +783,7 @@ export const useCheckVerificationCode = () => {
         }
         catch (error) {
             const title = 'Failed to check verification code'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -756,6 +791,7 @@ export const useCheckVerificationCode = () => {
                 email,
                 code,
             })
+            logError(email, title, error.message, error.stack)
         }
     }
 
@@ -767,7 +803,8 @@ export const useCheckVerificationCode = () => {
 //#region Email Clients
 
 export const useGetCurrentClientType = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
 
     const getCurrentClientType = async () => {
         try {
@@ -776,12 +813,13 @@ export const useGetCurrentClientType = () => {
         }
         catch (error) {
             const title = 'Failed to get the current client type'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -789,8 +827,8 @@ export const useGetCurrentClientType = () => {
 }
 
 export const useUpdateCurrentClientType = () => {
-    const { handleError } = useError()
-    const { apiToken } = useUserSession()
+    const { displayError, logError } = useError()
+    const { apiToken, userId } = useUserSession()
 
     const updateCurrentClientType = async (newClientType) => {
         try {
@@ -798,13 +836,14 @@ export const useUpdateCurrentClientType = () => {
         }
         catch (error) {
             const title = 'Failed to update the current client type'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 newClientType,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -813,7 +852,8 @@ export const useUpdateCurrentClientType = () => {
 
 
 export const useGetAzureClient = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
 
     const getAzureClient = async () => {
         try {
@@ -822,12 +862,13 @@ export const useGetAzureClient = () => {
         }
         catch (error) {
             const title = 'Failed to get Azure client'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -835,8 +876,8 @@ export const useGetAzureClient = () => {
 }
 
 export const useUpdateAzureClient = () => {
-    const { handleError } = useError()
-    const { apiToken } = useUserSession()
+    const { displayError, logError } = useError()
+    const { apiToken, userId } = useUserSession()
 
     const updateAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
         try {
@@ -850,7 +891,7 @@ export const useUpdateAzureClient = () => {
         }
         catch (error) {
             const title = 'Failed to update Azure client'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -861,6 +902,7 @@ export const useUpdateAzureClient = () => {
                 sendingEmail,
                 contactFormRecipient,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -868,8 +910,8 @@ export const useUpdateAzureClient = () => {
 }
 
 export const useTestAzureClient = () => {
-    const { handleError } = useError()
-    const { apiToken } = useUserSession()
+    const { displayError, logError } = useError()
+    const { apiToken, userId } = useUserSession()
 
     const testAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
         try {
@@ -887,7 +929,7 @@ export const useTestAzureClient = () => {
         }
         catch (error) {
             const title = 'Failed to test Azure client'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
@@ -898,6 +940,7 @@ export const useTestAzureClient = () => {
                 sendingEmail,
                 contactFormRecipient,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -909,7 +952,7 @@ export const useTestAzureClient = () => {
 //#region Config
 
 export const useGetInitialisedStatus = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
 
     const getInitialisedStatus = async () => {
         try {
@@ -918,12 +961,13 @@ export const useGetInitialisedStatus = () => {
         }
         catch (error) {
             const title = 'Failed to get the initialised status'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
             })
+            logError("N/A", title, error.message, error.stack)
         }
     }
 
@@ -931,8 +975,8 @@ export const useGetInitialisedStatus = () => {
 }
 
 export const useUpdateInitialisedStatus = () => {
-    const { handleError } = useError()
-    const { apiToken } = useUserSession()
+    const { displayError, logError } = useError()
+    const { apiToken, userId } = useUserSession()
 
     const updateInitialisedStatus = async (newStatus) => {
         try {
@@ -940,13 +984,14 @@ export const useUpdateInitialisedStatus = () => {
         }
         catch (error) {
             const title = 'Failed to update the initialised status'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
             console.error({
                 title,
                 error: error.message,
                 stack: error.stack,
                 newStatus,
             })
+            logError(userId, title, error.message, error.stack)
         }
     }
 
@@ -954,7 +999,8 @@ export const useUpdateInitialisedStatus = () => {
 }
 
 export const useGenerateObjectId = () => {
-    const { handleError } = useError()
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
 
     const generateObjectId = async () => {
         try {
@@ -963,7 +1009,59 @@ export const useGenerateObjectId = () => {
         }
         catch (error) {
             const title = 'Failed to generate object Id'
-            handleError(`${title}\n${error.message}`)
+            displayError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+            })
+            logError(userId, title, error.message, error.stack)
+        }
+    }
+
+    return { generateObjectId }
+}
+
+//#endregion
+
+//#region Error Ledger
+
+export const useGetErrorLedger = () => {
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
+
+    const getErrorLedger = async () => {
+        try {
+            const response = await Axios.get(`${urlPrefix}/errors`)
+            return response.data
+        }
+        catch (error) {
+            const title = 'Failed to get the error ledger'
+            displayError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+            })
+            logError(userId, title, error.message, error.stack)
+        }
+    }
+
+    return { getErrorLedger }
+}
+
+export const useCreateErrorLog = () => {
+    const createErrorLog = async (userDetails, title, message, stack) => {
+        try {
+            await Axios.post(`${urlPrefix}/errors/create`, {
+                'UserDetails': userDetails,
+                'Title': title,
+                'Message': message,
+                'Stack': stack,
+            })
+        }
+        catch (error) {
+            const title = 'Failed to create an error log'
             console.error({
                 title,
                 error: error.message,
@@ -972,7 +1070,31 @@ export const useGenerateObjectId = () => {
         }
     }
 
-    return { generateObjectId }
+    return { createErrorLog }
+}
+
+export const useDeleteErrorLog = () => {
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
+
+    const deleteErrorLog = async (errorId) => {
+        try {
+            await Axios.delete(`${urlPrefix}/errors/${errorId}/delete`)
+        }
+        catch (error) {
+            const title = 'Failed to delete an error log'
+            displayError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                errorId: errorId,
+            })
+            logError(userId, title, error.message, error.stack)
+        }
+    }
+
+    return { createErrorLog }
 }
 
 //#endregion
