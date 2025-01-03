@@ -1,14 +1,22 @@
 import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Path from '../common/paths'
-import NavbarIcons from './navbar-icons'
 
-const AccountNavbar = ({ toggleNavbar, backSelected }) => {
+const AccountNavbar = ({ toggleNavbar, backSelected, submenuExpanded }) => {
+    const [toggleExpand, setToggleExpand] = useState(false)
+
+    useEffect(() => {
+        setToggleExpand(submenuExpanded)
+    }, [submenuExpanded])
+
     return (
         <div>
             <ul>
                 <li><h2 className="tight-bottom">My Account</h2></li>
                 <br />
+            </ul>
+            <ul className={`submenu ${toggleExpand ? 'expanded' : 'collapsed'}`}>
                 <li><Link className="navbar-links" onClick={backSelected} >Back</Link></li>
                 <hr />
                 <li><Link className="navbar-links" onClick={toggleNavbar} to={Path.USER_SETTINGS} >User Settings</Link></li>
@@ -26,6 +34,7 @@ const AccountNavbar = ({ toggleNavbar, backSelected }) => {
 AccountNavbar.propTypes = {
     toggleNavbar: PropTypes.func.isRequired,
     backSelected: PropTypes.func.isRequired,
+    submenuExpanded: PropTypes.bool.isRequired,
 }
 
 export default AccountNavbar

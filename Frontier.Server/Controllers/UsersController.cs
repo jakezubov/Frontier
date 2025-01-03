@@ -9,6 +9,7 @@ namespace Frontier.Server.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserDataAccess db = new();
+        private readonly ConfigDataAccess dbConfig = new();
         private readonly ConfigController defaults = new();
 
         #region User CRUD APIs
@@ -53,6 +54,7 @@ namespace Frontier.Server.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
+                ApiToken = user.ApiToken,
                 HistoryAmount = user.HistoryAmount,
                 LastLoggedIn = user.LastLoggedIn,
                 LoggedInTF = user.LoggedInTF,
@@ -65,14 +67,26 @@ namespace Frontier.Server.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreateUser(UserModel user)
         {
+            if (user.AdminTF && await dbConfig.GetInitialisedStatus() && (user.ApiToken != null && !await db.GetAdminStatus(user.ApiToken) || user.ApiToken == null)) {
+                return Forbid();
+            }
+
             // Hash the password and add the salt to the user
             string salt = BCrypt.Net.BCrypt.GenerateSalt(10);
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, salt);
             user.Salt = salt;
             user.Email = user.Email.ToLower();
+            user.ApiToken = CreateApiToken();
 
             await db.CreateUser(user);
             return Created();
+        }
+
+        private string CreateApiToken()
+        {
+            string datetime = DateTime.UtcNow.ToString();
+            string hash = BCrypt.Net.BCrypt.HashPassword(datetime);
+            return hash.Replace("+", "-").Replace("/", "_");
         }
 
         // Update User Details
@@ -173,21 +187,25 @@ namespace Frontier.Server.Controllers
         }
 
         // Switch Admin Status
-        [HttpPut("{userId}/admin")]
-        public async Task<IActionResult> SwitchAdmin(string userId)
+        [HttpPut("{userId}/admin/{adminId}")]
+        public async Task<IActionResult> SwitchAdmin(string userId, string adminId)
         {
-            // Check if the user exists in MongoDB
-            if (userId != null)
+            if (await db.GetAdminStatus(adminId))
             {
-                UserModel user = await db.GetUser(userId);
-                if (user == null) return NotFound("User not found");
+                // Check if the user exists in MongoDB
+                if (userId != null)
+                {
+                    UserModel user = await db.GetUser(userId);
+                    if (user == null) return NotFound("User not found");
 
-                user.AdminTF = !user.AdminTF;
+                    user.AdminTF = !user.AdminTF;
 
-                await db.UpdateUser(user);
-                return Ok();
+                    await db.UpdateUser(user);
+                    return Ok();
+                }
+                else return NotFound("ERROR: User has no Id");
             }
-            else return NotFound("ERROR: User has no Id");
+            else return Forbid();
         }
 
         // Changes on login

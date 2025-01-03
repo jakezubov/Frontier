@@ -10,13 +10,14 @@ using Frontier.Server.Models;
 using Frontier.Server.EmailTemplates;
 using Frontier.Server.DataAccess;
 using Frontier.Server.Interfaces;
-using MongoDB.Bson;
+using Amazon.Runtime;
 
 [Route("api/[controller]")]
 [ApiController]
 public class EmailController : ControllerBase
 {
     private readonly ConfigDataAccess db = new();
+    private readonly UserDataAccess dbUsers = new();
     private readonly VerificationCodeDataAccess dbVerify = new();
     private GraphServiceClient? graphClient;
 
@@ -38,6 +39,9 @@ public class EmailController : ControllerBase
     [HttpPost("send/password-reset/{email}")]
     public async Task<IActionResult> PasswordReset(string email)
     {
+        UserModel user = await dbUsers.ValidateUser(email.ToLower());
+        if (user == null) return BadRequest("Not a registered email");
+
         IEmailClientModel? client = await GetCurrentClient();
         if (client != null) {
             PasswordResetTemplate emailType = new(email);
@@ -65,6 +69,9 @@ public class EmailController : ControllerBase
     [HttpPost("send/verification/{name}/{email}")]
     public async Task<IActionResult> Verification(string name, string email)
     {
+        UserModel user = await dbUsers.ValidateUser(email.ToLower());
+        if (user == null) return BadRequest("Not a registered email");
+
         IEmailClientModel? client = await GetCurrentClient();
         if (client != null) {
             string code = await NewVerificationCode(email);
@@ -76,14 +83,17 @@ public class EmailController : ControllerBase
         return BadRequest("Emailing Not Setup Correctly");
     }
 
-    [HttpPut("test/azure")]
-    public async Task<IActionResult> TestAzureClient(AzureClientModel client)
+    [HttpPut("test/azure/{apiToken}")]
+    public async Task<IActionResult> TestAzureClient(AzureClientModel client, string apiToken)
     {
-        LoadAzureClient(client);
-        IActionResult response = await TestClient(client);
+        if (await dbUsers.GetAdminStatus(apiToken)) {
+            LoadAzureClient(client);
+            IActionResult response = await TestClient(client);
 
-        if (response is OkResult) return Ok();
-        return NoContent();
+            if (response is OkResult) return Ok();
+            return NoContent();
+        }
+        else return Forbid();
     }
 
     private async Task<IActionResult> TestClient(IEmailClientModel client)
@@ -173,12 +183,15 @@ public class EmailController : ControllerBase
         else return null;
     }
 
-    [HttpPost("update/azure/client")]
-    public async Task<IActionResult> UpdateAzureClient(AzureClientModel client)
+    [HttpPost("update/azure/client/{apiToken}")]
+    public async Task<IActionResult> UpdateAzureClient(AzureClientModel client, string apiToken)
     {
-        await db.UpdateAzureClient(client);
-        await db.UpdateCurrentClientType(EmailClientType.Azure);
-        return Ok();
+        if (await dbUsers.GetAdminStatus(apiToken)) {
+            await db.UpdateAzureClient(client);
+            await db.UpdateCurrentClientType(EmailClientType.Azure);
+            return Ok();
+        }
+        else return Forbid();
     }
 
     [HttpGet("client-type")]
@@ -188,11 +201,15 @@ public class EmailController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut("client-type/update/{newClientType}")]
-    public async Task<IActionResult> UpdateCurrentClientType(EmailClientType newClientType)
+    [HttpPut("client-type/update/{newClientType}/{apiToken}")]
+    public async Task<IActionResult> UpdateCurrentClientType(EmailClientType newClientType, string apiToken)
     {
-        await db.UpdateCurrentClientType(newClientType);
-        return Ok();
+        if (await dbUsers.GetAdminStatus(apiToken))
+        {
+            await db.UpdateCurrentClientType(newClientType);
+            return Ok();
+        }
+        else return Forbid();
     }
 
     #endregion
@@ -214,8 +231,7 @@ public class EmailController : ControllerBase
     private async Task<string> NewVerificationCode(string email)
     {
         string code = GenerateCode();
-        VerificationCodeModel newVerification = new()
-        {
+        VerificationCodeModel newVerification = new() {
             Email = email,
             Code = code
         };

@@ -32,7 +32,7 @@ const Sidebar = () => {
 
     return (
         <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
-            <div className="col">
+            <div>
                 <button className="sidebar-icon sidebar-toggle" aria-label={SidebarButtons.TOGGLE} onClick={toggleSidebar} disabled={isMobile === "true" && !isExpanded}>
                 { isExpanded 
                     ? <FontAwesomeIcon className="fa-2xl" icon={faAnglesRight} />
@@ -43,21 +43,19 @@ const Sidebar = () => {
                 <button className="sidebar-icon" aria-label={SidebarButtons.CONTACT} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>
                 <button className="sidebar-icon" aria-label={SidebarButtons.HISTORY} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
             </div>
-            <div className="col">
-                {isExpanded && (
-                    <div className="sidebar-content">
-                        {activeButton === SidebarButtons.INFORMATION && (
-                            <Information />
-                        )}
-                        {activeButton === SidebarButtons.HISTORY && (
-                            <History />
-                        )}
-                        {activeButton === SidebarButtons.CONTACT && (
-                            <Contact />
-                        )}
-                    </div>
-                )}
-            </div>          
+            {isExpanded && (
+                <div className="sidebar-content">
+                    {activeButton === SidebarButtons.INFORMATION && (
+                        <Information retractSidebar={() => setIsExpanded(false)} />
+                    )}
+                    {activeButton === SidebarButtons.HISTORY && (
+                        <History />
+                    )}
+                    {activeButton === SidebarButtons.CONTACT && (
+                        <Contact />
+                    )}
+                </div>
+            )}         
         </div>
     )
 }

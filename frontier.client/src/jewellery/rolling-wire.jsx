@@ -56,7 +56,7 @@ const RollingWire = () => {
                 const stock = (4 * Math.pow(side, 2) * lengthCalc) / (Math.PI * Math.pow(stockSize, 2))
                 setOutput1(diameter.toFixed(2) + "g")
                 setOutput2(stock.toFixed(2) + "g")
-                content = `Desired LxWxT: ${length}mm x ${width}mm x ${thickness}mm | Stock Size: ${stockSize}mm | Stock Length: ${lengthCalc.toFixed(2)}mm | Roll To - Diameter: ${diameter.toFixed(2)}mm`
+                content = `Desired LxWxT: ${length}mm x ${width}mm x ${thickness}mm | Stock Size: ${stockSize}mm | Stock Length: ${stock.toFixed(2)}mm | Roll To - Diameter: ${diameter.toFixed(2)}mm`
             }
             else {
                 setOutput1(diameter.toFixed(2) + "g")
@@ -69,7 +69,7 @@ const RollingWire = () => {
                 const stock = (Math.pow(side, 2) * lengthCalc) / Math.pow(stockSize, 2)
                 setOutput1(side.toFixed(2) + "g")
                 setOutput2(stock.toFixed(2) + "g")
-                content = `Desired LxWxT: ${length}mm x ${width}mm x ${thickness}mm | Stock Size: ${stockSize}mm | Stock Length: ${lengthCalc.toFixed(2)}mm | Roll To - Side: ${side.toFixed(2)}mm`
+                content = `Desired LxWxT: ${length}mm x ${width}mm x ${thickness}mm | Stock Size: ${stockSize}mm | Stock Length: ${stock.toFixed(2)}mm | Roll To - Side: ${side.toFixed(2)}mm`
             }
             else {
                 setOutput1(side.toFixed(2) + "g")
@@ -225,13 +225,13 @@ const RollingWire = () => {
                     <tr>
                         <th>
                             {profile === 'Round' ?
-                                <h3>Diameter</h3>
-                                : <h3>Side</h3>}
+                                <h3 className="tight-bottom">Diameter</h3>
+                                : <h3 className="tight-bottom">Side</h3>}
                         </th>
                         <th>
                             {stockSizeRequired ?
-                                <h3>Stock Length</h3>
-                                : <h3>Length</h3>}
+                                <h3 className="tight-bottom">Stock Length</h3>
+                                : <h3 className="tight-bottom">Length</h3>}
                         </th>
                     </tr>
                 </thead>

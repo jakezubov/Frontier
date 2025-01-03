@@ -14,7 +14,7 @@ const ConfirmationScreen = () => {
         if (!message) {
             navigate(Path.HOME)
         }
-    }, [])
+    }, [message])
 
     return (
         <div>

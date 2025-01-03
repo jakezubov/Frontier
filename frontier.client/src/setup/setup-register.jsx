@@ -61,7 +61,11 @@ const SetupRegister = ({ onRegisterComplete }) => {
             setValidationMessage('Password does not meet complexity requirements.')
             return
         }
-        await createUser(firstName, lastName, email, password, true)
+        const response = await createUser(firstName, lastName, email, password, true)
+        if (!response) {
+            setValidationMessage('User was not created.')
+            return
+        }
 
         onRegisterComplete()
     }

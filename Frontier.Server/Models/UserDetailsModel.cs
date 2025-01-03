@@ -11,6 +11,7 @@ public class UserDetailsModel
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
     public required string Email { get; set; }
+    public string? ApiToken { get; set; }
     public int HistoryAmount { get; set; }
     public DateTime LastLoggedIn { get; set; }
     public bool LoggedInTF { get; set; }

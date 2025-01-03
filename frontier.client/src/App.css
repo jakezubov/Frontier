@@ -73,6 +73,11 @@
         pointer-events: none;
     }
 
+.general-output {
+    background-color: var(--primary-colour);
+    border: 2px solid var(--secondary-colour);
+}
+
 .general-text-area {
     width: 100%;
     padding: 8px;
@@ -206,9 +211,8 @@ table {
     background-color: var(--accent-colour);
 }
 
-.calculation-table td, .calculation-table th {
-    padding-left: 48px;
-    padding-right: 48px;
+.calculation-table {
+    width: 30vw;
 }
 
 .table-break {
@@ -245,12 +249,22 @@ table {
     width: 15vw;
     min-width: 150px;
     color: var(--text-colour);
-    z-index: 2;
+    z-index: 3;
 }
     .navbar ul {
         list-style: none;
         margin: 20px;
         padding: 0px;
+    }
+
+.submenu {
+    transition: transform 0.3s ease-in-out;
+}
+    .submenu.collapsed {
+        transform: translateX(-150%);
+    }
+    .submenu.expanded {
+        transform: translateX(0);
     }
 
 .navbar-links {
@@ -261,7 +275,7 @@ table {
         color: var(--accent-colour);
     }
 
-.navbar-icon-spacing {
+.login-logout-icon-spacing {
     margin-right: 16px;
     margin-bottom: 3px; 
 }
@@ -270,29 +284,6 @@ table {
     margin-bottom: 40px;
     margin-top: 20px;
 }
-
-.mini-navbar {
-    position: fixed;
-    top: 0;
-    left: 250px; /* Should be next to the general navbar */
-    padding: 20px;
-    text-align: left;
-    height: 100vh;
-    color: var(--text-colour);
-}
-    .mini-navbar ul {
-        list-style: none;
-        margin: 20px;
-        padding: 0px;
-    }
-
-.mini-navbar-links {
-    color: var(--text-colour);
-    font-size: 20px;
-}
-    .mini-navbar-links:hover {
-        color: var(--accent-colour);
-    }
 
 .mobile-menu-toggle {
     display: none;
@@ -304,22 +295,26 @@ table {
 /*#region Sidebar*/
 
 .sidebar {
-    width: 60px; /* width when collapsed */
-    height: 100%;
+    height: 120%;
     background-color: var(--secondary-colour);
     color: var(--background-colour);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    transition: width 0.3s ease-in-out;
+    transition: width 0.4s ease-in-out, transform 0.4s ease-in-out;
     position: fixed;
     right: 0;
     top: 0;
     z-index: 2;
 }
     .sidebar.expanded {
-        width: 20vw; /* width when expanded */
+        width: 20vw;
         min-width: 250px;
+        transform: translateX(0);
+    }
+    .sidebar.collapsed {
+        width: 60px;
+        transform: translateX(calc(100% - 60px));
     }
 
 .sidebar-content {
@@ -420,13 +415,11 @@ table {
 
 @media screen and (max-width: 768px) {
     .navbar {
-        flex-direction: column;
-        justify-content: left;
         height: auto;
         width: 100%;
         min-width: 0;
         padding: 10px;
-        z-index: 3;
+        transition: transform 0.3s ease-in-out;
     }
         .navbar ul {
             margin: 10px;
@@ -434,11 +427,9 @@ table {
         }
         .navbar.collapsed {
             transform: translateY(-100%);
-            transition: transform 0.3s ease-in-out;
         }
         .navbar.expanded {
             transform: translateY(0);
-            transition: transform 0.3s ease-in-out;
         }
 
     .navbar-links {
@@ -447,10 +438,6 @@ table {
 
     .theme-buttons {
         margin: 10px 0;
-    }
-
-    .mini-navbar {
-        left: 0;
     }
 
     .mobile-menu-toggle {

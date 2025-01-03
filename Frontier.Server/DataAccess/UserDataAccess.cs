@@ -32,6 +32,13 @@ public class UserDataAccess
         return results.FirstOrDefault();
     }
 
+    public async Task<bool> GetAdminStatus(string apiToken)
+    {
+        var usersCollection = ConnectToMongo<UserModel>(UserCollection);
+        var results = await usersCollection.FindAsync(u => u.ApiToken == apiToken);
+        return results.FirstOrDefault().AdminTF;
+    }
+
     public async Task<UserModel> ValidateUser(string email)
     {
         var usersCollection = ConnectToMongo<UserModel>(UserCollection);

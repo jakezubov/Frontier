@@ -68,7 +68,11 @@ const Register = () => {
     }
 
     const handleSubmit = async () => {
-        await createUser(firstName, lastName, email, password)
+        const response = await createUser(firstName, lastName, email, password)
+        if (!response) {
+            setValidationMessage('User was not created.')
+            return
+        }
 
         navigate(Path.CONFIRMATION_SCREEN, {
             state: { message: 'Successfully registered account!' }

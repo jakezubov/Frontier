@@ -13,6 +13,7 @@ public class UserModel
     public required string Email { get; set; }
     public required string PasswordHash { get; set; }
     public string? Salt { get; set; }
+    public string? ApiToken { get; set; }
     public int HistoryAmount { get; set; } = 5;
     public List<HistoryModel> History { get; set; } = [];
     public List<MetalModel> Metals { get; set; } = [];

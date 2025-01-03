@@ -1,8 +1,7 @@
 import Axios from 'axios'
 import { useError } from '../contexts/error-popup-context'
-
-const urlPrefix = 'http://localhost:5221/api'
-// const urlPrefix = 'https://jewellery.zubov.com.au/api'
+import { useUserSession } from '../contexts/user-context'
+import { urlPrefix } from './api-url'
 
 //#region User CRUD
 
@@ -52,16 +51,22 @@ export const useGetUser = () => {
 
 export const useCreateUser = () => {
     const { handleError } = useError()
+    const { apiToken } = useUserSession()
 
     const createUser = async (firstName, lastName, email, password, admin=false) => {
         try {
-            await Axios.post(`${urlPrefix}/users/create`, {
+            const response = await Axios.post(`${urlPrefix}/users/create`, {
                 'FirstName': firstName,
                 'LastName': lastName,
                 'Email': email,
                 'PasswordHash': password,
                 'AdminTF': admin,
+                'ApiToken': apiToken,
             })
+            if (response && (response.status === 201 || response.status === 204)) {
+                return response
+            }
+            return null
         }
         catch (error) {
             const title = 'Failed to create account'
@@ -73,6 +78,7 @@ export const useCreateUser = () => {
                 firstName,
                 lastName,
                 email,
+                apiToken,
             })
         }
     }
@@ -166,10 +172,11 @@ export const useDeleteUser = () => {
 
 export const useSwitchAdminStatus = () => {
     const { handleError } = useError()
+    const { apiToken } = useUserSession()
 
-    const switchAdminStatus = async (userId) => {
+    const switchAdminStatus = async (changedUserId) => {
         try {
-            await Axios.put(`${urlPrefix}/users/${userId}/admin`)
+            await Axios.put(`${urlPrefix}/users/${changedUserId}/admin/${apiToken}`)
         }
         catch (error) {
             const title = 'Failed to switch admin status'
@@ -451,10 +458,11 @@ export const useGetDefaultMetals = () => {
 
 export const useUpdateDefaultMetals = () => {
     const { handleError } = useError()
+    const { apiToken } = useUserSession()
 
     const updateDefaultMetals = async (metalList) => {
         try {
-            await Axios.put(`${urlPrefix}/config/metals/update`, metalList)
+            await Axios.put(`${urlPrefix}/config/metals/update/${apiToken}`, metalList)
         }
         catch (error) {
             const title = 'Failed to update default metals'
@@ -588,10 +596,11 @@ export const useGetDefaultRingSizes = () => {
 
 export const useUpdateDefaultRingSizes = () => {
     const { handleError } = useError()
+    const { apiToken } = useUserSession()
 
     const updateDefaultRingSizes = async (ringSizeList) => {
         try {
-            await Axios.put(`${urlPrefix}/config/ring-sizes/update`, ringSizeList)
+            await Axios.put(`${urlPrefix}/config/ring-sizes/update/${apiToken}`, ringSizeList)
         }
         catch (error) {
             const title = 'Failed to update default ring sizes'
@@ -781,10 +790,11 @@ export const useGetCurrentClientType = () => {
 
 export const useUpdateCurrentClientType = () => {
     const { handleError } = useError()
+    const { apiToken } = useUserSession()
 
     const updateCurrentClientType = async (newClientType) => {
         try {
-            await Axios.put(`${urlPrefix}/email/client-type/update/${newClientType}`)
+            await Axios.put(`${urlPrefix}/email/client-type/update/${newClientType}/${apiToken}`)
         }
         catch (error) {
             const title = 'Failed to update the current client type'
@@ -826,10 +836,11 @@ export const useGetAzureClient = () => {
 
 export const useUpdateAzureClient = () => {
     const { handleError } = useError()
+    const { apiToken } = useUserSession()
 
     const updateAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
         try {
-            await Axios.post(`${urlPrefix}/email/update/azure/client`, {
+            await Axios.post(`${urlPrefix}/email/update/azure/client/${apiToken}`, {
                 'ClientId': clientId,
                 'ClientSecret': clientSecret,
                 'TenantId': tenantId,
@@ -858,16 +869,20 @@ export const useUpdateAzureClient = () => {
 
 export const useTestAzureClient = () => {
     const { handleError } = useError()
+    const { apiToken } = useUserSession()
 
     const testAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
         try {
-            const response = await Axios.put(`${urlPrefix}/email/test/azure`, {
+            const response = await Axios.put(`${urlPrefix}/email/test/azure/${apiToken}`, {
                 'ClientId': clientId,
                 'ClientSecret': clientSecret,
                 'TenantId': tenantId,
                 'SendingEmail': sendingEmail,
                 'ContactFormRecipient': contactFormRecipient
             })
+            if (response && response.status !== 200) {
+                return null
+            }
             return response
         }
         catch (error) {
@@ -917,10 +932,11 @@ export const useGetInitialisedStatus = () => {
 
 export const useUpdateInitialisedStatus = () => {
     const { handleError } = useError()
+    const { apiToken } = useUserSession()
 
     const updateInitialisedStatus = async (newStatus) => {
         try {
-            await Axios.put(`${urlPrefix}/config/init/update/${newStatus}`)
+            await Axios.put(`${urlPrefix}/config/init/update/${newStatus}/${apiToken}`)
         }
         catch (error) {
             const title = 'Failed to update the initialised status'

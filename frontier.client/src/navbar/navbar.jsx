@@ -22,17 +22,17 @@ const Navbar = () => {
     // APIs
     const { logLogout } = useLogLogout()
 
-    useEffect(() => {
-        if (isAdminNavbar && isAccountNavbar) {
-            setIsAccountNavbar(false)
-        }
-    }, [isAdminNavbar])
-
     const toggleNavbar = () => {
         setIsExpanded(!isExpanded)
     }
 
+    const handleAdminIcon = () => {
+        setIsAccountNavbar(false)
+        setIsAdminNavbar(true)
+    }
+
     const handleLogout = async () => {
+        toggleNavbar()
         if (userId) {
             await logLogout(userId)
         }
@@ -44,7 +44,6 @@ const Navbar = () => {
 
     const handleLogoutClick = () => {
         setIsLogoutPopupOpen(true)
-        toggleNavbar()
     }
 
     return (
@@ -52,17 +51,16 @@ const Navbar = () => {
             <button className="mobile-menu-toggle" onClick={toggleNavbar}><FontAwesomeIcon icon={isExpanded ? faXmark : faBars} className="fa-xl" /></button>
 
             <nav className={`navbar ${isExpanded ? 'expanded' : 'collapsed'}`}>
-                { isAccountNavbar ?
-                    <AccountNavbar toggleNavbar={toggleNavbar} backSelected={() => setIsAccountNavbar(false)} />
+                {isAccountNavbar ?
+                    <AccountNavbar toggleNavbar={toggleNavbar} backSelected={() => setIsAccountNavbar(false)} submenuExpanded={isAccountNavbar} />
                     : isAdminNavbar ?
-                        <AdminNavbar toggleNavbar={toggleNavbar} backSelected={() => setIsAdminNavbar(false)} />
+                        <AdminNavbar toggleNavbar={toggleNavbar} backSelected={() => setIsAdminNavbar(false)} submenuExpanded={isAdminNavbar} />
                         :
-                        <GeneralNavbar toggleNavbar={toggleNavbar} activateAccountNavbar={() => setIsAccountNavbar(true)} handleLogoutClick={handleLogoutClick} />
+                        <GeneralNavbar toggleNavbar={toggleNavbar} activateAccountNavbar={() => setIsAccountNavbar(true)} handleLogoutClick={handleLogoutClick} submenuExpanded={!isAdminNavbar && !isAccountNavbar} />
                 }
-
                 <ul>
                     <li>
-                        <NavbarIcons activateAdminNavbar={() => setIsAdminNavbar(true)} />
+                        <NavbarIcons activateAdminNavbar={handleAdminIcon} />
                     </li>
                 </ul>
             </nav>

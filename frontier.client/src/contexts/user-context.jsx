@@ -6,6 +6,7 @@ export const UserContext = createContext()
 export const UserProvider = ({ children }) => {
     const [userId, setUserId] = useState(localStorage.getItem('userId'))
     const [adminStatus, setAdminStatus] = useState(localStorage.getItem('adminStatus'))
+    const [apiToken, setApiToken] = useState(localStorage.getItem('apiToken'))
     const [loggedInStatus, setLoggedInStatus] = useState(localStorage.getItem('loggedInStatus'))
     const [localFirstName, setFirstName] = useState(localStorage.getItem('firstName'))
     const [localLastName, setLastName] = useState(localStorage.getItem('lastName'))
@@ -29,6 +30,7 @@ export const UserProvider = ({ children }) => {
 
             // Update states
             setAdminStatus(user.adminTF)
+            setApiToken(user.apiToken)
             setLoggedInStatus(user.loggedInTF)
             setFirstName(user.firstName)
             setLastName(user.lastName)
@@ -38,6 +40,7 @@ export const UserProvider = ({ children }) => {
             // Update Local Storage
             localStorage.setItem('userId', user.id)
             localStorage.setItem('adminStatus', user.adminTF)
+            localStorage.setItem('apiToken', user.apiToken)
             localStorage.setItem('loggedInStatus', user.loggedInTF)
             localStorage.setItem('firstName', user.firstName)
             localStorage.setItem('lastName', user.lastName)
@@ -54,6 +57,7 @@ export const UserProvider = ({ children }) => {
         setHistoryAmount(null)
         setLoggedInStatus(false)
         setAdminStatus(false)
+        setApiToken(null)
 
         // Update Local Storage
         localStorage.removeItem('userId')
@@ -61,6 +65,7 @@ export const UserProvider = ({ children }) => {
         localStorage.removeItem('lastName')
         localStorage.removeItem('email')
         localStorage.removeItem('historyAmount')
+        localStorage.removeItem('apiToken')
         localStorage.setItem('loggedInStatus', 'false')
         localStorage.setItem('adminStatus', 'false')
     }
@@ -70,6 +75,7 @@ export const UserProvider = ({ children }) => {
             userId,
             setUserId,
             adminStatus,
+            apiToken,
             loggedInStatus,
             localFirstName,
             localLastName,

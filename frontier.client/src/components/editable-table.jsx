@@ -2,8 +2,11 @@ import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useGenerateObjectId } from '../common/APIs'
+import { useCurrentPage } from '../contexts/current-page-context'
 
 const EditableTable = ({ tableList, setTableList, columnSchema }) => {
+    const { isMobile } = useCurrentPage()
+
     // APIs
     const { generateObjectId } = useGenerateObjectId()
 
@@ -63,7 +66,10 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
                     <table className="editable-table">
                         <thead>
                             <tr>
-                                <th>Index</th>
+                                {isMobile === "false" ?
+                                    <th>Index</th>
+                                    : null
+                                }
                                 {columnSchema.map(column => (
                                     <th key={column.key}>{column.name}</th>
                                 ))}
@@ -73,7 +79,10 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
                         <tbody>
                             {tableList.map((element) => (
                                 <tr key={element.listIndex}>
-                                    <td>{element.listIndex}</td>
+                                    {isMobile === "false" ?
+                                        <td>{element.listIndex}</td>
+                                        : null
+                                    }
                                     {columnSchema.map((column) => (
                                         <td key={column.key}>
                                             <input

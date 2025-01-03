@@ -76,7 +76,7 @@ const ConfigureEmail = () => {
             setSuccessMessage('Sending test email...')
             const response = await testAzureClient(clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient)
 
-            if (response && response.status !== 200) {
+            if (!response) {
                 setValidationMessage('Test was not successful')
                 return
             }

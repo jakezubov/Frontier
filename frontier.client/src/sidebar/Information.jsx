@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useCurrentPage } from '../contexts/current-page-context'
 import Path from '../common/paths'
 
-const Information = () => {
+const Information = ({ retractSidebar }) => {
     const [information, setInformation] = useState('')
     const { currentPage, Pages } = useCurrentPage()
 
@@ -43,7 +44,7 @@ const Information = () => {
                             || currentPage === Pages.RING_WEIGHT || currentPage === Pages.ROLLING_WIRE
                             ?
                             <tr>
-                                <td><Link className="link-text" to={Path.CALCULATIONS}>Extended Calculation Information</Link></td>
+                                <td><Link className="link-text" onClick={retractSidebar} to={Path.CALCULATIONS}>Extended Calculation Information</Link></td>
                             </tr>
                             : null
                         }
@@ -53,13 +54,17 @@ const Information = () => {
                 <table>
                     <tbody>
                         <tr>
-                            <td><p>v1.1.4</p></td>
+                            <td><p>v1.2.0</p></td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     )
+}
+
+Information.propTypes = {
+    retractSidebar: PropTypes.func.isRequired,
 }
 
 export default Information
