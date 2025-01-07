@@ -66,9 +66,8 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
                     <table className="editable-table">
                         <thead>
                             <tr>
-                                {isMobile === "false" ?
+                                {isMobile === "false" &&
                                     <th>Index</th>
-                                    : null
                                 }
                                 {columnSchema.map(column => (
                                     <th key={column.key}>{column.name}</th>
@@ -79,9 +78,8 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
                         <tbody>
                             {tableList.map((element) => (
                                 <tr key={element.listIndex}>
-                                    {isMobile === "false" ?
+                                    {isMobile === "false" &&
                                         <td>{element.listIndex}</td>
-                                        : null
                                     }
                                     {columnSchema.map((column) => (
                                         <td key={column.key}>

@@ -1,7 +1,9 @@
 import Axios from 'axios'
 import { useError } from '../contexts/error-context'
 import { useUserSession } from '../contexts/user-context'
-import { urlPrefix } from './api-url'
+
+// const urlPrefix = 'http://localhost:5221/api'
+const urlPrefix 'https://jewellery.zubov.com.au/api'
 
 //#region User CRUD
 

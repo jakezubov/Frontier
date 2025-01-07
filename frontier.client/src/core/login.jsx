@@ -54,8 +54,6 @@ const Login = () => {
 
     return (
         <div>
-            <h1>Login</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <table>
                     <tbody>

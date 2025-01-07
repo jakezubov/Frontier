@@ -83,8 +83,6 @@ const DefaultMetals = () => {
 
     return (
         <div>
-            <h1>Default Metal Settings</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <EditableTable tableList={metalList} setTableList={setMetalList} columnSchema={TableSchemas.Metals} />
 

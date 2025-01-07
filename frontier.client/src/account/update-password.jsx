@@ -85,8 +85,6 @@ const UpdatePassword = () => {
 
     return (
         <div>
-            <h1>Update Password</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <table>
                     <tbody>

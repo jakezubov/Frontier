@@ -56,8 +56,6 @@ const ForgotPassword = () => {
 
     return (
         <div>
-            <h1>Forgot Password</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <table>
                     <tbody>

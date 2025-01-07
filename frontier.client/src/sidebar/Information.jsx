@@ -54,7 +54,7 @@ const Information = ({ retractSidebar }) => {
                 <table>
                     <tbody>
                         <tr>
-                            <td><p>v1.2.1</p></td>
+                            <td><p>v1.2.2</p></td>
                         </tr>
                     </tbody>
                 </table>

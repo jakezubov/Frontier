@@ -86,8 +86,6 @@ const RingSizeSettings = () => {
 
     return (
         <div>
-            <h1>Ring Size Settings</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <EditableTable tableList={ringSizeList} setTableList={setRingSizeList} columnSchema={TableSchemas.RingSizes} />
 

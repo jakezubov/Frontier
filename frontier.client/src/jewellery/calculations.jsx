@@ -43,8 +43,6 @@ const Calculations = () => {
 
     return (
         <div>
-            <h1>Calculations</h1>
-
             <table className="calculation-table">
                 <tbody>
                     <tr>

@@ -54,8 +54,6 @@ const MetalConverter = () => {
 
     return (
         <div>                       
-            <h1>Metal Converter</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <table>
                     <tbody>

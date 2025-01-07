@@ -65,8 +65,6 @@ const UserAccounts = () => {
 
     return (
         <div>
-            <h1>User Accounts</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <table className="user-table">
                     <thead>

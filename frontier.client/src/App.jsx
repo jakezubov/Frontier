@@ -22,8 +22,7 @@ import DefaultMetals from './admin/default-metals'
 import DefaultRingSizes from './admin/default-ring-sizes'
 import ConfigureEmail from './admin/configure-email'
 import ErrorLedger from './admin/error-ledger'
-import Navbar from './navbar/navbar'
-import Sidebar from './sidebar/sidebar'
+import Header from './navbar/header'
 import FirstTimeSetup from './setup/first-time-setup'
 import FirstTimeSetupHandler from './setup/first-time-setup-handler'
 
@@ -34,11 +33,10 @@ const App = () => {
         <Router>
             <div>
                 <FirstTimeSetupHandler onNotAlreadySetup={() => setSetupComplete(false)} />
-                {setupComplete
-                    ? <div>
-                        <Navbar />
-                        <Sidebar />
-                    </div> : null
+                {setupComplete &&
+                    <div>
+                        <Header />
+                    </div>
                 }
 
                 <Routes>

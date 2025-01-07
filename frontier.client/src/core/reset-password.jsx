@@ -76,8 +76,6 @@ const ResetPassword = () => {
 
     return (
         <div>
-            <h1>Reset Password</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <table>
                     <tbody>

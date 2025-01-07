@@ -24,9 +24,9 @@ const NavbarIcons = ({ activateAdminNavbar }) => {
         <div className="theme-buttons">
             <button className="settings-icon" onClick={handleThemeChange}><FontAwesomeIcon className="fa-2xl" icon={faCircleHalfStroke} /></button>
             <a href="https://paypal.me/jakezubov"><button className="settings-icon"><FontAwesomeIcon className="fa-2xl" icon={faHeart} /></button></a>
-            {adminStatus && (
+            {adminStatus &&
                 <Link onClick={activateAdminNavbar} to={Path.ADMIN_WORKBENCH}><button className="settings-icon" ><FontAwesomeIcon className="fa-2xl" icon={faGear} /></button></Link>
-            )}
+            }
         </div>
     )
 }

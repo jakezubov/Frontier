@@ -92,8 +92,6 @@ const Register = () => {
 
     return (
         <div>
-            <h1>Register</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <table>
                     <tbody>

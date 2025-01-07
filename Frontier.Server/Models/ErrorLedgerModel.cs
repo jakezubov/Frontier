@@ -13,4 +13,5 @@ public class ErrorLedgerModel
     public required string Message { get; set; }
     public required string Stack { get; set; }
     public DateTime ErrorTime { get; set; } = DateTime.UtcNow;
+    public bool ExpandedTF { get; set; } = false;
 }

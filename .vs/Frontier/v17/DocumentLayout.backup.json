@@ -3,28 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Administrator\\Desktop\\Frontier\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\common\\apis.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\common\\apis.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\navbar\\navbar.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\navbar\\navbar.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\admin\\error-ledger.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\admin\\error-ledger.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\administrator\\desktop\\frontier\\frontier.server\\models\\errorledgermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\models\\errorledgermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\navbar\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\navbar\\header.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|c:\\users\\administrator\\desktop\\frontier\\frontier.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{314209D6-3011-4247-906F-DFFACC395668}|Frontier.Server\\Frontier.Server.csproj|solutionrelative:frontier.server\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\sidebar\\sidebar.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\sidebar\\sidebar.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\admin\\user-accounts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\admin\\user-accounts.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\contexts\\error-context.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\contexts\\error-context.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|c:\\users\\administrator\\desktop\\frontier\\frontier.client\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{6AB2D45F-D044-4227-B736-F111D4D3B06E}|frontier.client\\frontier.client.esproj|solutionrelative:frontier.client\\src\\app.jsx||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +30,71 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ErrorLedgerModel.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\Frontier.Server\\Models\\ErrorLedgerModel.cs",
-              "RelativeDocumentMoniker": "Frontier.Server\\Models\\ErrorLedgerModel.cs",
-              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\Frontier.Server\\Models\\ErrorLedgerModel.cs",
-              "RelativeToolTip": "Frontier.Server\\Models\\ErrorLedgerModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T04:33:31.48Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "UsersController.cs",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\Frontier.Server\\Controllers\\UsersController.cs",
-              "RelativeDocumentMoniker": "Frontier.Server\\Controllers\\UsersController.cs",
-              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\Frontier.Server\\Controllers\\UsersController.cs",
-              "RelativeToolTip": "Frontier.Server\\Controllers\\UsersController.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAQwBYAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T04:25:24.974Z",
+              "DocumentIndex": 4,
+              "Title": "App.jsx",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\App.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\App.jsx",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\App.jsx",
+              "RelativeToolTip": "frontier.client\\src\\App.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-01-07T03:38:31.021Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "error-ledger.jsx",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\admin\\error-ledger.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\admin\\error-ledger.jsx",
-              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\admin\\error-ledger.jsx",
-              "RelativeToolTip": "frontier.client\\src\\admin\\error-ledger.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-01-03T02:44:44.328Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "user-accounts.jsx",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\admin\\user-accounts.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\admin\\user-accounts.jsx",
-              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\admin\\user-accounts.jsx",
-              "RelativeToolTip": "frontier.client\\src\\admin\\user-accounts.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-01-03T03:58:47.034Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "error-context.jsx",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\contexts\\error-context.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\contexts\\error-context.jsx",
-              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\contexts\\error-context.jsx",
-              "RelativeToolTip": "frontier.client\\src\\contexts\\error-context.jsx",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-01-03T03:47:03.73Z",
+              "Title": "App.css",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\App.css",
+              "RelativeDocumentMoniker": "frontier.client\\src\\App.css",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\App.css",
+              "RelativeToolTip": "frontier.client\\src\\App.css",
+              "ViewState": "AgIAACABAAAAAAAAAAAAwDYBAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-01-06T20:14:30.532Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "APIs.jsx",
-              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\common\\APIs.jsx",
-              "RelativeDocumentMoniker": "frontier.client\\src\\common\\APIs.jsx",
-              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\common\\APIs.jsx",
-              "RelativeToolTip": "frontier.client\\src\\common\\APIs.jsx",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAA0AAABCAAAAAAAAAA==",
+              "Title": "navbar.jsx",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\navbar\\navbar.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\navbar\\navbar.jsx",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\navbar\\navbar.jsx",
+              "RelativeToolTip": "frontier.client\\src\\navbar\\navbar.jsx",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAACMAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
-              "WhenOpened": "2025-01-03T03:09:51.552Z",
+              "WhenOpened": "2025-01-06T20:01:43.257Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "sidebar.jsx",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\sidebar\\sidebar.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\sidebar\\sidebar.jsx",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\sidebar\\sidebar.jsx",
+              "RelativeToolTip": "frontier.client\\src\\sidebar\\sidebar.jsx",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAA8AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-01-06T20:02:14.684Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "header.jsx",
+              "DocumentMoniker": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\navbar\\header.jsx",
+              "RelativeDocumentMoniker": "frontier.client\\src\\navbar\\header.jsx",
+              "ToolTip": "C:\\Users\\Administrator\\Desktop\\Frontier\\frontier.client\\src\\navbar\\header.jsx",
+              "RelativeToolTip": "frontier.client\\src\\navbar\\header.jsx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003663|",
+              "WhenOpened": "2025-01-06T20:01:44.539Z",
               "EditorCaption": ""
             }
           ]

@@ -112,8 +112,6 @@ const ConfigureEmail = () => {
 
     return (
         <div>
-            <h1>Configure Email</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <table>
                     <tbody>

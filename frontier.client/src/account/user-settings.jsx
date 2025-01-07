@@ -119,8 +119,6 @@ const UserSettings = () => {
 
     return (
         <div>
-            <h1>User Settings</h1>
-
             <form onKeyDown={handleKeyDown}>
                 <table>
                     <tbody>

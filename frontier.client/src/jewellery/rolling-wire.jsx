@@ -109,8 +109,6 @@ const RollingWire = () => {
 
     return (
         <div>
-            <h1>Rolling Wire</h1>
-
             <form onKeyDown={handleKeyDown}>
             { isMobile === "false"  ?
                 <table>

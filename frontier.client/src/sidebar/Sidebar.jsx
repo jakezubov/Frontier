@@ -1,63 +1,53 @@
-import { useState } from 'react'
+import PropTypes from 'prop-types'
+import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClockRotateLeft, faCircleInfo, faEnvelope, faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
-import { useCurrentPage } from '../contexts/current-page-context'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import History from './history'
 import Information from './information'
 import Contact from './contact'
 
-const SidebarButtons = {
-    TOGGLE: 'Toggle',
+export const SidebarButtons = {
+    CLOSE: 'Close',
     INFORMATION: 'Information',
     CONTACT: 'Contact',
     HISTORY: 'History',
 }
 
-const Sidebar = () => {
+const Sidebar = ({ expandSection, closeSection }) => {
     const [isExpanded, setIsExpanded] = useState(false)
-    const [activeButton, setActiveButton] = useState('')
-    const { isMobile } = useCurrentPage()
 
-    const toggleSidebar = (e) => {
-        const label = e.currentTarget.getAttribute('aria-label')
-        label === SidebarButtons.TOGGLE ? setActiveButton(SidebarButtons.INFORMATION) : setActiveButton(label)
-
-        if (isExpanded && label === SidebarButtons.TOGGLE) {
+    useEffect(() => {
+        if (expandSection === SidebarButtons.CLOSE) {
             setIsExpanded(false)
         }
-        else if (!isExpanded) {
-            setIsExpanded(true)
-        }
-    }
+        else setIsExpanded(true)
+    }, [expandSection])
 
     return (
         <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
             <div>
-                <button className="sidebar-icon sidebar-toggle" aria-label={SidebarButtons.TOGGLE} onClick={toggleSidebar} disabled={isMobile === "true" && !isExpanded}>
-                { isExpanded 
-                    ? <FontAwesomeIcon className="fa-2xl" icon={faAnglesRight} />
-                    : <FontAwesomeIcon className="fa-2xl" icon={faAnglesLeft} />
-                }
-                </button>
-                <button className="sidebar-icon" aria-label={SidebarButtons.INFORMATION} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faCircleInfo} /></button>
-                <button className="sidebar-icon" aria-label={SidebarButtons.CONTACT} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>
-                <button className="sidebar-icon" aria-label={SidebarButtons.HISTORY} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
+                <button className="sidebar-icon" aria-label={SidebarButtons.CLOSE} onClick={closeSection}><FontAwesomeIcon className="fa-2xl" icon={faXmark} /></button>
             </div>
             {isExpanded && (
                 <div className="sidebar-content">
-                    {activeButton === SidebarButtons.INFORMATION && (
-                        <Information retractSidebar={() => setIsExpanded(false)} />
+                    {expandSection === SidebarButtons.INFORMATION && (
+                        <Information retractSidebar={closeSection} />
                     )}
-                    {activeButton === SidebarButtons.HISTORY && (
+                    {expandSection === SidebarButtons.HISTORY && (
                         <History />
                     )}
-                    {activeButton === SidebarButtons.CONTACT && (
+                    {expandSection === SidebarButtons.CONTACT && (
                         <Contact />
                     )}
                 </div>
             )}         
         </div>
     )
+}
+
+Sidebar.propTypes = {
+    expandSection: PropTypes.string.isRequired,
+    closeSection: PropTypes.func.isRequired,
 }
 
 export default Sidebar

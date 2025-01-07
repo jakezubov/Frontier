@@ -4,6 +4,7 @@
     --primary-colour: #7BD3EA;
     --secondary-colour: #A1EEBD;
     --accent-colour: #F6D6D6;
+    --header-height: 80px;
 }
 
 #root {
@@ -13,13 +14,14 @@
     text-align: center;
     padding-left: 20vw;
     padding-right: 20vw;
+    padding-top: var(--header-height);
 }
 
 @media screen and (max-width: 768px) {
     #root {
         max-width: 768px;
         padding-left: 20px;
-        padding-right: 80px;
+        padding-right: 20px;
     }
 }
 
@@ -240,21 +242,28 @@ table {
     flex-direction: column;
     justify-content: space-between;
     position: fixed;
-    top: 0;
+    top: var(--header-height);
     left: 0;
     padding: 20px;
     text-align: left;
-    background-color: var(--primary-colour);
-    height: 100%;
+    background-color: var(--secondary-colour);
+    height: calc(100% - var(--header-height));
     width: 15vw;
     min-width: 150px;
     color: var(--text-colour);
     z-index: 3;
+    transition: transform 0.3s ease-in-out;
 }
     .navbar ul {
         list-style: none;
         margin: 20px;
         padding: 0px;
+    }
+    .navbar.collapsed {
+        transform: translateX(-100%);
+    }
+    .navbar.expanded {
+        transform: translateX(0);
     }
 
 .submenu {
@@ -285,8 +294,35 @@ table {
     margin-top: 20px;
 }
 
-.mobile-menu-toggle {
-    display: none;
+.header {
+    width: 100%;
+    height: var(--header-height);
+    position: fixed;
+    display: flex;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 9;
+    background-color: var(--primary-colour);
+}
+
+.header-icon {
+    padding: 10px;
+    margin: 10px 15px 15px 10px;
+    background-color: var(--primary-colour);
+    color: var(--text-colour);
+    border-radius: 100px;
+    border: none;
+}
+    .header-icon:focus {
+        outline: none;
+    }
+
+.header-text {
+    margin: 0px;
+    text-align: left;
+    padding-left: 15vw;
+    font-size: 32px;
 }
 
 /*#endregion*/
@@ -295,7 +331,7 @@ table {
 /*#region Sidebar*/
 
 .sidebar {
-    height: 120%;
+    height: calc(120% - var(--header-height));
     background-color: var(--secondary-colour);
     color: var(--background-colour);
     display: flex;
@@ -303,8 +339,8 @@ table {
     align-items: flex-start;
     transition: width 0.4s ease-in-out, transform 0.4s ease-in-out;
     position: fixed;
+    top: var(--header-height);
     right: 0;
-    top: 0;
     z-index: 2;
 }
     .sidebar.expanded {
@@ -314,7 +350,7 @@ table {
     }
     .sidebar.collapsed {
         width: 60px;
-        transform: translateX(calc(100% - 60px));
+        transform: translateX(100%);
     }
 
 .sidebar-content {
@@ -325,14 +361,14 @@ table {
 
 .sidebar-icon {
     padding: 5px;
-    margin: 5px;
-    background-color: var(--background-colour);
+    margin: 10px 15px 15px 10px;
+    background-color: var(--secondary-colour);
     color: var(--text-colour);
     border-radius: 100px;
-    transition: background-color 0.3s, border 0.3s;
+    border: none;
 }
-    .sidebar-icon:hover {
-        background-color: var(--accent-colour);
+    .sidebar-icon:focus {
+        outline: none;
     }
 
 .history {
@@ -351,7 +387,7 @@ table {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 80vh;
+    height: calc(80vh - var(--header-height));
 }
     .information ul {
         list-style: none;
@@ -419,45 +455,32 @@ table {
         width: 100%;
         min-width: 0;
         padding: 10px;
-        transition: transform 0.3s ease-in-out;
     }
         .navbar ul {
             margin: 10px;
             width: 50%;
-        }
-        .navbar.collapsed {
-            transform: translateY(-100%);
-        }
-        .navbar.expanded {
-            transform: translateY(0);
         }
 
     .navbar-links {
         font-size: 18px;
     }
 
+    .header-icon {
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .header-text {
+        padding-left: 12px;
+        font-size: 24px;
+    }
+
     .theme-buttons {
         margin: 10px 0;
     }
 
-    .mobile-menu-toggle {
-        display: block;
-        position: fixed;
-        top: 5px;
-        right: 10px;
-        z-index: 4;
-        padding: 10px;
-        background-color: var(--primary-colour);
-        border: none;
-        color: var(--text-colour);
-    }
-
     .sidebar.expanded {
         width: 100%;
-    }
-
-    .sidebar-toggle:disabled {
-        border: 0;
     }
 
     .popup-box {
