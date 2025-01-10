@@ -3,6 +3,7 @@ export const updateCSSVariables = (theme) => {
 
     const themes = {
         light: {
+            'color-scheme': 'light',
             '--background-colour': '#fafafa',
             '--text-colour': '#000000',
             '--primary-colour': '#a8dfff',
@@ -10,6 +11,7 @@ export const updateCSSVariables = (theme) => {
             '--accent-colour': '#4296c7', 
         },
         dark: {
+            'color-scheme': 'dark',
             '--background-colour': '#1a1625',
             '--text-colour': '#faf5ef',
             '--primary-colour': '#2f2b3a',

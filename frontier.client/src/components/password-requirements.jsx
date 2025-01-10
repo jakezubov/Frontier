@@ -1,7 +1,7 @@
 const PasswordRequirements = () => {
     return (
         <div>
-            <table className="center-table">
+            <table className="password-reqs-container">
                 <thead>
                     <tr>
                         <th className="left-align tight-text">Password must include the following:</th>

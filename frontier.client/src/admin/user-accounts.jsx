@@ -16,6 +16,7 @@ const UserAccounts = () => {
     const [selectedUserId, setSelectedUserId] = useState('')
     const { setCurrentPage, Pages, isMobile } = useCurrentPage()
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     // APIs
     const { getAllUsers } = useGetAllUsers()
@@ -38,6 +39,7 @@ const UserAccounts = () => {
     const loadUsers = async () => {
         const response = await getAllUsers()
         setUserList(response)
+        setIsLoading(false)
     }
 
     const handleSwitchAdmin = async (userId) => {
@@ -56,20 +58,15 @@ const UserAccounts = () => {
         loadUsers()
     }
 
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault()
-            handleSave()
-        }
-    }
-
     return (
         <div>
-            <form onKeyDown={handleKeyDown}>
-                <table className="user-table">
+            {isLoading ?
+                <div class="loader"></div>
+                :
+                <table className="read-only-table">
                     <thead>
                         <tr>
-                            {isMobile === "false" ? 
+                            {isMobile === "false" ?
                                 <>
                                     <th>Name</th>
                                     <th>Email</th>
@@ -101,8 +98,7 @@ const UserAccounts = () => {
                         ))}
                     </tbody>
                 </table>
-            </form>
-
+            }
             {isDeletePopupOpen && (
                 <PopupDeleteAccount isPopupOpen={isDeletePopupOpen} setIsPopupOpen={setIsDeletePopupOpen} onConfirm={handleConfirmDelete} />
             )}

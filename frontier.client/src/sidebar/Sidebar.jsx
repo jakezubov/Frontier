@@ -25,9 +25,7 @@ const Sidebar = ({ expandSection, closeSection }) => {
 
     return (
         <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
-            <div>
-                <button className="sidebar-icon" aria-label={SidebarButtons.CLOSE} onClick={closeSection}><FontAwesomeIcon className="fa-2xl" icon={faXmark} /></button>
-            </div>
+            <button className="sidebar-icon" aria-label={SidebarButtons.CLOSE} onClick={closeSection}><FontAwesomeIcon className="fa-2xl" icon={faXmark} /></button>
             {isExpanded && (
                 <div className="sidebar-content">
                     {expandSection === SidebarButtons.INFORMATION && (

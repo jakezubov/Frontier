@@ -6,6 +6,7 @@ import { validateEmail } from '../common/validation'
 import { useCurrentPage } from '../contexts/current-page-context'
 import DeleteAccountButton from '../components/delete-account-button'
 import ClearHistoryButton from '../components/clear-history-button'
+import CustomNumberInput from '../components/custom-number-input'
 import PopupVerification from '../popups/popup-verification'
 import Path from '../common/paths'
 
@@ -136,7 +137,7 @@ const UserSettings = () => {
                         </tr>
                         <tr>
                             <td>History Amount</td>
-                            <td><input className="general-input" type="number" step="5" min="5" value={historyAmount} onChange={(e) => setHistoryAmount(e.target.value)} /></td>
+                            <td><CustomNumberInput step={5} min={5} startingNumber={localHistoryAmount} onChange={(value) => setHistoryAmount(value)} /></td>
                         </tr>
                         <tr>
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleChecks}>Save Changes</button></td>
@@ -145,18 +146,13 @@ const UserSettings = () => {
                             <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-text">{validationMessage}</p>
                                 : <p className="pre-wrap success-text tight-text">{successMessage}</p>}</td>
                         </tr>
+                        <tr>
+                            <td><ClearHistoryButton onSuccess={setSuccessMessage} /></td>
+                            <td><DeleteAccountButton /></td>
+                        </tr>
                     </tbody>
                 </table>
             </form>
-
-            <table>
-                <tbody>
-                    <tr>
-                        <td><ClearHistoryButton onSuccess={setSuccessMessage} /></td>
-                        <td><DeleteAccountButton /></td>
-                    </tr>
-                </tbody>
-            </table>
 
             {isVerificationPopupOpen && (
                 <PopupVerification isPopupOpen={isVerificationPopupOpen} setIsPopupOpen={setIsVerificationPopupOpen} onVerify={handleSubmit} onCancel={handleCancel} email={email} />

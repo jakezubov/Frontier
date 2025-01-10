@@ -18,6 +18,7 @@ const DefaultMetals = () => {
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
     const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     // APIs
     const { getDefaultMetals } = useGetDefaultMetals()
@@ -46,6 +47,7 @@ const DefaultMetals = () => {
         const response = await getDefaultMetals()
         setMetalList(response)
         setOriginalMetalList(response)
+        setIsLoading(false)
     }
 
     const handleSave = async () => {
@@ -82,25 +84,28 @@ const DefaultMetals = () => {
     }
 
     return (
-        <div>
-            <form onKeyDown={handleKeyDown}>
-                <EditableTable tableList={metalList} setTableList={setMetalList} columnSchema={TableSchemas.Metals} />
+        <div className="table-margin-top">
+            {isLoading ?
+                <div class="loader"></div>
+                :
+                <form onKeyDown={handleKeyDown}>
+                    <EditableTable tableList={metalList} setTableList={setMetalList} columnSchema={TableSchemas.Metals} />
 
-                <table>
-                    <tbody>
-                        <tr>
-                            <td><button className="general-button" type="button" onClick={handleSave}>Save Changes</button></td>
-                            <td><button className="general-button" type="button" onClick={handleClearChanges}>Clear Changes</button></td>
-                            <td><button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button></td>
-                        </tr>
-                        <tr>
-                            <td colSpan="3">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
-                                : <p className="pre-wrap success-text tight-top">{successMessage}</p>}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </form>
-
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><button className="general-button" type="button" onClick={handleSave}>Save Changes</button></td>
+                                <td><button className="general-button" type="button" onClick={handleClearChanges}>Clear Changes</button></td>
+                                <td><button className="general-button" type="button" onClick={() => setIsConfirmationPopupOpen(true)}>Reset to Defaults</button></td>
+                            </tr>
+                            <tr>
+                                <td colSpan="3">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
+                                    : <p className="pre-wrap success-text tight-top">{successMessage}</p>}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            }
             {isConfirmationPopupOpen && (
                 <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleReset} heading="Are you sure?" />
             )}

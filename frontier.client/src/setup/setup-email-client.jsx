@@ -20,6 +20,7 @@ const ConfigureEmail = ({ onConfigureEmailComplete }) => {
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
     const [clientTestedTF, setClientTestedTF] = useState(false)
+    const [isSendingEmail, setIsSendingEmail] = useState(false)
 
     // APIs
     const { testAzureClient } = useTestAzureClient()
@@ -46,25 +47,31 @@ const ConfigureEmail = ({ onConfigureEmailComplete }) => {
     }, [selectedClient, clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient])
 
     const handleTestClient = async () => {
+        setSuccessMessage(' ')
+        setIsSendingEmail(true)
+
         if (selectedClient == "Azure") {
             if (!clientId || !clientSecret || !tenantId || !sendingEmail || !contactFormRecipient) {
                 setValidationMessage('Please fill all fields.')
+                setIsSendingEmail(false)
                 return
             }
             else if (!validateEmail(sendingEmail) || !validateEmail(contactFormRecipient)) {
                 setValidationMessage('Please enter valid email addresses.')
+                setIsSendingEmail(false)
                 return
             }
-            setSuccessMessage('Sending test email...')
             const response = await testAzureClient(clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient)
 
             if (!response) {
                 setValidationMessage('Test was not successful')
+                setIsSendingEmail(false)
                 return
             }
             setSuccessMessage('Email has been sent.')
             setValidationMessage(' ')
             setClientTestedTF(true)
+            setIsSendingEmail(false)
         }
     }
 
@@ -134,12 +141,19 @@ const ConfigureEmail = ({ onConfigureEmailComplete }) => {
                                 </tr>
                             </>
                         )}
+                        <tr>
+                            <td className="message-container" colSpan="2">
+                                {validationMessage !== ' ' ?
+                                    <p className="pre-wrap warning-text">{validationMessage}</p>
+                                    : successMessage !== ' ' ?
+                                        <p className="pre-wrap success-text">{successMessage}</p>
+                                        : isSendingEmail && <div className="email-loader-container tight-top"><div className="email-loader"></div></div>
+                                }
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </form>
-
-            {validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
-                : <p className="pre-wrap success-text tight-top">{successMessage}</p>}
         </div>
     )
 }

@@ -14,7 +14,6 @@ const AdminNavbar = ({ toggleNavbar, backSelected, submenuExpanded }) => {
         <div>
             <ul>
                 <li><h2 className="tight-bottom">Admin Settings</h2></li>
-                <br />
             </ul>
             <ul className={`submenu ${toggleExpand ? 'expanded' : 'collapsed'}`}>
                 <li><Link className="navbar-links" onClick={backSelected} >Back</Link></li>

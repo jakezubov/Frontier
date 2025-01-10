@@ -14,6 +14,7 @@ const ErrorLedger = () => {
 
     const [errorList, setErrorList] = useState([])
     const [expandedErrors, setExpandedErrors] = useState(new Set())
+    const [isLoading, setIsLoading] = useState(true)
 
     // APIs
     const { getErrorLedger } = useGetErrorLedger()
@@ -38,6 +39,7 @@ const ErrorLedger = () => {
             errorTime: formatDateTime(error.errorTime)
         }))
         setErrorList(formattedErrors)
+        setIsLoading(false)
     }
 
     const formatDateTime = (utcDate) => {
@@ -71,28 +73,32 @@ const ErrorLedger = () => {
     
     return (
         <div>
-            <table className="user-table">
-                <thead>
-                    <tr>
-                        <th>User Details</th>
-                        <th>Error Details</th>
-                        <th>Date / Time</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {errorList.map(error => (
-                        <tr key={error.id}>
-                            <td>{error.userDetails}</td>
-                            {expandedErrors.has(error.id) ?
-                                <td>{error.title} | {error.message} | {error.stack} <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronUp} /></button></td>
-                                :
-                                <td>{error.title} | {error.message} | More Details <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronDown} /></button></td>
-                            }
-                            <td>{error.errorTime}</td>
+            {isLoading ?
+                <div class="loader"></div>
+                :
+                <table className="read-only-table">
+                    <thead>
+                        <tr>
+                            <th>User Details</th>
+                            <th>Error Details</th>
+                            <th>Date / Time</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {errorList.map(error => (
+                            <tr key={error.id}>
+                                <td>{error.userDetails}</td>
+                                {expandedErrors.has(error.id) ?
+                                    <td>{error.title} | {error.message} | {error.stack} <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronUp} /></button></td>
+                                    :
+                                    <td>{error.title} | {error.message} | More Details <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronDown} /></button></td>
+                                }
+                                <td>{error.errorTime}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            }
         </div>
     )
 }

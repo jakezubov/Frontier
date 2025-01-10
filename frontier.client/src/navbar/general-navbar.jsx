@@ -35,7 +35,6 @@ const GeneralNavbar = ({ toggleNavbar, activateAccountNavbar, handleLogoutClick,
         <div>
             <ul>
                 <li><h2 className="tight-bottom">Navigation</h2></li>
-                <br />
             </ul>
             <ul className={`submenu ${toggleExpand ? 'expanded' : 'collapsed'}`}>
                 <li><Link className="navbar-links" onClick={toggleNavbar} to="/">Home</Link></li>

@@ -6,6 +6,7 @@ import { validateNumber } from '../common/validation'
 import MetalSelector from '../components/metal-selector'
 import RingSizeSelector from '../components/ring-size-selector'
 import ProfileSelector from '../components/profile-selector'
+import CustomNumberInput from '../components/custom-number-input'
 
 const RingWeight = () => {
     const { userId } = useUserSession()
@@ -103,13 +104,13 @@ const RingWeight = () => {
                         </tr>
                         <tr>
                             <td>Width</td>
-                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={width} onChange={(e) => setWidth(e.target.value)} /></td>
+                            <td><CustomNumberInput step={0.01} min={0.01} onChange={(value) => setWidth(value)} /></td>
                         </tr>
                         <tr>
                             {thicknessRequired &&
                                 <>
                                     <td><div className="padded-text">Thickness</div></td>
-                                    <td><input className="general-input" type="number" step="0.01" min="0.01" value={thickness} onChange={(e) => setThickness(e.target.value)} /></td>
+                                    <td><CustomNumberInput step={0.01} min={0.01} onChange={(value) => setThickness(value)} /></td>
                                 </>
                             }
                         </tr>
@@ -119,18 +120,13 @@ const RingWeight = () => {
                         <tr>
                             <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}</td>
                         </tr>
+                        <tr>
+                            <td>Calculated Weight</td>
+                            <td><input className="general-output" type="text" value={weight} disabled /></td>
+                        </tr>
                     </tbody>
                 </table>
             </form>
-            
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Calculated Weight</td>
-                        <td><input className="general-output" type="text" value={weight} disabled /></td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     )
 }

@@ -4,6 +4,7 @@ import { useHistory } from '../contexts/history-context'
 import { useCurrentPage } from '../contexts/current-page-context'
 import { validateNumber } from '../common/validation'
 import MetalSelector from '../components/metal-selector'
+import CustomNumberInput from '../components/custom-number-input'
 
 const MetalConverter = () => {
     const { userId } = useUserSession()
@@ -67,7 +68,7 @@ const MetalConverter = () => {
                         </tr>
                         <tr>
                             <td>Weight</td>
-                            <td><input className="general-input" type="number" step="0.01" min="0.01" value={weight} onChange={(e) => setWeight(e.target.value)} /></td>
+                            <td><CustomNumberInput step={0.01} min={0.01} onChange={(value) => setWeight(value)} /></td>
                         </tr>
                         <tr>
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleCalculate}>Calculate</button></td>
@@ -75,18 +76,13 @@ const MetalConverter = () => {
                         <tr>
                             <td colSpan="2">{validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}</td>
                         </tr>
+                        <tr>
+                            <td>Converted Weight</td>
+                            <td><input className="general-output" type="text" value={convertedWeight} disabled /></td>
+                        </tr>
                     </tbody>
                 </table>
             </form>
-
-            <table>
-                <tbody>
-                    <tr>
-                        <td>Converted Weight</td>
-                        <td><input className="general-output" type="text" value={convertedWeight} disabled /></td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     )
 }

@@ -32,7 +32,7 @@ const Information = ({ retractSidebar }) => {
 
     return (
         <div>
-            <h3>Information</h3>
+            <h3 className="tight-top">Information</h3>
 
             <div className="information">
                 <table>                  
@@ -54,7 +54,7 @@ const Information = ({ retractSidebar }) => {
                 <table>
                     <tbody>
                         <tr>
-                            <td><p>v1.2.2</p></td>
+                            <td><p>v1.2.3</p></td>
                         </tr>
                     </tbody>
                 </table>

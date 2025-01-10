@@ -11,6 +11,7 @@ const ForgotPassword = () => {
     const [email, setEmail] = useState('')
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
+    const [isSendingEmail, setIsSendingEmail] = useState(false)
 
     // APIs
     const { checkEmailExists } = useCheckEmailExists()
@@ -26,25 +27,31 @@ const ForgotPassword = () => {
     }, [email])
 
     const handleSubmit = async () => {
+        setSuccessMessage(' ')
+        setIsSendingEmail(true)
+
         if (!email) {
             setValidationMessage('Please enter an email.')
+            setIsSendingEmail(false)
             return
         }
         else if (!validateEmail(email)) {
             setValidationMessage('Please enter a valid email address.')
+            setIsSendingEmail(false)
             return
         }
         const userId = await checkEmailExists(email)
 
         if (!userId) {
             setValidationMessage('No account found with that email.')
+            setIsSendingEmail(false)
             return
         }
-        setSuccessMessage("Sending...")
         await sendPasswordReset(email)
 
         setSuccessMessage('Email has been sent.')
         setValidationMessage(' ')
+        setIsSendingEmail(false)
     }
 
     const handleKeyDown = (event) => {
@@ -64,11 +71,17 @@ const ForgotPassword = () => {
                             <td><input className="general-input" value={email} type="email" onChange={(e) => setEmail(e.target.value)} /></td>
                         </tr>
                         <tr>
-                            <td colSpan="2"><button className="general-button" type="button" onClick={handleSubmit}>Submit</button></td>
+                            <td className="tight-bottom" colSpan="2"><button className="general-button" type="button" onClick={handleSubmit}>Submit</button></td>
                         </tr>
                         <tr>
-                            <td className="tight-top" colSpan="3">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
-                                : <p className="pre-wrap success-text tight-top">{successMessage}</p>}</td>
+                            <td className="message-container" colSpan="3">
+                                {validationMessage !== ' ' ?
+                                    <p className="pre-wrap warning-text">{validationMessage}</p>
+                                    : successMessage !== ' ' ?
+                                        <p className="pre-wrap success-text">{successMessage}</p>
+                                        : isSendingEmail && <div className="email-loader-container tight-top"><div className="email-loader"></div></div>
+                                }
+                            </td>
                         </tr>
                     </tbody>
                 </table>

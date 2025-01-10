@@ -11,6 +11,7 @@ const Contact = () => {
     const [message, setMessage] = useState('')
     const [successMessage, setSuccessMessage] = useState(' ')
     const [validationMessage, setValidationMessage] = useState(' ')
+    const [isSendingEmail, setIsSendingEmail] = useState(false)
 
     // APIs
     const { sendContactForm } = useSendContactForm()
@@ -32,23 +33,29 @@ const Contact = () => {
     }
 
     const handleSubmit = async () => {
+        setSuccessMessage(' ')
+        setIsSendingEmail(true)
+
         if (!name || !email || !message) {
             setValidationMessage('Please enter all information.')
+            setIsSendingEmail(false)
             return
         }
         else if (!validateEmail(email)) {
             setValidationMessage('Invalid email address.')
+            setIsSendingEmail(false)
             return
         }
-        setSuccessMessage('Sending...')
         await sendContactForm(name, email, message)
 
         setSuccessMessage('Email has been sent.')
+        setValidationMessage(' ')
+        setIsSendingEmail(false)
     }
 
     return (
         <div>
-            <h3>Contact / Feature Request</h3>
+            <h3 className="tight-top">Contact / Feature Request</h3>
 
             <form>
                 <table>
@@ -74,8 +81,14 @@ const Contact = () => {
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleSubmit}>Send Email</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
-                                : <p className="pre-wrap success-text tight-top">{successMessage}</p>}</td>
+                            <td colSpan="2">
+                                {validationMessage !== ' ' ?
+                                    <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
+                                    : successMessage !== ' ' ?
+                                        <p className="pre-wrap success-text tight-top">{successMessage}</p>
+                                        : isSendingEmail && <div className="email-loader-container"><div className="email-loader"></div></div>
+                                }
+                            </td>
                         </tr>
                     </tbody>
                 </table>

@@ -9,7 +9,7 @@ const History = () => {
 
     return (
         <div>
-            <h3>History</h3>
+            <h3 className="tight-top">History</h3>
             {!userId ?
                 <p>To save your calculation history, please create or log in to your account.</p>
                 : currentPage !== Pages.METAL_CONVERTER && currentPage !== Pages.RING_RESIZER

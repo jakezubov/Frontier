@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useGenerateObjectId } from '../common/APIs'
 import { useCurrentPage } from '../contexts/current-page-context'
+import CustomNumberInput from '../components/custom-number-input'
 
 const EditableTable = ({ tableList, setTableList, columnSchema }) => {
     const { isMobile } = useCurrentPage()
@@ -83,14 +84,10 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
                                     }
                                     {columnSchema.map((column) => (
                                         <td key={column.key}>
-                                            <input
-                                                className="general-input"
-                                                type={column.type === 'number' ? 'number' : 'text'}
-                                                step={column.type === 'number' ? '0.01' : undefined}
-                                                min={column.type === 'number' ? '0.01' : undefined}
-                                                value={element[column.key]}
-                                                onChange={(e) => handleInputChange(element.id, column.key, e.target.value)}
-                                            />
+                                            {column.type === 'number' ?
+                                                <CustomNumberInput step={0.01} min={0.01} startingNumber={element[column.key]} onChange={(value) => handleInputChange(element.id, column.key, value)} />
+                                                : <input className="general-input" type="text" value={element[column.key]} onChange={(e) => handleInputChange(element.id, column.key, e.target.value)} />
+                                            }
                                         </td>
                                     ))}
                                     <td className="tooltip">
