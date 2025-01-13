@@ -6,6 +6,7 @@ import { useCurrentPage } from '../contexts/current-page-context'
 import { useUserSession } from '../contexts/user-context'
 import { useGetErrorLedger } from '../common/APIs'
 import Path from '../common/paths'
+import Paging from '../components/paging'
 
 const ErrorLedger = () => {
     const { setCurrentPage, Pages } = useCurrentPage()
@@ -13,6 +14,7 @@ const ErrorLedger = () => {
     const navigate = useNavigate()
 
     const [errorList, setErrorList] = useState([])
+    const [filteredList, setFilteredList] = useState([])
     const [expandedErrors, setExpandedErrors] = useState(new Set())
     const [isLoading, setIsLoading] = useState(true)
 
@@ -39,6 +41,7 @@ const ErrorLedger = () => {
             errorTime: formatDateTime(error.errorTime)
         }))
         setErrorList(formattedErrors)
+        setFilteredList(formattedErrors)
         setIsLoading(false)
     }
 
@@ -74,7 +77,7 @@ const ErrorLedger = () => {
     return (
         <div>
             {isLoading ?
-                <div class="loader"></div>
+                <div className="loader"></div>
                 :
                 <table className="read-only-table">
                     <thead>
@@ -85,7 +88,7 @@ const ErrorLedger = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {errorList.map(error => (
+                        {filteredList.map(error => (
                             <tr key={error.id}>
                                 <td>{error.userDetails}</td>
                                 {expandedErrors.has(error.id) ?
@@ -99,6 +102,7 @@ const ErrorLedger = () => {
                     </tbody>
                 </table>
             }
+            <Paging itemsPerPage={5} initialList={errorList} resultList={setFilteredList} />
         </div>
     )
 }

@@ -3,7 +3,7 @@ import { useError } from '../contexts/error-context'
 import { useUserSession } from '../contexts/user-context'
 
 // const urlPrefix = 'http://localhost:5221/api'
-const urlPrefix 'https://jewellery.zubov.com.au/api'
+const urlPrefix = 'https://jewellery.zubov.com.au/api'
 
 //#region User CRUD
 

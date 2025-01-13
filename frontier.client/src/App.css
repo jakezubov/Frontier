@@ -175,44 +175,6 @@
 /*#endregion */
 
 
-/*#region Padding and Margins*/
-
-.break-top {
-    padding-top: 24px;
-}
-
-.break-bottom {
-    padding-bottom: 24px;
-}
-
-.tight-text {
-    padding-top: 0px;
-    padding-bottom: 0px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-}
-
-.tight-top {
-    padding-top: 0px;
-    margin-top: 0px;
-}
-
-.tight-bottom {
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-}
-
-.left-align {
-    text-align: left;
-}
-
-.table-margin-top {
-    margin-top: 5vh;
-}
-
-/*#endregion*/
-
-
 /*#region Text*/
 
 h1, h2, h3, h4, h5, h6 {
@@ -618,6 +580,52 @@ input[type=number]::-webkit-outer-spin-button {
         justify-content: center;
         width: auto;
     }
+}
+
+/*#endregion*/
+
+
+/*#region Other*/
+
+.break-top {
+    padding-top: 24px;
+}
+
+.break-bottom {
+    padding-bottom: 24px;
+}
+
+.tight-text {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.tight-top {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+.tight-bottom {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+.left-align {
+    text-align: left;
+}
+
+.table-margin-top {
+    margin-top: 5vh;
+}
+
+.email-selector-width {
+    min-width: 150px;
+}
+
+.searchbar-width {
+    min-width: 400px;
 }
 
 /*#endregion*/

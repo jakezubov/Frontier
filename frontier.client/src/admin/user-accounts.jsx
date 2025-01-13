@@ -7,12 +7,17 @@ import { useCurrentPage } from '../contexts/current-page-context'
 import { useGetAllUsers, useSwitchAdminStatus, useDeleteUser } from '../common/APIs'
 import PopupDeleteAccount from '../popups/popup-delete-account'
 import Path from '../common/paths'
+import Searchbar from '../components/searchbar'
+import Paging from '../components/paging'
 
 const UserAccounts = () => {
     const { adminStatus } = useUserSession()
     const navigate = useNavigate()
+    const searchFields = ['firstName', 'lastName', 'email']
 
-    const [userList, setUserList] = useState([])
+    const [userList, setUserList] = useState([]) // Original list, used for the base of the searchedList
+    const [searchedList, setSearchedList] = useState([]) // Filtered list from search, used for the base of the shortenedList
+    const [shortenedList, setShortenedList] = useState([]) // Final list used to display values
     const [selectedUserId, setSelectedUserId] = useState('')
     const { setCurrentPage, Pages, isMobile } = useCurrentPage()
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
@@ -39,6 +44,8 @@ const UserAccounts = () => {
     const loadUsers = async () => {
         const response = await getAllUsers()
         setUserList(response)
+        setSearchedList(response)
+        setShortenedList(response)
         setIsLoading(false)
     }
 
@@ -61,43 +68,52 @@ const UserAccounts = () => {
     return (
         <div>
             {isLoading ?
-                <div class="loader"></div>
+                <div className="loader"></div>
                 :
-                <table className="read-only-table">
-                    <thead>
-                        <tr>
-                            {isMobile === "false" ?
-                                <>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                </> :
-                                <th>Name / Email</th>
-                            }
-                            <th>Admin</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {userList.map(user => (
-                            <tr key={user.id}>
-                                {isMobile === "false" ?
-                                    <>
-                                        <td>{user.firstName} {user.lastName}</td>
-                                        <td>{user.email}</td>
-                                    </> :
-                                    <td>{user.firstName} {user.lastName} / {user.email}</td>
+                <div>
+                    <Searchbar searchFields={searchFields} initialList={userList} resultList={setSearchedList} />
+                    {shortenedList.length > 0 ?
+                        <table className="read-only-table table-margin-top">
+                            <thead>
+                                <tr>
+                                    {isMobile === "false" ?
+                                        <>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                        </> :
+                                        <th>Name / Email</th>
+                                    }
+                                    <th>Admin</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {shortenedList.map(user => (
+                                    <tr key={user.id}>
+                                        {isMobile === "false" ?
+                                            <>
+                                                <td>{user.firstName} {user.lastName}</td>
+                                                <td>{user.email}</td>
+                                            </> :
+                                            <td>{user.firstName} {user.lastName} / {user.email}</td>
+                                        }
+                                        <td>
+                                            {user.adminTF === true ? "True " : "False"}
+                                            <button className="settings-icon" type="button" onClick={() => handleSwitchAdmin(user.id)}><FontAwesomeIcon className="fa-md" icon={faUserTie} /></button>
+                                        </td>
+                                        <td>
+                                            <button className="settings-icon" type="button" onClick={() => handleDeletePopup(user.id)}><FontAwesomeIcon className="fa-md" icon={faTrashCan} /></button>
+                                        </td>
+                                    </tr>
+                                ))
                                 }
-                                <td>
-                                    {user.adminTF === true ? "True " : "False"}
-                                    <button className="settings-icon" type="button" onClick={() => handleSwitchAdmin(user.id)}><FontAwesomeIcon className="fa-md" icon={faUserTie} /></button>
-                                </td>
-                                <td>
-                                    <button className="settings-icon" type="button" onClick={() => handleDeletePopup(user.id)}><FontAwesomeIcon className="fa-md" icon={faTrashCan} /></button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                        :
+                        <p className="table-margin-top">No results</p>
+                    }
+                    <Paging itemsPerPage={5} initialList={searchedList} resultList={setShortenedList} />
+                </div>
             }
             {isDeletePopupOpen && (
                 <PopupDeleteAccount isPopupOpen={isDeletePopupOpen} setIsPopupOpen={setIsDeletePopupOpen} onConfirm={handleConfirmDelete} />

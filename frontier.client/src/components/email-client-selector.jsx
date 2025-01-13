@@ -28,11 +28,9 @@ const EmailClientSelector = ({ onClientChange }) => {
 
     return (
         <div>
-            <select className="general-select" onChange={(e) => handleClientChange(e.target.value)} value={currentClient.name}>
-                <option value=""></option>
-                {
-                    Object.values(Client).map(({ key, name }) => (
-                        <option key={key} value={name}>{name}</option>
+            <select className="general-select email-selector-width" onChange={(e) => handleClientChange(e.target.value)} value={currentClient.name}>
+                {Object.values(Client).map(({ key, name }) => (
+                    <option key={key} value={name}>{name}</option>
                     ))
                 }
             </select>

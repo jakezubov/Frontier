@@ -89,7 +89,7 @@ const RingSizeSettings = () => {
     return (
         <div className="table-margin-top">
             {isLoading ?
-                <div class="loader"></div>
+                <div className="loader"></div>
                 :
                 <form onKeyDown={handleKeyDown}>
                     <EditableTable tableList={ringSizeList} setTableList={setRingSizeList} columnSchema={TableSchemas.RingSizes} />
