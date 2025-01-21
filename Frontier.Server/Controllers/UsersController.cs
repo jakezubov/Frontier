@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Frontier.Server.DataAccess;
 using Frontier.Server.Models;
+using Frontier.Server.Functions;
 
 namespace Frontier.Server.Controllers
 {
@@ -11,6 +12,7 @@ namespace Frontier.Server.Controllers
         private readonly UserDataAccess db = new();
         private readonly ConfigDataAccess dbConfig = new();
         private readonly ConfigController defaults = new();
+        private readonly Misc functions = new();
 
         #region User CRUD APIs
         // Get All Users
@@ -41,9 +43,11 @@ namespace Frontier.Server.Controllers
         } 
 
         // Get User
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUser(string userId)
+        [HttpGet("{base64UserId}")]
+        public async Task<IActionResult> GetUser(string base64UserId)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -76,23 +80,18 @@ namespace Frontier.Server.Controllers
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, salt);
             user.Salt = salt;
             user.Email = user.Email.ToLower();
-            user.ApiToken = CreateApiToken();
+            user.ApiToken = functions.CreateApiToken();
 
             await db.CreateUser(user);
             return Created();
         }
 
-        private string CreateApiToken()
-        {
-            string datetime = DateTime.UtcNow.ToString();
-            string hash = BCrypt.Net.BCrypt.HashPassword(datetime);
-            return hash.Replace("+", "-").Replace("/", "_");
-        }
-
         // Update User Details
-        [HttpPut("{userId}/update")]
-        public async Task<IActionResult> UpdateUser(string userId, UserModel updateUser)
+        [HttpPut("{base64UserId}/update")]
+        public async Task<IActionResult> UpdateUser(string base64UserId, UserModel updateUser)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists in MongoDB
             if (userId != null) {
                 UserModel user = await db.GetUser(userId);
@@ -125,9 +124,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Update Password
-        [HttpPut("{userId}/update/password")]
-        public async Task<IActionResult> UpdatePassword(string userId, CredentialsModel credentials)
+        [HttpPut("{base64UserId}/update/password")]
+        public async Task<IActionResult> UpdatePassword(string base64UserId, CredentialsModel credentials)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists in MongoDB
             if (userId != null)
             {
@@ -145,9 +146,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Delete User
-        [HttpDelete("{userId}/delete")]
-        public async Task<IActionResult> DeleteUser(string userId)
+        [HttpDelete("{base64UserId}/delete")]
+        public async Task<IActionResult> DeleteUser(string base64UserId)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -172,25 +175,30 @@ namespace Frontier.Server.Controllers
             bool isValid = passwordHash == user.PasswordHash;
             if (!isValid) return Ok(null);
 
-            return Ok(user.Id);
+            return Ok(functions.ConvertToBase64(user.Id));
         }
 
         // Check If Email Already Exists
-        [HttpPost("check-email/{email}")]
-        public async Task<IActionResult> CheckEmail(string email)
+        [HttpPost("check-email/{base64Email}")]
+        public async Task<IActionResult> CheckEmail(string base64Email)
         {
+            string email = functions.ConvertFromBase64(base64Email);
+
             // Get the user from the email
             UserModel user = await db.ValidateUser(email.ToLower());
             if (user == null) return Ok(null);
 
-            return Ok(user.Id);
+            return Ok(functions.ConvertToBase64(user.Id));
         }
 
         // Switch Admin Status
-        [HttpPut("{userId}/admin/{adminId}")]
-        public async Task<IActionResult> SwitchAdmin(string userId, string adminId)
+        [HttpPut("{base64UserId}/admin/{base64ApiToken}")]
+        public async Task<IActionResult> SwitchAdmin(string base64UserId, string base64ApiToken)
         {
-            if (await db.GetAdminStatus(adminId))
+            string userId = functions.ConvertFromBase64(base64UserId);
+            string apiToken = functions.ConvertFromBase64(base64ApiToken);
+
+            if (await db.GetAdminStatus(apiToken))
             {
                 // Check if the user exists in MongoDB
                 if (userId != null)
@@ -209,9 +217,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Changes on login
-        [HttpPut("{userId}/login")]
-        public async Task<IActionResult> OnLogin(string userId)
+        [HttpPut("{base64UserId}/login")]
+        public async Task<IActionResult> OnLogin(string base64UserId)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -224,9 +234,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Changes on logout
-        [HttpPut("{userId}/logout")]
-        public async Task<IActionResult> OnLogout(string userId)
+        [HttpPut("{base64UserId}/logout")]
+        public async Task<IActionResult> OnLogout(string base64UserId)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists in MongoDB
             if (userId != null)
             {
@@ -245,9 +257,11 @@ namespace Frontier.Server.Controllers
 
         #region History APIs
         // Get History
-        [HttpGet("{userId}/history")]
-        public async Task<IActionResult> GetHistory(string userId)
+        [HttpGet("{base64UserId}/history")]
+        public async Task<IActionResult> GetHistory(string base64UserId)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists and if it does return the history
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -255,9 +269,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Add History
-        [HttpPut("{userId}/history/create")]
-        public async Task<IActionResult> CreateHistory(string userId, HistoryModel newHistory)
+        [HttpPut("{base64UserId}/history/create")]
+        public async Task<IActionResult> CreateHistory(string base64UserId, HistoryModel newHistory)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -280,9 +296,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Delete History
-        [HttpDelete("{userId}/history/delete")]
-        public async Task<IActionResult> DeleteHistory(string userId)
+        [HttpDelete("{base64UserId}/history/delete")]
+        public async Task<IActionResult> DeleteHistory(string base64UserId)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -297,9 +315,11 @@ namespace Frontier.Server.Controllers
 
         #region Metal APIs
         // Get Metals
-        [HttpGet("{userId}/metals")]
-        public async Task<IActionResult> GetMetals(string userId)
+        [HttpGet("{base64UserId}/metals")]
+        public async Task<IActionResult> GetMetals(string base64UserId)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists and if it does return the metals
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -307,9 +327,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Update Metals
-        [HttpPut("{userId}/metals/update")]
-        public async Task<IActionResult> UpdateMetals(string userId, List<MetalModel> updatedMetals)
+        [HttpPut("{base64UserId}/metals/update")]
+        public async Task<IActionResult> UpdateMetals(string base64UserId, List<MetalModel> updatedMetals)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -320,9 +342,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Reset Metals
-        [HttpPut("{userId}/metals/reset")]
-        public async Task<IActionResult> ResetMetals(string userId)
+        [HttpPut("{base64UserId}/metals/reset")]
+        public async Task<IActionResult> ResetMetals(string base64UserId)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -339,9 +363,11 @@ namespace Frontier.Server.Controllers
 
         #region Ring Size APIs
         // Get Ring Sizes
-        [HttpGet("{userId}/ring-sizes")]
-        public async Task<IActionResult> GetRingSizes(string userId)
+        [HttpGet("{base64UserId}/ring-sizes")]
+        public async Task<IActionResult> GetRingSizes(string base64UserId)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists and if it does return the ring sizes
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -349,9 +375,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Update Ring Sizes
-        [HttpPut("{userId}/ring-sizes/update")]
-        public async Task<IActionResult> UpdateRingSizes(string userId, List<RingSizeModel> updatedRingSizes)
+        [HttpPut("{base64UserId}/ring-sizes/update")]
+        public async Task<IActionResult> UpdateRingSizes(string base64UserId, List<RingSizeModel> updatedRingSizes)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");
@@ -362,9 +390,11 @@ namespace Frontier.Server.Controllers
         }
 
         // Reset Ring Sizes
-        [HttpPut("{userId}/ring-sizes/reset")]
-        public async Task<IActionResult> ResetRingSizes(string userId)
+        [HttpPut("{base64UserId}/ring-sizes/reset")]
+        public async Task<IActionResult> ResetRingSizes(string base64UserId)
         {
+            string userId = functions.ConvertFromBase64(base64UserId);
+
             // Check if the user exists
             UserModel user = await db.GetUser(userId);
             if (user == null) return NotFound("User not found");

@@ -211,6 +211,12 @@ p {
     color: green
 }
 
+.configure-email-text {
+    white-space: pre-wrap;
+    color: var(--text-colour);
+    width: 30vw;
+}
+
 /*#endregion */
 
 
@@ -533,10 +539,6 @@ input[type=number]::-webkit-outer-spin-button {
             width: 50%;
         }
 
-    .navbar-links {
-        font-size: 18px;
-    }
-
     .header-icon {
         padding: 5px;
         margin: 5px;
@@ -548,7 +550,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .theme-buttons {
-        margin: 10px 0;
+        margin: 10px;
     }
 
     .sidebar.expanded {
@@ -625,7 +627,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .searchbar-width {
-    min-width: 400px;
+    min-width: 350px;
 }
 
 /*#endregion*/

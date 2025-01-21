@@ -9,9 +9,8 @@ import EditableTable from '../components/editable-table'
 import Path from '../common/paths'
 
 const RingSizeSettings = () => {
-    const { userId } = useUserSession()
+    const { userId, loggedInStatus } = useUserSession()
     const { setCurrentPage, Pages } = useCurrentPage()
-    const { loggedInStatus } = useUserSession()
     const navigate = useNavigate()
 
     const [ringSizeList, setRingSizeList] = useState([])

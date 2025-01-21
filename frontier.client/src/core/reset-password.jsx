@@ -5,6 +5,7 @@ import { validatePassword } from '../common/validation'
 import { useCurrentPage } from '../contexts/current-page-context'
 import PasswordRequirements from '../components/password-requirements'
 
+// Directed to this page via Email
 const ResetPassword = () => {
     const { setCurrentPage, Pages } = useCurrentPage()
     const location = useLocation()

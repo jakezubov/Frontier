@@ -4,28 +4,43 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
 import { validateNumber } from '../common/validation'
 
-const CustomNumberInput = ({ step, min, onChange, startingNumber=min, disabled=false }) => {
+const CustomNumberInput = ({ step, min, onChange, startingNumber=0, disabled=false }) => {
     const [currentNumber, setCurrentNumber] = useState(startingNumber)
 
     useEffect(() => {
         onChange(currentNumber)
     }, [currentNumber])
 
+    useEffect(() => {
+        if (startingNumber === "") {
+            setCurrentNumber(startingNumber)
+        }
+        else if (validateNumber(startingNumber)) {
+            setCurrentNumber(parseFloat(startingNumber))
+        }
+    }, [startingNumber])
+
     const increaseNumber = () => {
-        setCurrentNumber(prevNumber => parseFloat((prevNumber + step).toFixed(2)))
+        if (validateNumber(currentNumber)) {
+            setCurrentNumber(prevNumber => parseFloat((prevNumber + step).toFixed(2)))
+        }
+        else setCurrentNumber(min)
     }
 
     const decreseNumber = () => {
-        setCurrentNumber(prevNumber => {
-            const newNumber = prevNumber - step
-            return parseFloat((newNumber < min ? min : newNumber).toFixed(2))
-        })
+        if (validateNumber(currentNumber) && currentNumber > min && (currentNumber - min) > min) {
+            setCurrentNumber(prevNumber => parseFloat((prevNumber - step).toFixed(2)))
+        }
+        else setCurrentNumber(min)
     }
 
     const changeNumber = (e) => {
         const value = e.target.value
-        if (validateNumber(value)) {
-            value < min ? setCurrentNumber(min) : setCurrentNumber(parseFloat(value))
+        if (value === "") {
+            setCurrentNumber(value)
+        }
+        else if (validateNumber(value)) {
+            setCurrentNumber(parseFloat(value))
         }
     }
 

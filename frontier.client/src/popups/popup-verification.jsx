@@ -4,7 +4,7 @@ import { useCheckVerificationCode } from '../common/APIs'
 
 const PopupVerification = ({ isPopupOpen, setIsPopupOpen, onVerify, onCancel, email }) => {
     const [validationMessage, setValidationMessage] = useState(' ')
-    const [code, setCode] = useState(' ')
+    const [code, setCode] = useState('')
 
     // APIs
     const { checkVerificationCode } = useCheckVerificationCode()

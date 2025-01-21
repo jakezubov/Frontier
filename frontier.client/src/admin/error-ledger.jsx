@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
+import { faChevronDown, faChevronUp, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentPage } from '../contexts/current-page-context'
 import { useUserSession } from '../contexts/user-context'
-import { useGetErrorLedger } from '../common/APIs'
+import { useGetErrorLedger, useDeleteErrorLog } from '../common/APIs'
 import Path from '../common/paths'
 import Paging from '../components/paging'
 
@@ -20,6 +20,7 @@ const ErrorLedger = () => {
 
     // APIs
     const { getErrorLedger } = useGetErrorLedger()
+    const { deleteErrorLog } = useDeleteErrorLog()
 
     useEffect(() => {
         setCurrentPage(Pages.ERROR_LEDGER)
@@ -41,7 +42,6 @@ const ErrorLedger = () => {
             errorTime: formatDateTime(error.errorTime)
         }))
         setErrorList(formattedErrors)
-        setFilteredList(formattedErrors)
         setIsLoading(false)
     }
 
@@ -73,36 +73,55 @@ const ErrorLedger = () => {
             return newExpanded
         })
     }
+
+    const handleDelete = async (errorId) => {
+        await deleteErrorLog(errorId)
+        loadLedger()
+    }
     
     return (
         <div>
             {isLoading ?
                 <div className="loader"></div>
                 :
-                <table className="read-only-table">
-                    <thead>
-                        <tr>
-                            <th>User Details</th>
-                            <th>Error Details</th>
-                            <th>Date / Time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {filteredList.map(error => (
-                            <tr key={error.id}>
-                                <td>{error.userDetails}</td>
-                                {expandedErrors.has(error.id) ?
-                                    <td>{error.title} | {error.message} | {error.stack} <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronUp} /></button></td>
-                                    :
-                                    <td>{error.title} | {error.message} | More Details <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronDown} /></button></td>
-                                }
-                                <td>{error.errorTime}</td>
+                <div>
+                    <table className="read-only-table">
+                        <thead>
+                            <tr>
+                                <th>User Details</th>
+                                <th>Error Details</th>
+                                <th>Date / Time</th>
+                                <th>Actions</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        {filteredList.length > 0 ?
+                            <tbody>
+                                {filteredList.map(error => (
+                                    <tr key={error.id}>
+                                        <td>{error.userDetails}</td>
+                                        {expandedErrors.has(error.id) ?
+                                            <td>{error.title} | {error.message} | {error.stack} <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronUp} /></button></td>
+                                            :
+                                            <td>{error.title} | {error.message} | More Details <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronDown} /></button></td>
+                                        }
+                                        <td>{error.errorTime}</td>
+                                        <td>
+                                            <button className="settings-icon" type="button" onClick={() => handleDelete(error.id)} ><FontAwesomeIcon className="fa-md" icon={faTrashCan} /></button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                            :
+                            <tbody>
+                                <tr>
+                                    <td colSpan="4"><p>There have been no errors, great job!</p></td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                    <Paging itemsPerPage={6} initialList={errorList} resultList={setFilteredList} />
+                </div>
             }
-            <Paging itemsPerPage={5} initialList={errorList} resultList={setFilteredList} />
         </div>
     )
 }

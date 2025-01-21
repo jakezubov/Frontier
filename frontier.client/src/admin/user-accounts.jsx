@@ -12,6 +12,7 @@ import Paging from '../components/paging'
 
 const UserAccounts = () => {
     const { adminStatus } = useUserSession()
+    const { setCurrentPage, Pages, isMobile } = useCurrentPage()
     const navigate = useNavigate()
     const searchFields = ['firstName', 'lastName', 'email']
 
@@ -19,7 +20,6 @@ const UserAccounts = () => {
     const [searchedList, setSearchedList] = useState([]) // Filtered list from search, used for the base of the shortenedList
     const [shortenedList, setShortenedList] = useState([]) // Final list used to display values
     const [selectedUserId, setSelectedUserId] = useState('')
-    const { setCurrentPage, Pages, isMobile } = useCurrentPage()
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
 
@@ -45,7 +45,6 @@ const UserAccounts = () => {
         const response = await getAllUsers()
         setUserList(response)
         setSearchedList(response)
-        setShortenedList(response)
         setIsLoading(false)
     }
 
@@ -72,21 +71,21 @@ const UserAccounts = () => {
                 :
                 <div>
                     <Searchbar searchFields={searchFields} initialList={userList} resultList={setSearchedList} />
-                    {shortenedList.length > 0 ?
-                        <table className="read-only-table table-margin-top">
-                            <thead>
-                                <tr>
-                                    {isMobile === "false" ?
-                                        <>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                        </> :
-                                        <th>Name / Email</th>
-                                    }
-                                    <th>Admin</th>
-                                    <th>Delete</th>
-                                </tr>
-                            </thead>
+                    <table className="read-only-table table-margin-top">
+                        <thead>
+                            <tr>
+                                {isMobile === "false" ?
+                                    <>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                    </> :
+                                    <th>Name / Email</th>
+                                }
+                                <th>Admin</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        {shortenedList.length > 0 ?
                             <tbody>
                                 {shortenedList.map(user => (
                                     <tr key={user.id}>
@@ -105,14 +104,17 @@ const UserAccounts = () => {
                                             <button className="settings-icon" type="button" onClick={() => handleDeletePopup(user.id)}><FontAwesomeIcon className="fa-md" icon={faTrashCan} /></button>
                                         </td>
                                     </tr>
-                                ))
-                                }
+                                ))}
                             </tbody>
-                        </table>
-                        :
-                        <p className="table-margin-top">No results</p>
-                    }
-                    <Paging itemsPerPage={5} initialList={searchedList} resultList={setShortenedList} />
+                            :
+                            <tbody>
+                                <tr>
+                                    <td colSpan={isMobile === "false" ? "4" : "3"}><p>No results</p></td>
+                                </tr>
+                            </tbody>
+                        }
+                    </table>
+                    <Paging itemsPerPage={6} initialList={searchedList} resultList={setShortenedList} />
                 </div>
             }
             {isDeletePopupOpen && (

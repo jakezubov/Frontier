@@ -151,6 +151,11 @@ const ConfigureEmail = ({ onConfigureEmailComplete }) => {
                                 }
                             </td>
                         </tr>
+                        <tr>
+                            <td colSpan="2">
+                                <p className="tight-top configure-email-text">{"A test email must be sent before changes can be saved, ensure you actually receive the email since the test only verifies that it was able to send the email."}</p>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </form>

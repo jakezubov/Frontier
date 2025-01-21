@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserSession } from '../contexts/user-context'
 import { useCheckEmailExists, useSendVerification, useUpdateUser } from '../common/APIs'
-import { validateEmail } from '../common/validation'
+import { validateEmail, validateNumber } from '../common/validation'
 import { useCurrentPage } from '../contexts/current-page-context'
 import DeleteAccountButton from '../components/delete-account-button'
 import ClearHistoryButton from '../components/clear-history-button'
@@ -15,6 +15,7 @@ const UserSettings = () => {
     const { setCurrentPage, Pages } = useCurrentPage()
     const { loggedInStatus } = useUserSession()
     const navigate = useNavigate()
+    const historyMin = 5
     
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -25,6 +26,7 @@ const UserSettings = () => {
     const [validationMessage, setValidationMessage] = useState(' ')
     const [successMessage, setSuccessMessage] = useState(' ')
     const [isVerificationPopupOpen, setIsVerificationPopupOpen] = useState(false)
+    const [isSendingEmail, setIsSendingEmail] = useState(false)
 
     // APIs
     const { updateUser } = useUpdateUser()
@@ -66,16 +68,22 @@ const UserSettings = () => {
     }
 
     const handleChecks = async () => {
+        setValidationMessage(' ')
+        setIsSendingEmail(true)
+
         if (!firstName || !lastName || !email || !historyAmount) {
             setValidationMessage('Please enter all information.')
+            setIsSendingEmail(false)
             return
         }
         else if (!validateEmail(email)) {
             setValidationMessage('Invalid email address.')
+            setIsSendingEmail(false)
             return
         }
         else if (historyAmount < 0) {
             setValidationMessage('History amount must be greater than zero.')
+            setIsSendingEmail(false)
             return
         }
 
@@ -84,11 +92,13 @@ const UserSettings = () => {
 
             if (response) {
                 setValidationMessage('Email already exists.')
+                setIsSendingEmail(false)
                 return
             }
             await sendVerification(`${firstName} ${lastName}`, email)
 
             setIsVerificationPopupOpen(true)
+            setIsSendingEmail(false)
         }
         else {
             handleSubmit()
@@ -137,14 +147,20 @@ const UserSettings = () => {
                         </tr>
                         <tr>
                             <td>History Amount</td>
-                            <td><CustomNumberInput step={5} min={5} startingNumber={localHistoryAmount} onChange={(value) => setHistoryAmount(value)} /></td>
+                            <td><CustomNumberInput step={historyMin} min={historyMin} startingNumber={localHistoryAmount} onChange={(value) => setHistoryAmount(value)} /></td>
                         </tr>
                         <tr>
                             <td colSpan="2"><button className="general-button" type="button" onClick={handleChecks}>Save Changes</button></td>
                         </tr>
                         <tr>
-                            <td colSpan="2">{validationMessage !== ' ' ? <p className="pre-wrap warning-text tight-text">{validationMessage}</p>
-                                : <p className="pre-wrap success-text tight-text">{successMessage}</p>}</td>
+                            <td className="message-container" colSpan="2">
+                                {validationMessage !== ' ' ?
+                                    <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
+                                    : successMessage !== ' ' ?
+                                        <p className="pre-wrap success-text tight-top">{successMessage}</p>
+                                        : isSendingEmail && <div className="email-loader-container"><div className="email-loader"></div></div>
+                                }
+                            </td>
                         </tr>
                         <tr>
                             <td><ClearHistoryButton onSuccess={setSuccessMessage} /></td>

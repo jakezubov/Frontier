@@ -5,6 +5,14 @@ import { useUserSession } from '../contexts/user-context'
 // const urlPrefix = 'http://localhost:5221/api'
 const urlPrefix = 'https://jewellery.zubov.com.au/api'
 
+const convertToBase64 = (string) => {
+    return btoa(string.toString())
+}
+
+const convertFromBase64 = (string) => {
+    return atob(string.toString())
+}
+
 //#region User CRUD
 
 export const useGetAllUsers = () => {
@@ -34,8 +42,9 @@ export const useGetUser = () => {
     const { displayError, logError } = useError()
 
     const getUser = async (userId) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            const response = await Axios.get(`${urlPrefix}/users/${userId}`);
+            const response = await Axios.get(`${urlPrefix}/users/${convertedUserId}`)
             return response.data
         }
         catch (error) {
@@ -46,6 +55,7 @@ export const useGetUser = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
             })
             logError(userId, title, error.message, error.stack)
         }
@@ -96,8 +106,9 @@ export const useUpdateUser = () => {
     const { displayError, logError } = useError()
 
     const updateUser = async (userId, firstName, lastName, email, historyAmount) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            await Axios.put(`${urlPrefix}/users/${userId}/update`, {
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/update`, {
                 'FirstName': firstName,
                 'LastName': lastName,
                 'Email': email,
@@ -113,6 +124,7 @@ export const useUpdateUser = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
                 firstName,
                 lastName,
                 email,
@@ -129,8 +141,9 @@ export const useUpdatePassword = () => {
     const { displayError, logError } = useError()
 
     const updatePassword = async (userId, email, newPassword) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            await Axios.put(`${urlPrefix}/users/${userId}/update/password`, {
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/update/password`, {
                 'Email': email,
                 'Password': newPassword,
             })
@@ -143,6 +156,7 @@ export const useUpdatePassword = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
                 email,
             })
             logError(userId, title, error.message, error.stack)
@@ -156,8 +170,9 @@ export const useDeleteUser = () => {
     const { displayError, logError } = useError()
 
     const deleteUser = async (userId) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            await Axios.delete(`${urlPrefix}/users/${userId}/delete`)
+            await Axios.delete(`${urlPrefix}/users/${convertedUserId}/delete`)
         }
         catch (error) {
             const title = 'Failed to delete account'
@@ -167,6 +182,7 @@ export const useDeleteUser = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
             })
             logError(userId, title, error.message, error.stack)
         }
@@ -179,83 +195,13 @@ export const useDeleteUser = () => {
 
 //#region User Utility
 
-export const useSwitchAdminStatus = () => {
-    const { displayError, logError } = useError()
-    const { apiToken } = useUserSession()
-
-    const switchAdminStatus = async (changedUserId) => {
-        try {
-            await Axios.put(`${urlPrefix}/users/${changedUserId}/admin/${apiToken}`)
-        }
-        catch (error) {
-            const title = 'Failed to switch admin status'
-            displayError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            logError(userId, title, error.message, error.stack)
-        }
-    }
-
-    return { switchAdminStatus }
-}
-
-export const useLogLogin = () => {
-    const { displayError, logError } = useError()
-
-    const logLogin = async (userId) => {
-        try {
-            await Axios.put(`${urlPrefix}/users/${userId}/login`)
-        }
-        catch (error) {
-            const title = 'Failed to log login'
-            displayError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            logError(userId, title, error.message, error.stack)
-        }
-    }
-
-    return { logLogin }
-}
-
-export const useLogLogout = () => {
-    const { displayError, logError } = useError()
-
-    const logLogout = async (userId) => {
-        try {
-            await Axios.put(`${urlPrefix}/users/${userId}/logout`)
-        }
-        catch (error) {
-            const title = 'Failed to log logout'
-            displayError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            logError(userId, title, error.message, error.stack)
-        }
-    }
-
-    return { logLogout }
-}
-
 export const useValidateUser = () => {
     const { displayError, logError } = useError()
 
     const validateUser = async (email, password) => {
         try {
             const response = await Axios.post(`${urlPrefix}/users/validate`, { email, password })
-            return response.data
+            return convertFromBase64(response.data)
         }
         catch (error) {
             const title = 'Failed to validate user'
@@ -277,9 +223,10 @@ export const useCheckEmailExists = () => {
     const { displayError, logError } = useError()
 
     const checkEmailExists = async (email) => {
+        const convertedEmail = convertToBase64(email)
         try {
-            const response = await Axios.post(`${urlPrefix}/users/check-email/${email}`)
-            return response.data
+            const response = await Axios.post(`${urlPrefix}/users/check-email/${convertedEmail}`)
+            return convertFromBase64(response.data)
         }
         catch (error) {
             const title = 'Failed to check if email exists'
@@ -289,12 +236,90 @@ export const useCheckEmailExists = () => {
                 error: error.message,
                 stack: error.stack,
                 email,
+                convertedEmail,
             })
             logError(email, title, error.message, error.stack)
         }
     }
 
     return { checkEmailExists }
+}
+
+export const useSwitchAdminStatus = () => {
+    const { displayError, logError } = useError()
+    const { apiToken } = useUserSession()
+
+    const switchAdminStatus = async (changedUserId) => {
+        const convertedUserId = convertToBase64(changedUserId)
+        const convertedApiToken = convertToBase64(apiToken)
+        try {
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/admin/${convertedApiToken}`)
+        }
+        catch (error) {
+            const title = 'Failed to switch admin status'
+            displayError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                userId,
+                convertedUserId,
+            })
+            logError(userId, title, error.message, error.stack)
+        }
+    }
+
+    return { switchAdminStatus }
+}
+
+export const useLogLogin = () => {
+    const { displayError, logError } = useError()
+
+    const logLogin = async (userId) => {
+        const convertedUserId = convertToBase64(userId)
+        try {
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/login`)
+        }
+        catch (error) {
+            const title = 'Failed to log login'
+            displayError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                userId,
+                convertedUserId,
+            })
+            logError(userId, title, error.message, error.stack)
+        }
+    }
+
+    return { logLogin }
+}
+
+export const useLogLogout = () => {
+    const { displayError, logError } = useError()
+
+    const logLogout = async (userId) => {
+        const convertedUserId = convertToBase64(userId)
+        try {
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/logout`)
+        }
+        catch (error) {
+            const title = 'Failed to log logout'
+            displayError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                userId,
+                convertedUserId,
+            })
+            logError(userId, title, error.message, error.stack)
+        }
+    }
+
+    return { logLogout }
 }
 
 //#endregion
@@ -305,24 +330,27 @@ export const useGetHistory = () => {
     const { displayError, logError } = useError()
 
     const getHistory = async (userId, historyType) => {
-        try {
-            if (userId) {
-                const response = await Axios.get(`${urlPrefix}/users/${userId}/history`)
+        if (userId) {
+            const convertedUserId = convertToBase64(userId)
+            try {
+                const response = await Axios.get(`${urlPrefix}/users/${convertedUserId}/history`)
                 return response.data.filter(h => h.historyType === historyType)
+            
             }
-            return null
+            catch (error) {
+                const title = 'Failed to get history'
+                displayError(`${title}\n${error.message}`)
+                console.error({
+                    title,
+                    error: error.message,
+                    stack: error.stack,
+                    userId,
+                    convertedUserId,
+                })
+                logError(userId, title, error.message, error.stack)
+            }
         }
-        catch (error) {
-            const title = 'Failed to get history'
-            displayError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            logError(userId, title, error.message, error.stack)
-        }
+        return null
     }
 
     return { getHistory }
@@ -332,8 +360,9 @@ export const useSaveHistory = () => {
     const { displayError, logError } = useError()
 
     const saveHistory = async (userId, historyType, content) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            await Axios.put(`${urlPrefix}/users/${userId}/history/create`, {
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/history/create`, {
                 'historyType': historyType,
                 'content': content,
             })
@@ -346,6 +375,7 @@ export const useSaveHistory = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
                 historyType,
                 content,
             })
@@ -360,8 +390,9 @@ export const useDeleteUserHistory = () => {
     const { displayError, logError } = useError()
 
     const deleteUserHistory = async (userId) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            await Axios.delete(`${urlPrefix}/users/${userId}/history/delete`)
+            await Axios.delete(`${urlPrefix}/users/${convertedUserId}/history/delete`)
         }
         catch (error) {
             const title = 'Failed to delete user history'
@@ -371,6 +402,7 @@ export const useDeleteUserHistory = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
             })
             logError(userId, title, error.message, error.stack)
         }
@@ -387,8 +419,9 @@ export const useGetMetals = () => {
     const { displayError, logError } = useError()
 
     const getMetals = async (userId) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            const response = await Axios.get(`${urlPrefix}/users/${userId}/metals`)
+            const response = await Axios.get(`${urlPrefix}/users/${convertedUserId}/metals`)
             return response.data.sort((a, b) => a.listIndex - b.listIndex)
         }
         catch (error) {
@@ -399,6 +432,7 @@ export const useGetMetals = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
             })
             logError(userId, title, error.message, error.stack)
         }
@@ -411,8 +445,9 @@ export const useUpdateMetals = () => {
     const { displayError, logError } = useError()
 
     const updateMetals = async (userId, metalList) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            await Axios.put(`${urlPrefix}/users/${userId}/metals/update`, metalList)
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/metals/update`, metalList)
         }
         catch (error) {
             const title = 'Failed to update metals'
@@ -422,6 +457,7 @@ export const useUpdateMetals = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
                 metalList,
             })
             logError(userId, title, error.message, error.stack)
@@ -435,8 +471,9 @@ export const useResetMetals = () => {
     const { displayError, logError } = useError()
 
     const resetMetals = async (userId) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            await Axios.put(`${urlPrefix}/users/${userId}/metals/reset`)
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/metals/reset`)
         }
         catch (error) {
             const title = 'Failed to update metals'
@@ -446,6 +483,7 @@ export const useResetMetals = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
             })
             logError(userId, title, error.message, error.stack)
         }
@@ -483,8 +521,9 @@ export const useUpdateDefaultMetals = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateDefaultMetals = async (metalList) => {
+        const convertedApiToken = convertToBase64(apiToken)
         try {
-            await Axios.put(`${urlPrefix}/config/metals/update/${apiToken}`, metalList)
+            await Axios.put(`${urlPrefix}/config/metals/update/${convertedApiToken}`, metalList)
         }
         catch (error) {
             const title = 'Failed to update default metals'
@@ -533,8 +572,9 @@ export const useGetRingSizes = () => {
     const { displayError, logError } = useError()
 
     const getRingSizes = async (userId) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            const response = await Axios.get(`${urlPrefix}/users/${userId}/ring-sizes`)
+            const response = await Axios.get(`${urlPrefix}/users/${convertedUserId}/ring-sizes`)
             return response.data.sort((a, b) => a.listIndex - b.listIndex)
         }
         catch (error) {
@@ -545,6 +585,7 @@ export const useGetRingSizes = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
             })
             logError(userId, title, error.message, error.stack)
         }
@@ -557,8 +598,9 @@ export const useUpdateRingSizes = () => {
     const { displayError, logError } = useError()
 
     const updateRingSizes = async (userId, ringSizeList) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            await Axios.put(`${urlPrefix}/users/${userId}/ring-sizes/update`, ringSizeList)
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/ring-sizes/update`, ringSizeList)
         }
         catch (error) {
             const title = 'Failed to update ring sizes'
@@ -568,6 +610,7 @@ export const useUpdateRingSizes = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
                 ringSizeList,
             })
             logError(userId, title, error.message, error.stack)
@@ -581,8 +624,9 @@ export const useResetRingSizes = () => {
     const { displayError, logError } = useError()
 
     const resetRingSizes = async (userId) => {
+        const convertedUserId = convertToBase64(userId)
         try {
-            await Axios.put(`${urlPrefix}/users/${userId}/ring-sizes/reset`)
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/ring-sizes/reset`)
         }
         catch (error) {
             const title = 'Failed to update ring sizes'
@@ -592,6 +636,7 @@ export const useResetRingSizes = () => {
                 error: error.message,
                 stack: error.stack,
                 userId,
+                convertedUserId,
             })
             logError(userId, title, error.message, error.stack)
         }
@@ -629,8 +674,9 @@ export const useUpdateDefaultRingSizes = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateDefaultRingSizes = async (ringSizeList) => {
+        const convertedApiToken = convertToBase64(apiToken)
         try {
-            await Axios.put(`${urlPrefix}/config/ring-sizes/update/${apiToken}`, ringSizeList)
+            await Axios.put(`${urlPrefix}/config/ring-sizes/update/${convertedApiToken}`, ringSizeList)
         }
         catch (error) {
             const title = 'Failed to update default ring sizes'
@@ -708,8 +754,9 @@ export const useSendPasswordReset = () => {
     const { displayError, logError } = useError()
 
     const sendPasswordReset = async (email) => {
+        const convertedEmail = convertToBase64(email)
         try {
-            await Axios.post(`${urlPrefix}/email/send/password-reset/${email}`)
+            await Axios.post(`${urlPrefix}/email/send/password-reset/${convertedEmail}`)
         }
         catch (error) {
             const title = 'Failed to send password reset email'
@@ -719,6 +766,7 @@ export const useSendPasswordReset = () => {
                 error: error.message,
                 stack: error.stack,
                 email,
+                convertedEmail,
             })
             logError(email, title, error.message, error.stack)
         }
@@ -731,8 +779,10 @@ export const useSendRegistration = () => {
     const { displayError, logError } = useError()
 
     const sendRegistration = async (name, email) => {
+        const convertedName = convertToBase64(name)
+        const convertedEmail = convertToBase64(email)
         try {
-            await Axios.post(`${urlPrefix}/email/send/registration/${name}/${email}`)
+            await Axios.post(`${urlPrefix}/email/send/registration/${convertedName}/${convertedEmail}`)
         }
         catch (error) {
             const title = 'Failed to send registration email'
@@ -742,7 +792,9 @@ export const useSendRegistration = () => {
                 error: error.message,
                 stack: error.stack,
                 name,
+                convertedName,
                 email,
+                convertedEmail,
             })
             logError(email, title, error.message, error.stack)
         }
@@ -755,8 +807,10 @@ export const useSendVerification = () => {
     const { displayError, logError } = useError()
 
     const sendVerification = async (name, email) => {
+        const convertedName = convertToBase64(name)
+        const convertedEmail = convertToBase64(email)
         try {
-            await Axios.post(`${urlPrefix}/email/send/verification/${name}/${email}`)
+            await Axios.post(`${urlPrefix}/email/send/verification/${convertedName}/${convertedEmail}`)
         }
         catch (error) {
             const title = 'Failed to send verification email'
@@ -766,7 +820,9 @@ export const useSendVerification = () => {
                 error: error.message,
                 stack: error.stack,
                 name,
+                convertedName,
                 email,
+                convertedEmail,
             })
             logError(email, title, error.message, error.stack)
         }
@@ -779,8 +835,10 @@ export const useCheckVerificationCode = () => {
     const { displayError, logError } = useError()
 
     const checkVerificationCode = async (email, code) => {
+        const convertedEmail = convertToBase64(email)
+        const convertedCode = convertToBase64(code)
         try {
-            const response = await Axios.delete(`${urlPrefix}/email/verification/${email}/${code}`)
+            const response = await Axios.delete(`${urlPrefix}/email/verification/${convertedEmail}/${convertedCode}`)
             return response
         }
         catch (error) {
@@ -791,7 +849,9 @@ export const useCheckVerificationCode = () => {
                 error: error.message,
                 stack: error.stack,
                 email,
+                convertedEmail,
                 code,
+                convertedCode,
             })
             logError(email, title, error.message, error.stack)
         }
@@ -833,8 +893,9 @@ export const useUpdateCurrentClientType = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateCurrentClientType = async (newClientType) => {
+        const convertedApiToken = convertToBase64(apiToken)
         try {
-            await Axios.put(`${urlPrefix}/email/client-type/update/${newClientType}/${apiToken}`)
+            await Axios.put(`${urlPrefix}/email/client-type/update/${newClientType}/${convertedApiToken}`)
         }
         catch (error) {
             const title = 'Failed to update the current client type'
@@ -882,8 +943,9 @@ export const useUpdateAzureClient = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
+        const convertedApiToken = convertToBase64(apiToken)
         try {
-            await Axios.post(`${urlPrefix}/email/update/azure/client/${apiToken}`, {
+            await Axios.post(`${urlPrefix}/email/update/azure/client/${convertedApiToken}`, {
                 'ClientId': clientId,
                 'ClientSecret': clientSecret,
                 'TenantId': tenantId,
@@ -916,8 +978,9 @@ export const useTestAzureClient = () => {
     const { apiToken, userId } = useUserSession()
 
     const testAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
+        const convertedApiToken = convertToBase64(apiToken)
         try {
-            const response = await Axios.put(`${urlPrefix}/email/test/azure/${apiToken}`, {
+            const response = await Axios.put(`${urlPrefix}/email/test/azure/${convertedApiToken}`, {
                 'ClientId': clientId,
                 'ClientSecret': clientSecret,
                 'TenantId': tenantId,
@@ -981,8 +1044,9 @@ export const useUpdateInitialisedStatus = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateInitialisedStatus = async (newStatus) => {
+        const convertedApiToken = convertToBase64(apiToken)
         try {
-            await Axios.put(`${urlPrefix}/config/init/update/${newStatus}/${apiToken}`)
+            await Axios.put(`${urlPrefix}/config/init/update/${newStatus}/${convertedApiToken}`)
         }
         catch (error) {
             const title = 'Failed to update the initialised status'
@@ -1080,8 +1144,9 @@ export const useDeleteErrorLog = () => {
     const { userId } = useUserSession()
 
     const deleteErrorLog = async (errorId) => {
+        const convertedErrorId = convertToBase64(errorId)
         try {
-            await Axios.delete(`${urlPrefix}/errors/${errorId}/delete`)
+            await Axios.delete(`${urlPrefix}/errors/${convertedErrorId}/delete`)
         }
         catch (error) {
             const title = 'Failed to delete an error log'
@@ -1090,13 +1155,14 @@ export const useDeleteErrorLog = () => {
                 title,
                 error: error.message,
                 stack: error.stack,
-                errorId: errorId,
+                errorId,
+                convertedErrorId,
             })
             logError(userId, title, error.message, error.stack)
         }
     }
 
-    return { createErrorLog }
+    return { deleteErrorLog }
 }
 
 //#endregion

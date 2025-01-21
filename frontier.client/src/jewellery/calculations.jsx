@@ -33,9 +33,7 @@ const Calculations = () => {
             formulas[section].forEach((formula, index) => {
                 const elementId = `${section}-${index}`
                 const element = document.getElementById(elementId)
-                katex.render(formula, element, {
-                    throwOnError: false,
-                })
+                katex.render(formula, element, { throwOnError: false })
                 element.style.zIndex = '0'
             })
         })

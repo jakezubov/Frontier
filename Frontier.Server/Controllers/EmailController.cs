@@ -10,6 +10,7 @@ using Frontier.Server.Models;
 using Frontier.Server.EmailTemplates;
 using Frontier.Server.DataAccess;
 using Frontier.Server.Interfaces;
+using Frontier.Server.Functions;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -19,6 +20,7 @@ public class EmailController : ControllerBase
     private readonly UserDataAccess dbUsers = new();
     private readonly VerificationCodeDataAccess dbVerify = new();
     private GraphServiceClient? graphClient;
+    private readonly Misc functions = new();
 
     #region Sending Emails
 
@@ -35,9 +37,11 @@ public class EmailController : ControllerBase
         return BadRequest("Emailing Not Setup Correctly");
     }
 
-    [HttpPost("send/password-reset/{email}")]
-    public async Task<IActionResult> PasswordReset(string email)
+    [HttpPost("send/password-reset/{base64Email}")]
+    public async Task<IActionResult> PasswordReset(string base64Email)
     {
+        string email = functions.ConvertFromBase64(base64Email);
+
         UserModel user = await dbUsers.ValidateUser(email.ToLower());
         if (user == null) return BadRequest("Not a registered email");
 
@@ -51,9 +55,12 @@ public class EmailController : ControllerBase
         return BadRequest("Emailing Not Setup Correctly");
     }
 
-    [HttpPost("send/registration/{name}/{email}")]
-    public async Task<IActionResult> Registration(string name, string email)
+    [HttpPost("send/registration/{base64Name}/{base64Email}")]
+    public async Task<IActionResult> Registration(string base64Name, string base64Email)
     {
+        string name = functions.ConvertFromBase64(base64Name);
+        string email = functions.ConvertFromBase64(base64Email);
+
         IEmailClientModel? client = await GetCurrentClient();
         if (client != null) {
             string code = await NewVerificationCode(email);
@@ -65,13 +72,14 @@ public class EmailController : ControllerBase
         return BadRequest("Emailing Not Setup Correctly");
     }
 
-    [HttpPost("send/verification/{name}/{email}")]
-    public async Task<IActionResult> Verification(string name, string email)
+    [HttpPost("send/verification/{base64Name}/{base64Email}")]
+    public async Task<IActionResult> Verification(string base64Name, string base64Email)
     {
-        UserModel user = await dbUsers.ValidateUser(email.ToLower());
-        if (user == null) return BadRequest("Not a registered email");
+        string name = functions.ConvertFromBase64(base64Name);
+        string email = functions.ConvertFromBase64(base64Email);
 
         IEmailClientModel? client = await GetCurrentClient();
+        Console.WriteLine(client);
         if (client != null) {
             string code = await NewVerificationCode(email);
             VerificaitonTemplate emailType = new(name, code);
@@ -82,9 +90,11 @@ public class EmailController : ControllerBase
         return BadRequest("Emailing Not Setup Correctly");
     }
 
-    [HttpPut("test/azure/{apiToken}")]
-    public async Task<IActionResult> TestAzureClient(AzureClientModel client, string apiToken)
+    [HttpPut("test/azure/{base64ApiToken}")]
+    public async Task<IActionResult> TestAzureClient(AzureClientModel client, string base64ApiToken)
     {
+        string apiToken = functions.ConvertFromBase64(base64ApiToken);
+
         if (await dbUsers.GetAdminStatus(apiToken)) {
             LoadAzureClient(client);
             IActionResult response = await TestClient(client);
@@ -182,9 +192,11 @@ public class EmailController : ControllerBase
         else return null;
     }
 
-    [HttpPost("update/azure/client/{apiToken}")]
-    public async Task<IActionResult> UpdateAzureClient(AzureClientModel client, string apiToken)
+    [HttpPost("update/azure/client/{base64ApiToken}")]
+    public async Task<IActionResult> UpdateAzureClient(AzureClientModel client, string base64ApiToken)
     {
+        string apiToken = functions.ConvertFromBase64(base64ApiToken);
+
         if (await dbUsers.GetAdminStatus(apiToken)) {
             await db.UpdateAzureClient(client);
             await db.UpdateCurrentClientType(EmailClientType.Azure);
@@ -200,9 +212,11 @@ public class EmailController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut("client-type/update/{newClientType}/{apiToken}")]
-    public async Task<IActionResult> UpdateCurrentClientType(EmailClientType newClientType, string apiToken)
+    [HttpPut("client-type/update/{newClientType}/{base64ApiToken}")]
+    public async Task<IActionResult> UpdateCurrentClientType(EmailClientType newClientType, string base64ApiToken)
     {
+        string apiToken = functions.ConvertFromBase64(base64ApiToken);
+
         if (await dbUsers.GetAdminStatus(apiToken))
         {
             await db.UpdateCurrentClientType(newClientType);
@@ -215,9 +229,12 @@ public class EmailController : ControllerBase
 
     #region Verification
 
-    [HttpDelete("verification/{email}/{code}")]
-    public async Task<IActionResult> CheckVerificationCode(string email, string code)
+    [HttpDelete("verification/{base64Email}/{base64Code}")]
+    public async Task<IActionResult> CheckVerificationCode(string base64Email, string base64Code)
     {
+        string email = functions.ConvertFromBase64(base64Email);
+        string code = functions.ConvertFromBase64(base64Code);
+        
         VerificationCodeModel result = await dbVerify.GetVerificationCode(email);
 
         if (result != null && result.Code == code) {
@@ -229,30 +246,12 @@ public class EmailController : ControllerBase
 
     private async Task<string> NewVerificationCode(string email)
     {
-        string code = GenerateCode();
+        string code = functions.GenerateVerificationCode();
         VerificationCodeModel newVerification = new() {
             Email = email,
             Code = code
         };
         await dbVerify.CreateVerificationCode(newVerification);
-        return code;
-    }
-
-    private static string GenerateCode()
-    {
-        Random random = new();
-        string code = "";
-        int lastDigit = -1;
-
-        for (int i = 0; i < 6; i++) {
-            int newDigit;
-            do {
-                newDigit = random.Next(0, 10);
-            } while (newDigit == lastDigit);
-
-            code += newDigit.ToString();
-            lastDigit = newDigit;
-        }
         return code;
     }
 
