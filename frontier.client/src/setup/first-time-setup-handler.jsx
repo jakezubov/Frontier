@@ -9,12 +9,12 @@ const FirstTimeSetupHandler = ({ onNotAlreadySetup }) => {
     const { getInitialisedStatus } = useGetInitialisedStatus()
 
     useEffect(() => {
-        checkInitialization()
+        checkInitialisation()
     }, [])
 
-    const checkInitialization = async () => {
-        const isInitialized = await getInitialisedStatus()
-        if (!isInitialized) {
+    const checkInitialisation = async () => {
+        const isInitialised = await getInitialisedStatus()
+        if (!isInitialised) {
             onNotAlreadySetup()
             navigate(Path.FIRST_TIME_SETUP)
         }

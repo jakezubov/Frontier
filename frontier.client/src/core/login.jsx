@@ -7,7 +7,7 @@ import Path from '../common/paths'
 
 const Login = () => {
     const navigate = useNavigate()
-    const { setCurrentPage, Pages } = useCurrentPage()
+    const { setCurrentPage, Pages, isEmailSetup } = useCurrentPage()
     const { setUserId } = useUserSession()
 
     const [email, setEmail] = useState('')
@@ -68,19 +68,21 @@ const Login = () => {
                     </tbody>
                 </table>
 
-                <button className="general-button" type="button" onClick={handleSubmit}>Submit</button>
+                <button className="general-button" type="button" onClick={handleSubmit}>Login</button>
             </form>
 
             {validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}
-                
-            <table>
-                <tbody>
-                    <tr>
-                        <td><Link className="link-text" to={Path.REGISTER}>Register</Link></td>
-                        <td><Link className="link-text" to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
-                    </tr>
-                </tbody>
-            </table>
+
+            {isEmailSetup === "true" &&
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><Link className="link-text" to={Path.REGISTER}>Register</Link></td>
+                            <td><Link className="link-text" to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
         </div>
     )
 }

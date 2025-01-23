@@ -40,7 +40,7 @@ const MetalConverter = () => {
 
         if (userId) {
             const originalWeightText = parseFloat(weight).toFixed(2) + "g"
-            const content = `${originalMetal.name} | ${originalWeightText} => ${newMetal.name} | ${calculatedWeightText}`
+            const content = `${originalMetal.name} | ${originalWeightText} -> ${newMetal.name} | ${calculatedWeightText}`
 
             addHistory(content)
         }

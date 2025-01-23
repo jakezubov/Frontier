@@ -23,8 +23,8 @@ import DefaultRingSizes from './admin/default-ring-sizes'
 import ConfigureEmail from './admin/configure-email'
 import ErrorLedger from './admin/error-ledger'
 import Header from './navbar/header'
-import FirstTimeSetup from './setup/first-time-setup'
 import FirstTimeSetupHandler from './setup/first-time-setup-handler'
+import FirstTimeSetup from './setup/first-time-setup'
 
 const App = () => {
     const [setupComplete, setSetupComplete] = useState(true)

@@ -10,10 +10,17 @@ const PopupConfirmation = ({ isPopupOpen, setIsPopupOpen, onConfirm, heading, co
         onConfirm()
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            handleConfirmPopup(event)
+        }
+    }
+
     return (
         <div>
             {isPopupOpen && (
-                <div className="popup-overlay">
+                <div className="popup-overlay" onKeyDown={handleKeyDown}>
                     <div className="popup-box">
                         <h2>{heading}</h2>
                         <p className="pre-wrap">{content}</p>

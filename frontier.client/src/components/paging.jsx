@@ -31,7 +31,7 @@ const Paging = ({ itemsPerPage=5, initialList, resultList }) => {
 
     return (
         <div className="break-top">
-            <Pagination pages={pageNumbers} onChange={handlePaginationChange} />
+            <Pagination pages={pageNumbers} onChange={handlePaginationChange} selectedIndex={currentPage-1} />
         </div>
     )
 }

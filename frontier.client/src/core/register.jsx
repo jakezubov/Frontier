@@ -9,7 +9,7 @@ import PopupVerification from '../popups/popup-verification'
 
 const Register = () => {
     const navigate = useNavigate()
-    const { setCurrentPage, Pages } = useCurrentPage()
+    const { setCurrentPage, Pages, isEmailSetup } = useCurrentPage()
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -71,10 +71,17 @@ const Register = () => {
             setIsSendingEmail(false)
             return
         }
-        await sendRegistration(`${firstName} ${lastName}`, email)
 
-        setIsVerificationPopupOpen(true)
-        setIsSendingEmail(false)
+        if (isEmailSetup === "true") {
+            await sendRegistration(`${firstName} ${lastName}`, email)
+
+            setIsVerificationPopupOpen(true)
+            setIsSendingEmail(false)
+        }
+        else {
+            setIsSendingEmail(false)
+            handleSubmit()
+        }
     }
 
     const handleSubmit = async () => {
@@ -126,13 +133,13 @@ const Register = () => {
                             <td><input className="general-input" value={confirmPassword} type="password" onChange={(e) => setConfirmPassword(e.target.value)} /></td>
                         </tr>
                         <tr>
-                            <td className="tight-bottom" colSpan="2"><button className="general-button" onClick={handleChecks}>Submit</button></td>
+                            <td className="tight-bottom" colSpan="2"><button className="general-button" onClick={handleChecks}>Register</button></td>
                         </tr>
                         <tr>
                             <td className="message-container" colSpan="2">
                                 {validationMessage !== ' ' ?
                                     <p className="pre-wrap warning-text">{validationMessage}</p>
-                                    : isSendingEmail && <div className="email-loader-container tight-top"><div className="email-loader"></div></div>
+                                    : isSendingEmail && isEmailSetup === "true" && <div className="email-loader-container tight-top"><div className="email-loader"></div></div>
                                 }
                             </td>
                         </tr>
@@ -142,14 +149,16 @@ const Register = () => {
             
             <PasswordRequirements />
             <br />
-            <table>
-                <tbody>
-                    <tr>
-                        <td><Link className="link-text" to={Path.LOGIN}>Login</Link></td>
-                        <td><Link className="link-text" to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
-                    </tr>
-                </tbody>
-            </table>
+            {isEmailSetup === "true" &&
+                <table>
+                    <tbody>
+                        <tr>
+                            <td><Link className="link-text" to={Path.LOGIN}>Login</Link></td>
+                            <td><Link className="link-text" to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
+                        </tr>
+                    </tbody>
+                </table>
+            }
 
             {isVerificationPopupOpen && (
                 <PopupVerification isPopupOpen={isVerificationPopupOpen} setIsPopupOpen={setIsVerificationPopupOpen} onVerify={handleSubmit} onCancel={handleCancel} email={email} />

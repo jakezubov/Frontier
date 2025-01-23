@@ -1,12 +1,17 @@
 import { createContext, useState, useEffect, useContext } from 'react'
+import { useGetCurrentClientType } from '../common/APIs'
 
 const CurrentPageContext = createContext()
 
 export const CurrentPageProvider = ({ children }) => {
     const [currentPage, setCurrentPage] = useState(sessionStorage.getItem('currentPage') || ' ')
     const [isMobile, setIsMobile] = useState(sessionStorage.getItem('isMobile') || "false")
+    const [isEmailSetup, setIsEmailSetup] = useState(sessionStorage.getItem('isEmailSetup') || "false")
+
+    const { getCurrentClientType } = useGetCurrentClientType()
 
     useEffect(() => {
+        checkEmailSetup()
         window.addEventListener('resize', checkIfMobile);
         return () => {
             window.removeEventListener('resize', checkIfMobile);
@@ -21,13 +26,26 @@ export const CurrentPageProvider = ({ children }) => {
         sessionStorage.setItem('isMobile', isMobile)
     }, [isMobile])
 
+    useEffect(() => {
+        sessionStorage.setItem('isEmailSetup', isEmailSetup)
+    }, [isEmailSetup])
+
+    const checkEmailSetup = async () => {
+        const emailSetup = await getCurrentClientType()
+        if (emailSetup === 0) {
+            setIsEmailSetup("false")
+        }
+        else setIsEmailSetup("true")
+        
+    }
+
     const checkIfMobile = () => {
         const deviceWidth = window.innerWidth
         deviceWidth <= 768 ? setIsMobile("true") : setIsMobile("false")
     }
 
     return (
-        <CurrentPageContext.Provider value={{ currentPage, setCurrentPage, Pages, isMobile }}>
+        <CurrentPageContext.Provider value={{ currentPage, setCurrentPage, Pages, isMobile, isEmailSetup, setIsEmailSetup }}>
             {children}
         </CurrentPageContext.Provider>
     )

@@ -12,7 +12,7 @@ import Path from '../common/paths'
 
 const UserSettings = () => {
     const { userId, localFirstName, localLastName, localEmail, localHistoryAmount, updateUserSession } = useUserSession()
-    const { setCurrentPage, Pages } = useCurrentPage()
+    const { setCurrentPage, Pages, isEmailSetup } = useCurrentPage()
     const { loggedInStatus } = useUserSession()
     const navigate = useNavigate()
     const historyMin = 5
@@ -95,12 +95,19 @@ const UserSettings = () => {
                 setIsSendingEmail(false)
                 return
             }
-            await sendVerification(`${firstName} ${lastName}`, email)
+            if (isEmailSetup === "true") {
+                await sendVerification(`${firstName} ${lastName}`, email)
 
-            setIsVerificationPopupOpen(true)
-            setIsSendingEmail(false)
+                setIsVerificationPopupOpen(true)
+                setIsSendingEmail(false)
+            }
+            else {
+                setIsSendingEmail(false)
+                handleSubmit()
+            }
         }
         else {
+            setIsSendingEmail(false)
             handleSubmit()
         }
     }
@@ -158,7 +165,7 @@ const UserSettings = () => {
                                     <p className="pre-wrap warning-text tight-top">{validationMessage}</p>
                                     : successMessage !== ' ' ?
                                         <p className="pre-wrap success-text tight-top">{successMessage}</p>
-                                        : isSendingEmail && <div className="email-loader-container"><div className="email-loader"></div></div>
+                                        : isSendingEmail && isEmailSetup === "true" && <div className="email-loader-container"><div className="email-loader"></div></div>
                                 }
                             </td>
                         </tr>

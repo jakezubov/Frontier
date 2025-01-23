@@ -15,10 +15,17 @@ const PopupLogout = ({ isPopupOpen, setIsPopupOpen, onConfirm, }) => {
         navigate(Path.CONFIRMATION_SCREEN)
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            handleConfirmPopup(event)
+        }
+    }
+
     return (
-         <div>
+        <div>
             {isPopupOpen && (
-                <div className="popup-overlay">
+                <div className="popup-overlay" onKeyDown={handleKeyDown} >
                     <div className="popup-box">
                         <h2>Are you sure you want to Logout?</h2>
 

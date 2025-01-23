@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faClockRotateLeft, faCircleInfo, faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import { faGem } from '@fortawesome/free-regular-svg-icons'
 import { useCurrentPage } from '../contexts/current-page-context'
 import Sidebar from '../sidebar/sidebar'
 import Navbar from './navbar'
@@ -14,7 +13,7 @@ const SidebarButtons = {
 }
 
 const Header = () => {
-    const { currentPage, isMobile } = useCurrentPage()
+    const { currentPage, isMobile, isEmailSetup } = useCurrentPage()
     const [activeSection, setActiveSection] = useState(SidebarButtons.CLOSE)
     const [navbarExpanded, setNavbarExpanded] = useState(isMobile === "true" ? false : true)
 
@@ -48,7 +47,9 @@ const Header = () => {
                 </tbody>
             </table>
             <button className="header-icon" aria-label={SidebarButtons.INFORMATION} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faCircleInfo} /></button>
-            <button className="header-icon" aria-label={SidebarButtons.CONTACT} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>
+            {isEmailSetup === "true" &&
+                <button className="header-icon" aria-label={SidebarButtons.CONTACT} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>  
+            }
             <button className="header-icon" aria-label={SidebarButtons.HISTORY} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
 
             <Sidebar expandSection={activeSection} closeSection={() => setActiveSection(SidebarButtons.CLOSE)} />

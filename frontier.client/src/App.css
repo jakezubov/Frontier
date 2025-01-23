@@ -1,11 +1,11 @@
 ﻿/*#region Root*/
 
 :root {
-    --background-colour: #fafafa;
-    --text-colour: #000000;
-    --primary-colour: #7BD3EA;
-    --secondary-colour: #A1EEBD;
-    --accent-colour: #F6D6D6;
+    --background-colour: #1a1625;
+    --text-colour: #faf5ef;
+    --primary-colour: #2f2b3a;
+    --secondary-colour: #46424f;
+    --accent-colour: #443e94;
     --header-height: 80px;
 }
 
@@ -79,8 +79,8 @@
     }
 
 .general-output {
-    background-color: var(--primary-colour);
-    border: 2px solid var(--secondary-colour);
+    background-color: var(--secondary-colour);
+    border: 2px solid var(--accent-colour);
 }
 
 .general-text-area {
@@ -252,7 +252,7 @@ table {
 
 .table-scroll {
     overflow-y: auto;
-    height: 60vh;
+    height: 55vh;
     padding-right: 24px;
     scrollbar-color: var(--text-colour) var(--background-colour);
 }
@@ -318,9 +318,11 @@ table {
     margin-bottom: 3px; 
 }
 
-.theme-buttons {
+.navbar-icons {
     margin-bottom: 40px;
     margin-top: 20px;
+    display: flex;
+    flex-direction: row;
 }
 
 .header {

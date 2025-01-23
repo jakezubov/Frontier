@@ -543,11 +543,12 @@ export const useUpdateDefaultMetals = () => {
 
 export const useResetDefaultMetals = () => {
     const { displayError, logError } = useError()
-    const { userId } = useUserSession()
+    const { apiToken, userId } = useUserSession()
 
     const resetDefaultMetals = async () => {
+        const convertedApiToken = convertToBase64(apiToken)
         try {
-            await Axios.put(`${urlPrefix}/config/metals/reset`)
+            await Axios.put(`${urlPrefix}/config/metals/reset/${convertedApiToken}`)
         }
         catch (error) {
             const title = 'Failed to reset default metals'
@@ -696,11 +697,12 @@ export const useUpdateDefaultRingSizes = () => {
 
 export const useResetDefaultRingSizes = () => {
     const { displayError, logError } = useError()
-    const { userId } = useUserSession()
+    const { apiToken, userId } = useUserSession()
 
     const resetDefaultRingSizes = async () => {
+        const convertedApiToken = convertToBase64(apiToken)
         try {
-            await Axios.put(`${urlPrefix}/config/ring-sizes/reset`)
+            await Axios.put(`${urlPrefix}/config/ring-sizes/reset/${convertedApiToken}`)
         }
         catch (error) {
             const title = 'Failed to reset default ring sizes'
@@ -1044,7 +1046,8 @@ export const useUpdateInitialisedStatus = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateInitialisedStatus = async (newStatus) => {
-        const convertedApiToken = convertToBase64(apiToken)
+        var convertedApiToken = null
+        apiToken ? convertedApiToken = convertToBase64(apiToken) : null
         try {
             await Axios.put(`${urlPrefix}/config/init/update/${newStatus}/${convertedApiToken}`)
         }

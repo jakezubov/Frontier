@@ -1,17 +1,18 @@
-﻿using Frontier.Server.Controllers;
-using Frontier.Server.DataAccess;
+﻿using Frontier.Server.DataAccess;
 using Frontier.Server.Models;
 
 namespace Frontier.Server.Functions;
 
 public class Setup
 {
-    private readonly ConfigController _configController = new();
-    private readonly ConfigDataAccess _configDataAccess = new();
+    private readonly ConfigDataAccess dbConfig = new();
+    private readonly MetalDataAccess dbMetals = new();
+    private readonly RingSizeDataAccess dbRingSizes = new();
+    private readonly Defaults defaults = new();
 
     public async void CheckFirstTimeSetup()
     {
-        bool result = await _configController.GetInitialisedStatus();
+        bool result = await dbConfig.GetInitialisedStatus();
         if (!result) {
             RunFirstTimeSetup();
         }
@@ -21,8 +22,8 @@ public class Setup
     {
         ConfigModel config = new();
 
-        await _configDataAccess.CreateConfig(config);
-        await _configController.ResetMetals();
-        await _configController.ResetRingSizes();
+        await dbConfig.CreateConfig(config);
+        await dbMetals.UpdateAllMetals(defaults.Metals);
+        await dbRingSizes.UpdateAllRingSizes(defaults.RingSizes);
     }
 }

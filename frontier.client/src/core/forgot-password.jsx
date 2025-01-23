@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useCheckEmailExists, useSendPasswordReset } from '../common/APIs'
 import { validateEmail } from '../common/validation'
 import { useCurrentPage } from '../contexts/current-page-context'
 import Path from '../common/paths'
 
 const ForgotPassword = () => {
-    const { setCurrentPage, Pages } = useCurrentPage()
+    const { setCurrentPage, Pages, isEmailSetup } = useCurrentPage()
+    const navigate = useNavigate()
 
     const [email, setEmail] = useState('')
     const [validationMessage, setValidationMessage] = useState(' ')
@@ -20,6 +21,14 @@ const ForgotPassword = () => {
     useEffect(() => {
         setCurrentPage(Pages.FORGOT_PASSWORD)
     }, [])
+
+    useEffect(() => {
+        if (isEmailSetup === "false") {
+            navigate(Path.CONFIRMATION_SCREEN, {
+                state: { message: 'You can\'t reset your password since emailing is not setup!' }
+            })
+        }
+    }, [isEmailSetup])
 
     useEffect(() => {
         setValidationMessage(' ')

@@ -28,10 +28,17 @@ const PopupVerification = ({ isPopupOpen, setIsPopupOpen, onVerify, onCancel, em
         onVerify()
     }
 
+    const handleKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault()
+            handleConfirmPopup(event)
+        }
+    }
+
     return (
         <div>
             {isPopupOpen && (
-                <div className="popup-overlay">
+                <div className="popup-overlay" onKeyDown={handleKeyDown}>
                     <div className="popup-box">
                         <h2>Verify Email</h2>
                         <p className="pre-wrap">Please enter the code to verify your email and create your account.</p>

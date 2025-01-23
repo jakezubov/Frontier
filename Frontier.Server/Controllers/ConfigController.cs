@@ -28,13 +28,13 @@ namespace Frontier.Server.Controllers
         [HttpPut("init/update/{newStatus}/{base64ApiToken}")]
         public async Task<IActionResult> UpdateInitialisedStatus(bool newStatus, string base64ApiToken)
         {
-            string apiToken = functions.ConvertFromBase64(base64ApiToken);
-
-            if (await dbUsers.GetAdminStatus(apiToken)) {
-                await dbConfig.UpdateInitialisedStatus(newStatus);
-                return Ok();
+            if (await dbConfig.GetInitialisedStatus() && (base64ApiToken != null && !await dbUsers.GetAdminStatus(functions.ConvertFromBase64(base64ApiToken)) || base64ApiToken == null))
+            {
+                return Forbid();
             }
-            else return Forbid();
+
+            await dbConfig.UpdateInitialisedStatus(newStatus);
+            return Ok();
         }
 
         // Get Default Metals
@@ -55,11 +55,16 @@ namespace Frontier.Server.Controllers
         }
 
         // Reset To Default Metals
-        [HttpPut("metals/reset")]
-        public async Task<IActionResult> ResetMetals()
+        [HttpPut("metals/reset/{base64ApiToken}")]
+        public async Task<IActionResult> ResetMetals(string base64ApiToken)
         {
-            await dbMetals.UpdateAllMetals(defaults.Metals);
-            return Ok();
+            string apiToken = functions.ConvertFromBase64(base64ApiToken);
+
+            if (await dbUsers.GetAdminStatus(apiToken)) {
+                await dbMetals.UpdateAllMetals(defaults.Metals);
+                return Ok();
+            }
+            else return Forbid();
         }
 
         // Get Default Ring Sizes
@@ -80,11 +85,16 @@ namespace Frontier.Server.Controllers
         }
 
         // Reset To Default Ring Sizes
-        [HttpPut("ring-sizes/reset")]
-        public async Task<IActionResult> ResetRingSizes()
+        [HttpPut("ring-sizes/reset/{base64ApiToken}")]
+        public async Task<IActionResult> ResetRingSizes(string base64ApiToken)
         {
-            await dbRingSizes.UpdateAllRingSizes(defaults.RingSizes);
-            return Ok();
+            string apiToken = functions.ConvertFromBase64(base64ApiToken);
+
+            if (await dbUsers.GetAdminStatus(apiToken)) {
+                await dbRingSizes.UpdateAllRingSizes(defaults.RingSizes);
+                return Ok();
+            }
+            else return Forbid();
         }
 
         // Generate Mongo Object ID
