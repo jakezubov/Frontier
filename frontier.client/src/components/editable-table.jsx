@@ -4,6 +4,7 @@ import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useGenerateObjectId } from '../common/APIs'
 import { useCurrentPage } from '../contexts/current-page-context'
 import CustomNumberInput from '../components/custom-number-input'
+import HoverText from '../components/hover-text'
 
 const EditableTable = ({ tableList, setTableList, columnSchema }) => {
     const { isMobile } = useCurrentPage()
@@ -62,9 +63,9 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
 
     return (
         <div>
-            { tableList.length > 0 ? (
+            {tableList.length > 0 ? (
                 <div className="table-scroll">
-                    <table className="editable-table">
+                    <table>
                         <thead>
                             <tr>
                                 {isMobile === "false" &&
@@ -90,9 +91,13 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
                                             }
                                         </td>
                                     ))}
-                                    <td className="tooltip">
-                                        <button className="settings-icon" type="button" onClick={() => handleDelete(element.id)}><FontAwesomeIcon className="fa-md" icon={faTrash} /></button>
-                                        <button className="settings-icon" type="button" onClick={() => handleAddNew(element.listIndex)}><FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>
+                                    <td className="action-icons">
+                                        <HoverText text="Delete Row">
+                                            <button className="settings-icon" type="button" onClick={() => handleDelete(element.id)}><FontAwesomeIcon className="fa-md" icon={faTrash} /></button>
+                                        </HoverText>
+                                        <HoverText text="Add Row Below">
+                                            <button className="settings-icon" type="button" onClick={() => handleAddNew(element.listIndex)}><FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>
+                                        </HoverText>
                                     </td>
                                 </tr>
                             ))}

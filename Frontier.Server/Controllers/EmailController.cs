@@ -40,75 +40,86 @@ public class EmailController : ControllerBase
     [HttpPost("send/password-reset/{base64Email}")]
     public async Task<IActionResult> PasswordReset(string base64Email)
     {
-        string email = functions.ConvertFromBase64(base64Email);
+        if (base64Email != null) {
+            string email = functions.ConvertFromBase64(base64Email);
 
-        UserModel user = await dbUsers.ValidateUser(email.ToLower());
-        if (user == null) return BadRequest("Not a registered email");
+            UserModel user = await dbUsers.ValidateUser(email.ToLower());
+            if (user == null) return BadRequest("Not a registered email");
 
-        IEmailClientModel? client = await GetCurrentClient();
-        if (client != null) {
-            PasswordResetTemplate emailType = new(email);
-            BaseTemplate emailContents = new(emailType);
-            string subject = "Password Reset";
-            return await SendEmail(subject, emailContents, email, client.SendingEmail);
+            IEmailClientModel? client = await GetCurrentClient();
+            if (client != null) {
+                PasswordResetTemplate emailType = new(email);
+                BaseTemplate emailContents = new(emailType);
+                string subject = "Password Reset";
+                return await SendEmail(subject, emailContents, email, client.SendingEmail);
+            }
+            return BadRequest("Emailing Not Setup Correctly");
         }
-        return BadRequest("Emailing Not Setup Correctly");
+        return BadRequest("No Email Supplied");
     }
 
     [HttpPost("send/registration/{base64Name}/{base64Email}")]
     public async Task<IActionResult> Registration(string base64Name, string base64Email)
     {
-        string name = functions.ConvertFromBase64(base64Name);
-        string email = functions.ConvertFromBase64(base64Email);
+        if (base64Email != null && base64Name != null) {
+            string name = functions.ConvertFromBase64(base64Name);
+            string email = functions.ConvertFromBase64(base64Email);
 
-        IEmailClientModel? client = await GetCurrentClient();
-        if (client != null) {
-            string code = await NewVerificationCode(email);
-            RegistrationTemplate emailType = new(name, code);
-            BaseTemplate emailContents = new(emailType);
-            string subject = "Account Registration";
-            return await SendEmail(subject, emailContents, email, client.SendingEmail);
+            IEmailClientModel? client = await GetCurrentClient();
+            if (client != null) {
+                string code = await NewVerificationCode(email);
+                RegistrationTemplate emailType = new(name, code);
+                BaseTemplate emailContents = new(emailType);
+                string subject = "Account Registration";
+                return await SendEmail(subject, emailContents, email, client.SendingEmail);
+            }
+            return BadRequest("Emailing Not Setup Correctly");
         }
-        return BadRequest("Emailing Not Setup Correctly");
+        return BadRequest("No Email and/or Name Supplied");
     }
 
     [HttpPost("send/verification/{base64Name}/{base64Email}")]
     public async Task<IActionResult> Verification(string base64Name, string base64Email)
     {
-        string name = functions.ConvertFromBase64(base64Name);
-        string email = functions.ConvertFromBase64(base64Email);
+        if (base64Email != null && base64Name != null) {
+            string name = functions.ConvertFromBase64(base64Name);
+            string email = functions.ConvertFromBase64(base64Email);
 
-        IEmailClientModel? client = await GetCurrentClient();
-        Console.WriteLine(client);
-        if (client != null) {
-            string code = await NewVerificationCode(email);
-            VerificaitonTemplate emailType = new(name, code);
-            BaseTemplate emailContents = new(emailType);
-            string subject = "Account Verification";
-            return await SendEmail(subject, emailContents, email, client.SendingEmail);
+            IEmailClientModel? client = await GetCurrentClient();
+            Console.WriteLine(client);
+            if (client != null) {
+                string code = await NewVerificationCode(email);
+                VerificaitonTemplate emailType = new(name, code);
+                BaseTemplate emailContents = new(emailType);
+                string subject = "Account Verification";
+                return await SendEmail(subject, emailContents, email, client.SendingEmail);
+            }
+            return BadRequest("Emailing Not Setup Correctly");
         }
-        return BadRequest("Emailing Not Setup Correctly");
+        return BadRequest("No Email and/or Name Supplied");
     }
 
     [HttpPut("test/azure/{base64ApiToken}")]
     public async Task<IActionResult> TestAzureClient(AzureClientModel client, string base64ApiToken)
     {
-        string apiToken = functions.ConvertFromBase64(base64ApiToken);
+        if (base64ApiToken != null) {
+            string apiToken = functions.ConvertFromBase64(base64ApiToken);
 
-        if (await dbUsers.GetAdminStatus(apiToken)) {
-            LoadAzureClient(client);
-            IActionResult response = await TestClient(client);
+            if (await dbUsers.GetAdminStatus(apiToken)) {
+                LoadAzureClient(client);
+                IActionResult response = await TestClient(client);
 
-            if (response is OkResult) return Ok();
-            return NoContent();
+                if (response is OkResult) return Ok();
+                return NoContent();
+            }
+            else return Forbid();
         }
-        else return Forbid();
+        return BadRequest("No API Token Supplied");
     }
 
     private async Task<IActionResult> TestClient(IEmailClientModel client)
     {
-        ContactFormModel contactTest = new()
-        {
+        ContactFormModel contactTest = new() {
             Name = "Email Tester",
             Email = client.ContactFormRecipient,
             Message = "This is a test email"
@@ -166,11 +177,58 @@ public class EmailController : ControllerBase
 
     #region Clients
 
+    [HttpGet("get/{type}/client")]
+    public async Task<IEmailClientModel?> GetEmailClient(EmailClientType type)
+    {
+        if (type == EmailClientType.Azure) { return await db.GetEmailClient(type) as AzureClientModel; }
+        else return null;
+    }
+
+    [HttpPost("update/azure/client/{base64ApiToken}")]
+    public async Task<IActionResult> UpdateAzureClient(AzureClientModel client, string base64ApiToken)
+    {
+        if (base64ApiToken != null) {
+            string apiToken = functions.ConvertFromBase64(base64ApiToken);
+
+            if (await dbUsers.GetAdminStatus(apiToken)) {
+                await db.UpdateAzureClient(client);
+                await db.UpdateCurrentClientType(EmailClientType.Azure);
+                return Ok();
+            }
+            else return Forbid();
+        }
+        else return BadRequest("No API Token Supplied");
+    }
+
+    [HttpGet("client-type")]
+    public async Task<IActionResult> GetCurrentClientType()
+    {
+        EmailClientType result = await db.GetCurrentClientType();
+        return Ok(result);
+    }
+
+    [HttpPut("client-type/update/{newClientType}/{base64ApiToken}")]
+    public async Task<IActionResult> UpdateCurrentClientType(EmailClientType newClientType, string base64ApiToken)
+    {
+        if (base64ApiToken != null && Enum.IsDefined(typeof(EmailClientType), newClientType)) {
+            string apiToken = functions.ConvertFromBase64(base64ApiToken);
+
+            if (await dbUsers.GetAdminStatus(apiToken))
+            {
+                await db.UpdateCurrentClientType(newClientType);
+                return Ok();
+            }
+            else return Forbid();
+        }
+        else return BadRequest("No API Token and/or Client Type Supplied");
+    }
+
     private async Task<IEmailClientModel?> GetCurrentClient()
     {
         EmailClientType currentEmailClient = await db.GetCurrentClientType();
 
-        if (currentEmailClient == EmailClientType.Azure && await GetEmailClient(currentEmailClient) is AzureClientModel client) {
+        if (currentEmailClient == EmailClientType.Azure && await GetEmailClient(currentEmailClient) is AzureClientModel client)
+        {
             LoadAzureClient(client);
             return client;
         }
@@ -185,46 +243,6 @@ public class EmailController : ControllerBase
         graphClient = new(clientSecretCredential, ["https://graph.microsoft.com/.default"]);
     }
 
-    [HttpGet("get/{type}/client")]
-    public async Task<IEmailClientModel?> GetEmailClient(EmailClientType type)
-    {
-        if (type == EmailClientType.Azure) { return await db.GetEmailClient(type) as AzureClientModel; }
-        else return null;
-    }
-
-    [HttpPost("update/azure/client/{base64ApiToken}")]
-    public async Task<IActionResult> UpdateAzureClient(AzureClientModel client, string base64ApiToken)
-    {
-        string apiToken = functions.ConvertFromBase64(base64ApiToken);
-
-        if (await dbUsers.GetAdminStatus(apiToken)) {
-            await db.UpdateAzureClient(client);
-            await db.UpdateCurrentClientType(EmailClientType.Azure);
-            return Ok();
-        }
-        else return Forbid();
-    }
-
-    [HttpGet("client-type")]
-    public async Task<IActionResult> GetCurrentClientType()
-    {
-        EmailClientType result = await db.GetCurrentClientType();
-        return Ok(result);
-    }
-
-    [HttpPut("client-type/update/{newClientType}/{base64ApiToken}")]
-    public async Task<IActionResult> UpdateCurrentClientType(EmailClientType newClientType, string base64ApiToken)
-    {
-        string apiToken = functions.ConvertFromBase64(base64ApiToken);
-
-        if (await dbUsers.GetAdminStatus(apiToken))
-        {
-            await db.UpdateCurrentClientType(newClientType);
-            return Ok();
-        }
-        else return Forbid();
-    }
-
     #endregion
 
     #region Verification
@@ -232,16 +250,19 @@ public class EmailController : ControllerBase
     [HttpDelete("verification/{base64Email}/{base64Code}")]
     public async Task<IActionResult> CheckVerificationCode(string base64Email, string base64Code)
     {
-        string email = functions.ConvertFromBase64(base64Email);
-        string code = functions.ConvertFromBase64(base64Code);
+        if (base64Email != null && base64Code != null) {
+            string email = functions.ConvertFromBase64(base64Email);
+            string code = functions.ConvertFromBase64(base64Code);
         
-        VerificationCodeModel result = await dbVerify.GetVerificationCode(email);
+            VerificationCodeModel result = await dbVerify.GetVerificationCode(email);
 
-        if (result != null && result.Code == code) {
-            await dbVerify.DeleteVerificationCode(email);
-            return Ok();
+            if (result != null && result.Code == code) {
+                await dbVerify.DeleteVerificationCode(email);
+                return Ok();
+            }
+            return NoContent();
         }
-        return NoContent();
+        else return BadRequest("No Email and/or Codes Supplied");
     }
 
     private async Task<string> NewVerificationCode(string email)

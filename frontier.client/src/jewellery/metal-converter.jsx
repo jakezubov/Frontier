@@ -29,7 +29,7 @@ const MetalConverter = () => {
     }, [originalMetal, newMetal, weight])
 
     const handleCalculate = async () => {
-        if (!originalMetal || !newMetal || !validateNumber(weight)) {
+        if (!originalMetal || !newMetal || !validateNumber(weight) || weight <= 0) {
             setValidationMessage("Please ensure all fields are correctly filled.")
             setConvertedWeight('')
             return

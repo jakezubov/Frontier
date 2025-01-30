@@ -52,7 +52,7 @@ const RingWeight = () => {
     }
 
     const handleCalculate = async () => {
-        const isNumbersValid = validateNumber(width) && (!thicknessRequired || validateNumber(thickness))
+        const isNumbersValid = validateNumber(width) && width > 0 && (!thicknessRequired || validateNumber(thickness) && thickness > 0)
 
         if (!metal || !ringSize || !profile || !isNumbersValid) {
             setValidationMessage("Please ensure all fields are correctly filled.")

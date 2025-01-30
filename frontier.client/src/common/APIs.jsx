@@ -42,7 +42,7 @@ export const useGetUser = () => {
     const { displayError, logError } = useError()
 
     const getUser = async (userId) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             const response = await Axios.get(`${urlPrefix}/users/${convertedUserId}`)
             return response.data
@@ -106,7 +106,7 @@ export const useUpdateUser = () => {
     const { displayError, logError } = useError()
 
     const updateUser = async (userId, firstName, lastName, email, historyAmount) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.put(`${urlPrefix}/users/${convertedUserId}/update`, {
                 'FirstName': firstName,
@@ -141,7 +141,7 @@ export const useUpdatePassword = () => {
     const { displayError, logError } = useError()
 
     const updatePassword = async (userId, email, newPassword) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.put(`${urlPrefix}/users/${convertedUserId}/update/password`, {
                 'Email': email,
@@ -170,7 +170,7 @@ export const useDeleteUser = () => {
     const { displayError, logError } = useError()
 
     const deleteUser = async (userId) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.delete(`${urlPrefix}/users/${convertedUserId}/delete`)
         }
@@ -223,7 +223,7 @@ export const useCheckEmailExists = () => {
     const { displayError, logError } = useError()
 
     const checkEmailExists = async (email) => {
-        const convertedEmail = convertToBase64(email)
+        const convertedEmail = email ? convertToBase64(email) : null
         try {
             const response = await Axios.post(`${urlPrefix}/users/check-email/${convertedEmail}`)
             return convertFromBase64(response.data)
@@ -250,8 +250,8 @@ export const useSwitchAdminStatus = () => {
     const { apiToken } = useUserSession()
 
     const switchAdminStatus = async (changedUserId) => {
-        const convertedUserId = convertToBase64(changedUserId)
-        const convertedApiToken = convertToBase64(apiToken)
+        const convertedUserId = changedUserId ? convertToBase64(changedUserId) : null
+        const convertedApiToken = apiToken ? convertToBase64(apiToken) : null
         try {
             await Axios.put(`${urlPrefix}/users/${convertedUserId}/admin/${convertedApiToken}`)
         }
@@ -276,7 +276,7 @@ export const useLogLogin = () => {
     const { displayError, logError } = useError()
 
     const logLogin = async (userId) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.put(`${urlPrefix}/users/${convertedUserId}/login`)
         }
@@ -301,7 +301,7 @@ export const useLogLogout = () => {
     const { displayError, logError } = useError()
 
     const logLogout = async (userId) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.put(`${urlPrefix}/users/${convertedUserId}/logout`)
         }
@@ -322,6 +322,31 @@ export const useLogLogout = () => {
     return { logLogout }
 }
 
+export const useRegenerateUserApiToken = () => {
+    const { displayError, logError } = useError()
+
+    const regenerateUserApiToken = async (userId) => {
+        const convertedUserId = userId ? convertToBase64(userId) : null
+        try {
+            await Axios.put(`${urlPrefix}/users/${convertedUserId}/regenerate-api-token`)
+        }
+        catch (error) {
+            const title = 'Failed to regenerate user api token'
+            displayError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                userId,
+                convertedUserId,
+            })
+            logError(userId, title, error.message, error.stack)
+        }
+    }
+
+    return { regenerateUserApiToken }
+}
+
 //#endregion
 
 //#region History
@@ -331,7 +356,7 @@ export const useGetHistory = () => {
 
     const getHistory = async (userId, historyType) => {
         if (userId) {
-            const convertedUserId = convertToBase64(userId)
+            const convertedUserId = userId ? convertToBase64(userId) : null
             try {
                 const response = await Axios.get(`${urlPrefix}/users/${convertedUserId}/history`)
                 return response.data.filter(h => h.historyType === historyType)
@@ -360,7 +385,7 @@ export const useSaveHistory = () => {
     const { displayError, logError } = useError()
 
     const saveHistory = async (userId, historyType, content) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.put(`${urlPrefix}/users/${convertedUserId}/history/create`, {
                 'historyType': historyType,
@@ -390,7 +415,7 @@ export const useDeleteUserHistory = () => {
     const { displayError, logError } = useError()
 
     const deleteUserHistory = async (userId) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.delete(`${urlPrefix}/users/${convertedUserId}/history/delete`)
         }
@@ -419,7 +444,7 @@ export const useGetMetals = () => {
     const { displayError, logError } = useError()
 
     const getMetals = async (userId) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             const response = await Axios.get(`${urlPrefix}/users/${convertedUserId}/metals`)
             return response.data.sort((a, b) => a.listIndex - b.listIndex)
@@ -445,7 +470,7 @@ export const useUpdateMetals = () => {
     const { displayError, logError } = useError()
 
     const updateMetals = async (userId, metalList) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.put(`${urlPrefix}/users/${convertedUserId}/metals/update`, metalList)
         }
@@ -471,7 +496,7 @@ export const useResetMetals = () => {
     const { displayError, logError } = useError()
 
     const resetMetals = async (userId) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.put(`${urlPrefix}/users/${convertedUserId}/metals/reset`)
         }
@@ -521,7 +546,7 @@ export const useUpdateDefaultMetals = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateDefaultMetals = async (metalList) => {
-        const convertedApiToken = convertToBase64(apiToken)
+        const convertedApiToken = apiToken ? convertToBase64(apiToken) : null
         try {
             await Axios.put(`${urlPrefix}/config/metals/update/${convertedApiToken}`, metalList)
         }
@@ -546,7 +571,7 @@ export const useResetDefaultMetals = () => {
     const { apiToken, userId } = useUserSession()
 
     const resetDefaultMetals = async () => {
-        const convertedApiToken = convertToBase64(apiToken)
+        const convertedApiToken = apiToken ? convertToBase64(apiToken) : null
         try {
             await Axios.put(`${urlPrefix}/config/metals/reset/${convertedApiToken}`)
         }
@@ -573,7 +598,7 @@ export const useGetRingSizes = () => {
     const { displayError, logError } = useError()
 
     const getRingSizes = async (userId) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             const response = await Axios.get(`${urlPrefix}/users/${convertedUserId}/ring-sizes`)
             return response.data.sort((a, b) => a.listIndex - b.listIndex)
@@ -599,7 +624,7 @@ export const useUpdateRingSizes = () => {
     const { displayError, logError } = useError()
 
     const updateRingSizes = async (userId, ringSizeList) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.put(`${urlPrefix}/users/${convertedUserId}/ring-sizes/update`, ringSizeList)
         }
@@ -625,7 +650,7 @@ export const useResetRingSizes = () => {
     const { displayError, logError } = useError()
 
     const resetRingSizes = async (userId) => {
-        const convertedUserId = convertToBase64(userId)
+        const convertedUserId = userId ? convertToBase64(userId) : null
         try {
             await Axios.put(`${urlPrefix}/users/${convertedUserId}/ring-sizes/reset`)
         }
@@ -675,7 +700,7 @@ export const useUpdateDefaultRingSizes = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateDefaultRingSizes = async (ringSizeList) => {
-        const convertedApiToken = convertToBase64(apiToken)
+        const convertedApiToken = apiToken ? convertToBase64(apiToken) : null
         try {
             await Axios.put(`${urlPrefix}/config/ring-sizes/update/${convertedApiToken}`, ringSizeList)
         }
@@ -700,7 +725,7 @@ export const useResetDefaultRingSizes = () => {
     const { apiToken, userId } = useUserSession()
 
     const resetDefaultRingSizes = async () => {
-        const convertedApiToken = convertToBase64(apiToken)
+        const convertedApiToken = apiToken ? convertToBase64(apiToken) : null
         try {
             await Axios.put(`${urlPrefix}/config/ring-sizes/reset/${convertedApiToken}`)
         }
@@ -756,7 +781,7 @@ export const useSendPasswordReset = () => {
     const { displayError, logError } = useError()
 
     const sendPasswordReset = async (email) => {
-        const convertedEmail = convertToBase64(email)
+        const convertedEmail = email ? convertToBase64(email) : null
         try {
             await Axios.post(`${urlPrefix}/email/send/password-reset/${convertedEmail}`)
         }
@@ -781,8 +806,8 @@ export const useSendRegistration = () => {
     const { displayError, logError } = useError()
 
     const sendRegistration = async (name, email) => {
-        const convertedName = convertToBase64(name)
-        const convertedEmail = convertToBase64(email)
+        const convertedName = name ? convertToBase64(name) : null
+        const convertedEmail = email ? convertToBase64(email) : null
         try {
             await Axios.post(`${urlPrefix}/email/send/registration/${convertedName}/${convertedEmail}`)
         }
@@ -809,8 +834,8 @@ export const useSendVerification = () => {
     const { displayError, logError } = useError()
 
     const sendVerification = async (name, email) => {
-        const convertedName = convertToBase64(name)
-        const convertedEmail = convertToBase64(email)
+        const convertedName = name ? convertToBase64(name) : null
+        const convertedEmail = email ? convertToBase64(email) : null
         try {
             await Axios.post(`${urlPrefix}/email/send/verification/${convertedName}/${convertedEmail}`)
         }
@@ -837,8 +862,8 @@ export const useCheckVerificationCode = () => {
     const { displayError, logError } = useError()
 
     const checkVerificationCode = async (email, code) => {
-        const convertedEmail = convertToBase64(email)
-        const convertedCode = convertToBase64(code)
+        const convertedEmail = email ? convertToBase64(email) : null
+        const convertedCode = code ? convertToBase64(code) : null
         try {
             const response = await Axios.delete(`${urlPrefix}/email/verification/${convertedEmail}/${convertedCode}`)
             return response
@@ -895,7 +920,7 @@ export const useUpdateCurrentClientType = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateCurrentClientType = async (newClientType) => {
-        const convertedApiToken = convertToBase64(apiToken)
+        const convertedApiToken = apiToken ? convertToBase64(apiToken) : null
         try {
             await Axios.put(`${urlPrefix}/email/client-type/update/${newClientType}/${convertedApiToken}`)
         }
@@ -945,7 +970,7 @@ export const useUpdateAzureClient = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
-        const convertedApiToken = convertToBase64(apiToken)
+        const convertedApiToken = apiToken ? convertToBase64(apiToken) : null
         try {
             await Axios.post(`${urlPrefix}/email/update/azure/client/${convertedApiToken}`, {
                 'ClientId': clientId,
@@ -980,7 +1005,7 @@ export const useTestAzureClient = () => {
     const { apiToken, userId } = useUserSession()
 
     const testAzureClient = async (clientId, clientSecret, tenantId, sendingEmail, contactFormRecipient) => {
-        const convertedApiToken = convertToBase64(apiToken)
+        const convertedApiToken = apiToken ? convertToBase64(apiToken) : null
         try {
             const response = await Axios.put(`${urlPrefix}/email/test/azure/${convertedApiToken}`, {
                 'ClientId': clientId,
@@ -1046,8 +1071,7 @@ export const useUpdateInitialisedStatus = () => {
     const { apiToken, userId } = useUserSession()
 
     const updateInitialisedStatus = async (newStatus) => {
-        var convertedApiToken = null
-        apiToken ? convertedApiToken = convertToBase64(apiToken) : null
+        const convertedApiToken = apiToken ? convertToBase64(apiToken) : null
         try {
             await Axios.put(`${urlPrefix}/config/init/update/${newStatus}/${convertedApiToken}`)
         }
@@ -1147,7 +1171,7 @@ export const useDeleteErrorLog = () => {
     const { userId } = useUserSession()
 
     const deleteErrorLog = async (errorId) => {
-        const convertedErrorId = convertToBase64(errorId)
+        const convertedErrorId = errorId ? convertToBase64(errorId) : null
         try {
             await Axios.delete(`${urlPrefix}/errors/${convertedErrorId}/delete`)
         }

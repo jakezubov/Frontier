@@ -58,7 +58,10 @@ export default defineConfig({
     },
     server: {
         port: 5173,
-        //https: httpsConfig,
-        host: true
+        // https: httpsConfig,
+        host: true,
+	allowedHosts: [
+		'jewellery.zubov.com.au'
+    	]
     }
 })

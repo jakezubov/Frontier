@@ -28,13 +28,15 @@ namespace Frontier.Server.Controllers
         [HttpPut("init/update/{newStatus}/{base64ApiToken}")]
         public async Task<IActionResult> UpdateInitialisedStatus(bool newStatus, string base64ApiToken)
         {
-            if (await dbConfig.GetInitialisedStatus() && (base64ApiToken != null && !await dbUsers.GetAdminStatus(functions.ConvertFromBase64(base64ApiToken)) || base64ApiToken == null))
-            {
-                return Forbid();
-            }
+            if (base64ApiToken != null) {
+                if (await dbConfig.GetInitialisedStatus() && !await dbUsers.GetAdminStatus(functions.ConvertFromBase64(base64ApiToken))) {
+                    return Forbid();
+                }
 
-            await dbConfig.UpdateInitialisedStatus(newStatus);
-            return Ok();
+                await dbConfig.UpdateInitialisedStatus(newStatus);
+                return Ok();
+            }
+            return BadRequest("No API Token Supplied");
         }
 
         // Get Default Metals
@@ -45,26 +47,32 @@ namespace Frontier.Server.Controllers
         [HttpPut("metals/update/{base64ApiToken}")]
         public async Task<IActionResult> UpdateMetals(List<MetalModel> updatedMetals, string base64ApiToken)
         {
-            string apiToken = functions.ConvertFromBase64(base64ApiToken);
+            if (base64ApiToken != null) {
+                string apiToken = functions.ConvertFromBase64(base64ApiToken);
 
-            if (await dbUsers.GetAdminStatus(apiToken)) {
-                await dbMetals.UpdateAllMetals(updatedMetals);
-                return Ok();
+                if (await dbUsers.GetAdminStatus(apiToken)) {
+                    await dbMetals.UpdateAllMetals(updatedMetals);
+                    return Ok();
+                }
+                else return Forbid();
             }
-            else return Forbid();
+            return BadRequest("No API Token Supplied");
         }
 
         // Reset To Default Metals
         [HttpPut("metals/reset/{base64ApiToken}")]
         public async Task<IActionResult> ResetMetals(string base64ApiToken)
         {
-            string apiToken = functions.ConvertFromBase64(base64ApiToken);
+            if (base64ApiToken != null) {
+                string apiToken = functions.ConvertFromBase64(base64ApiToken);
 
-            if (await dbUsers.GetAdminStatus(apiToken)) {
-                await dbMetals.UpdateAllMetals(defaults.Metals);
-                return Ok();
+                if (await dbUsers.GetAdminStatus(apiToken)) {
+                    await dbMetals.UpdateAllMetals(defaults.Metals);
+                    return Ok();
+                }
+                else return Forbid();
             }
-            else return Forbid();
+            return BadRequest("No API Token Supplied");
         }
 
         // Get Default Ring Sizes
@@ -75,26 +83,32 @@ namespace Frontier.Server.Controllers
         [HttpPut("ring-sizes/update/{base64ApiToken}")]
         public async Task<IActionResult> UpdateRingSizes(List<RingSizeModel> updatedRingSizes, string base64ApiToken)
         {
-            string apiToken = functions.ConvertFromBase64(base64ApiToken);
+            if (base64ApiToken != null) {
+                string apiToken = functions.ConvertFromBase64(base64ApiToken);
 
-            if (await dbUsers.GetAdminStatus(apiToken)) {
-                await dbRingSizes.UpdateAllRingSizes(updatedRingSizes);
-                return Ok();
+                if (await dbUsers.GetAdminStatus(apiToken)) {
+                    await dbRingSizes.UpdateAllRingSizes(updatedRingSizes);
+                    return Ok();
+                }
+                else return Forbid();
             }
-            else return Forbid();
+            return BadRequest("No API Token Supplied");
         }
 
         // Reset To Default Ring Sizes
         [HttpPut("ring-sizes/reset/{base64ApiToken}")]
         public async Task<IActionResult> ResetRingSizes(string base64ApiToken)
         {
-            string apiToken = functions.ConvertFromBase64(base64ApiToken);
+            if (base64ApiToken != null) {
+                string apiToken = functions.ConvertFromBase64(base64ApiToken);
 
-            if (await dbUsers.GetAdminStatus(apiToken)) {
-                await dbRingSizes.UpdateAllRingSizes(defaults.RingSizes);
-                return Ok();
+                if (await dbUsers.GetAdminStatus(apiToken)) {
+                    await dbRingSizes.UpdateAllRingSizes(defaults.RingSizes);
+                    return Ok();
+                }
+                else return Forbid();
             }
-            else return Forbid();
+            return BadRequest("No API Token Supplied");
         }
 
         // Generate Mongo Object ID

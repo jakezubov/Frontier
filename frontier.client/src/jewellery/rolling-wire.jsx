@@ -8,6 +8,7 @@ import { validateNumber } from '../common/validation'
 import RingSizeSelector from '../components/ring-size-selector'
 import ProfileSelector from '../components/profile-selector'
 import CustomNumberInput from '../components/custom-number-input'
+import HoverText from '../components/hover-text'
 
 const RollingWire = () => {
     const { userId } = useUserSession()
@@ -38,7 +39,8 @@ const RollingWire = () => {
     }, [ringSize, profile, width, thickness, length, stockSize])
 
     const handleCalculate = async () => {
-        const isNumbersValid = validateNumber(width) && validateNumber(thickness) && validateNumber(length) && (!stockSizeRequired || validateNumber(stockSize))
+        const isNumbersValid = validateNumber(width) && width > 0 && validateNumber(thickness) && thickness > 0
+            && validateNumber(length) && length > 0 && (!stockSizeRequired || validateNumber(stockSize) && stockSize > 0)
 
         if (profile === "" || !isNumbersValid) {
             setValidationMessage("Please ensure all fields are correctly filled.")
@@ -55,26 +57,26 @@ const RollingWire = () => {
             const diameter = (2 * side) / Math.sqrt(Math.PI)
             if (stockSizeRequired) {
                 const stock = (4 * Math.pow(side, 2) * lengthCalc) / (Math.PI * Math.pow(stockSize, 2))
-                setOutput1(diameter.toFixed(2) + "g")
-                setOutput2(stock.toFixed(2) + "g")
+                setOutput1(diameter.toFixed(2) + "mm")
+                setOutput2(stock.toFixed(2) + "mm")
                 content = `Desired LxWxT: ${length}mm x ${width}mm x ${thickness}mm | Stock Size: ${stockSize}mm | Stock Length: ${stock.toFixed(2)}mm | Roll To - Diameter: ${diameter.toFixed(2)}mm`
             }
             else {
-                setOutput1(diameter.toFixed(2) + "g")
-                setOutput2(lengthCalc.toFixed(2) + "g")
+                setOutput1(diameter.toFixed(2) + "mm")
+                setOutput2(lengthCalc.toFixed(2) + "mm")
                 content = `Desired LxWxT: ${length}mm x ${width}mm x ${thickness}mm | Required - Diameter: ${diameter.toFixed(2)}mm | Length: ${lengthCalc.toFixed(2)}mm`
             }
         }
         else {
             if (stockSizeRequired) {
                 const stock = (Math.pow(side, 2) * lengthCalc) / Math.pow(stockSize, 2)
-                setOutput1(side.toFixed(2) + "g")
-                setOutput2(stock.toFixed(2) + "g")
+                setOutput1(side.toFixed(2) + "mm")
+                setOutput2(stock.toFixed(2) + "mm")
                 content = `Desired LxWxT: ${length}mm x ${width}mm x ${thickness}mm | Stock Size: ${stockSize}mm | Stock Length: ${stock.toFixed(2)}mm | Roll To - Side: ${side.toFixed(2)}mm`
             }
             else {
-                setOutput1(side.toFixed(2) + "g")
-                setOutput2(lengthCalc.toFixed(2) + "g")
+                setOutput1(side.toFixed(2) + "mm")
+                setOutput2(lengthCalc.toFixed(2) + "mm")
                 content = `Desired LxWxT: ${length}mm x ${width}mm x ${thickness}mm | Required - Side: ${side.toFixed(2)}mm | Length: ${lengthCalc.toFixed(2)}mm`
             }
         }
@@ -122,12 +124,14 @@ const RollingWire = () => {
                         <tr>
                             <td className="rolling-wire-switch">
                                 {lengthRingSizeSwitch ? <p>Length</p> : <p>Ring Size</p>}
-                                <button className="settings-icon" type="button" onClick={handleLengthRingSizeSwitch}><FontAwesomeIcon icon={faRepeat} /></button>
+                                <HoverText text={lengthRingSizeSwitch ? "Switch To Ring Size Select" : "Switch To Custom Input"}>
+                                    <button className="settings-icon" type="button" onClick={handleLengthRingSizeSwitch}><FontAwesomeIcon icon={faRepeat} /></button>
+                                </HoverText>
                             </td>
                             <td>
                                 {lengthRingSizeSwitch ? 
                                     <CustomNumberInput step={0.01} min={0.01} onChange={(value) => setLength(value)} />
-                                    : <div><RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} /></div>}
+                                    : <RingSizeSelector label="Ring Size" onSizeChange={handleRingSizeChange} />}
                             </td>
                             <td className="table-break"></td>
                             <td>Profile</td>

@@ -204,17 +204,35 @@ p {
 }
 
 .warning-text {
-    color: red
+    color: red;
 }
 
 .success-text {
-    color: green
+    color: green;
 }
 
 .configure-email-text {
     white-space: pre-wrap;
     color: var(--text-colour);
     width: 30vw;
+}
+
+.hover-text-container {
+    position: relative;
+    display: inline-block;
+}
+
+.hover-text {
+    position: absolute;
+    bottom: 90%;
+    transform: translateX(-90%);
+    background: var(--background-colour);
+    color: var(--text-colour);
+    padding: 5px 10px;
+    border: 1px solid var(--accent-colour);
+    border-radius: 5px;
+    font-size: 16px;
+    white-space: nowrap;
 }
 
 /*#endregion */
@@ -238,9 +256,6 @@ table {
 .read-only-table th {
     padding: 12px;
 }
-.read-only-table tr:hover {
-    background-color: var(--accent-colour);
-}
 
 .calculation-table {
     width: 30vw;
@@ -253,12 +268,13 @@ table {
 .table-scroll {
     overflow-y: auto;
     height: 55vh;
-    padding-right: 24px;
+    padding-right: 16px;
     scrollbar-color: var(--text-colour) var(--background-colour);
 }
 
-.editable-table {
-    padding: 6px;
+.action-icons {
+    display: flex;
+    flex-direction: row;
 }
 
 /*#endregion */
@@ -318,7 +334,7 @@ table {
     margin-bottom: 3px; 
 }
 
-.navbar-icons {
+.navbar-icons-container {
     margin-bottom: 40px;
     margin-top: 20px;
     display: flex;
@@ -576,6 +592,10 @@ input[type=number]::-webkit-outer-spin-button {
         margin: 0px;
     }
 
+    .navbar-icon {
+        margin-left: 5px;
+    }
+
     .general-button {
         margin: 20px 5px 20px 5px;
     }
@@ -584,6 +604,11 @@ input[type=number]::-webkit-outer-spin-button {
         justify-content: center;
         width: auto;
     }
+
+    .table-scroll {
+        padding-right: 8px;
+    }
+
 }
 
 /*#endregion*/
@@ -630,6 +655,11 @@ input[type=number]::-webkit-outer-spin-button {
 
 .searchbar-width {
     min-width: 350px;
+}
+
+.regenerate-api-tick {
+    padding-left: 8px;
+    color: green;
 }
 
 /*#endregion*/

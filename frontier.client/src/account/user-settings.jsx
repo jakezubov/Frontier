@@ -81,7 +81,7 @@ const UserSettings = () => {
             setIsSendingEmail(false)
             return
         }
-        else if (historyAmount < 0) {
+        else if (historyAmount <= 0) {
             setValidationMessage('History amount must be greater than zero.')
             setIsSendingEmail(false)
             return

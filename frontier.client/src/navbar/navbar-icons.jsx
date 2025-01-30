@@ -10,11 +10,11 @@ const NavbarIcons = ({ activateAdminNavbar }) => {
     const { adminStatus } = useUserSession()
 
     return (
-        <div className="navbar-icons">
+        <div className="navbar-icons-container">
             <ThemeButton />
-            <a href="https://paypal.me/jakezubov"><button className="settings-icon"><FontAwesomeIcon className="fa-2xl" icon={faHeart} /></button></a>
+            <a href="https://paypal.me/jakezubov"><button className="settings-icon navbar-icon"><FontAwesomeIcon className="fa-2xl" icon={faHeart} /></button></a>
             {adminStatus &&
-                <Link onClick={activateAdminNavbar} to={Path.ADMIN_WORKBENCH}><button className="settings-icon" ><FontAwesomeIcon className="fa-2xl" icon={faGear} /></button></Link>
+                <Link onClick={activateAdminNavbar} to={Path.ADMIN_WORKBENCH}><button className="settings-icon navbar-icon" ><FontAwesomeIcon className="fa-2xl" icon={faGear} /></button></Link>
             }
         </div>
     )

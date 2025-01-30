@@ -31,14 +31,17 @@ namespace Frontier.Server.Controllers
         [HttpDelete("{base64ErrorId}/delete")]
         public async Task<IActionResult> DeleteErrorLog(string base64ErrorId)
         {
-            string errorId = functions.ConvertFromBase64(base64ErrorId);
+            if (base64ErrorId != null) {
+                string errorId = functions.ConvertFromBase64(base64ErrorId);
 
-            // Check if the error exists
-            ErrorLedgerModel error = await db.GetErrorLog(errorId);
-            if (error == null) return NotFound("Error not found");
+                // Check if the error exists
+                ErrorLedgerModel error = await db.GetErrorLog(errorId);
+                if (error == null) return NotFound("Error not found");
 
-            await db.DeleteErrorLog(errorId);
-            return Ok();
+                await db.DeleteErrorLog(errorId);
+                return Ok();
+            }
+            return BadRequest("No Error Id Supplied");
         }
     }
 }

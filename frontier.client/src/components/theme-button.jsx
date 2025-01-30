@@ -17,7 +17,7 @@ const ThemeButton = () => {
 
     return (
         <div>
-            <button className="settings-icon" onClick={handleThemeChange}><FontAwesomeIcon className="fa-2xl" icon={faCircleHalfStroke} /></button>
+            <button className="settings-icon navbar-icon" onClick={handleThemeChange}><FontAwesomeIcon className="fa-2xl" icon={faCircleHalfStroke} /></button>
         </div>
     )
 }

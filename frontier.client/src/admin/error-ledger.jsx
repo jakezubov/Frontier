@@ -7,6 +7,7 @@ import { useUserSession } from '../contexts/user-context'
 import { useGetErrorLedger, useDeleteErrorLog } from '../common/APIs'
 import Path from '../common/paths'
 import Paging from '../components/paging'
+import HoverText from '../components/hover-text'
 
 const ErrorLedger = () => {
     const { setCurrentPage, Pages } = useCurrentPage()
@@ -100,13 +101,25 @@ const ErrorLedger = () => {
                                     <tr key={error.id}>
                                         <td>{error.userDetails}</td>
                                         {expandedErrors.has(error.id) ?
-                                            <td>{error.title} | {error.message} | {error.stack} <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronUp} /></button></td>
+                                            <td>
+                                                {error.title} | {error.message} | {error.stack}
+                                                <HoverText text="Show Extra Information">
+                                                    <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronUp} /></button>
+                                                </HoverText>
+                                            </td>
                                             :
-                                            <td>{error.title} | {error.message} | More Details <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronDown} /></button></td>
+                                            <td>
+                                                {error.title} | {error.message} | More Details
+                                                <HoverText text="Hide Extra Information">
+                                                    <button onClick={() => toggleExpanded(error.id)} className="settings-icon"><FontAwesomeIcon icon={faChevronDown} /></button>
+                                                </HoverText>
+                                            </td>
                                         }
                                         <td>{error.errorTime}</td>
                                         <td>
-                                            <button className="settings-icon" type="button" onClick={() => handleDelete(error.id)} ><FontAwesomeIcon className="fa-md" icon={faTrashCan} /></button>
+                                            <HoverText text="Delete Error Entry">
+                                                <button className="settings-icon" type="button" onClick={() => handleDelete(error.id)} ><FontAwesomeIcon className="fa-md" icon={faTrashCan} /></button>
+                                            </HoverText>
                                         </td>
                                     </tr>
                                 ))}
