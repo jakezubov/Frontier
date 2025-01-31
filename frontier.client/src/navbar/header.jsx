@@ -1,36 +1,33 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faClockRotateLeft, faCircleInfo, faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentPage } from '../contexts/current-page-context'
+import SidebarSections from '../common/sidebar-sections'
 import Sidebar from '../sidebar/sidebar'
 import Navbar from './navbar'
 
-const SidebarButtons = {
-    CLOSE: 'Close',
-    INFORMATION: 'Information',
-    CONTACT: 'Contact',
-    HISTORY: 'History',
-}
-
 const Header = () => {
     const { currentPage, isMobile, isEmailSetup } = useCurrentPage()
-    const [activeSection, setActiveSection] = useState(SidebarButtons.CLOSE)
+    const [sidebarExpanded, setSidebarExpanded] = useState(false)
     const [navbarExpanded, setNavbarExpanded] = useState(isMobile === "true" ? false : true)
+    const [activeSection, setActiveSection] = useState(SidebarSections.INFORMATION)
 
-    const toggleSidebar = (e) => {
+    const toggleSidebar = (label) => {
         if (isMobile === "true") {
             setNavbarExpanded(false)
         }
-        const label = e.currentTarget.getAttribute('aria-label')
-        if (label === activeSection) {
-            setActiveSection(SidebarButtons.CLOSE)
+        if (label === activeSection && sidebarExpanded) {
+            setSidebarExpanded(false)
         }
-        else setActiveSection(label)
+        else {
+            setActiveSection(label)
+            setSidebarExpanded(true)
+        }
     }
 
     const toggleNavbar = () => {
-        if (isMobile === "true" && !navbarExpanded) {
-            setActiveSection(SidebarButtons.CLOSE)
+        if (isMobile === "true") {
+            setSidebarExpanded(false)
         }
         setNavbarExpanded(!navbarExpanded)
     }
@@ -46,16 +43,16 @@ const Header = () => {
                     </tr>
                 </tbody>
             </table>
-            <button className="header-icon" aria-label={SidebarButtons.INFORMATION} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faCircleInfo} /></button>
+            <button className="header-icon" onClick={() => toggleSidebar(SidebarSections.INFORMATION)}><FontAwesomeIcon className="fa-2xl" icon={faCircleInfo} /></button>
             {isEmailSetup === "true" &&
-                <button className="header-icon" aria-label={SidebarButtons.CONTACT} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>  
+                <button className="header-icon" onClick={() => toggleSidebar(SidebarSections.CONTACT)}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>  
             }
-            <button className="header-icon" aria-label={SidebarButtons.HISTORY} onClick={toggleSidebar}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
+            <button className="header-icon" onClick={() => toggleSidebar(SidebarSections.HISTORY)}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
 
-            <Sidebar expandSection={activeSection} closeSection={() => setActiveSection(SidebarButtons.CLOSE)} />
+            <Sidebar isExpanded={sidebarExpanded} setIsExpanded={setSidebarExpanded} activeSection={activeSection} />
             <Navbar isExpanded={navbarExpanded} setIsExpanded={setNavbarExpanded} />
         </div>
     )
 }
 
-export default Header
+export default memo(Header)

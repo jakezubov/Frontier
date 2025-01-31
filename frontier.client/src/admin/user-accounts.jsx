@@ -121,19 +121,19 @@ const UserAccounts = () => {
                                         <td>
                                             {user.adminTF === true ? "True " : "False"}
                                             <HoverText text="Switch Admin Status">
-                                                <button className="settings-icon" type="button" onClick={() => handleSwitchAdmin(user.id)}><FontAwesomeIcon className="fa-md" icon={faUserTie} /></button>
+                                                <button className="settings-icon" type="button" onClick={() => handleSwitchAdmin(user.id)}><FontAwesomeIcon className={isMobile === "false" ? "fa-md" : "fa-lg"} icon={faUserTie} /></button>
                                             </HoverText>
                                         </td>
                                         <td>
                                             <HoverText text="Delete User Account">
-                                                <button className="settings-icon" type="button" onClick={() => handleDeletePopup(user.id)}><FontAwesomeIcon className="fa-md" icon={faTrashCan} /></button>
+                                                <button className="settings-icon" type="button" onClick={() => handleDeletePopup(user.id)}><FontAwesomeIcon className={isMobile === "false" ? "fa-md" : "fa-lg"} icon={faTrashCan} /></button>
                                             </HoverText>
                                         </td>
                                         <td>
                                             <HoverText text="Regenerate API Token">
-                                                <button className="settings-icon" type="button" onClick={() => handleRegenerateApiToken(user.id)}><FontAwesomeIcon className="fa-md" icon={faCube} /></button>
+                                                <button className="settings-icon" type="button" onClick={() => handleRegenerateApiToken(user.id)}><FontAwesomeIcon className={isMobile === "false" ? "fa-md" : "fa-lg"} icon={faCube} /></button>
                                             </HoverText>
-                                            {regeneratedApis.has(user.id) && <HoverText text="Regenerated"><FontAwesomeIcon className="fa-sm regenerate-api-tick" icon={faCheck} /></HoverText> }
+                                            {regeneratedApis.has(user.id) && <HoverText text="Regenerated"><FontAwesomeIcon className="fa-md regenerate-api-tick" icon={faCheck} /></HoverText> }
                                         </td>
                                     </tr>
                                 ))}

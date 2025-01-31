@@ -10,7 +10,7 @@ import Paging from '../components/paging'
 import HoverText from '../components/hover-text'
 
 const ErrorLedger = () => {
-    const { setCurrentPage, Pages } = useCurrentPage()
+    const { setCurrentPage, Pages, isMobile } = useCurrentPage()
     const { adminStatus } = useUserSession()
     const navigate = useNavigate()
 
@@ -118,7 +118,7 @@ const ErrorLedger = () => {
                                         <td>{error.errorTime}</td>
                                         <td>
                                             <HoverText text="Delete Error Entry">
-                                                <button className="settings-icon" type="button" onClick={() => handleDelete(error.id)} ><FontAwesomeIcon className="fa-md" icon={faTrashCan} /></button>
+                                                <button className="settings-icon" type="button" onClick={() => handleDelete(error.id)} ><FontAwesomeIcon className={isMobile === "false" ? "fa-md" : "fa-lg"} icon={faTrashCan} /></button>
                                             </HoverText>
                                         </td>
                                     </tr>

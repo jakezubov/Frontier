@@ -9,6 +9,7 @@ export const updateCSSVariables = (theme) => {
             '--primary-colour': '#a8dfff',
             '--secondary-colour': '#b9c0c4',
             '--accent-colour': '#4296c7', 
+            '--output-colour': 'rgba(185, 192, 196, 0.3)',
         },
         dark: {
             'color-scheme': 'dark',
@@ -17,6 +18,7 @@ export const updateCSSVariables = (theme) => {
             '--primary-colour': '#2f2b3a',
             '--secondary-colour': '#46424f',
             '--accent-colour': '#443e94',
+            '--output-colour': 'rgba(70, 66, 79, 0.3)',
         },
     }
 

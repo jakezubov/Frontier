@@ -12,6 +12,8 @@ builder.Services.AddCors(options =>
         {
             builder.WithOrigins(
                 "http://localhost:5173",
+                "http://192.168.0.131:5173",
+                "http://100.71.111.37:5173",
                 "https://jewellery.zubov.com.au"
                 )
                 .WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")

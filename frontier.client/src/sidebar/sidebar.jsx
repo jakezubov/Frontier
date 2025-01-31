@@ -1,51 +1,35 @@
 import PropTypes from 'prop-types'
-import { useState, useEffect } from 'react'
+import { memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import SidebarSections from '../common/sidebar-sections'
 import History from './history'
 import Information from './information'
 import Contact from './contact'
 
-export const SidebarButtons = {
-    CLOSE: 'Close',
-    INFORMATION: 'Information',
-    CONTACT: 'Contact',
-    HISTORY: 'History',
-}
-
-const Sidebar = ({ expandSection, closeSection }) => {
-    const [isExpanded, setIsExpanded] = useState(false)
-
-    useEffect(() => {
-        if (expandSection === SidebarButtons.CLOSE) {
-            setIsExpanded(false)
-        }
-        else setIsExpanded(true)
-    }, [expandSection])
-
+const Sidebar = ({ activeSection, isExpanded, setIsExpanded }) => {
     return (
         <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
-            <button className="sidebar-icon" aria-label={SidebarButtons.CLOSE} onClick={closeSection}><FontAwesomeIcon className="fa-2xl" icon={faXmark} /></button>
-            {isExpanded && (
-                <div className="sidebar-content">
-                    {expandSection === SidebarButtons.INFORMATION && (
-                        <Information retractSidebar={closeSection} />
-                    )}
-                    {expandSection === SidebarButtons.HISTORY && (
-                        <History />
-                    )}
-                    {expandSection === SidebarButtons.CONTACT && (
-                        <Contact />
-                    )}
-                </div>
-            )}         
+            <button className="sidebar-icon" onClick={() => setIsExpanded(false)}><FontAwesomeIcon className="fa-2xl" icon={faXmark} /></button>
+            <div className="sidebar-content">
+                {activeSection === SidebarSections.INFORMATION && (
+                    <Information retractSidebar={() => setIsExpanded(false)} />
+                )}
+                {activeSection === SidebarSections.HISTORY && (
+                    <History />
+                )}
+                {activeSection === SidebarSections.CONTACT && (
+                    <Contact />
+                )}
+            </div>       
         </div>
     )
 }
 
 Sidebar.propTypes = {
-    expandSection: PropTypes.string.isRequired,
-    closeSection: PropTypes.func.isRequired,
+    activeSection: PropTypes.string.isRequired,
+    isExpanded: PropTypes.bool.isRequired,
+    setIsExpanded: PropTypes.func.isRequired,
 }
 
-export default Sidebar
+export default memo(Sidebar)

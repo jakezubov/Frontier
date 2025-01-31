@@ -93,10 +93,10 @@ const EditableTable = ({ tableList, setTableList, columnSchema }) => {
                                     ))}
                                     <td className="action-icons">
                                         <HoverText text="Delete Row">
-                                            <button className="settings-icon" type="button" onClick={() => handleDelete(element.id)}><FontAwesomeIcon className="fa-md" icon={faTrash} /></button>
+                                            <button className="settings-icon" type="button" onClick={() => handleDelete(element.id)}><FontAwesomeIcon className={isMobile === "false" ? "fa-md" : "fa-lg"} icon={faTrash} /></button>
                                         </HoverText>
                                         <HoverText text="Add Row Below">
-                                            <button className="settings-icon" type="button" onClick={() => handleAddNew(element.listIndex)}><FontAwesomeIcon className="fa-lg" icon={faPlus} /></button>
+                                            <button className="settings-icon" type="button" onClick={() => handleAddNew(element.listIndex)}><FontAwesomeIcon className={isMobile === "false" ? "fa-lg" : "fa-xl"} icon={faPlus} /></button>
                                         </HoverText>
                                     </td>
                                 </tr>

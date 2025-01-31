@@ -6,6 +6,7 @@
     --primary-colour: #2f2b3a;
     --secondary-colour: #46424f;
     --accent-colour: #443e94;
+    --output-colour: rgba(70, 66, 79, 0.3);
     --header-height: 80px;
 }
 
@@ -79,7 +80,7 @@
     }
 
 .general-output {
-    background-color: var(--secondary-colour);
+    background-color: var(--output-colour);
     border: 2px solid var(--accent-colour);
 }
 
@@ -289,15 +290,16 @@ table {
     position: fixed;
     top: var(--header-height);
     left: 0;
-    padding: 20px;
-    text-align: left;
-    background-color: var(--secondary-colour);
     height: calc(100% - var(--header-height));
     width: 15vw;
     min-width: 250px;
+    padding: 20px;
+    text-align: left;
+    background-color: var(--secondary-colour);
     color: var(--text-colour);
+    transition: transform 0.3s;
+    will-change: transform;
     z-index: 3;
-    transition: transform 0.3s ease-in-out;
 }
     .navbar ul {
         list-style: none;
@@ -312,7 +314,7 @@ table {
     }
 
 .submenu {
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s;
 }
     .submenu.collapsed {
         transform: translateX(-150%);
@@ -377,18 +379,19 @@ table {
 /*#region Sidebar*/
 
 .sidebar {
-    height: calc(120% - var(--header-height));
-    width: 25vw;
-    min-width: 250px;
-    background-color: var(--secondary-colour);
-    color: var(--background-colour);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    transition: transform 0.4s ease-in-out;
     position: fixed;
     top: var(--header-height);
     right: 0;
+    height: calc(100% - var(--header-height));
+    width: 25vw;
+    min-width: 350px;
+    background-color: var(--secondary-colour);
+    color: var(--background-colour);
+    transition: transform 0.3s;
+    will-change: transform;
     z-index: 2;
 }
     .sidebar.expanded {
@@ -505,8 +508,8 @@ table {
     top: 50%;
     transform: translateY(-50%);
     right: 16px;
-    padding: 0px;
-    margin: 0;
+    padding: 0px 4px 0px 4px;
+    margin: 0px;
     color: var(--text-colour);
     background-color: transparent;
     font-size: 12px;
@@ -538,77 +541,6 @@ input[type="number"] {
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
-}
-
-/*#endregion*/
-
-
-/*#region Mobile*/
-
-@media screen and (max-width: 768px) {
-    .navbar {
-        height: auto;
-        width: 100%;
-        min-width: 0;
-        padding: 10px;
-    }
-        .navbar ul {
-            margin: 10px;
-            width: 50%;
-        }
-
-    .header-icon {
-        padding: 5px;
-        margin: 5px;
-    }
-
-    .header-text {
-        padding-left: 12px;
-        font-size: 24px;
-    }
-
-    .theme-buttons {
-        margin: 10px;
-    }
-
-    .sidebar.expanded {
-        width: 100%;
-    }
-
-    .popup-box {
-        width: 50vw;
-    }
-
-    .read-only-table td {
-        padding: 6px;
-    }
-
-    .editable-table {
-        padding: 0px;
-        margin: 0px;
-    }
-
-    .settings-icon {
-        margin: 0px;
-    }
-
-    .navbar-icon {
-        margin-left: 5px;
-    }
-
-    .general-button {
-        margin: 20px 5px 20px 5px;
-    }
-
-    .rolling-wire-switch {
-        justify-content: center;
-        width: auto;
-    }
-
-    .table-scroll {
-        padding-right: 8px;
-    }
-
 }
 
 /*#endregion*/
@@ -662,4 +594,80 @@ input[type=number]::-webkit-outer-spin-button {
     color: green;
 }
 
+/*#endregion*/
+
+
+/*#region Mobile*/
+@media screen and (max-width: 768px) {
+    .navbar {
+        width: 100%;
+        min-width: 0;
+        padding: 10px;
+    }
+        .navbar ul {
+            margin: 10px;
+            width: 50%;
+        }
+
+    .header-icon {
+        padding: 5px;
+        margin: 5px;
+    }
+
+    .header-text {
+        padding-left: 12px;
+        font-size: 24px;
+    }
+
+    .theme-buttons {
+        margin: 10px;
+    }
+
+    .sidebar.expanded {
+        width: 100%;
+    }
+
+    .popup-box {
+        width: 75vw;
+    }
+
+    .read-only-table td {
+        padding: 6px;
+    }
+
+    .editable-table {
+        padding: 0px;
+        margin: 0px;
+    }
+
+    .settings-icon {
+        margin: 0px;
+    }
+
+    .navbar-icon {
+        margin-left: 5px;
+    }
+
+    .general-button {
+        margin: 20px 5px 20px 5px;
+    }
+
+    .rolling-wire-switch {
+        justify-content: center;
+        width: auto;
+    }
+
+    .table-scroll {
+        padding-right: 8px;
+    }
+
+    .popup-code-input {
+        width: 75%;
+    }
+
+    .custom-input-buttons {
+        right: 8px;
+        padding: 0px 6px 0px 6px;
+    }
+}
 /*#endregion*/

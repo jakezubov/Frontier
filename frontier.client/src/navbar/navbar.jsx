@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useLogLogout } from '../common/APIs'
 import { useUserSession } from '../contexts/user-context'
@@ -77,4 +77,4 @@ Navbar.propTypes = {
     setIsExpanded: PropTypes.func.isRequired,
 }
 
-export default Navbar
+export default memo(Navbar)

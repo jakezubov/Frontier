@@ -125,7 +125,7 @@ const RollingWire = () => {
                             <td className="rolling-wire-switch">
                                 {lengthRingSizeSwitch ? <p>Length</p> : <p>Ring Size</p>}
                                 <HoverText text={lengthRingSizeSwitch ? "Switch To Ring Size Select" : "Switch To Custom Input"}>
-                                    <button className="settings-icon" type="button" onClick={handleLengthRingSizeSwitch}><FontAwesomeIcon icon={faRepeat} /></button>
+                                    <button className="settings-icon" type="button" onClick={handleLengthRingSizeSwitch}><FontAwesomeIcon className="fa-md" icon={faRepeat} /></button>
                                 </HoverText>
                             </td>
                             <td>
@@ -186,7 +186,7 @@ const RollingWire = () => {
                         <tr>
                             <td className="rolling-wire-switch">
                                 {lengthRingSizeSwitch ? <p>Length</p> : <p>Ring Size</p>}
-                                <button className="settings-icon" type="button" onClick={handleLengthRingSizeSwitch}><FontAwesomeIcon icon={faRepeat} /></button>
+                                <button className="settings-icon navbar-icon" type="button" onClick={handleLengthRingSizeSwitch}><FontAwesomeIcon className="fa-lg" icon={faRepeat} /></button>
                             </td>
                             <td>
                                 {lengthRingSizeSwitch ? 
