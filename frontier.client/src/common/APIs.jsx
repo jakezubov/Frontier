@@ -2,7 +2,7 @@ import Axios from 'axios'
 import { useError } from '../contexts/error-context'
 import { useUserSession } from '../contexts/user-context'
 
-// const urlPrefix = 'http://100.71.111.37:5221/api'
+// const urlPrefix = 'http://192.168.0.131:5221/api'
 const urlPrefix = 'https://jewellery.zubov.com.au/api'
 
 const convertToBase64 = (string) => {

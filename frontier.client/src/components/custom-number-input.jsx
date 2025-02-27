@@ -46,7 +46,7 @@ const CustomNumberInput = ({ step, min, onChange, startingNumber=0, disabled=fal
 
     return (
         <div className="custom-input-container">
-            <input className="general-input" type="number" step={step} min={min} value={currentNumber} onChange={changeNumber} disabled={disabled} />
+            <input className="general-input" type="number" inputMode="decimal" step={step} min={min} value={currentNumber} onChange={changeNumber} disabled={disabled} />
             <button className="custom-input-buttons" type="button" onClick={increaseNumber} disabled={disabled}><FontAwesomeIcon className="fa-xl" icon={faCaretUp} /></button>
             <button className="custom-input-buttons" type="button" onClick={decreseNumber} disabled={disabled}><FontAwesomeIcon className="fa-xl" icon={faCaretDown} /></button>
         </div>

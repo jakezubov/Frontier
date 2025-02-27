@@ -1,6 +1,6 @@
 import { useState, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faClockRotateLeft, faCircleInfo, faEnvelope } from '@fortawesome/free-solid-svg-icons'
+import { faBars, faClockRotateLeft, faCircleInfo, faEnvelope, faCalculator } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentPage } from '../contexts/current-page-context'
 import SidebarSections from '../common/sidebar-sections'
 import Sidebar from '../sidebar/sidebar'
@@ -48,6 +48,7 @@ const Header = () => {
                 <button className="header-icon" onClick={() => toggleSidebar(SidebarSections.CONTACT)}><FontAwesomeIcon className="fa-2xl" icon={faEnvelope} /></button>  
             }
             <button className="header-icon" onClick={() => toggleSidebar(SidebarSections.HISTORY)}><FontAwesomeIcon className="fa-2xl" icon={faClockRotateLeft} /></button>
+            <button className="header-icon header-right-icon" onClick={() => toggleSidebar(SidebarSections.CALCULATOR)}><FontAwesomeIcon className="fa-2xl" icon={faCalculator} /></button>
 
             <Sidebar isExpanded={sidebarExpanded} setIsExpanded={setSidebarExpanded} activeSection={activeSection} />
             <Navbar isExpanded={navbarExpanded} setIsExpanded={setNavbarExpanded} />

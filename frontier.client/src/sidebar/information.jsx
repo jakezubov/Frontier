@@ -6,7 +6,7 @@ import Path from '../common/paths'
 
 const Information = ({ retractSidebar }) => {
     const [information, setInformation] = useState('')
-    const { currentPage, Pages, isMobile } = useCurrentPage()
+    const { currentPage, Pages } = useCurrentPage()
 
     useEffect(() => {
         loadInformation()
@@ -82,7 +82,7 @@ const Information = ({ retractSidebar }) => {
                 <table>
                     <tbody>
                         <tr>
-                            <td><p>v1.3.2</p></td>
+                            <td><p>v1.3.3</p></td>
                         </tr>
                     </tbody>
                 </table>

@@ -344,7 +344,7 @@ table {
 }
 
 .header {
-    width: 100%;
+    width: 100vw;
     height: var(--header-height);
     position: fixed;
     display: flex;
@@ -365,6 +365,10 @@ table {
     .header-icon:focus {
         outline: none;
     }
+
+.header-right-icon {
+    margin-right: 30px
+}
 
 .header-text {
     margin: 0px;
@@ -407,17 +411,6 @@ table {
     margin-right: 30px;
 }
 
-.sidebar-icon {
-    padding: 5px;
-    margin: 10px 0px 0px 10px;
-    background-color: transparent;
-    color: var(--text-colour);
-    border: none;
-}
-    .sidebar-icon:focus {
-        outline: none;
-    }
-
 .history {
     list-style: none;
     color: var(--text-colour);
@@ -425,7 +418,7 @@ table {
 
 .history-scroll {
     overflow-y: auto;
-    height: calc(80vh - var(--header-height));
+    height: calc(75vh - var(--header-height));
     scrollbar-color: var(--text-colour) var(--secondary-colour);
     padding: 16px;
 }
@@ -434,11 +427,66 @@ table {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: calc(85vh - var(--header-height));
+    height: calc(80vh - var(--header-height));
 }
     .information ul {
         list-style: none;
     }
+
+.sidebar-close {
+    padding: 5px;
+    margin: 10px 0px 0px 10px;
+    background-color: transparent;
+    color: var(--text-colour);
+    border: none;
+}
+    .sidebar-close:focus {
+        outline: none;
+    }
+
+.calculator-container {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.calculator-input {
+    min-width: 300px;
+    padding: 16px;
+    padding-top: 32px;
+    margin: 24px 0px;
+    font-size: larger;
+    border: 2px solid var(--text-colour);
+}
+    .calculator-input:focus {
+        outline: none;
+    }
+
+.calculator-type {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20%;
+    color: var(--text-colour);
+}
+
+.calculator-first-number {
+    position: absolute;
+    transform: translateY(50%);
+    left: 20%;
+    color: var(--text-colour);
+    font-size: medium;
+}
+
+.calculator-button {
+    background: var(--background-colour);
+    border: 1px solid var(--text-colour);
+    font-size: larger;
+}
+
+.equals-button {
+    width: 130px;
+}
 
 /*#endregion */
 
@@ -508,7 +556,7 @@ table {
     top: 50%;
     transform: translateY(-50%);
     right: 16px;
-    padding: 0px 4px 0px 4px;
+    padding: 0px 4px;
     margin: 0px;
     color: var(--text-colour);
     background-color: transparent;
@@ -649,7 +697,7 @@ input[type=number]::-webkit-outer-spin-button {
     }
 
     .general-button {
-        margin: 20px 5px 20px 5px;
+        margin: 20px 5px;
     }
 
     .rolling-wire-switch {
@@ -667,7 +715,17 @@ input[type=number]::-webkit-outer-spin-button {
 
     .custom-input-buttons {
         right: 8px;
-        padding: 0px 6px 0px 6px;
+        padding: 0px 6px;
     }
+
+    .calculator-type {
+        right: 15%;
+    }
+
+    .calculator-first-number {
+        transform: translateY(60%);
+        left: 15%;
+    }
+
 }
 /*#endregion*/
