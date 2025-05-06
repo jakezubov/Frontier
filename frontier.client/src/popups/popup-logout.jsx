@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const PopupLogout = ({ isPopupOpen, setIsPopupOpen, onConfirm, }) => {
     const navigate = useNavigate()

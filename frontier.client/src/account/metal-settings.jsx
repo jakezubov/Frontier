@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserSession } from '../contexts/user-context'
-import { useGetMetals, useUpdateMetals, useResetMetals } from '../common/APIs'
+import { useGetMetals, useUpdateMetals, useResetMetals } from '../APIs/metals'
 import { useCurrentPage } from '../contexts/current-page-context'
-import TableSchemas from '../common/table-schemas'
+import TableSchemas from '../consts/table-schemas'
 import PopupConfirmation from '../popups/popup-confirmation'
 import EditableTable from '../components/editable-table'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const MetalSettings = () => {
     const { userId, loggedInStatus } = useUserSession()

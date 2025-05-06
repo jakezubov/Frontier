@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useCheckEmailExists, useUpdatePassword } from '../common/APIs'
-import { validatePassword } from '../common/validation'
+import { useCheckEmailExists, useUpdatePassword } from '../APIs/users'
+import { validatePassword } from '../consts/validation'
 import { useCurrentPage } from '../contexts/current-page-context'
 import PasswordRequirements from '../components/password-requirements'
 

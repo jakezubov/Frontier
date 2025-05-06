@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useCheckEmailExists, useSendPasswordReset } from '../common/APIs'
-import { validateEmail } from '../common/validation'
+import { useCheckEmailExists } from '../APIs/users'
+import { useSendPasswordReset } from '../APIs/email'
+import { validateEmail } from '../consts/validation'
 import { useCurrentPage } from '../contexts/current-page-context'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const ForgotPassword = () => {
     const { setCurrentPage, Pages, isEmailSetup } = useCurrentPage()

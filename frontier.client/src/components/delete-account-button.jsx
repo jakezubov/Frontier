@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserSession } from '../contexts/user-context'
-import { useDeleteUser } from '../common/APIs'
+import { useDeleteUser } from '../APIs/users'
 import PopupDeleteAccount from '../popups/popup-delete-account'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const DeleteAccount = () => {
     const { userId, setUserId } = useUserSession()

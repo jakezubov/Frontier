@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretUp, faCaretDown } from '@fortawesome/free-solid-svg-icons'
-import { validateNumber } from '../common/validation'
+import { validateNumber } from '../consts/validation'
 
 const CustomNumberInput = ({ step, min, onChange, startingNumber=0, disabled=false }) => {
     const [currentNumber, setCurrentNumber] = useState(startingNumber)

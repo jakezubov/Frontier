@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket, faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons'
 import { useUserSession } from '../contexts/user-context'
-import { useGetUser } from '../common/APIs'
-import Path from '../common/paths'
+import { useGetUser } from '../APIs/users'
+import Path from '../consts/paths'
 
 const GeneralNavbar = ({ toggleNavbar, activateAccountNavbar, handleLogoutClick, submenuExpanded }) => {
     const { userId, setUserId, loggedInStatus } = useUserSession()

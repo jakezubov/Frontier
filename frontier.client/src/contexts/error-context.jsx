@@ -1,5 +1,5 @@
 import { useState, createContext, useContext } from 'react'
-import { useCreateErrorLog } from '../common/APIs'
+import { useCreateErrorLog } from '../APIs/errors'
 import PopupError from '../popups/popup-error'
 
 const ErrorContext = createContext()

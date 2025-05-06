@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect, useContext } from 'react'
-import { useGetCurrentClientType } from '../common/APIs'
+import { useGetCurrentClientType } from '../APIs/email'
 
 const CurrentPageContext = createContext()
 

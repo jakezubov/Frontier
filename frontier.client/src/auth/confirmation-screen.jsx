@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useCurrentPage } from '../contexts/current-page-context'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const ConfirmationScreen = () => {
     const { setCurrentPage, Pages } = useCurrentPage()

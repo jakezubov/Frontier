@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useState } from 'react'
 import { useUserSession } from '../contexts/user-context'
-import { useDeleteUserHistory } from '../common/APIs'
+import { useDeleteUserHistory } from '../APIs/history'
 import PopupConfirmation from '../popups/popup-confirmation'
 
 const ClearHistoryButton = ({ onSuccess }) => {

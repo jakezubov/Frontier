@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useCurrentPage } from '../contexts/current-page-context'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const Information = ({ retractSidebar }) => {
     const [information, setInformation] = useState('')
@@ -82,7 +82,7 @@ const Information = ({ retractSidebar }) => {
                 <table>
                     <tbody>
                         <tr>
-                            <td><p>v1.3.3</p></td>
+                            <td><p>v1.3.4</p></td>
                         </tr>
                     </tbody>
                 </table>

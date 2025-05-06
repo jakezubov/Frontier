@@ -1,59 +1,51 @@
 ﻿namespace Frontier.Server.DataAccess;
 
+using Frontier.Server.Functions;
 using Frontier.Server.Models;
 using MongoDB.Driver;
 
-public class MetalDataAccess
+public class MetalDataAccess(IConfiguration configuration, ConnectToMongo connectToMongo)
 {
-    private readonly string ConnectionString = "mongodb://localhost:27017";
-    private readonly string DatabaseName = "frontier";
-    private readonly string MetalCollection = "metal_defaults";
-
-    private IMongoCollection<MetalModel> ConnectToMongo()
-    {
-        var client = new MongoClient(ConnectionString);
-        var db = client.GetDatabase(DatabaseName);
-        return db.GetCollection<MetalModel>(MetalCollection);
-    }
+    private readonly string MetalCollection = configuration["Mongo:MetalCollection"]!;
 
     public async Task<List<MetalModel>> GetAllMetals()
     {
-        var metalsCollection = ConnectToMongo();
-        var results = await metalsCollection.FindAsync(_ => true);
+        var collection = connectToMongo.Connect<MetalModel>(MetalCollection);
+        var results = await collection.FindAsync(_ => true);
         return results.ToList();
     }
 
     public async Task<MetalModel> GetMetal(string name)
     {
-        var metalsCollection = ConnectToMongo();
-        var results = await metalsCollection.FindAsync(m => m.Name == name);
+        var collection = connectToMongo.Connect<MetalModel>(MetalCollection);
+        var results = await collection.FindAsync(m => m.Name == name);
         return results.FirstOrDefault();
     }
 
     public Task CreateMetal(MetalModel metal)
     {
-        var metalsCollection = ConnectToMongo();
-        return metalsCollection.InsertOneAsync(metal);
+        var collection = connectToMongo.Connect<MetalModel>(MetalCollection);
+        return collection.InsertOneAsync(metal);
     }
 
     public Task UpdateMetal(MetalModel metal)
     {
-        var metalsCollection = ConnectToMongo();
+        var collection = connectToMongo.Connect<MetalModel>(MetalCollection);
         var filter = Builders<MetalModel>.Filter.Eq("Id", metal.Id);
         ReplaceOptions options = new() { IsUpsert = true };
-        return metalsCollection.ReplaceOneAsync(filter, metal, options);
+        return collection.ReplaceOneAsync(filter, metal, options);
     }
 
     public async Task UpdateAllMetals(List<MetalModel> metals)
     {
-        var metalsCollection = ConnectToMongo();
+        var collection = connectToMongo.Connect<MetalModel>(MetalCollection);
 
         // Extract the list of IDs from the provided metals list
         var metalIds = metals.Select(m => m.Id).ToList();
 
         // Find and remove metals that are not in the provided list
         var deleteFilter = Builders<MetalModel>.Filter.Nin("Id", metalIds);
-        var deleteTask = metalsCollection.DeleteManyAsync(deleteFilter);
+        var deleteTask = collection.DeleteManyAsync(deleteFilter);
 
         // Update or insert metals in the provided list
         var updateTasks = new List<Task>();
@@ -61,7 +53,7 @@ public class MetalDataAccess
         {
             var filter = Builders<MetalModel>.Filter.Eq("Id", metal.Id);
             ReplaceOptions options = new() { IsUpsert = true };
-            var task = metalsCollection.ReplaceOneAsync(filter, metal, options);
+            var task = collection.ReplaceOneAsync(filter, metal, options);
             updateTasks.Add(task);
         }
 
@@ -71,7 +63,7 @@ public class MetalDataAccess
 
     public Task DeleteMetal(MetalModel metal)
     {
-        var metalsCollection = ConnectToMongo();
-        return metalsCollection.DeleteOneAsync(m => m.Id == metal.Id);
+        var collection = connectToMongo.Connect<MetalModel>(MetalCollection);
+        return collection.DeleteOneAsync(m => m.Id == metal.Id);
     }
 }

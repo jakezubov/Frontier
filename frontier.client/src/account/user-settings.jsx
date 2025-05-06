@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserSession } from '../contexts/user-context'
-import { useCheckEmailExists, useSendVerification, useUpdateUser } from '../common/APIs'
-import { validateEmail, validateNumber } from '../common/validation'
+import { useCheckEmailExists, useUpdateUser } from '../APIs/users'
+import { useSendVerification } from '../APIs/email'
+import { validateEmail } from '../consts/validation'
 import { useCurrentPage } from '../contexts/current-page-context'
 import DeleteAccountButton from '../components/delete-account-button'
 import ClearHistoryButton from '../components/clear-history-button'
 import CustomNumberInput from '../components/custom-number-input'
 import PopupVerification from '../popups/popup-verification'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const UserSettings = () => {
     const { userId, localFirstName, localLastName, localEmail, localHistoryAmount, updateUserSession } = useUserSession()

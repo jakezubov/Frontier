@@ -1,31 +1,23 @@
 ﻿namespace Frontier.Server.DataAccess;
 
+using Frontier.Server.Functions;
 using Frontier.Server.Interfaces;
 using Frontier.Server.Models;
 using MongoDB.Driver;
 
-public class ConfigDataAccess
+public class ConfigDataAccess(IConfiguration configuration, ConnectToMongo connectToMongo)
 {
-    private readonly string ConnectionString = "mongodb://localhost:27017";
-    private readonly string DatabaseName = "frontier";
-    private readonly string ConfigCollection = "site_config";
+    private readonly string ConfigCollection = configuration["Mongo:ConfigCollection"]!;
 
-    private IMongoCollection<ConfigModel> ConnectToMongo()
+    private async Task<ConfigModel> GetConfig()
     {
-        var client = new MongoClient(ConnectionString);
-        var db = client.GetDatabase(DatabaseName);
-        return db.GetCollection<ConfigModel>(ConfigCollection);
-    }
-
-    public async Task<ConfigModel> GetConfig()
-    {
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<ConfigModel>(ConfigCollection);
         return await collection.Find(_ => true).FirstOrDefaultAsync();
     }
 
     public async Task CreateConfig(ConfigModel config)
     {
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<ConfigModel>(ConfigCollection);
         var existingDocument = await collection.Find(_ => true).FirstOrDefaultAsync();
 
         if (existingDocument != null) {
@@ -48,7 +40,7 @@ public class ConfigDataAccess
         ConfigModel config = await GetConfig();
 
         config.CurrentClientType = newClientType;
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<ConfigModel>(ConfigCollection);
         await collection.ReplaceOneAsync(_ => true, config);
     }
 
@@ -65,7 +57,7 @@ public class ConfigDataAccess
         ConfigModel config = await GetConfig();
 
         config.AzureClient = client;
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<ConfigModel>(ConfigCollection);
         await collection.ReplaceOneAsync(_ => true, config);
     }
 
@@ -84,7 +76,7 @@ public class ConfigDataAccess
         ConfigModel config = await GetConfig();
 
         config.InitialisedTF = newStatus;
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<ConfigModel>(ConfigCollection);
         await collection.ReplaceOneAsync(_ => true, config);
     }
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useUserSession } from '../contexts/user-context'
 import { useHistory } from '../contexts/history-context'
 import { useCurrentPage } from '../contexts/current-page-context'
-import { validateNumber } from '../common/validation'
+import { validateNumber } from '../consts/validation'
 import MetalSelector from '../components/metal-selector'
 import CustomNumberInput from '../components/custom-number-input'
 

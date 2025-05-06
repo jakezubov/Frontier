@@ -1,17 +1,23 @@
+import Axios from 'axios'
 import { createContext, useState, useEffect, useContext } from 'react'
-import { useGetUser } from '../common/APIs'
+import { useGetUser } from '../APIs/users'
 
 export const UserContext = createContext()
 
 export const UserProvider = ({ children }) => {
     const [userId, setUserId] = useState(localStorage.getItem('userId'))
     const [adminStatus, setAdminStatus] = useState(localStorage.getItem('adminStatus'))
+    const [userToken, setUserToken] = useState(localStorage.getItem('userToken'))
     const [apiToken, setApiToken] = useState(localStorage.getItem('apiToken'))
     const [loggedInStatus, setLoggedInStatus] = useState(localStorage.getItem('loggedInStatus'))
     const [localFirstName, setFirstName] = useState(localStorage.getItem('firstName'))
     const [localLastName, setLastName] = useState(localStorage.getItem('lastName'))
     const [localEmail, setEmail] = useState(localStorage.getItem('email'))
     const [localHistoryAmount, setHistoryAmount] = useState(localStorage.getItem('historyAmount'))
+
+    if (userToken) {
+        Axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`
+    }
 
     // APIs
     const { getUser } = useGetUser()
@@ -23,6 +29,11 @@ export const UserProvider = ({ children }) => {
             clearUserSession()
         }
     }, [userId])
+
+    useEffect(() => {
+        Axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`
+        localStorage.setItem('userToken', userToken)
+    }, [userToken])
 
     const updateUserSession = async () => {
         if (userId) {
@@ -58,6 +69,8 @@ export const UserProvider = ({ children }) => {
         setLoggedInStatus(false)
         setAdminStatus(false)
         setApiToken(null)
+        setUserToken(null)
+        Axios.defaults.headers.common['Authorization'] = null
 
         // Update Local Storage
         localStorage.removeItem('userId')
@@ -66,6 +79,7 @@ export const UserProvider = ({ children }) => {
         localStorage.removeItem('email')
         localStorage.removeItem('historyAmount')
         localStorage.removeItem('apiToken')
+        localStorage.removeItem('userToken')
         localStorage.setItem('loggedInStatus', 'false')
         localStorage.setItem('adminStatus', 'false')
     }
@@ -74,6 +88,8 @@ export const UserProvider = ({ children }) => {
         <UserContext.Provider value={{
             userId,
             setUserId,
+            userToken,
+            setUserToken,
             adminStatus,
             apiToken,
             loggedInStatus,

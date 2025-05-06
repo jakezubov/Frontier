@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserSession } from '../contexts/user-context'
-import { useValidateUser, useUpdatePassword } from '../common/APIs'
-import { validatePassword } from '../common/validation'
+import { useUpdatePassword } from '../APIs/users'
+import { useValidateUser } from '../APIs/auth'
+import { validatePassword } from '../consts/validation'
 import { useCurrentPage } from '../contexts/current-page-context'
 import PasswordRequirements from '../components/password-requirements'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const UpdatePassword = () => {
     const { userId, localEmail } = useUserSession()

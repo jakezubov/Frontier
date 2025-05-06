@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext, useCallback } from 'react'
 import { UserContext } from './user-context'
-import { useGetHistory, useSaveHistory } from '../common/APIs'
+import { useGetHistory, useSaveHistory } from '../APIs/history'
 import { useCurrentPage } from '../contexts/current-page-context'
 
 export const HistoryContext = createContext()

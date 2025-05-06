@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const AdminNavbar = ({ toggleNavbar, backSelected, submenuExpanded }) => {
     const [toggleExpand, setToggleExpand] = useState(false)

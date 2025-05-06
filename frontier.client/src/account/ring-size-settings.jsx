@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserSession } from '../contexts/user-context'
-import { useGetRingSizes, useUpdateRingSizes, useResetRingSizes } from '../common/APIs'
+import { useGetRingSizes, useUpdateRingSizes, useResetRingSizes } from '../APIs/ring-sizes'
 import { useCurrentPage } from '../contexts/current-page-context'
-import TableSchemas from '../common/table-schemas'
+import TableSchemas from '../consts/table-schemas'
 import PopupConfirmation from '../popups/popup-confirmation'
 import EditableTable from '../components/editable-table'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const RingSizeSettings = () => {
     const { userId, loggedInStatus } = useUserSession()

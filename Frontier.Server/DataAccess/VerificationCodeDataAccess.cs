@@ -1,30 +1,22 @@
 ﻿namespace Frontier.Server.DataAccess;
 
+using Frontier.Server.Functions;
 using Frontier.Server.Models;
 using MongoDB.Driver;
 
-public class VerificationCodeDataAccess
+public class VerificationCodeDataAccess(IConfiguration configuration, ConnectToMongo connectToMongo)
 {
-    private readonly string ConnectionString = "mongodb://localhost:27017";
-    private readonly string DatabaseName = "frontier";
-    private readonly string ConfigCollection = "verification_codes";
-
-    private IMongoCollection<VerificationCodeModel> ConnectToMongo()
-    {
-        var client = new MongoClient(ConnectionString);
-        var db = client.GetDatabase(DatabaseName);
-        return db.GetCollection<VerificationCodeModel>(ConfigCollection);
-    }
+    private readonly string VerificationCodeCollection = configuration["Mongo:VerificationCodeCollection"]!;
 
     public async Task<VerificationCodeModel> GetVerificationCode(string email)
     {
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<VerificationCodeModel>(VerificationCodeCollection);
         return await collection.Find(c => c.Email == email).FirstOrDefaultAsync();
     }
 
     public async Task CreateVerificationCode(VerificationCodeModel code)
     {
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<VerificationCodeModel>(VerificationCodeCollection);
         var existingDocument = await collection.Find(c => c.Email == code.Email).FirstOrDefaultAsync();
 
         if (existingDocument != null) {
@@ -38,7 +30,7 @@ public class VerificationCodeDataAccess
 
     public async Task DeleteVerificationCode(string email)
     {
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<VerificationCodeModel>(VerificationCodeCollection);
         await collection.DeleteOneAsync(c => c.Email == email);
     }
 }

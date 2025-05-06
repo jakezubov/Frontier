@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
-import { useGetCurrentClientType } from '../common/APIs'
-import Client from '../common/email-clients'
+import { useGetCurrentClientType } from '../APIs/email'
+import Client from '../consts/email-clients'
 
 const EmailClientSelector = ({ onClientChange }) => {
     const [currentClient, setCurrentClient] = useState(Client.NONE.name)

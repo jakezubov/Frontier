@@ -5,9 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserTie, faTrashCan, faCube, faCheck } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentPage } from '../contexts/current-page-context'
 import { useError } from '../contexts/error-context'
-import { useGetAllUsers, useSwitchAdminStatus, useDeleteUser, useRegenerateUserApiToken } from '../common/APIs'
+import { useGetAllUsers, useSwitchAdminStatus, useDeleteUser, useRegenerateApiToken } from '../APIs/users'
 import PopupDeleteAccount from '../popups/popup-delete-account'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 import Searchbar from '../components/searchbar'
 import Paging from '../components/paging'
 import HoverText from '../components/hover-text'
@@ -31,7 +31,7 @@ const UserAccounts = () => {
     const { getAllUsers } = useGetAllUsers()
     const { switchAdminStatus } = useSwitchAdminStatus()
     const { deleteUser } = useDeleteUser()
-    const { regenerateUserApiToken } = useRegenerateUserApiToken()
+    const { regenerateApiToken } = useRegenerateApiToken()
 
     useEffect(() => {
         setCurrentPage(Pages.USER_ACCOUNTS)
@@ -73,7 +73,7 @@ const UserAccounts = () => {
     }
 
     const handleRegenerateApiToken = async (id) => {
-        await regenerateUserApiToken(id)
+        await regenerateApiToken(id)
         if (id === userId) {
             updateUserSession()
         }

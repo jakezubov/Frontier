@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useUserSession } from '../contexts/user-context'
-import { useSendContactForm } from '../common/APIs'
-import { validateEmail } from '../common/validation'
+import { useSendContactForm } from '../APIs/email'
+import { validateEmail } from '../consts/validation'
 
 const Contact = () => {
     const { userId, localFirstName, localLastName, localEmail } = useUserSession()

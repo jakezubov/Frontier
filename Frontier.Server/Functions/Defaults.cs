@@ -4,7 +4,7 @@ using Models;
 
 public class Defaults
 {
-    public readonly List<MetalModel> Metals =
+    public static readonly List<MetalModel> Metals =
         [
             new MetalModel { Name = "Wax", SpecificGravity = 1, ListIndex = 1 },
             new MetalModel { Name = "Fine Silver", SpecificGravity = 10.64, ListIndex = 2 },
@@ -22,7 +22,7 @@ public class Defaults
             new MetalModel { Name = "Platinum", SpecificGravity = 21.24, ListIndex = 14 },
         ];
 
-    public readonly List<RingSizeModel> RingSizes =
+    public static readonly List<RingSizeModel> RingSizes =
         [
             new RingSizeModel { LetterSize = "A", NumberSize = 0.5, Diameter = 12.04, ListIndex = 1 },
             new RingSizeModel { LetterSize = "B", NumberSize = 1, Diameter = 12.45, ListIndex = 2 },

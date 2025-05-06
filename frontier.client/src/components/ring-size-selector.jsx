@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react'
 import { useUserSession } from '../contexts/user-context'
-import { useGetRingSizes, useGetDefaultRingSizes } from '../common/APIs'
+import { useGetRingSizes, useGetDefaultRingSizes } from '../APIs/ring-sizes'
 
 const RingSizeSelector = ({ label, onSizeChange }) => {
     const { userId } = useUserSession()

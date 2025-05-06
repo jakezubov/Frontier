@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleHalfStroke } from '@fortawesome/free-solid-svg-icons'
-import { updateCSSVariables } from '../common/themes'
+import { updateCSSVariables } from '../consts/themes'
 
 const ThemeButton = () => {
     const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark')
@@ -11,7 +11,8 @@ const ThemeButton = () => {
         localStorage.setItem('theme', theme)
     }, [theme])
 
-    const handleThemeChange = () => {
+    const handleThemeChange = (e) => {
+        e.preventDefault()
         theme === 'light' ? setTheme('dark') : setTheme('light')
     }
 

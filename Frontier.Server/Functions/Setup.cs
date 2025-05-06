@@ -3,13 +3,8 @@ using Frontier.Server.Models;
 
 namespace Frontier.Server.Functions;
 
-public class Setup
+public class Setup(ConfigDataAccess dbConfig, MetalDataAccess dbMetals, RingSizeDataAccess dbRingSizes)
 {
-    private readonly ConfigDataAccess dbConfig = new();
-    private readonly MetalDataAccess dbMetals = new();
-    private readonly RingSizeDataAccess dbRingSizes = new();
-    private readonly Defaults defaults = new();
-
     public async void CheckFirstTimeSetup()
     {
         bool result = await dbConfig.GetInitialisedStatus();
@@ -23,7 +18,7 @@ public class Setup
         ConfigModel config = new();
 
         await dbConfig.CreateConfig(config);
-        await dbMetals.UpdateAllMetals(defaults.Metals);
-        await dbRingSizes.UpdateAllRingSizes(defaults.RingSizes);
+        await dbMetals.UpdateAllMetals(Defaults.Metals);
+        await dbRingSizes.UpdateAllRingSizes(Defaults.RingSizes);
     }
 }

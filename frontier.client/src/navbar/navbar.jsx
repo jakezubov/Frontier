@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useState, memo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useLogLogout } from '../common/APIs'
+import { useLogoutUser } from '../APIs/auth'
 import { useUserSession } from '../contexts/user-context'
 import { useCurrentPage } from '../contexts/current-page-context'
 import PopupLogout from '../popups/popup-logout'
@@ -9,7 +9,7 @@ import NavbarIcons from './navbar-icons'
 import AccountNavbar from './account-navbar'
 import AdminNavbar from './admin-navbar'
 import GeneralNavbar from './general-navbar'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const Navbar = ({ isExpanded, setIsExpanded }) => {
     const { userId, setUserId } = useUserSession()
@@ -20,7 +20,7 @@ const Navbar = ({ isExpanded, setIsExpanded }) => {
     const navigate = useNavigate()
 
     // APIs
-    const { logLogout } = useLogLogout()
+    const { logoutUser } = useLogoutUser()
 
     const toggleNavbar = () => {
         if (isMobile === "true") {
@@ -36,7 +36,7 @@ const Navbar = ({ isExpanded, setIsExpanded }) => {
     const handleLogout = async () => {
         toggleNavbar()
         if (userId) {
-            await logLogout(userId)
+            await logoutUser(userId)
         }
         setUserId(null)
         navigate(Path.CONFIRMATION_SCREEN, {

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faGear} from '@fortawesome/free-solid-svg-icons'
 import { useUserSession } from '../contexts/user-context'
 import ThemeButton from '../components/theme-button'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const NavbarIcons = ({ activateAdminNavbar }) => {
     const { adminStatus } = useUserSession()

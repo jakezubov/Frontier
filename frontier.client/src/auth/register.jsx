@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { useCheckEmailExists, useCreateUser, useSendRegistration } from '../common/APIs'
-import { validatePassword, validateEmail } from '../common/validation'
+import { useCheckEmailExists, useCreateUser } from '../APIs/users'
+import { useSendRegistration } from '../APIs/email'
+import { validatePassword, validateEmail } from '../consts/validation'
 import { useCurrentPage } from '../contexts/current-page-context'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 import PasswordRequirements from '../components/password-requirements'
 import PopupVerification from '../popups/popup-verification'
 
 const Register = () => {
     const navigate = useNavigate()
-    const { setCurrentPage, Pages, isEmailSetup } = useCurrentPage()
+    const { setCurrentPage, Pages, isEmailSetup, isMobile } = useCurrentPage()
 
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
@@ -143,22 +144,15 @@ const Register = () => {
                                 }
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-            </form>
-            
-            <PasswordRequirements />
-            <br />
-            {isEmailSetup === "true" &&
-                <table>
-                    <tbody>
                         <tr>
-                            <td><Link className="link-text" to={Path.LOGIN}>Login</Link></td>
-                            <td><Link className="link-text" to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
+                            <td colSpan="2">
+                                <PasswordRequirements />
+                                <br />
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-            }
+            </form>
 
             {isVerificationPopupOpen && (
                 <PopupVerification isPopupOpen={isVerificationPopupOpen} setIsPopupOpen={setIsVerificationPopupOpen} onVerify={handleSubmit} onCancel={handleCancel} email={email} />

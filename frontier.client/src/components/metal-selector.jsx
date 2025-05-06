@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { useUserSession } from '../contexts/user-context'
-import { useGetMetals, useGetDefaultMetals } from '../common/APIs'
+import { useGetMetals, useGetDefaultMetals } from '../APIs/metals'
 
 const MetalSelector = ({ label, onMetalChange }) => {
     const { userId } = useUserSession()

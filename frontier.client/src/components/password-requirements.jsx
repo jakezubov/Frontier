@@ -1,7 +1,7 @@
 const PasswordRequirements = () => {
     return (
         <div>
-            <table className="password-reqs-container">
+            <table className="flex-container column">
                 <thead>
                     <tr>
                         <th className="left-align tight-text">Password must include the following:</th>

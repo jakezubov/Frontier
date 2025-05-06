@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { useGenerateObjectId } from '../common/APIs'
+import { useGenerateObjectId } from '../APIs/config'
 import { useCurrentPage } from '../contexts/current-page-context'
 import CustomNumberInput from '../components/custom-number-input'
 import HoverText from '../components/hover-text'

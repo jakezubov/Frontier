@@ -95,11 +95,16 @@
     resize: none;
 }
 
-.password-reqs-container {
+.flex-container {
     display: flex;
     align-items: center;
-    flex-direction: column;
 }
+    .flex-container.column {
+        flex-direction: column;
+    }
+    .flex-container.row {
+        flex-direction: row;
+    }
 
 .message-container {
     margin-top: 0px;

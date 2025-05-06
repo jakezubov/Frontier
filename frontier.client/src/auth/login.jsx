@@ -1,22 +1,21 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { useValidateUser, useLogLogin } from '../common/APIs'
+import { useLoginUser } from '../APIs/auth'
 import { useUserSession } from '../contexts/user-context'
 import { useCurrentPage } from '../contexts/current-page-context'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const Login = () => {
     const navigate = useNavigate()
     const { setCurrentPage, Pages, isEmailSetup } = useCurrentPage()
-    const { setUserId } = useUserSession()
+    const { setUserId, setUserToken } = useUserSession()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [validationMessage, setValidationMessage] = useState(' ')
 
     // APIs
-    const { validateUser } = useValidateUser()
-    const { logLogin } = useLogLogin()
+    const { loginUser } = useLoginUser()
 
     useEffect(() => {
         setCurrentPage(Pages.LOGIN)
@@ -31,15 +30,14 @@ const Login = () => {
             setValidationMessage('Please enter all information.')
             return
         }
-        const userId = await validateUser(email, password)
+        const response = await loginUser(email, password)
 
-        if (!userId) {
+        if (!response) {
             setValidationMessage('Email and/or Password is incorrect.')
             return
         }
-        await logLogin(userId)
-
-        setUserId(userId)
+        setUserToken(response.token)
+        setUserId(response.userId)
         navigate(Path.CONFIRMATION_SCREEN, {
             state: { message: 'Successfully logged in!' }
         })
@@ -53,9 +51,14 @@ const Login = () => {
     }
 
     return (
-        <div>
-            <form onKeyDown={handleKeyDown}>
+        <div className="flex-container row">
+            <form className="login-register-container" onKeyDown={handleKeyDown}>
                 <table>
+                    <thead>
+                        <tr>
+                            <th colSpan="2"><h2>Login</h2></th>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr>
                             <td>Email</td>
@@ -65,24 +68,20 @@ const Login = () => {
                             <td>Password</td>
                             <td><input className="general-input" value={password} type="password" onChange={(e) => setPassword(e.target.value)} /></td>
                         </tr>
-                    </tbody>
-                </table>
-
-                <button className="general-button" type="button" onClick={handleSubmit}>Login</button>
-            </form>
-
-            {validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}
-
-            {isEmailSetup === "true" &&
-                <table>
-                    <tbody>
                         <tr>
-                            <td><Link className="link-text" to={Path.REGISTER}>Register</Link></td>
-                            <td><Link className="link-text" to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
+                            <td colSpan="2">
+                                <button className="general-button" type="button" onClick={handleSubmit}>Login</button>
+                                {validationMessage && <p className="pre-wrap warning-text tight-top">{validationMessage}</p>}
+                            </td>
                         </tr>
+                        {isEmailSetup === "true" &&
+                            <tr>
+                                <td colSpan="2"><Link className="link-text" to={Path.FORGOT_PASSWORD}>Forgot Password</Link></td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
-            }
+            </form>            
         </div>
     )
 }

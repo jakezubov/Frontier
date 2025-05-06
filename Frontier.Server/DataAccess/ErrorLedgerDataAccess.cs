@@ -1,44 +1,36 @@
 ﻿namespace Frontier.Server.DataAccess;
 
+using Frontier.Server.Functions;
 using Frontier.Server.Models;
 using MongoDB.Driver;
 
-public class ErrorLedgerDataAccess
+public class ErrorLedgerDataAccess(IConfiguration configuration, ConnectToMongo connectToMongo)
 {
-    private readonly string ConnectionString = "mongodb://localhost:27017";
-    private readonly string DatabaseName = "frontier";
-    private readonly string ErrorCollection = "error_ledger";
-
-    private IMongoCollection<ErrorLedgerModel> ConnectToMongo()
-    {
-        var client = new MongoClient(ConnectionString);
-        var db = client.GetDatabase(DatabaseName);
-        return db.GetCollection<ErrorLedgerModel>(ErrorCollection);
-    }
+    private readonly string ErrorCollection = configuration["Mongo:ErrorCollection"]!;
 
     public async Task<List<ErrorLedgerModel>> GetAllErrorLogs()
     {
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<ErrorLedgerModel>(ErrorCollection);
         var results = await collection.FindAsync(_ => true);
         return results.ToList();
     }
 
     public async Task<ErrorLedgerModel> GetErrorLog(string id)
     {
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<ErrorLedgerModel>(ErrorCollection);
         var results = await collection.FindAsync(e => e.Id == id);
         return results.FirstOrDefault();
     }
 
     public async Task CreateErrorLog(ErrorLedgerModel error)
     {
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<ErrorLedgerModel>(ErrorCollection);
         await collection.InsertOneAsync(error);
     }
 
     public Task DeleteErrorLog(string id)
     {
-        var collection = ConnectToMongo();
+        var collection = connectToMongo.Connect<ErrorLedgerModel>(ErrorCollection);
         return collection.DeleteOneAsync(e => e.Id == id);
     }
 }

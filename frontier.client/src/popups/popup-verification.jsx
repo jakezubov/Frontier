@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
-import { useCheckVerificationCode } from '../common/APIs'
+import { useCheckVerificationCode } from '../APIs/email'
 
 const PopupVerification = ({ isPopupOpen, setIsPopupOpen, onVerify, onCancel, email }) => {
     const [validationMessage, setValidationMessage] = useState(' ')

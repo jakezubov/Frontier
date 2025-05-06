@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useGetInitialisedStatus } from '../common/APIs'
-import Path from '../common/paths'
+import { useGetInitialisedStatus } from '../APIs/config'
+import Path from '../consts/paths'
 
 const FirstTimeSetupHandler = ({ onNotAlreadySetup }) => {
     const navigate = useNavigate()

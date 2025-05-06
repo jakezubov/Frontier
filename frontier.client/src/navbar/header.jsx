@@ -2,7 +2,7 @@ import { useState, memo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faClockRotateLeft, faCircleInfo, faEnvelope, faCalculator } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentPage } from '../contexts/current-page-context'
-import SidebarSections from '../common/sidebar-sections'
+import SidebarSections from '../consts/sidebar-sections'
 import Sidebar from '../sidebar/sidebar'
 import Navbar from './navbar'
 

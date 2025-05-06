@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCurrentPage } from '../contexts/current-page-context'
 import { useUserSession } from '../contexts/user-context'
-import { useGetAzureClient, useTestAzureClient, useUpdateAzureClient, useUpdateCurrentClientType } from '../common/APIs'
-import { validateEmail } from '../common/validation'
-import Client from '../common/email-clients'
+import { useGetAzureClient, useTestAzureClient, useUpdateAzureClient, useUpdateCurrentClientType } from '../APIs/email'
+import { validateEmail } from '../consts/validation'
+import Client from '../consts/email-clients'
 import EmailClientSelector from '../components/email-client-selector'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const ConfigureEmail = () => {
     const { setCurrentPage, Pages, setIsEmailSetup } = useCurrentPage()

@@ -2,11 +2,12 @@ import PropTypes from 'prop-types'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCurrentPage } from '../contexts/current-page-context'
-import { useCreateUser, useGetInitialisedStatus, useUpdateInitialisedStatus } from '../common/APIs'
-import { validatePassword, validateEmail } from '../common/validation'
+import { useGetInitialisedStatus, useUpdateInitialisedStatus } from '../APIs/config'
+import { useCreateUser } from '../APIs/users'
+import { validatePassword, validateEmail } from '../consts/validation'
 import PasswordRequirements from '../components/password-requirements'
 import ThemeButton from '../components/theme-button'
-import Path from '../common/paths'
+import Path from '../consts/paths'
 
 const FirstTimeSetup = ({ onSetupComplete }) => {
     const navigate = useNavigate()
