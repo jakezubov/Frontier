@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentPage } from '../contexts/current-page-context'
 import { useUserSession } from '../contexts/user-context'
-import { useGetErrorLedger, useDeleteErrorLog } from '../APIs/errors'
+import { useGetErrorLedger, useDeleteErrorLog, useDeleteAllErrorLogs } from '../APIs/errors'
+import PopupConfirmation from '../popups/popup-confirmation'
 import Path from '../consts/paths'
 import Paging from '../components/paging'
 import HoverText from '../components/hover-text'
@@ -17,11 +18,13 @@ const ErrorLedger = () => {
     const [errorList, setErrorList] = useState([])
     const [filteredList, setFilteredList] = useState([])
     const [expandedErrors, setExpandedErrors] = useState(new Set())
+    const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
 
     // APIs
     const { getErrorLedger } = useGetErrorLedger()
     const { deleteErrorLog } = useDeleteErrorLog()
+    const { deleteAllErrorLogs } = useDeleteAllErrorLogs()
 
     useEffect(() => {
         setCurrentPage(Pages.ERROR_LEDGER)
@@ -79,6 +82,11 @@ const ErrorLedger = () => {
         await deleteErrorLog(errorId)
         loadLedger()
     }
+
+    const handleDeleteAll = async (errorId) => {
+        await deleteAllErrorLogs()
+        loadLedger()
+    }
     
     return (
         <div>
@@ -132,9 +140,19 @@ const ErrorLedger = () => {
                             </tbody>
                         }
                     </table>
-                    <Paging itemsPerPage={6} initialList={errorList} resultList={setFilteredList} />
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><Paging itemsPerPage={6} initialList={errorList} resultList={setFilteredList} /></td>
+                                <td><button className="general-button" type="submit" onClick={() => setIsConfirmationPopupOpen(true)}>Delete All Error Logs</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             }
+            {isConfirmationPopupOpen && (
+                <PopupConfirmation isPopupOpen={isConfirmationPopupOpen} setIsPopupOpen={setIsConfirmationPopupOpen} onConfirm={handleDeleteAll} heading="Are you sure?" />
+            )}
         </div>
     )
 }

@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useUserSession } from '../contexts/user-context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserTie, faTrashCan, faCube, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faUserTie, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { useCurrentPage } from '../contexts/current-page-context'
 import { useError } from '../contexts/error-context'
-import { useGetAllUsers, useSwitchAdminStatus, useDeleteUser, useRegenerateApiToken } from '../APIs/users'
+import { useGetAllUsers, useSwitchAdminStatus, useDeleteUser } from '../APIs/users'
 import PopupDeleteAccount from '../popups/popup-delete-account'
 import Path from '../consts/paths'
 import Searchbar from '../components/searchbar'
@@ -13,7 +13,7 @@ import Paging from '../components/paging'
 import HoverText from '../components/hover-text'
 
 const UserAccounts = () => {
-    const { adminStatus, updateUserSession, userId } = useUserSession()
+    const { adminStatus, userId } = useUserSession()
     const { setCurrentPage, Pages, isMobile } = useCurrentPage()
     const { displayError } = useError()
     const navigate = useNavigate()
@@ -22,7 +22,6 @@ const UserAccounts = () => {
     const [userList, setUserList] = useState([]) // Original list, used for the base of the searchedList
     const [searchedList, setSearchedList] = useState([]) // Filtered list from search, used for the base of the shortenedList
     const [shortenedList, setShortenedList] = useState([]) // Final list used to display values
-    const [regeneratedApis, setRegeneratedApis] = useState(new Set())
     const [selectedUserId, setSelectedUserId] = useState('')
     const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
@@ -31,7 +30,6 @@ const UserAccounts = () => {
     const { getAllUsers } = useGetAllUsers()
     const { switchAdminStatus } = useSwitchAdminStatus()
     const { deleteUser } = useDeleteUser()
-    const { regenerateApiToken } = useRegenerateApiToken()
 
     useEffect(() => {
         setCurrentPage(Pages.USER_ACCOUNTS)
@@ -72,19 +70,6 @@ const UserAccounts = () => {
         loadUsers()
     }
 
-    const handleRegenerateApiToken = async (id) => {
-        await regenerateApiToken(id)
-        if (id === userId) {
-            updateUserSession()
-        }
-
-        setRegeneratedApis(prevRegenerated => {
-            const newRegenerated = new Set(prevRegenerated)
-            newRegenerated.add(id)
-            return newRegenerated
-        })
-    }
-
     return (
         <div>
             {isLoading ?
@@ -104,7 +89,6 @@ const UserAccounts = () => {
                                 }
                                 <th>Admin</th>
                                 <th>Delete</th>
-                                <th>{isMobile === "false" ? "API Token" : "Token"}</th>
                             </tr>
                         </thead>
                         {shortenedList.length > 0 ?
@@ -128,12 +112,6 @@ const UserAccounts = () => {
                                             <HoverText text="Delete User Account">
                                                 <button className="settings-icon" type="button" onClick={() => handleDeletePopup(user.id)}><FontAwesomeIcon className={isMobile === "false" ? "fa-md" : "fa-lg"} icon={faTrashCan} /></button>
                                             </HoverText>
-                                        </td>
-                                        <td>
-                                            <HoverText text="Regenerate API Token">
-                                                <button className="settings-icon" type="button" onClick={() => handleRegenerateApiToken(user.id)}><FontAwesomeIcon className={isMobile === "false" ? "fa-md" : "fa-lg"} icon={faCube} /></button>
-                                            </HoverText>
-                                            {regeneratedApis.has(user.id) && <HoverText text="Regenerated"><FontAwesomeIcon className="fa-md regenerate-api-tick" icon={faCheck} /></HoverText> }
                                         </td>
                                     </tr>
                                 ))}

@@ -36,5 +36,13 @@ namespace Frontier.Server.Controllers
             await dbErrors.DeleteErrorLog(errorId);
             return Ok();
         }
+
+        // Delete All Error Logs
+        [HttpDelete("delete-all")]
+        public async Task<IActionResult> DeleteAllErrorLogs()
+        {
+            await dbErrors.DeleteAllErrorLogs();
+            return Ok();
+        }
     }
 }

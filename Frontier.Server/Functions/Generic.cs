@@ -4,13 +4,6 @@ using MongoDB.Bson;
 
 public class Generic()
 {
-    static public string CreateApiToken()
-    {
-        string datetime = DateTime.UtcNow.ToString();
-        string hash = BCrypt.Net.BCrypt.HashPassword(datetime);
-        return hash.Replace("+", "-").Replace("/", "_");
-    }
-
     static public string GenerateVerificationCode()
     {
         Random random = new();

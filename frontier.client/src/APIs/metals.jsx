@@ -8,21 +8,24 @@ export const useGetMetals = () => {
     const { displayError, logError } = useError()
 
     const getMetals = async (userId) => {
-        try {
-            const response = await Axios.get(`${urlPrefix}/metals/${userId}`)
-            return response.data.sort((a, b) => a.listIndex - b.listIndex)
+        if (userId !== null) {
+            try {
+                const response = await Axios.get(`${urlPrefix}/metals/${userId}`)
+                return response.data.sort((a, b) => a.listIndex - b.listIndex)
+            }
+            catch (error) {
+                const title = 'Failed to get metals'
+                displayError(`${title}\n${error.message}`)
+                console.error({
+                    title,
+                    error: error.message,
+                    stack: error.stack,
+                    userId,
+                })
+                logError(userId, title, error.message, error.stack)
+            }
         }
-        catch (error) {
-            const title = 'Failed to get metals'
-            displayError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            logError(userId, title, error.message, error.stack)
-        }
+        else return null
     }
 
     return { getMetals }

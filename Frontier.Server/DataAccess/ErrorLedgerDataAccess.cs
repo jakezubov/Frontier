@@ -33,4 +33,10 @@ public class ErrorLedgerDataAccess(IConfiguration configuration, ConnectToMongo 
         var collection = connectToMongo.Connect<ErrorLedgerModel>(ErrorCollection);
         return collection.DeleteOneAsync(e => e.Id == id);
     }
+
+    public Task DeleteAllErrorLogs()
+    {
+        var collection = connectToMongo.Connect<ErrorLedgerModel>(ErrorCollection);
+        return collection.DeleteManyAsync(_ => true);
+    }
 }

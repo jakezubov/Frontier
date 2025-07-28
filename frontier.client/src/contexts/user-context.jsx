@@ -8,7 +8,6 @@ export const UserProvider = ({ children }) => {
     const [userId, setUserId] = useState(localStorage.getItem('userId'))
     const [adminStatus, setAdminStatus] = useState(localStorage.getItem('adminStatus'))
     const [userToken, setUserToken] = useState(localStorage.getItem('userToken'))
-    const [apiToken, setApiToken] = useState(localStorage.getItem('apiToken'))
     const [loggedInStatus, setLoggedInStatus] = useState(localStorage.getItem('loggedInStatus'))
     const [localFirstName, setFirstName] = useState(localStorage.getItem('firstName'))
     const [localLastName, setLastName] = useState(localStorage.getItem('lastName'))
@@ -39,24 +38,27 @@ export const UserProvider = ({ children }) => {
         if (userId) {
             const user = await getUser(userId)
 
-            // Update states
-            setAdminStatus(user.adminTF)
-            setApiToken(user.apiToken)
-            setLoggedInStatus(user.loggedInTF)
-            setFirstName(user.firstName)
-            setLastName(user.lastName)
-            setEmail(user.email)
-            setHistoryAmount(user.historyAmount)
+            if (user !== undefined) {
+                // Update states
+                setAdminStatus(user.adminTF)
+                setLoggedInStatus(user.loggedInTF)
+                setFirstName(user.firstName)
+                setLastName(user.lastName)
+                setEmail(user.email)
+                setHistoryAmount(user.historyAmount)
 
-            // Update Local Storage
-            localStorage.setItem('userId', user.id)
-            localStorage.setItem('adminStatus', user.adminTF)
-            localStorage.setItem('apiToken', user.apiToken)
-            localStorage.setItem('loggedInStatus', user.loggedInTF)
-            localStorage.setItem('firstName', user.firstName)
-            localStorage.setItem('lastName', user.lastName)
-            localStorage.setItem('email', user.email)
-            localStorage.setItem('historyAmount', user.historyAmount)
+                // Update Local Storage
+                localStorage.setItem('userId', user.id)
+                localStorage.setItem('adminStatus', user.adminTF)
+                localStorage.setItem('loggedInStatus', user.loggedInTF)
+                localStorage.setItem('firstName', user.firstName)
+                localStorage.setItem('lastName', user.lastName)
+                localStorage.setItem('email', user.email)
+                localStorage.setItem('historyAmount', user.historyAmount)
+            }
+            else {
+                clearUserSession()
+            }
         }
     }
 
@@ -68,7 +70,6 @@ export const UserProvider = ({ children }) => {
         setHistoryAmount(null)
         setLoggedInStatus(false)
         setAdminStatus(false)
-        setApiToken(null)
         setUserToken(null)
         Axios.defaults.headers.common['Authorization'] = null
 
@@ -78,7 +79,6 @@ export const UserProvider = ({ children }) => {
         localStorage.removeItem('lastName')
         localStorage.removeItem('email')
         localStorage.removeItem('historyAmount')
-        localStorage.removeItem('apiToken')
         localStorage.removeItem('userToken')
         localStorage.setItem('loggedInStatus', 'false')
         localStorage.setItem('adminStatus', 'false')
@@ -91,7 +91,6 @@ export const UserProvider = ({ children }) => {
             userToken,
             setUserToken,
             adminStatus,
-            apiToken,
             loggedInStatus,
             localFirstName,
             localLastName,

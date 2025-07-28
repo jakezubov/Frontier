@@ -31,19 +31,21 @@ export const useLogoutUser = () => {
     const { displayError, logError } = useError()
 
     const logoutUser = async (userId) => {
-        try {
-            await Axios.post(`${urlPrefix}/auth/${userId}/logout`)
-        }
-        catch (error) {
-            const title = 'Failed to logout user'
-            displayError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            logError(userId, title, error.message, error.stack)
+        if (userId) {
+            try {
+                await Axios.post(`${urlPrefix}/auth/${userId}/logout`)
+            }
+            catch (error) {
+                const title = 'Failed to logout user'
+                displayError(`${title}\n${error.message}`)
+                console.error({
+                    title,
+                    error: error.message,
+                    stack: error.stack,
+                    userId,
+                })
+                logError(userId, title, error.message, error.stack)
+            }
         }
     }
 

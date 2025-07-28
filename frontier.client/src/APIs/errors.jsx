@@ -74,3 +74,27 @@ export const useDeleteErrorLog = () => {
 
     return { deleteErrorLog }
 }
+
+export const useDeleteAllErrorLogs = () => {
+    const { displayError, logError } = useError()
+    const { userId } = useUserSession()
+
+    const deleteAllErrorLogs = async (errorId) => {
+        try {
+            await Axios.delete(`${urlPrefix}/errors/delete-all`)
+        }
+        catch (error) {
+            const title = 'Failed to delete all error logs'
+            displayError(`${title}\n${error.message}`)
+            console.error({
+                title,
+                error: error.message,
+                stack: error.stack,
+                errorId,
+            })
+            logError(userId, title, error.message, error.stack)
+        }
+    }
+
+    return { deleteAllErrorLogs }
+}

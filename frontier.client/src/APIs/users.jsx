@@ -33,21 +33,24 @@ export const useGetUser = () => {
     const { displayError, logError } = useError()
 
     const getUser = async (userId) => {
-        try {
-            const response = await Axios.get(`${urlPrefix}/users/${userId}`)
-            return response.data
+        if (userId !== null) {
+            try {
+                const response = await Axios.get(`${urlPrefix}/users/${userId}`)
+                return response.data
+            }
+            catch (error) {
+                const title = 'Failed to get user'
+                displayError(`${title}\n${error.message}`)
+                console.error({
+                    title,
+                    error: error.message,
+                    stack: error.stack,
+                    userId,
+                })
+                logError(userId, title, error.message, error.stack)
+            }
         }
-        catch (error) {
-            const title = 'Failed to get user'
-            displayError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            logError(userId, title, error.message, error.stack)
-        }
+        else return null
     }
 
     return { getUser }
@@ -222,29 +225,6 @@ export const useSwitchAdminStatus = () => {
     }
 
     return { switchAdminStatus }
-}
-
-export const useRegenerateApiToken = () => {
-    const { displayError, logError } = useError()
-
-    const regenerateApiToken = async (userId) => {
-        try {
-            await Axios.post(`${urlPrefix}/users/${userId}/regenerate-api-token`)
-        }
-        catch (error) {
-            const title = 'Failed to regenerate user api token'
-            displayError(`${title}\n${error.message}`)
-            console.error({
-                title,
-                error: error.message,
-                stack: error.stack,
-                userId,
-            })
-            logError(userId, title, error.message, error.stack)
-        }
-    }
-
-    return { regenerateApiToken }
 }
 
 export const useRefreshUserToken = () => {

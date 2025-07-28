@@ -82,7 +82,7 @@ const Information = ({ retractSidebar }) => {
                 <table>
                     <tbody>
                         <tr>
-                            <td><p>v1.3.4</p></td>
+                            <td><p>v1.3.5</p></td>
                         </tr>
                     </tbody>
                 </table>

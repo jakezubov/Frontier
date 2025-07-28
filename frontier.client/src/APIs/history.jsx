@@ -7,7 +7,7 @@ export const useGetHistory = () => {
     const { displayError, logError } = useError()
 
     const getHistory = async (userId, historyType) => {
-        if (userId) {
+        if (userId !== null) {
             try {
                 const response = await Axios.get(`${urlPrefix}/history/${userId}`)
                 return response.data.filter(h => h.historyType === historyType)
@@ -25,7 +25,7 @@ export const useGetHistory = () => {
                 logError(userId, title, error.message, error.stack)
             }
         }
-        return null
+        else return null
     }
 
     return { getHistory }

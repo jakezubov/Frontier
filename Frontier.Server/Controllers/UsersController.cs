@@ -83,7 +83,6 @@ namespace Frontier.Server.Controllers
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, salt);
             user.Salt = salt;
             user.Email = user.Email.ToLower();
-            user.ApiToken = Generic.CreateApiToken();
 
             await dbUsers.CreateUser(user);
             return Created();
@@ -195,23 +194,6 @@ namespace Frontier.Server.Controllers
                     return Ok();
                 }
                 else return NotFound("ERROR: User has no Id");
-            }
-            return BadRequest("No User Id Supplied");
-        }
-
-        // Regenerate User API Token
-        [HttpPost("{userId}/regenerate-api-token")]
-        public async Task<IActionResult> RegenerateUserAPIToken(string userId)
-        {
-            if (userId != null) {
-                // Check if the user exists in MongoDB
-                UserModel user = await dbUsers.GetUser(userId);
-                if (user == null) return NotFound("User not found");
-
-                user.ApiToken = Generic.CreateApiToken();
-
-                await dbUsers.UpdateUser(user);
-                return Ok();
             }
             return BadRequest("No User Id Supplied");
         }
